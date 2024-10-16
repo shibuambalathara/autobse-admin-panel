@@ -1,0 +1,55 @@
+mutation CreateEvent($vehicleCategoryId: String!, $locationId: String!, $createEventInput: CreateEventInput!, $sellerId: String!) {
+  createEvent(vehicleCategoryId: $vehicleCategoryId, locationId: $locationId, createEventInput: $createEventInput, sellerId: $sellerId) {
+    bidLock
+    createdAt
+    createdById
+    downloadableFile_filename
+    endDate
+    eventCategory
+    eventNo
+    extraTime
+    extraTimeTrigerIn
+   
+    gapInBetweenVehicles
+    id
+    locationId
+    noOfBids
+    pausedTotalTime
+    pauseDate
+    sellerId
+    startDate
+    status
+    termsAndConditions
+    updatedAt
+    vehicleCategoryId
+    vehicleLiveTimeIn
+  }
+}
+
+mutation UpdateEvent($where: EventWhereUniqueInput!, $updateEventInput: UpdateEventInput!) {
+  updateEvent(where: $where, updateEventInput: $updateEventInput) {
+    id
+    eventNo
+    eventCategory
+    startDate
+    endDate
+    
+    pauseDate
+    pausedTotalTime
+    sellerId
+    vehicleCategoryId
+    locationId
+    noOfBids
+    downloadableFile_filename
+    termsAndConditions
+    createdAt
+    updatedAt
+    createdById
+    extraTimeTrigerIn
+    extraTime
+    vehicleLiveTimeIn
+    gapInBetweenVehicles
+    status
+    bidLock
+  }
+}

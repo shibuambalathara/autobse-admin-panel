@@ -1,0 +1,30 @@
+query Seller($where: SellerWhereUniqueInput!) {
+  seller(where: $where) {
+    name
+    contactPerson
+    GSTNumber
+    billingContactPerson
+    mobile
+    nationalHead
+    logo
+    updatedAt
+    createdAt
+    createdById
+    id
+  }
+}
+   mutation UpdateSeller($where: SellerWhereUniqueInput!, $updateSellerInput: UpdateSellerInput!) {
+  updateSeller(where: $where, updateSellerInput: $updateSellerInput) {
+    name
+    contactPerson
+    GSTNumber
+    billingContactPerson
+    mobile
+    nationalHead
+    logo
+    createdAt
+    updatedAt
+    createdById
+    id
+  }
+}

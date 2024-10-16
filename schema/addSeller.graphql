@@ -1,0 +1,11 @@
+mutation CreateSeller($createSellerInput: CreateSellerInput!) {
+  createSeller(createSellerInput: $createSellerInput) {
+    name
+    contactPerson
+    GSTNumber
+    billingContactPerson
+    mobile
+    nationalHead
+    logo
+  }
+}

@@ -1,0 +1,11 @@
+mutation UpdateLocation($where: LocationWhereUniqueInput!, $updateLocationInput: UpdateLocationInput!) {
+  updateLocation(where: $where, updateLocationInput: $updateLocationInput) {
+    id
+    name
+    state
+    createdAt
+    updatedAt
+    country
+    createdById
+  }
+}

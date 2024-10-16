@@ -1,0 +1,56 @@
+query Events {
+  events {
+    bidLock
+    id
+    eventNo
+    eventCategory
+    startDate
+    endDate
+  
+    pauseDate
+    pausedTotalTime
+    sellerId
+    vehicleCategoryId
+    locationId
+    noOfBids
+    downloadableFile_filename
+    termsAndConditions
+    createdAt
+    updatedAt
+    createdById
+    extraTimeTrigerIn
+    extraTime
+    vehicleLiveTimeIn
+    gapInBetweenVehicles
+    status
+  }
+}
+
+
+query Event($where: EventWhereUniqueInput!) {
+  event(where: $where) {
+    id
+    eventNo
+    eventCategory
+    startDate
+    endDate
+   
+    pauseDate
+    pausedTotalTime
+    sellerId
+    vehicleCategoryId
+    locationId
+    noOfBids
+    downloadableFile_filename
+    termsAndConditions
+    createdAt
+    updatedAt
+    createdById
+    extraTimeTrigerIn
+    extraTime
+    vehicleLiveTimeIn
+    gapInBetweenVehicles
+    status
+    bidLock
+  }
+}

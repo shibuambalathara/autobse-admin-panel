@@ -1,0 +1,15 @@
+
+
+query Users {
+  users {
+    id
+    email
+    role
+    firstName
+    BalanceEMDAmount
+    country
+    city
+    userCategory
+    status
+  }
+}

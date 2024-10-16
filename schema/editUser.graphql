@@ -1,0 +1,21 @@
+mutation UpdateUser($data: UpdateUserInput!, $where: UserWhereUniqueInput!) {
+  updateUser(data: $data, where: $where) {
+    email
+    username
+    role
+    firstName
+    lastName
+    businessName
+    mobile
+    BalanceEMDAmount
+    pancardNo
+    idProofNo
+    country
+    city
+    userCategory
+    tempToken
+    status
+    state
+    id
+  }
+}

@@ -1,0 +1,26 @@
+query viewUser($where: UserWhereUniqueInput!) {
+  user(where: $where) {
+    id
+    email
+    username
+    role
+    firstName
+    lastName
+    businessName
+    mobile
+    BalanceEMDAmount
+    pancardNo
+    idProofNo
+    country
+    city
+    userCategory
+    status
+    state
+    tempToken
+    aadharcard_front_image
+    aadharcard_back_image
+    driving_license_front_image
+    driving_license_back_image
+    pancard_image
+  }
+}

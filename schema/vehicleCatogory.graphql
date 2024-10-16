@@ -1,0 +1,38 @@
+mutation CreateVehiclecategory($createVehiclecategoryInput: CreateVehiclecategoryInput!) {
+  createVehiclecategory(createVehiclecategoryInput: $createVehiclecategoryInput) {
+    createdAt
+    createdById
+    id
+    name
+    updatedAt
+  }
+}
+query VehicleCategories {
+  vehicleCategories {
+    createdAt
+    createdById
+    id
+    name
+    updatedAt
+  }
+}
+
+query VehicleCategory($where: VehicleCategoryWhereUniqueInput!) {
+  vehicleCategory(where: $where) {
+    createdAt
+    createdById
+    id
+    name
+    updatedAt
+  }
+}
+
+mutation UpdateVehicleCategory($where: VehicleCategoryWhereUniqueInput!, $updateVehiclecategoryInput: UpdateVehiclecategoryInput!) {
+  updateVehicleCategory(where: $where, updateVehiclecategoryInput: $updateVehiclecategoryInput) {
+    createdAt
+    createdById
+    id
+    name
+    updatedAt
+  }
+}

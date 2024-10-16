@@ -1,0 +1,11 @@
+query Location($where: LocationWhereUniqueInput!) {
+  location(where: $where) {
+    id
+    name
+    state
+    createdAt
+    updatedAt
+    country
+    createdById
+  }
+}

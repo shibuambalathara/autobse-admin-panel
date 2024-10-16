@@ -1,0 +1,25 @@
+mutation SendOtp($sendOtpDto: SendOtpDto!) {
+  sendOtp(sendOtpDto: $sendOtpDto) {
+    code
+    status
+    description
+    data {
+      messageid
+      totnumber
+      totalcredit
+    }
+  }
+}
+
+
+mutation VerifyOtp($verfiyOtpDto: VerfiyOtpDto!) {
+  verifyOtp(verfiyOtpDto: $verfiyOtpDto) {
+    access_token
+    user {
+      id
+      email
+      role
+      firstName
+    }
+  }
+}

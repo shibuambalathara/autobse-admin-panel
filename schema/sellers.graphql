@@ -1,0 +1,15 @@
+query Sellers {
+  sellers {
+    id
+    name
+    contactPerson
+    GSTNumber
+    billingContactPerson
+    mobile
+    nationalHead
+    logo
+    createdAt
+    updatedAt
+    createdById
+  }
+}

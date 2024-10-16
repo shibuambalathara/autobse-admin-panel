@@ -1,0 +1,15 @@
+mutation AddUser($data: CreateUserInput!) {
+  createUser(data: $data) {
+    id
+    email
+    username
+    role
+    firstName
+    lastName
+    mobile
+    status
+    city
+    pancardNo
+    BalanceEMDAmount
+  }
+}

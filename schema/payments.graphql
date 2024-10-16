@@ -1,0 +1,55 @@
+query Payments {
+  payments {
+    id
+    refNo
+    amount
+    description
+    status
+    userId
+    image
+    createdAt
+    updatedAt
+    createdById
+    registrationExpire
+    paymentFor
+  }
+} 
+
+
+mutation CreatePayment($createPaymentInput: CreatePaymentInput!, $userId: String) {
+  createPayment(createPaymentInput: $createPaymentInput, userId: $userId) {
+    id
+    refNo
+    amount
+    description
+    status
+    userId
+    image
+    createdAt
+    updatedAt
+    createdById
+    registrationExpire
+    paymentFor
+  }
+}
+
+
+query UserPayments($where: UserWhereUniqueInput!) {
+  user(where: $where) {
+    id
+    payments {
+      refNo
+      amount
+      description
+      id
+      status
+      userId
+      image
+      createdAt
+      updatedAt
+      createdById
+      registrationExpire
+      paymentFor
+    }
+  }
+}
