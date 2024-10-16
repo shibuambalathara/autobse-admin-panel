@@ -1,5 +1,5 @@
 import React,{useMemo} from 'react'
-import { useSellACarsQuery } from '../../../../amjad/admin-dashboard/src/utils/graphql'
+// import { useSellACarsQuery } from '..//utils/graphql'
 import TableComponent from '../components/utils/table'
 import { FormatDate } from '../components/utils/dateFormat'
 
@@ -12,7 +12,7 @@ interface RowData {
 }
 
 const SellACar = () => {
-  const {data}=useSellACarsQuery()
+  // const {data}=useSellACarsQuery()
 
   const columns = useMemo(
     () => [
