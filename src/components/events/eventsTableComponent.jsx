@@ -109,19 +109,19 @@ const handleDelete=(id)=>{
           },
           { Header: "End Date ", accessor: ({endDate})=>{return FormatDate(endDate)} },
           { Header: "Status ", accessor: "status" }, 
-          {
-            Header: "Add Partcipant",
-            Cell: ({ row }) => (
-              row.original.endDate>new Date().toISOString() ?       <button className="text-2xl" onClick={() => handleDealer(row.original.id)}><FontAwesomeIcon icon={faUserPlus} /></button>:"Event Completed"
-            )
-          },
-          {
-            Header: "View Participants",
-            Cell: ({ row }) => (
-              <a className="btn bg-violet-500" href={`/participants/${row.original.id}`} target="_blank" rel="noopener noreferrer">{row.original.participantsCount}</a>
+          // {
+          //   Header: "Add Partcipant",
+          //   Cell: ({ row }) => (
+          //     row.original.endDate>new Date().toISOString() ?       <button className="text-2xl" onClick={() => handleDealer(row.original.id)}><FontAwesomeIcon icon={faUserPlus} /></button>:"Event Completed"
+          //   )
+          // },
+          // {
+          //   Header: "View Participants",
+          //   Cell: ({ row }) => (
+          //     <a className="btn bg-violet-500" href={`/participants/${row.original.id}`} target="_blank" rel="noopener noreferrer">{row.original.participantsCount}</a>
 
-              )
-          },
+          //     )
+          // },
          
         {
           Header: "Add Vehicles ",

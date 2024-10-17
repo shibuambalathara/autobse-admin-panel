@@ -104,6 +104,14 @@ const ExcelUploadsComponent =() => {
         if (result.success) {
           console.log("Document upload successful:", result);
         }
+        ShowPopup(
+                "Success!",
+                `${dataOnSubmit?.uploadFileName} Excel File Added successfully!`,
+                "success",
+                5000,
+                true
+              );
+              navigate('/events');
        
       } catch (error) {
         console.error("Error during document upload:", error);

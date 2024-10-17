@@ -18,10 +18,23 @@ export type Scalars = {
   DateTime: { input: any; output: any; }
 };
 
+export type Bid = {
+  __typename?: 'Bid';
+  amount: Scalars['Float']['output'];
+  bidVehicleId: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  userId: Scalars['String']['output'];
+};
+
 export enum ContactUsStatusType {
   Created = 'created',
   Solved = 'solved'
 }
+
+export type CreateBidInput = {
+  amount: Scalars['Float']['input'];
+};
 
 export type CreateEnquiryInput = {
   firstName?: InputMaybe<Scalars['String']['input']>;
@@ -307,6 +320,7 @@ export type LoginUserInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   DeleteUserHardDelete: User;
+  createBid: Bid;
   createEnquiry: Enquiry;
   createEvent: Event;
   createExcelupload: Excelupload;
@@ -318,6 +332,7 @@ export type Mutation = {
   createUser: User;
   createVehicle: Vehicle;
   createVehiclecategory: VehicleCategory;
+  deleteBid: Bid;
   deleteEnquiry: Enquiry;
   deleteEvent: Event;
   deleteExcelupload: Excelupload;
@@ -342,6 +357,7 @@ export type Mutation = {
   restoreVehicleCategory: VehicleCategory;
   restorevehicle: Vehicle;
   sendOtp: SendOtpResponse;
+  updateBid: Bid;
   updateEnquiry: Enquiry;
   updateEvent: Event;
   updateLocation: Location;
@@ -358,6 +374,12 @@ export type Mutation = {
 
 export type MutationDeleteUserHardDeleteArgs = {
   where: UserWhereUniqueInput;
+};
+
+
+export type MutationCreateBidArgs = {
+  bidVehicleId: Scalars['String']['input'];
+  createBidInput: CreateBidInput;
 };
 
 
@@ -419,6 +441,11 @@ export type MutationCreateVehicleArgs = {
 
 export type MutationCreateVehiclecategoryArgs = {
   createVehiclecategoryInput: CreateVehiclecategoryInput;
+};
+
+
+export type MutationDeleteBidArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -542,6 +569,12 @@ export type MutationSendOtpArgs = {
 };
 
 
+export type MutationUpdateBidArgs = {
+  id: Scalars['String']['input'];
+  updateBidInput: UpdateBidInput;
+};
+
+
 export type MutationUpdateEnquiryArgs = {
   updateEnquiryInput: UpdateEnquiryInput;
   where: EnquiryWhereUniqueInput;
@@ -659,6 +692,7 @@ export type PaymentWhereUniqueInput = {
 
 export type Query = {
   __typename?: 'Query';
+  Bid: Bid;
   Enquiries: Array<Enquiry>;
   Enquiry: Enquiry;
   deletedEnquiries: Array<Enquiry>;
@@ -696,6 +730,7 @@ export type Query = {
   sellersCount: Scalars['Int']['output'];
   status: Status;
   statuses: Array<Status>;
+  time: Scalars['String']['output'];
   upcomingEvents?: Maybe<Array<Event>>;
   user?: Maybe<User>;
   users: Array<Maybe<User>>;
@@ -706,6 +741,11 @@ export type Query = {
   vehicleCategoryCount: Scalars['Int']['output'];
   vehicles?: Maybe<VehicleListResponse>;
   vehiclsCount: Scalars['Int']['output'];
+};
+
+
+export type QueryBidArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -919,7 +959,12 @@ export type StatusWhereUniqueInput = {
 
 export type Subscription = {
   __typename?: 'Subscription';
-  subscriptionAllTopics: Vehicle;
+  subscriptionBidCreation: Bid;
+  subscriptionVehicleUpdates: Vehicle;
+};
+
+export type UpdateBidInput = {
+  amount: Scalars['Float']['input'];
 };
 
 export type UpdateEnquiryInput = {
@@ -1142,73 +1187,78 @@ export type UserWhereUniqueInput = {
 export type Vehicle = {
   __typename?: 'Vehicle';
   YOM?: Maybe<Scalars['Float']['output']>;
-  additionalRemarks: Scalars['String']['output'];
-  approxParkingCharges: Scalars['String']['output'];
-  area: Scalars['String']['output'];
-  auctionManager: Scalars['String']['output'];
-  autobseContact: Scalars['String']['output'];
-  autobse_contact_person: Scalars['String']['output'];
+  additionalRemarks?: Maybe<Scalars['String']['output']>;
+  approxParkingCharges?: Maybe<Scalars['String']['output']>;
+  area?: Maybe<Scalars['String']['output']>;
+  auctionManager?: Maybe<Scalars['String']['output']>;
+  autobseContact?: Maybe<Scalars['String']['output']>;
+  autobse_contact_person?: Maybe<Scalars['String']['output']>;
   bidAmountUpdate?: Maybe<Scalars['Float']['output']>;
   bidStartTime: Scalars['DateTime']['output'];
   bidStatus: Scalars['String']['output'];
   bidTimeExpire: Scalars['DateTime']['output'];
-  buyerFees: Scalars['String']['output'];
-  category: Scalars['String']['output'];
-  chassisNo: Scalars['String']['output'];
-  city: Scalars['String']['output'];
-  clientContactNo: Scalars['String']['output'];
-  clientContactPerson: Scalars['String']['output'];
-  climateControl: Scalars['String']['output'];
-  color: Scalars['String']['output'];
+  buyerFees?: Maybe<Scalars['String']['output']>;
+  category?: Maybe<Scalars['String']['output']>;
+  chassisNo?: Maybe<Scalars['String']['output']>;
+  city?: Maybe<Scalars['String']['output']>;
+  clientContactNo?: Maybe<Scalars['String']['output']>;
+  clientContactPerson?: Maybe<Scalars['String']['output']>;
+  climateControl?: Maybe<Scalars['String']['output']>;
+  color?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   createdById?: Maybe<Scalars['String']['output']>;
   currentBidAmount?: Maybe<Scalars['Float']['output']>;
   dateOfRegistration?: Maybe<Scalars['String']['output']>;
   doorCount?: Maybe<Scalars['Float']['output']>;
-  engineNo: Scalars['String']['output'];
-  fitness: Scalars['String']['output'];
-  fuel: Scalars['String']['output'];
-  gearBox: Scalars['String']['output'];
-  hypothication: Scalars['String']['output'];
+  engineNo?: Maybe<Scalars['String']['output']>;
+  event?: Maybe<Event>;
+  fitness?: Maybe<Scalars['String']['output']>;
+  fuel?: Maybe<Scalars['String']['output']>;
+  gearBox?: Maybe<Scalars['String']['output']>;
+  hypothication?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
-  image: Scalars['String']['output'];
-  inspectionLink: Scalars['String']['output'];
-  insurance: Scalars['String']['output'];
-  insuranceStatus: Scalars['String']['output'];
+  image?: Maybe<Scalars['String']['output']>;
+  inspectionLink?: Maybe<Scalars['String']['output']>;
+  insurance?: Maybe<Scalars['String']['output']>;
+  insuranceStatus?: Maybe<Scalars['String']['output']>;
   insuranceValidTill?: Maybe<Scalars['String']['output']>;
   kmReading?: Maybe<Scalars['Float']['output']>;
   loanAgreementNo: Scalars['String']['output'];
   lotNumber?: Maybe<Scalars['Float']['output']>;
-  make: Scalars['String']['output'];
+  make?: Maybe<Scalars['String']['output']>;
   mileage?: Maybe<Scalars['Float']['output']>;
-  model: Scalars['String']['output'];
+  model?: Maybe<Scalars['String']['output']>;
+  myBidRank?: Maybe<Scalars['Int']['output']>;
   ownership?: Maybe<Scalars['Float']['output']>;
-  parkingCharges: Scalars['String']['output'];
-  parkingRate: Scalars['String']['output'];
-  paymentTerms: Scalars['String']['output'];
-  permit: Scalars['String']['output'];
-  powerSteering: Scalars['String']['output'];
+  parkingCharges?: Maybe<Scalars['String']['output']>;
+  parkingRate?: Maybe<Scalars['String']['output']>;
+  paymentTerms?: Maybe<Scalars['String']['output']>;
+  permit?: Maybe<Scalars['String']['output']>;
+  powerSteering?: Maybe<Scalars['String']['output']>;
   quoteIncreament?: Maybe<Scalars['Float']['output']>;
-  rcStatus: Scalars['String']['output'];
-  registeredOwnerName: Scalars['String']['output'];
+  rcStatus?: Maybe<Scalars['String']['output']>;
+  registeredOwnerName?: Maybe<Scalars['String']['output']>;
   registrationNumber: Scalars['String']['output'];
   repoDt?: Maybe<Scalars['String']['output']>;
   reservePrice?: Maybe<Scalars['Float']['output']>;
-  rtoFine: Scalars['String']['output'];
-  shape: Scalars['String']['output'];
+  rtoFine?: Maybe<Scalars['String']['output']>;
+  shape?: Maybe<Scalars['String']['output']>;
   startBidAmount?: Maybe<Scalars['Float']['output']>;
   startPrice?: Maybe<Scalars['Float']['output']>;
-  state: Scalars['String']['output'];
-  tax: Scalars['String']['output'];
+  state?: Maybe<Scalars['String']['output']>;
+  tax?: Maybe<Scalars['String']['output']>;
   taxValidityDate?: Maybe<Scalars['String']['output']>;
-  type: Scalars['String']['output'];
+  totalBids?: Maybe<Scalars['Int']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
-  varient: Scalars['String']['output'];
-  vehicleCondition: Scalars['String']['output'];
+  userVehicleBids?: Maybe<Array<Bid>>;
+  userVehicleBidsCount?: Maybe<Scalars['Int']['output']>;
+  varient?: Maybe<Scalars['String']['output']>;
+  vehicleCondition?: Maybe<Scalars['String']['output']>;
   vehicleIndexNo: Scalars['Float']['output'];
-  vehicleRemarks: Scalars['String']['output'];
-  veicleLocation: Scalars['String']['output'];
-  yardLocation: Scalars['String']['output'];
+  vehicleRemarks?: Maybe<Scalars['String']['output']>;
+  veicleLocation?: Maybe<Scalars['String']['output']>;
+  yardLocation?: Maybe<Scalars['String']['output']>;
 };
 
 export enum VehicleBidStatusType {
@@ -1333,7 +1383,7 @@ export type CreateVehicleMutationVariables = Exact<{
 }>;
 
 
-export type CreateVehicleMutation = { __typename?: 'Mutation', createVehicle: { __typename?: 'Vehicle', id: string, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName: string, quoteIncreament?: number | null, make: string, model: string, varient: string, category: string, fuel: string, type: string, rcStatus: string, YOM?: number | null, ownership?: number | null, mileage?: number | null, kmReading?: number | null, insuranceStatus: string, yardLocation: string, startPrice?: number | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation: string, vehicleRemarks: string, auctionManager: string, parkingCharges: string, insurance: string, insuranceValidTill?: string | null, tax: string, taxValidityDate?: string | null, fitness: string, permit: string, engineNo: string, chassisNo: string, image: string, inspectionLink: string, autobseContact: string, autobse_contact_person: string, vehicleCondition: string, powerSteering: string, shape: string, color: string, state: string, city: string, area: string, paymentTerms: string, dateOfRegistration?: string | null, hypothication: string, climateControl: string, doorCount?: number | null, gearBox: string, buyerFees: string, rtoFine: string, parkingRate: string, approxParkingCharges: string, clientContactPerson: string, clientContactNo: string, additionalRemarks: string, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null } };
+export type CreateVehicleMutation = { __typename?: 'Mutation', createVehicle: { __typename?: 'Vehicle', id: string, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, fuel?: string | null, type?: string | null, rcStatus?: string | null, YOM?: number | null, ownership?: number | null, mileage?: number | null, kmReading?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation?: string | null, vehicleRemarks?: string | null, auctionManager?: string | null, parkingCharges?: string | null, insurance?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, fitness?: string | null, permit?: string | null, engineNo?: string | null, chassisNo?: string | null, image?: string | null, inspectionLink?: string | null, autobseContact?: string | null, autobse_contact_person?: string | null, vehicleCondition?: string | null, powerSteering?: string | null, shape?: string | null, color?: string | null, state?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, climateControl?: string | null, doorCount?: number | null, gearBox?: string | null, buyerFees?: string | null, rtoFine?: string | null, parkingRate?: string | null, approxParkingCharges?: string | null, clientContactPerson?: string | null, clientContactNo?: string | null, additionalRemarks?: string | null, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null } };
 
 export type UpdateLocationMutationVariables = Exact<{
   where: LocationWhereUniqueInput;
@@ -1383,7 +1433,7 @@ export type EventVehiclesQueryVariables = Exact<{
 }>;
 
 
-export type EventVehiclesQuery = { __typename?: 'Query', event: { __typename?: 'Event', vehicles?: Array<{ __typename?: 'Vehicle', id: string, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName: string, quoteIncreament?: number | null, make: string, model: string, varient: string, category: string, fuel: string, type: string, rcStatus: string, YOM?: number | null, ownership?: number | null, mileage?: number | null, kmReading?: number | null, insuranceStatus: string, yardLocation: string, startPrice?: number | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation: string, vehicleRemarks: string, auctionManager: string, parkingCharges: string, insurance: string, insuranceValidTill?: string | null, tax: string, taxValidityDate?: string | null, fitness: string, permit: string, engineNo: string, chassisNo: string, image: string, inspectionLink: string, autobseContact: string, autobse_contact_person: string, vehicleCondition: string, powerSteering: string, shape: string, color: string, state: string, city: string, area: string, paymentTerms: string, dateOfRegistration?: string | null, hypothication: string, climateControl: string, doorCount?: number | null, gearBox: string, buyerFees: string, rtoFine: string, parkingRate: string, approxParkingCharges: string, clientContactPerson: string, clientContactNo: string, additionalRemarks: string, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null }> | null } };
+export type EventVehiclesQuery = { __typename?: 'Query', event: { __typename?: 'Event', vehicles?: Array<{ __typename?: 'Vehicle', id: string, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, fuel?: string | null, type?: string | null, rcStatus?: string | null, YOM?: number | null, ownership?: number | null, mileage?: number | null, kmReading?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation?: string | null, vehicleRemarks?: string | null, auctionManager?: string | null, parkingCharges?: string | null, insurance?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, fitness?: string | null, permit?: string | null, engineNo?: string | null, chassisNo?: string | null, image?: string | null, inspectionLink?: string | null, autobseContact?: string | null, autobse_contact_person?: string | null, vehicleCondition?: string | null, powerSteering?: string | null, shape?: string | null, color?: string | null, state?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, climateControl?: string | null, doorCount?: number | null, gearBox?: string | null, buyerFees?: string | null, rtoFine?: string | null, parkingRate?: string | null, approxParkingCharges?: string | null, clientContactPerson?: string | null, clientContactNo?: string | null, additionalRemarks?: string | null, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null }> | null } };
 
 export type CreateExceluploadMutationVariables = Exact<{
   eventId: Scalars['String']['input'];
@@ -1493,12 +1543,17 @@ export type UpdateVehicleCategoryMutationVariables = Exact<{
 
 export type UpdateVehicleCategoryMutation = { __typename?: 'Mutation', updateVehicleCategory: { __typename?: 'VehicleCategory', createdAt?: any | null, createdById?: string | null, id: string, name: string, updatedAt?: any | null } };
 
+export type SubscriptionVehicleUpdatesSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SubscriptionVehicleUpdatesSubscription = { __typename?: 'Subscription', subscriptionVehicleUpdates: { __typename?: 'Vehicle', id: string } };
+
 export type VehicleQueryVariables = Exact<{
   where: VehicleWhereUniqueInput;
 }>;
 
 
-export type VehicleQuery = { __typename?: 'Query', vehicle: { __typename?: 'Vehicle', id: string, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName: string, quoteIncreament?: number | null, make: string, model: string, varient: string, category: string, fuel: string, type: string, rcStatus: string, YOM?: number | null, ownership?: number | null, mileage?: number | null, kmReading?: number | null, insuranceStatus: string, yardLocation: string, startPrice?: number | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation: string, vehicleRemarks: string, auctionManager: string, parkingCharges: string, insurance: string, insuranceValidTill?: string | null, tax: string, taxValidityDate?: string | null, fitness: string, permit: string, engineNo: string, chassisNo: string, image: string, inspectionLink: string, autobseContact: string, autobse_contact_person: string, vehicleCondition: string, powerSteering: string, shape: string, color: string, state: string, city: string, area: string, paymentTerms: string, dateOfRegistration?: string | null, hypothication: string, climateControl: string, doorCount?: number | null, gearBox: string, buyerFees: string, rtoFine: string, parkingRate: string, approxParkingCharges: string, clientContactPerson: string, clientContactNo: string, additionalRemarks: string, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null } };
+export type VehicleQuery = { __typename?: 'Query', vehicle: { __typename?: 'Vehicle', id: string, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, fuel?: string | null, type?: string | null, rcStatus?: string | null, YOM?: number | null, ownership?: number | null, mileage?: number | null, kmReading?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation?: string | null, vehicleRemarks?: string | null, auctionManager?: string | null, parkingCharges?: string | null, insurance?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, fitness?: string | null, permit?: string | null, engineNo?: string | null, chassisNo?: string | null, image?: string | null, inspectionLink?: string | null, autobseContact?: string | null, autobse_contact_person?: string | null, vehicleCondition?: string | null, powerSteering?: string | null, shape?: string | null, color?: string | null, state?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, climateControl?: string | null, doorCount?: number | null, gearBox?: string | null, buyerFees?: string | null, rtoFine?: string | null, parkingRate?: string | null, approxParkingCharges?: string | null, clientContactPerson?: string | null, clientContactNo?: string | null, additionalRemarks?: string | null, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null } };
 
 export type UpdateVehicleMutationVariables = Exact<{
   where: VehicleWhereUniqueInput;
@@ -1506,7 +1561,7 @@ export type UpdateVehicleMutationVariables = Exact<{
 }>;
 
 
-export type UpdateVehicleMutation = { __typename?: 'Mutation', updateVehicle: { __typename?: 'Vehicle', id: string, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName: string, quoteIncreament?: number | null, make: string, model: string, varient: string, category: string, fuel: string, type: string, rcStatus: string, YOM?: number | null, ownership?: number | null, mileage?: number | null, kmReading?: number | null, insuranceStatus: string, yardLocation: string, startPrice?: number | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation: string, vehicleRemarks: string, auctionManager: string, parkingCharges: string, insurance: string, insuranceValidTill?: string | null, tax: string, taxValidityDate?: string | null, fitness: string, permit: string, engineNo: string, chassisNo: string, image: string, inspectionLink: string, autobseContact: string, autobse_contact_person: string, vehicleCondition: string, powerSteering: string, shape: string, color: string, state: string, city: string, area: string, paymentTerms: string, dateOfRegistration?: string | null, hypothication: string, climateControl: string, doorCount?: number | null, gearBox: string, buyerFees: string, rtoFine: string, parkingRate: string, approxParkingCharges: string, clientContactPerson: string, clientContactNo: string, additionalRemarks: string, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null } };
+export type UpdateVehicleMutation = { __typename?: 'Mutation', updateVehicle: { __typename?: 'Vehicle', id: string, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, fuel?: string | null, type?: string | null, rcStatus?: string | null, YOM?: number | null, ownership?: number | null, mileage?: number | null, kmReading?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation?: string | null, vehicleRemarks?: string | null, auctionManager?: string | null, parkingCharges?: string | null, insurance?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, fitness?: string | null, permit?: string | null, engineNo?: string | null, chassisNo?: string | null, image?: string | null, inspectionLink?: string | null, autobseContact?: string | null, autobse_contact_person?: string | null, vehicleCondition?: string | null, powerSteering?: string | null, shape?: string | null, color?: string | null, state?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, climateControl?: string | null, doorCount?: number | null, gearBox?: string | null, buyerFees?: string | null, rtoFine?: string | null, parkingRate?: string | null, approxParkingCharges?: string | null, clientContactPerson?: string | null, clientContactNo?: string | null, additionalRemarks?: string | null, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null } };
 
 
 export const CreateSellerDocument = gql`
@@ -3082,6 +3137,35 @@ export function useUpdateVehicleCategoryMutation(baseOptions?: Apollo.MutationHo
 export type UpdateVehicleCategoryMutationHookResult = ReturnType<typeof useUpdateVehicleCategoryMutation>;
 export type UpdateVehicleCategoryMutationResult = Apollo.MutationResult<UpdateVehicleCategoryMutation>;
 export type UpdateVehicleCategoryMutationOptions = Apollo.BaseMutationOptions<UpdateVehicleCategoryMutation, UpdateVehicleCategoryMutationVariables>;
+export const SubscriptionVehicleUpdatesDocument = gql`
+    subscription SubscriptionVehicleUpdates {
+  subscriptionVehicleUpdates {
+    id
+  }
+}
+    `;
+
+/**
+ * __useSubscriptionVehicleUpdatesSubscription__
+ *
+ * To run a query within a React component, call `useSubscriptionVehicleUpdatesSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscriptionVehicleUpdatesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSubscriptionVehicleUpdatesSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useSubscriptionVehicleUpdatesSubscription(baseOptions?: Apollo.SubscriptionHookOptions<SubscriptionVehicleUpdatesSubscription, SubscriptionVehicleUpdatesSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<SubscriptionVehicleUpdatesSubscription, SubscriptionVehicleUpdatesSubscriptionVariables>(SubscriptionVehicleUpdatesDocument, options);
+      }
+export type SubscriptionVehicleUpdatesSubscriptionHookResult = ReturnType<typeof useSubscriptionVehicleUpdatesSubscription>;
+export type SubscriptionVehicleUpdatesSubscriptionResult = Apollo.SubscriptionResult<SubscriptionVehicleUpdatesSubscription>;
 export const VehicleDocument = gql`
     query Vehicle($where: VehicleWhereUniqueInput!) {
   vehicle(where: $where) {
