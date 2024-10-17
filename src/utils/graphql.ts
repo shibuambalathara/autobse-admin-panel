@@ -959,7 +959,8 @@ export type StatusWhereUniqueInput = {
 
 export type Subscription = {
   __typename?: 'Subscription';
-  subscriptionAllTopics: Vehicle;
+  subscriptionBidCreation: Bid;
+  subscriptionVehicleUpdates: Vehicle;
 };
 
 export type UpdateBidInput = {
@@ -1541,6 +1542,11 @@ export type UpdateVehicleCategoryMutationVariables = Exact<{
 
 
 export type UpdateVehicleCategoryMutation = { __typename?: 'Mutation', updateVehicleCategory: { __typename?: 'VehicleCategory', createdAt?: any | null, createdById?: string | null, id: string, name: string, updatedAt?: any | null } };
+
+export type SubscriptionVehicleUpdatesSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SubscriptionVehicleUpdatesSubscription = { __typename?: 'Subscription', subscriptionVehicleUpdates: { __typename?: 'Vehicle', id: string } };
 
 export type VehicleQueryVariables = Exact<{
   where: VehicleWhereUniqueInput;
@@ -3131,6 +3137,35 @@ export function useUpdateVehicleCategoryMutation(baseOptions?: Apollo.MutationHo
 export type UpdateVehicleCategoryMutationHookResult = ReturnType<typeof useUpdateVehicleCategoryMutation>;
 export type UpdateVehicleCategoryMutationResult = Apollo.MutationResult<UpdateVehicleCategoryMutation>;
 export type UpdateVehicleCategoryMutationOptions = Apollo.BaseMutationOptions<UpdateVehicleCategoryMutation, UpdateVehicleCategoryMutationVariables>;
+export const SubscriptionVehicleUpdatesDocument = gql`
+    subscription SubscriptionVehicleUpdates {
+  subscriptionVehicleUpdates {
+    id
+  }
+}
+    `;
+
+/**
+ * __useSubscriptionVehicleUpdatesSubscription__
+ *
+ * To run a query within a React component, call `useSubscriptionVehicleUpdatesSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscriptionVehicleUpdatesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSubscriptionVehicleUpdatesSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useSubscriptionVehicleUpdatesSubscription(baseOptions?: Apollo.SubscriptionHookOptions<SubscriptionVehicleUpdatesSubscription, SubscriptionVehicleUpdatesSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<SubscriptionVehicleUpdatesSubscription, SubscriptionVehicleUpdatesSubscriptionVariables>(SubscriptionVehicleUpdatesDocument, options);
+      }
+export type SubscriptionVehicleUpdatesSubscriptionHookResult = ReturnType<typeof useSubscriptionVehicleUpdatesSubscription>;
+export type SubscriptionVehicleUpdatesSubscriptionResult = Apollo.SubscriptionResult<SubscriptionVehicleUpdatesSubscription>;
 export const VehicleDocument = gql`
     query Vehicle($where: VehicleWhereUniqueInput!) {
   vehicle(where: $where) {

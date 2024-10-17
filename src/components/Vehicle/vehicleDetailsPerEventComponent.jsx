@@ -4,7 +4,7 @@
 
 import React, {  useEffect, useMemo,useState } from 'react'
 import { useParams} from 'react-router-dom'
-import {  useEventVehiclesQuery} from '../../utils/graphql'
+import {  useEventVehiclesQuery, useSubscriptionVehicleUpdatesSubscription} from '../../utils/graphql'
 import format from 'date-fns/format'
 import Swal from "sweetalert2";
 
@@ -20,7 +20,8 @@ import { faCar } from '@fortawesome/free-solid-svg-icons';
 const VehicleDetailsPerEventComponent = () => {
    
     const{id}=useParams()
-  
+const vehicleSub = useSubscriptionVehicleUpdatesSubscription()
+console.log(vehicleSub);
 
     const [userId,setUserId]=useState('0')
     const [updateDate,setUpdateDate]=useState({date:null,id:null,updateItem:null})
@@ -188,17 +189,17 @@ Swal.fire({
       
          { Header: "Vehicle Status", accessor: "vehicleEventStatus" },
          
-          // { Header: "Bid Status", accessor: "bidStatus" },
-          // { Header: "Bid Start Time", accessor: ({bidStartTime,id})=>{return <button onClick={()=>setUpdateDate({date: bidStartTime,id,updateItem:'startTime'})} className='btn bg-rose-500'> {format(new Date (bidStartTime),`dd/MM/yy,  HH:mm:ss`)}</button>}  },
+          { Header: "Bid Status", accessor: "bidStatus" },
+          { Header: "Bid Start Time", accessor: ({bidStartTime,id})=>{return <button onClick={()=>setUpdateDate({date: bidStartTime,id,updateItem:'startTime'})} className='btn bg-rose-500'> {format(new Date (bidStartTime),`dd/MM/yy,  HH:mm:ss`)}</button>}  },
           
-          //  { Header: "Bid Time Expire", accessor: ({bidTimeExpire,id})=>{return <button onClick={()=>setUpdateDate({date: bidTimeExpire,id,updateItem:'endtime'})} className='btn bg-orange-500'>{format(new Date (bidTimeExpire),`dd/MM/yy,  HH:mm:ss`)}</button>   }},
+           { Header: "Bid Time Expire", accessor: ({bidTimeExpire,id})=>{return <button onClick={()=>setUpdateDate({date: bidTimeExpire,id,updateItem:'endtime'})} className='btn bg-orange-500'>{format(new Date (bidTimeExpire),`dd/MM/yy,  HH:mm:ss`)}</button>   }},
 
         {
           Header: "Bid Details",
           Cell: ({ row }) => (
             // <button className="btn btn-accent" onClick={()=>handleBidDetails(row.original.id) }>Bid Details</button>
           
-    row.original.totalBids !==0 ?        <a className="btn btn-primary" href={`/bid-details/${row.original.id}`} target="_blank" rel="noopener noreferrer"> {row.original.totalBids}</a>:'0'
+    row.original.totalBids !==0 ?        <a className="btn btn-primary" href={`/bid-details/${row.original.id}`} target="_blank" rel="noopener noreferrer"> view {row.original.totalBids}</a>:'0'
             )
         },
         {
@@ -237,14 +238,11 @@ Swal.fire({
      
  
       useEffect(() => {
-        const intervalId = setInterval(() => {
+       
           refetch(); 
-        }, 2000);
-      
-        return () => {
-          clearInterval(intervalId);
-        };
-      }, []);
+     
+        
+      }, [ vehicleSub]);
     
     
       if (loading) return <p>Loading...</p>;
