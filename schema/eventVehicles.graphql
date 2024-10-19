@@ -2,6 +2,7 @@ query EventVehicles($where: EventWhereUniqueInput!) {
   event(where: $where) {
     vehicles {
       id
+      bidStatus
       vehicleIndexNo
       registrationNumber
       bidTimeExpire

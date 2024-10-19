@@ -2,14 +2,15 @@
 import { useForm } from "react-hook-form";
 
 import { useParams } from 'react-router-dom';
-import{ useCreateEmdUpdateMutation,  usePaymentDetailsQuery} from '../../utils/graphql'
+import{   useCreateEmdupdateMutation,  usePaymentQuery} from '../../utils/graphql'
 import { ShowPopup } from '../alerts/popUps';
 import Swal from "sweetalert2";
 import { h2Style, headerStyle, pageStyle } from "../utils/style";
 const CreateEmdComponent = () => {
   const {id}=useParams()
-  const { data, loading } =usePaymentDetailsQuery ({variables:{where:{id}}});
+  const { data, loading } =usePaymentQuery({variables:{where:{id}}});
 
+ console.log(data);
  
 
 
@@ -19,7 +20,7 @@ if(data){
   
 }
         
-  const [addEmd]=useCreateEmdUpdateMutation()
+  const [addEmd]=useCreateEmdupdateMutation()
 
 
   const {
@@ -30,15 +31,19 @@ if(data){
   } = useForm();
   const onSubmit =async (dataOnSubmit) =>{  
 const buyingLmt={
-payment:{connect:{id}},
- vehicleBuyingLimitIncrement:+dataOnSubmit.buyingLimit
+paymentId:id,
+userId:data.payment.userId,
+createEmdupdateInput: {
+  vehicleBuyingLimitIncrement:+dataOnSubmit.buyingLimit
+}
+ 
 }
 
 try {
-  const {data} =await addEmd({variables: {data:buyingLmt}})
+  const res =await addEmd({variables: buyingLmt})
   
 
-  if(data){
+  if(res){
     
    
 

@@ -4,8 +4,9 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import {
   useBidDetailsPerVehicleQuery,
-  useDeleteBidMutation,
-  useDeletedBiddataMutation,
+
+  // useDeleteBidMutation,
+  // useDeletedBiddataMutation,
 } from "../../utils/graphql";
 import { DownloadBidHistory } from "./bidsheet";
 
@@ -16,7 +17,7 @@ import Swal from "sweetalert2";
 import { ShowPopup } from "../alerts/popUps";
 
 import TableComponent from "../utils/table";
-import Deletedbidtable from "./deletedbidtable";
+
 
 
 const BidDetailsPerVehicleComponent = () => {
@@ -25,48 +26,50 @@ const BidDetailsPerVehicleComponent = () => {
   const { data, loading, error, refetch } = useBidDetailsPerVehicleQuery({
     variables: { where: { id } },
   });
+  console.log(data ,'data');
+  
 
-  const [deleteBid] = useDeleteBidMutation();
-  const [deletedbidData]=useDeletedBiddataMutation()
+  // const [deleteBid] = useDeleteBidMutation();
+  // const [deletedbidData]=useDeletedBiddataMutation()
   const navigate = useNavigate();
 
-  const handleDeleteBid = async (data) => {
+//   const handleDeleteBid = async (data) => {
   
-    const response = await Swal.fire({
-      title: "Are you sure?",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonText: "Yes",
-      cancelButtonText: "Cancel",
-    });
-    if (response.isConfirmed) {
+//     const response = await Swal.fire({
+//       title: "Are you sure?",
+//       icon: "question",
+//       showCancelButton: true,
+//       confirmButtonText: "Yes",
+//       cancelButtonText: "Cancel",
+//     });
+//     if (response.isConfirmed) {
 
       
-      const result = await deleteBid({ variables: { where: { id:data.id } } });
-      // store deleted bid data details
-      let store=await deletedbidData({variables:{data:{deletedbidVehicle:{connect:{id}},amount:data?.amount,user:{connect:{id:data?.user?.id}}}}})
-      // ---------------------
+//       const result = await deleteBid({ variables: { where: { id:data.id } } });
+//       // store deleted bid data details
+//       let store=await deletedbidData({variables:{data:{deletedbidVehicle:{connect:{id}},amount:data?.amount,user:{connect:{id:data?.user?.id}}}}})
+//       // ---------------------
 
-      if (result?.data) {
+//       if (result?.data) {
        
-        await Swal.fire({
-          title: `  deleted Successfully`,
-          icon: "success",
-        });
+//         await Swal.fire({
+//           title: `  deleted Successfully`,
+//           icon: "success",
+//         });
 
-        // try {
-        //   const result = await deleteBid({ variables: { where: { id } } });
+//         // try {
+//         //   const result = await deleteBid({ variables: { where: { id } } });
        
-        //   ShowPopup("Success!", `successfully Deleted!`, "success", 5000, true);
-        // } catch (err) {
+//         //   ShowPopup("Success!", `successfully Deleted!`, "success", 5000, true);
+//         // } catch (err) {
       
-        // }
-      // }
+//         // }
+//       // }
 
-      refetch();
-    }
-  };
-}
+//       refetch();
+//     }
+//   };
+// }
   const handleUserDetails = (id) => {
     navigate(`/view-user/${id}`);
   };
@@ -80,12 +83,12 @@ const BidDetailsPerVehicleComponent = () => {
       { Header: "First Name", accessor: "user.firstName" },
       { Header: "Last Name", accessor: "user.lastName" },
       { Header: "Mobile", accessor: "user.mobile" },
-      {
-        Header: "Bid Time ",
-        accessor: ({ createdAt }) => {
-          return format(new Date(createdAt), `dd/MM/yy, HH:mm:ss`);
-        },
-      },
+      // {
+      //   Header: "Bid Time ",
+      //   accessor: ({ createdAt }) => {
+      //     return format(new Date(createdAt), `dd/MM/yy, HH:mm:ss`);
+      //   },
+      // },
       { Header: "Amount", accessor: "amount" },
 
       {
@@ -105,7 +108,7 @@ const BidDetailsPerVehicleComponent = () => {
         Cell: ({ row }) => (
           <button
             className="btn btn-error"
-            onClick={() => handleDeleteBid(row.original)}
+            // onClick={() => handleDeleteBid(row.original)}
           >
             Delete{" "}
           </button>
@@ -133,7 +136,7 @@ const BidDetailsPerVehicleComponent = () => {
   return (
     <div className="flex  flex-col w-full justify-around ">
       <div className=" flex flex-col w-full justify-center m-auto ">
-        <div className="mb-2">
+        <div className="mb-2 px-20">
           <div className="text-center font-extrabold my-5 text-lg min-w-full">
             {" "}
             Bidders Details of Lot No:
@@ -146,7 +149,7 @@ const BidDetailsPerVehicleComponent = () => {
               {data?.vehicle?.event?.eventNo}
             </span>{" "}
           </div>
-          <div className="flex justify-between mx-2">
+          <div className="grid grid-cols-3 mx-2">
             <div>
               <h1>
                 Reg. No :
@@ -163,7 +166,7 @@ const BidDetailsPerVehicleComponent = () => {
                 </span>
               </h1>
             </div>
-            <div >Seller :<span className="font-bold">{data?.vehicle?.event?.seller?.name}</span></div>
+           
             <div className="space-y-2">
               <h1>
                 Bid Status :
@@ -185,10 +188,11 @@ const BidDetailsPerVehicleComponent = () => {
                 Bid Sheet
               </button>
             </div>
+            <div >Seller :<span className="font-bold">{data?.vehicle?.event?.seller?.name}</span></div>
           </div>
         </div>
-        <TableComponent tableData={data?.vehicle?.userVehicleBids} columns={columns} sortBy='amount' />
-        <Deletedbidtable vehicleId={id}/>
+        <TableComponent data={data?.vehicle?.userVehicleBids} columns={columns} sortBy='amount' />
+        {/* <Deletedbidtable vehicleId={id}/> */}
         
       </div>
     </div>

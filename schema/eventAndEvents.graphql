@@ -6,12 +6,10 @@ query Events {
     eventCategory
     startDate
     endDate
-  
     pauseDate
     pausedTotalTime
     sellerId
     vehicleCategoryId
-    locationId
     noOfBids
     downloadableFile_filename
     termsAndConditions
@@ -23,6 +21,13 @@ query Events {
     vehicleLiveTimeIn
     gapInBetweenVehicles
     status
+     vehiclesCount
+     seller {
+      name
+    }
+      location {
+      name
+    }
   }
 }
 

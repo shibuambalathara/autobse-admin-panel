@@ -38,7 +38,8 @@ setResponseData(res)
  </div>
  <div>
 {response ==='' && <PaymentTableComponent/>}
-{response && <PaymentTable data={response}/>}
+{/* {response && <PaymentTable data={response}/>} */}
+{/* <PaymentTable data={response}/> */}
  </div>
     
     </div>

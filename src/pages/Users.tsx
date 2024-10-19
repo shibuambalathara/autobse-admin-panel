@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   useUsersQuery,
-  useUsersLazyQuery,
+ 
 } from "../utils/graphql"; // Adjust imports based on actual GraphQL queries and hooks
 import { useNavigate } from "react-router-dom";
 import LimitedDataPaginationComponents from "../components/utils/limitedDataPagination";

@@ -89,7 +89,7 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
   { Header: "Role", accessor: "role", },
   { Header: "First Name", accessor: "firstName", },
   { Header: "Balance (EMD Amount)", accessor: "BalanceEMDAmount", },
-  { Header: "Country", accessor: "country", },
+  
   { Header: "City", accessor: "city", },
   { Header: "User Category", accessor: "userCategory", },
   { Header: "Status", accessor: "status", },

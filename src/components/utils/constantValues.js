@@ -8,7 +8,7 @@ export const bidStatusOptions = [
   export const paymentsFor=[
     
       { value:"registrations",label:"Registration"},
-      { value:"emd",label:"EMD"},
+      { value:"emd",label:"Emd"},
     //   { value:"refund",label:"Refund"},
       { value:"openBids",label:"Open bids"},
     //   { value:"other",label:"Other"}
