@@ -6,7 +6,7 @@ import { ShowPopup } from "../alerts/popUps";
 import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyle } from "../utils/style";
 import { indianStates } from "../../utils/data";
 import { FormFieldInput } from "../utils/formField";
-
+import imageCompression from "browser-image-compression";
 
 const UserDetailsComponent = () => {
   const navigate = useNavigate();
@@ -20,65 +20,75 @@ const UserDetailsComponent = () => {
   const [updateUser] = useUpdateUserMutation();
   const { register, handleSubmit, formState: { errors }, reset ,control} = useForm();
   const [isUpload, setIsUpload] = useState(false);
-  const [fileData, setFileData] = useState({ pancardImage: null, idProof: null, idBack: null });
+  const [fileData, setFileData] = useState({ pancardImage: null, idProof: null, idBack: null ,licensfront:null ,licensBack:null});
 
-  const handleFileChange = (e) => {
+   console.log(fileData,'file');
+   
+  const handleFileChange = async (e) => {
     const { name, files } = e.target;
-    setFileData((prevState) => ({
-      ...prevState,
-      [name]: files[0],
-    }));
-  };
+    const file = files[0];
 
-  const uploadFile = async (formData) => {
+    if (file) {
+      try {
+        const compressedFile = await imageCompression(file, {
+          maxSizeMB: 0.2,
+          maxWidthOrHeight: 1920,
+          useWebWorker: true,
+        });
+        setFileData((prevState) => ({
+          ...prevState,
+          [name]: compressedFile,
+        }));
+      } catch (error) {
+        console.error("Error compressing image:", error);
+      }
+    }
+  };
+  const uploadFile = async () => {
     const formDataPayload = new FormData();
+
     const appendIfExists = (field, file) => {
-      if (file) formDataPayload.append(field, file[0]);
+      if (file) formDataPayload.append(field, file);
     };
 
-    appendIfExists("pancard_image", formData.pancardImage);
-    appendIfExists("aadharcard_front_image", formData.idProof);
-    appendIfExists("aadharcard_back_image", formData.idBack);
-
+    appendIfExists("pancard_image", fileData?.pancardImage);
+    appendIfExists("aadharcard_front_image", fileData?.idProofFront);
+    appendIfExists("aadharcard_back_image", fileData?.idProofBack);
+    appendIfExists("driving_license_front_image", fileData?.licensfront);
+    appendIfExists("driving_license_back_image", fileData?.licensBack);
     try {
       const response = await fetch(`https://api-dev.autobse.com/api/v1/fileupload/userprofile/${id}`, {
         method: "PUT",
         body: formDataPayload,
-        headers: { "x-apollo-operation-name": "uploadUserProfile" },
       });
-
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       const result = await response.json();
-
-      if (result.success) {
-        console.log("Document upload successful:", result);
-      }
+      if (result.success) console.log("Document upload successful:", result);
     } catch (error) {
       console.error("Error during document upload:", error);
-      ShowPopup("Failed!", `Document upload failed: ${error.message}`, "error", 5000, true);
     }
   };
 
   const onSubmit = async (dataOnSubmit) => {
     const user = {
-      firstName: dataOnSubmit.first_Name,
-      lastName: dataOnSubmit.last_Name,
-      email: dataOnSubmit.email,
-      username: dataOnSubmit.user_Name,
-      mobile: dataOnSubmit.mobile,
-      businessName: dataOnSubmit.bussiness,
-      pancardNo: dataOnSubmit.pancardNumber,
-      idProofNo: dataOnSubmit.IdNumber,
-      country: dataOnSubmit.country,
-      state: dataOnSubmit.state,
-      city: dataOnSubmit.city,
-      status: dataOnSubmit.status,
-      role: dataOnSubmit.role,
+      firstName: dataOnSubmit?.first_Name,
+      lastName: dataOnSubmit?.last_Name,
+      email: dataOnSubmit?.email,
+      // username: dataOnSubmit?.user_Name,
+      mobile: dataOnSubmit?.mobile,
+      businessName: dataOnSubmit?.bussiness,
+      pancardNo: dataOnSubmit?.pancardNumber,
+      idProofNo: dataOnSubmit?.IdNumber,
+      country: dataOnSubmit?.country,
+      state: dataOnSubmit?.state,
+      city: dataOnSubmit?.city,
+      status: dataOnSubmit?.status,
+      role: dataOnSubmit?.role,
     };
 
     try {
       await updateUser({ variables: { where: { id }, data: user } });
-      if (isUpload) uploadFile(dataOnSubmit);
+     if (isUpload) await uploadFile();
       ShowPopup("Success!", `${dataOnSubmit.first_Name} updated successfully!`, "success", 5000, true);
       reset(); // Reset form after success
     } catch (err) {
@@ -105,7 +115,7 @@ const UserDetailsComponent = () => {
           <InputField label="Mobile" type="number" register={register("mobile", { required: "Mobile number is required", minLength: { value: 10, message: "Mobile number must be 10 digits" }, maxLength: { value: 10, message: "Mobile number must be 10 digits" } })} defaultValue={data.user.mobile} error={errors.mobile} />
           <InputField label="Business Name" register={register("bussiness")} defaultValue={data.user.businessName} error={errors.bussiness} />
 
-          <div className={labelAndInputDiv.data}>
+          {/* <div className={labelAndInputDiv.data}>
             <label htmlFor="idType">ID Proof Type</label>
             <select {...register("idType", { required: "ID proof type is required" })} className={inputStyle.data}>
               <option value="">Select ID Proof Type</option>
@@ -113,7 +123,7 @@ const UserDetailsComponent = () => {
               <option value="drivingLicense">Driving License</option>
             </select>
             <p className="text-red-500">{errors.idType && <span>{errors.idType.message}</span>}</p>
-          </div>
+          </div> */}
 
           <InputField label="ID Proof Number" register={register("IdNumber", { minLength: { value: 8, message: "ID proof number must be at least 8 characters" } })} defaultValue={data.user.idProofNo} error={errors.IdNumber} />
           <InputField label="State" register={register("state", { required: "State is required" })} defaultValue={data.user.state} component="select" options={indianStates} />
@@ -143,86 +153,106 @@ const UserDetailsComponent = () => {
             </select>
             <p className="text-red-500">{errors.status && <span>{errors.status.message}</span>}</p>
           </div>
-          <div className="col-span-3 grid grid-cols-2 gap-4 mt-4">
-            
+        <div className="col-span-3 grid grid-cols-2 gap-4 gap-y-10 mt-4">
   <div className="image-container aspect-h-1 aspect-w-1 h-48">
+    <h2 className="text-lg font-bold mb-2">PAN Card</h2>
     <img src={data.user.pancard_image} alt="Pancard" class="object-cover w-full h-full rounded-lg" />
   </div>
-  <div className="image-container aspect-h-1 aspect-w-1 h-48"> 
-    <img src={data.user.aadharcard_front_image} alt="Aadhar Front" class="object-cover w-full h-full rounded-lg" />
-  </div>
-  <div className="image-container aspect-h-1 aspect-w-1 h-48">
-    <img src={data.user.aadharcard_back_image} alt="Aadhar Back" class="object-cover w-full h-full rounded-lg" />
-  </div>
-  <div className="image-container aspect-h-1 aspect-w-1 h-48"> 
-    <img src={data.user.driving_license_front_image} alt="Driving License Front" class="object-cover w-full h-full rounded-lg" />
-  </div>
-  <div className="image-container aspect-h-1 aspect-w-1 h-48"> 
-    <img src={data.user.driving_license_back_image} alt="Driving License Back" class="object-cover w-full h-full rounded-lg" />
-  </div>
+  {data.user.aadharcard_front_image && (
+    <div className="image-container aspect-h-1 aspect-w-1 h-48">
+      <h2 className="text-lg font-bold mb-2">Aadhar Card Front</h2>
+      <img src={data.user.aadharcard_front_image} alt="Aadhar Front" class="object-cover w-full h-full rounded-lg" />
+    </div>
+  )}
+  {data.user.aadharcard_back_image && (
+    <div className="image-container aspect-h-1 aspect-w-1 h-48">
+      <h2 className="text-lg font-bold mb-2">Aadhar Card Back</h2>
+      <img src={data.user.aadharcard_back_image} alt="Aadhar Back" class="object-cover w-full h-full rounded-lg" />
+    </div>
+  )}
+  {data.user.driving_license_front_image && (
+    <div className="image-container aspect-h-1 aspect-w-1 h-48">
+      <h2 className="text-lg font-bold mb-2">Driving License Front</h2>
+      <img src={data.user.driving_license_front_image} alt="Driving License Front" class="object-cover w-full h-full rounded-lg" />
+    </div>
+  )}
+  {data.user.driving_license_back_image && (
+    <div className="image-container aspect-h-1 aspect-w-1 h-48">
+      <h2 className="text-lg font-bold mb-2">Driving License Back</h2>
+      <img src={data.user.driving_license_back_image} alt="Driving License Back" class="object-cover w-full h-full rounded-lg" />
+    </div>
+  )}
 </div>
 
-          
-<label className="flex items-center space-x-2">
-        <input 
-          type="checkbox" 
-          checked={isUpload} 
-          onChange={() => setIsUpload(!isUpload)} 
+
+<div className="col-span-3 grid grid-cols-2 gap-4 mt-4">
+  <label className="flex items-center space-x-2 mt-5 justify-center col-span-3">
+    <input
+      type="checkbox"
+      checked={isUpload}
+      onChange={() => setIsUpload(!isUpload)}
+      className="form-checkbox h-5 w-5 text-blue-600"
+    />
+    <span className="text-lg font-bold mb-1">Update Documents</span>
+  </label>
+  {isUpload && (
+    <div className="col-span-3 gap-4 grid grid-cols-3 mt-4">
+      <div>
+        <label className="block text-gray-700 text-sm font-bold mb-2">PAN Card Image</label>
+        <input
+          type="file"
+          name="pancardImage"
+          onChange={handleFileChange}
+          className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
         />
-        <span>Update Documents</span>
-      </label>
+      </div>
+      <div>
+        <label className="block text-gray-700 text-sm font-bold mb-2">Aadhar Card Front</label>
+        <input
+          type="file"
+          name="idProofFront"
+          onChange={handleFileChange}
+          className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+        />
+      </div>
+      <div>
+        <label className="block text-gray-700 text-sm font-bold mb-2">Aadhar Card Back</label>
+        <input
+          type="file"
+          name="idProofBack"
+          onChange={handleFileChange}
+          className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+        />
+      </div>
+      <div>
+        <label className="block text-gray-700 text-sm font-bold mb-2">Driving License Front</label>
+        <input
+          type="file"
+          name="licensfront"
+          onChange={handleFileChange}
+          className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+        />
+      </div>
+      <div>
+        <label className="block text-gray-700 text-sm font-bold mb-2">Driving License Back</label>
+        <input
+          type="file"
+          name="licensBack"
+          onChange={handleFileChange}
+          className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+        />
+      </div>
+    </div>
+  )}
+</div>
 
-      {/* Conditionally render file upload inputs */}
-      {isUpload && (
-        <>
-          <Controller
-            name="pancardImage"
-            control={control}
-            render={({ field }) => (
-              <>
-                <label>PAN Card Image</label>
-                <input 
-                  type="file" 
-                  onChange={(e) => field.onChange(e.target.files[0])} 
-                />
-              </>
-            )}
-          />
-
-          <Controller
-            name="idProofFront"
-            control={control}
-            render={({ field }) => (
-              <>
-                <label>ID Proof Front</label>
-                <input 
-                  type="file" 
-                  onChange={(e) => field.onChange(e.target.files[0])} 
-                />
-              </>
-            )}
-          />
-
-          <Controller
-            name="idProofBack"
-            control={control}
-            render={({ field }) => (
-              <>
-                <label>ID Proof Back</label>
-                <input 
-                  type="file" 
-                  onChange={(e) => field.onChange(e.target.files[0])} 
-                />
-              </>
-            )}
-          />
-        </>
-      )}
         </div>
-
-        <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300 ease-in-out col-span-3 text-center" disabled={loading}>
+<div className="col-span-3 text-center  py-3">
+<button className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-300 ease-in-out " disabled={loading}>
   {loading ? "Uploading..." : "Submit"}
 </button>
+</div>
+        
 
       </form>
     </div>

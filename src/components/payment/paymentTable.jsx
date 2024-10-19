@@ -9,6 +9,7 @@ import { FormatDate } from "../utils/dateFormat";
 
 const PaymentTable = ({data}) => {
 
+console.log('paymnt',data);
 
   
   const navigate = useNavigate();
@@ -58,36 +59,46 @@ const PaymentTable = ({data}) => {
       },
 
    
-      // {
-      //   Header: "Create Buying Limit",
-      //   Cell: ({ row }) => {
-      //     if (
-      //       row.original.emdUpdateCount === 0
-      //       &&
-      //       row.original.paymentFor === 'emd' &&
-      //       row.original.status === 'success'
-      //     ) {
-      //       return (
-      //         <a
-      //           className="  text-2xl"
-      //           href={`/add-emd/${row.original.id}`}
-      //           target="_blank"
-      //           rel="noopener noreferrer"
-      //         >
-      //          <FontAwesomeIcon icon={faCirclePlus} />
-      //         </a>
-      //       );
-      //     }
-      //      else {
-      //       return(
-      //         <>
-      //         Increment by:{ row.original?.emdUpdate[0]?.vehicleBuyingLimitIncrement ??'0'},
-      //         <br /> Status: {row.original.status}
-      //         </>
-      //         );
-      //     }
-      //   }
-      // },
+      {
+        Header: "Create Buying Limit",
+        Cell: ({ row }) => {
+          if (
+            // row.original.emdUpdateCount === 0
+            // &&
+            row.original.paymentFor === 'emd'
+             &&
+            row.original.status === 'approved'
+          ) {
+            return (
+              <a
+                className="  text-2xl"
+                href={`/add-emd/${row.original.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+               <FontAwesomeIcon icon={faCirclePlus} />
+              </a>
+            );
+          }
+           else {
+            return(
+              <>
+              {/* Increment by:{ row.original?.emdUpdate[0]?.vehicleBuyingLimitIncrement ??'0'}, */}
+              <br /> 
+               {row.original.status}
+              </>
+              );
+          }
+          // <a
+          //       className="  text-2xl"
+          //       href={`/add-emd/${row.original.id}`}
+          //       target="_blank"
+          //       rel="noopener noreferrer"
+          //     >hi
+          //      <FontAwesomeIcon icon={faCirclePlus} />
+          //     </a>  
+        }
+      },
       {
         Header: "View Emds",
         Cell: ({ row }) => (

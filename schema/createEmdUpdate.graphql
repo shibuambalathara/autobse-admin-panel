@@ -1,0 +1,18 @@
+mutation CreateEmdupdate($paymentId: String!, $userId: String!, $createEmdupdateInput: CreateEmdupdateInput!) {
+  createEmdupdate(paymentId: $paymentId, userId: $userId, createEmdupdateInput: $createEmdupdateInput) {
+    id
+    vehicleBuyingLimitIncrement
+    user {
+      firstName
+      lastName
+      username
+    }
+    payment {
+      amount
+      paymentFor
+    }
+    createdAt
+    createdBy {
+      email
+    }
+  }}

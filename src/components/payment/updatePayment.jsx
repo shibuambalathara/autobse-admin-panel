@@ -120,8 +120,8 @@ const UpdatePayment = () => {
             <select  defaultValue={payment?.data?.payment?.status}    className={`${inputStyle.data}`} {...register("paymentStatus", {})}>
             <option value={payment?.data?.payment?.status}>{payment?.data?.payment?.status}</option>
       <option value="pending">Pending</option>
-      <option value="Approved">Approved</option>
-      <option value="Rejected">Rejected</option>
+      <option value="approved">Approved</option>
+      <option value="rejected">Rejected</option>
       
     
     </select>

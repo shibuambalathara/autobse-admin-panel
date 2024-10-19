@@ -1,7 +1,7 @@
-export const pageStyle = { data: `shadow-xl bg-white m-10 ` };
+export const pageStyle = { data: ` bg-white m-6 ` };
 export const formStyle = { data: `grid md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-5 mx-3 my-2 p-6` };
-export const headerStyle = { data: `py-3 bg-blue-900  px-4 flex items-center shadow-xl justify-center rounded-t-lg` };
-export const h2Style = { data: `text-lg py-1 leading-3 font-bold text-white ` };
+export const headerStyle = { data: `py-3 bg-gray-200  px-4 flex items-center shadow-xl justify-center rounded-t-lg` };
+export const h2Style = { data: `text-lg py-1 leading-3 font-bold  uppercase ` };
 export const labelStyle = { data: `font-bold text-black` };
 
 export const labelAndInputDiv = { data: `flex flex-col` };

@@ -21,7 +21,7 @@ const VehicleDetailsPerEventComponent = () => {
    
     const{id}=useParams()
 const vehicleSub = useSubscriptionVehicleUpdatesSubscription()
-console.log(vehicleSub);
+console.log(vehicleSub ,'subs');
 
     const [userId,setUserId]=useState('0')
     const [updateDate,setUpdateDate]=useState({date:null,id:null,updateItem:null})

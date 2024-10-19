@@ -1,0 +1,21 @@
+query BidDetailsPerVehicle($where: VehicleWhereUniqueInput!) {
+  vehicle(where: $where) {
+    totalBids
+    registrationNumber
+    bidStatus
+    
+    event {
+      seller {
+        name
+      }
+    }
+    userVehicleBidsCount
+    userVehicleBids {
+      id
+      amount
+      bidVehicleId
+      userId
+      
+    }
+  }
+}

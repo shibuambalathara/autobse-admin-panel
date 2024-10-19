@@ -26,6 +26,9 @@ import AddExcel from './pages/addExcel';
 import AddVehicle from './pages/addVehicle';
 import EditVehicle from './pages/editVehicle';
 import VehicleDetailsPerEvent from './pages/vehicleDetailsPerEvent';
+import BidDetailsPerVehicle from './pages/bidDetailsPerVehicle';
+import AddEmd from './pages/createEmd';
+import EmdPerPayment from './pages/emdPerPayment';
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -58,6 +61,8 @@ const App: React.FC = () => {
               <Route path="create-payment/:id" element={<AddPaymentForUser />} />
               <Route path="update-payment/:id" element={<AddPaymentDetails />}/>
               <Route path="payment/:id" element={<PaymentUserDetails />} />
+              <Route path="add-emd/:id" element={<AddEmd />} />
+              <Route path="emd-payment/:id" element={<EmdPerPayment />} /> 
               <Route path="addevent" element={<AddEventForm />} />
               {/* <Route path="addeventtype" element={<AddEventType />} />
               <Route path="edit-event/:id" element={<EditEvent />} /> */}
@@ -69,6 +74,9 @@ const App: React.FC = () => {
                <Route path="view-vehicls/:id" element={<VehicleDetailsPerEvent />} />
                <Route path="edit-vehicle/:id" element={<EditVehicle />} />
                <Route path="excel-upload/:id" element={<AddExcel />} />
+
+
+               <Route path="bid-details/:id" element={<BidDetailsPerVehicle />} />
               </Route>
               </Routes>
           {/* Your routes and other components go here */}
