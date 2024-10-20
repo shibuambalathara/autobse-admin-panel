@@ -11,5 +11,11 @@ query Users {
     city
     userCategory
     status
+     vehicleBuyingLimit
+ idNo
+    state
+ 
+    mobile
+    lastName
   }
 }

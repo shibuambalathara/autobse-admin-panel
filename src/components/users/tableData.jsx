@@ -84,15 +84,22 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
   // Define the table columns with only required fields
   const columns = useMemo(
     () => [
-      // { Header: "User ID", accessor: "id", },
-  { Header: "Email", accessor: "email", },
+      { Header: "User ID",  Cell: ({ row }) =>
+        row.original?.idNo },
+  // { Header: "Email", accessor: "email", },
   { Header: "Role", accessor: "role", },
   { Header: "First Name", accessor: "firstName", },
-  { Header: "Balance (EMD Amount)", accessor: "BalanceEMDAmount", },
+  { Header: "Last Name", accessor: "lastName" },
+  { Header: "Mobile", accessor: "mobile" },
+  { Header: "Status", accessor: "status", },
+ 
+  
+  
+  // { Header: "Balance (EMD Amount)", accessor: "BalanceEMDAmount", },
   
   { Header: "City", accessor: "city", },
   { Header: "User Category", accessor: "userCategory", },
-  { Header: "Status", accessor: "status", },
+  
       // {
       //   Header: "Active Bids",
       //   Cell: ({ row }) =>
@@ -107,20 +114,20 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
       //       </a>
       //     ),
       // },
-      // {
-      //   Header: "Current Buying Limit",
-      //   Cell: ({ row }) =>
-      //     row.original.currentVehicleBuyingLimit.vehicleBuyingLimit !== 0 && (
-      //       <a
-      //         className="btn btn-secondary"
-      //         href={`/buying-limit/${row.original.id}`}
-      //         target="_blank"
-      //         rel="noopener noreferrer"
-      //       >
-      //         {row.original.currentVehicleBuyingLimit.vehicleBuyingLimit}
-      //       </a>
-      //     ),
-      // },
+      {
+        Header: "Current Buying Limit",
+        Cell: ({ row }) =>
+          row.original?.vehicleBuyingLimit !== 0 && (
+            <a
+              className="btn btn-secondary"
+              href={`/buying-limit/${row.original.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {row.original?.vehicleBuyingLimit}
+            </a>
+          ),
+      },
       {
         Header: "Payment details",
         Cell: ({ row }) =>
@@ -175,27 +182,27 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
           </a>
         ),
       },
-      {
-        Header: "Token",
-        Cell: ({ row }) => (
-          <div className="flex">
-            <button
-              className="rounded-md p-1 text-white bg-green-700"
-              onClick={() => handleToken(row.original?.id)}
-            >
-              CREATE/UPDATE
-            </button>
-            {row?.original?.tempToken && (
-              <button
-                className="rounded-md p-1 text-red-500"
-                onClick={() => handleDelete(row.original?.id)}
-              >
-                <FontAwesomeIcon icon={faTrash} />
-              </button>
-            )}
-          </div>
-        ),
-      },
+      // {
+      //   Header: "Token",
+      //   Cell: ({ row }) => (
+      //     <div className="flex">
+      //       <button
+      //         className="rounded-md p-1 text-white bg-green-700"
+      //         onClick={() => handleToken(row.original?.id)}
+      //       >
+      //         CREATE/UPDATE
+      //       </button>
+      //       {row?.original?.tempToken && (
+      //         <button
+      //           className="rounded-md p-1 text-red-500"
+      //           onClick={() => handleDelete(row.original?.id)}
+      //         >
+      //           <FontAwesomeIcon icon={faTrash} />
+      //         </button>
+      //       )}
+      //     </div>
+      //   ),
+      // },
       // { Header: "Temp Token", accessor: "tempToken", },
       // ...(currentPageStartWith === "/users"
       //   ? []

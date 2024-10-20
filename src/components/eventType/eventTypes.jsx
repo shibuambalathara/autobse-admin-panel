@@ -29,8 +29,8 @@ console.log(data ,"c ategory");
     const columns = useMemo(
         () => [
           { Header: "Name", accessor: "name" },
-          { Header: "Events", accessor: "events.eventNo" },
-          { Header: "Users", accessor: "users.id" },
+          // { Header: "Events", accessor: "events.eventNo" },
+          // { Header: "Users", accessor: "users.id" },
          
 
          
@@ -70,7 +70,7 @@ refetch()
       <div className="  mx-10 ">
  
     <div className='flex justify-end'>
-      <AddEventType/>
+      <AddEventType />
       </div>
       <div className="text-center font-extrabold my-5 text-lg min-w-full">  Events type Table </div>
 

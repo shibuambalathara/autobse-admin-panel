@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import {
   useUsersQuery,
+  useViewUserQuery,
  
 } from "../utils/graphql"; // Adjust imports based on actual GraphQL queries and hooks
 import { useNavigate } from "react-router-dom";
 import LimitedDataPaginationComponents from "../components/utils/limitedDataPagination";
 import TabbleOfUsersOrUser from "../components/users/tableData";
+import SearchByNumber from "../components/utils/searchByNumber";
+import CustomButton from "../components/utils/buttons";
 
 // Define variables type based on your GraphQL schema
 type UserQueryVariables = {
@@ -33,7 +36,12 @@ type User = {
   country: string;
   city: string;
   userCategory: string;
+ 
+  idNo:number;
+  state: string;
   status: string;
+  mobile: string;
+  lastName:string;
 };
 
 const   Users = () => {
@@ -59,24 +67,40 @@ const   Users = () => {
     },
   });
 console.log('data',allUsers);
-
+const { data: userData, refetch: refetchMobile,loading:usersLoading } = useViewUserQuery({
+  variables: { where: { mobile: String(inputData) } },
+});
   // Function to refetch data based on last query type
   const refetchAllData = () => {
     switch (lastQueryType) {
       case "all":
         // refetchAll();
         break;
+        case "number":
+          refetchMobile();
+          break;
       // Other cases for different refetch types
     }
   };
 
   useEffect(() => {
-    if (allUsers && allUsers.users) {
-      // Filter out null values before setting the state
-      const filteredUsers = allUsers.users.filter((user): user is User => user !== null);
-      setUsers(filteredUsers);
-    }
-  }, [allUsers]);
+    // if (allUsers && allUsers.users) {
+    //   // Filter out null values before setting the state
+    //   const filteredUsers = allUsers.users.filter((user): user is User => user !== null);
+    //   setUsers(filteredUsers);
+    // }
+
+    let fetchedUsers: User[] = [];
+    switch (lastQueryType) {
+      case "all":
+        fetchedUsers = (allUsers?.users || []).filter((user): user is User => user !== null);
+        break;
+      case "number":
+        fetchedUsers = userData?.user ? [userData.user as User] : [];
+        break;
+      }
+      setUsers(fetchedUsers);
+  }, [allUsers, userData, lastQueryType]);
   const handleInputData = (data: string) => {
     setInputData(data);
     setLastQueryType("number");
@@ -114,28 +138,22 @@ console.log('data',allUsers);
 
   // if (!allUsers)
   //   return <div className="loading">Loading...</div>;
-
+ 
+ 
   return (
     <div className="w-full">
-      <div className="w-full">
-        <div className="text-end mr-32">
-          <button
-            onClick={() => navigate("/add-user")}
-            className="mt-2 w-fit bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-          >
-            Add User
-          </button>
-        </div>
-        <div className="text-center font-extrabold mb-1 text-2xl w-full">Users Data Table</div>
+      <div className="w-full px-20 ">
+       <CustomButton navigateTo={"/add-user"} buttonText={" Add User"}/>
+        <div className="text-center font-extrabold mb-1 text-xl w-full">Users Data Table</div>
       </div>
-      {/* <div className="md:flex my-2 justify-evenly M-5 shadow-xl">
+       <div className="  pl-20 ">
        
         <SearchByNumber inputData={handleInputData} />
-        <SearchByDate setDate={handleInputDate} />
+        {/* <SearchByDate setDate={handleInputDate} />
         <SeachByRole setRole={handleInputRole} />
         <SearchByState setState={handleInputState} />
-        <SearchByToken setToken={handleToken} />
-      </div> */}
+        <SearchByToken setToken={handleToken} /> */}
+       </div> 
       <div className="">
         {/* <table className="min-w-full bg-white border border-gray-200">
           <thead>

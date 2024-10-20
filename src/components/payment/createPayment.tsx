@@ -123,9 +123,9 @@ const CreatePayment: React.FC = () => {
               className={`${inputStyle.data}`}
               {...register("paymentStatus")}
             >
-              <option value="Pending">Pending</option>
-              <option value="Approved">Approved</option>
-              <option value="Rejected">Rejected</option>
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
             </select>
             {errors.paymentStatus && <p className="text-red-500">Please select payment status</p>}
           </div>

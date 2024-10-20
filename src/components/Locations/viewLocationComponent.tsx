@@ -103,7 +103,7 @@ const ViewLocationComponent: React.FC = () => {
           <div className="text-center font-extrabold my-5 text-lg w-full">
             LOCATIONS
           </div>
-          <TableComponent data={data?.locations} columns={columns} />
+          <TableComponent data={data?.locations||[]} columns={columns} />
         </div>
     
     </div>

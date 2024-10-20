@@ -40,13 +40,13 @@ function TableComponent({ columns, data }) {
                 {...getTableProps()}
                 className="min-w-full text-start text-sm font-light text-black"
               >
-                <thead className="border-b border-neutral-200 font-medium bg-gray-100 sticky top-0">
+                <thead className="border-b border-neutral-200 font-medium bg-gray-100 sticky top-0 z-20 ">
                   {headerGroups.map((headerGroup) => (
                     <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
                       {headerGroup.headers.map((column) => (
                         <th
                           {...column.getHeaderProps()}
-                          className="px-3 py-4 truncate"
+                          className="px-3 py-4 truncate text-start"
                           key={column.id}
                         >
                           {column.render("Header")}

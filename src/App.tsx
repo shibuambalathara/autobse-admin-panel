@@ -67,15 +67,11 @@ const App: React.FC = () => {
               {/* <Route path="addeventtype" element={<AddEventType />} />
               <Route path="edit-event/:id" element={<EditEvent />} /> */}
                <Route path="event-types" element={<EventTypes />} />
-
-
-               <Route path="events" element={<AddEvents />} />
+              <Route path="events" element={<AddEvents />} />
                <Route path="add-vehicle/:id" element={<AddVehicle />} />
                <Route path="view-vehicls/:id" element={<VehicleDetailsPerEvent />} />
                <Route path="edit-vehicle/:id" element={<EditVehicle />} />
                <Route path="excel-upload/:id" element={<AddExcel />} />
-
-
                <Route path="bid-details/:id" element={<BidDetailsPerVehicle />} />
               </Route>
               </Routes>
