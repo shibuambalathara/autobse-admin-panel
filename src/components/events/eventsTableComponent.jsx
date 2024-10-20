@@ -10,6 +10,7 @@ import { faCar, faFileArrowDown, faFileArrowUp, faUserPlus } from '@fortawesome/
 import { faCalendarDays,  } from '@fortawesome/free-regular-svg-icons'
 import  { ConvertToExcel } from '../utils/excelFormat'
 import { FormatDate } from '../utils/dateFormat'
+import CustomButton from '../utils/buttons';
 
 
 const EventsTableComponent = () => {
@@ -202,15 +203,8 @@ const handleDelete=(id)=>{
 
   return (
     <div className="flex  flex-col w-full justify-around overflow-hidden">
-         <div className='flex  justify-between  m-2'> 
-        <div>
-    <button
-      onClick={() => navigate("/addevent")}
-      className="btn btn-outline"
-    >
-     Add Event
-    </button>
-    </div>
+         <div className='flex justify-end   m-2 px-20'> 
+       <CustomButton navigateTo={"/addevent"} buttonText={" Add Event"}/>
     {/* <div>
         <Report/>
         </div> */}
@@ -225,7 +219,7 @@ const handleDelete=(id)=>{
   
    </div>
      
-       <TableComponent data={data?.events} columns={columns} sortBy='start Date'/>
+       <TableComponent data={data?.events||[]} columns={columns} sortBy='start Date'/>
 {/*   
           <LimitedDataPaginationComponents   
           currentPage={currentPage}

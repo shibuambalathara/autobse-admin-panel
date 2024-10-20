@@ -3,14 +3,14 @@
 
 import React, { useMemo } from 'react'
 import {useNavigate, useParams} from 'react-router-dom'
-import {useEmdTableQuery, usePaymentQuery} from '../../utils/graphql'
+import {useEmdTableQuery} from '../../utils/graphql'
 import format from 'date-fns/format'
 import TableComponent from '../utils/table'
 
 
 const EmdTablePerPayment = () => {
 const{id}=useParams()
-    const {data,loading,error}=usePaymentQuery({variables:{where:{id}}})
+    const {data,loading,error}=useEmdTableQuery({variables:{where:{id}}})
 
    
     console.log(data);
@@ -53,7 +53,7 @@ const{id}=useParams()
   <div className="text-center font-extrabold my-5 text-lg min-w-full">  Emd Data Table Of Payment Ref No <span className='text-red-500'>{data?.payment?.refNo}</span>  </div>
   </div>
    
-      {/* <TableComponent data={data.payment?.emdUpdate} columns={columns}/> */}
+      <TableComponent data={data.payment?.emdUpdate} columns={columns}/>
 
   </div>
   </div>

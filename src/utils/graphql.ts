@@ -16,6 +16,7 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   DateTime: { input: any; output: any; }
+  JSON: { input: any; output: any; }
 };
 
 export type Bid = {
@@ -24,6 +25,7 @@ export type Bid = {
   bidVehicleId: Scalars['String']['output'];
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
+  user?: Maybe<User>;
   userId: Scalars['String']['output'];
 };
 
@@ -237,6 +239,7 @@ export type EnquiryWhereUniqueInput = {
 
 export type Event = {
   __typename?: 'Event';
+  Report?: Maybe<Scalars['JSON']['output']>;
   bidLock?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   createdById: Scalars['String']['output'];
@@ -703,6 +706,7 @@ export type Payment = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   createdById?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['String']['output']>;
+  emdUpdate?: Maybe<Array<Emdupdate>>;
   id: Scalars['String']['output'];
   image?: Maybe<Scalars['String']['output']>;
   paymentFor?: Maybe<Scalars['String']['output']>;
@@ -766,6 +770,7 @@ export type Query = {
   eventsCount: Scalars['Int']['output'];
   excelUpload: Excelupload;
   excelUploads: Array<Excelupload>;
+  getAcr?: Maybe<Scalars['JSON']['output']>;
   liveEvents?: Maybe<Array<Event>>;
   location: Location;
   locations: Array<Location>;
@@ -863,6 +868,11 @@ export type QueryEventsArgs = {
 
 export type QueryExcelUploadArgs = {
   where: ExcelWhereUniqueInput;
+};
+
+
+export type QueryGetAcrArgs = {
+  eventId: Scalars['String']['input'];
 };
 
 
@@ -1178,6 +1188,7 @@ export type UpdateVehicleInput = {
   type?: InputMaybe<Scalars['String']['input']>;
   varient?: InputMaybe<Scalars['String']['input']>;
   vehicleCondition?: InputMaybe<Scalars['String']['input']>;
+  vehicleEventStatus?: InputMaybe<VehicleEventStatus>;
   vehicleRemarks?: InputMaybe<Scalars['String']['input']>;
   veicleLocation?: InputMaybe<Scalars['String']['input']>;
   yardLocation?: InputMaybe<Scalars['String']['input']>;
@@ -1215,6 +1226,7 @@ export type User = {
   tempToken?: Maybe<Scalars['Float']['output']>;
   userCategory: Scalars['String']['output'];
   username: Scalars['String']['output'];
+  vehicleBuyingLimit?: Maybe<Scalars['Int']['output']>;
 };
 
 export enum UserIdProofTypeType {
@@ -1317,6 +1329,7 @@ export type Vehicle = {
   userVehicleBidsCount?: Maybe<Scalars['Int']['output']>;
   varient?: Maybe<Scalars['String']['output']>;
   vehicleCondition?: Maybe<Scalars['String']['output']>;
+  vehicleEventStatus?: Maybe<VehicleEventStatus>;
   vehicleIndexNo: Scalars['Float']['output'];
   vehicleRemarks?: Maybe<Scalars['String']['output']>;
   veicleLocation?: Maybe<Scalars['String']['output']>;
@@ -1388,6 +1401,13 @@ export enum EventStatusType {
   Stop = 'Stop'
 }
 
+export enum VehicleEventStatus {
+  Abnormal = 'abnormal',
+  Completed = 'completed',
+  Live = 'live',
+  Upcoming = 'upcoming'
+}
+
 export type CreateSellerMutationVariables = Exact<{
   createSellerInput: CreateSellerInput;
 }>;
@@ -1440,6 +1460,13 @@ export type CreateEmdupdateMutationVariables = Exact<{
 
 
 export type CreateEmdupdateMutation = { __typename?: 'Mutation', createEmdupdate: { __typename?: 'Emdupdate', id: string, vehicleBuyingLimitIncrement?: number | null, createdAt?: any | null, user?: { __typename?: 'User', firstName: string, lastName: string, username: string } | null, payment?: { __typename?: 'Payment', amount?: number | null, paymentFor?: string | null } | null, createdBy?: { __typename?: 'User', email: string } | null } };
+
+export type EmdTableQueryVariables = Exact<{
+  where: PaymentWhereUniqueInput;
+}>;
+
+
+export type EmdTableQuery = { __typename?: 'Query', payment: { __typename?: 'Payment', id: string, paymentFor?: string | null, emdUpdate?: Array<{ __typename?: 'Emdupdate', id: string, createdAt?: any | null, emdNo: number, vehicleBuyingLimitIncrement?: number | null, createdBy?: { __typename?: 'User', firstName: string } | null, payment?: { __typename?: 'Payment', amount?: number | null } | null }> | null } };
 
 export type CreateLocationMutationVariables = Exact<{
   createLocationInput: CreateLocationInput;
@@ -1580,12 +1607,12 @@ export type ViewUserQueryVariables = Exact<{
 }>;
 
 
-export type ViewUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, email: string, username: string, role: string, firstName: string, lastName: string, businessName: string, mobile: string, BalanceEMDAmount?: number | null, pancardNo: string, idProofNo: string, country: string, city: string, userCategory: string, status: string, state: string, tempToken?: number | null, aadharcard_front_image?: string | null, aadharcard_back_image?: string | null, driving_license_front_image?: string | null, driving_license_back_image?: string | null, pancard_image?: string | null } | null };
+export type ViewUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, idNo: number, email: string, vehicleBuyingLimit?: number | null, username: string, role: string, firstName: string, lastName: string, businessName: string, mobile: string, BalanceEMDAmount?: number | null, pancardNo: string, idProofNo: string, country: string, city: string, userCategory: string, status: string, state: string, tempToken?: number | null, aadharcard_front_image?: string | null, aadharcard_back_image?: string | null, driving_license_front_image?: string | null, driving_license_back_image?: string | null, pancard_image?: string | null } | null };
 
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string, role: string, firstName: string, BalanceEMDAmount?: number | null, country: string, city: string, userCategory: string, status: string } | null> };
+export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string, role: string, firstName: string, BalanceEMDAmount?: number | null, country: string, city: string, userCategory: string, status: string, vehicleBuyingLimit?: number | null, idNo: number, state: string, mobile: string, lastName: string } | null> };
 
 export type CreateVehiclecategoryMutationVariables = Exact<{
   createVehiclecategoryInput: CreateVehiclecategoryInput;
@@ -1639,7 +1666,7 @@ export type BidDetailsPerVehicleQueryVariables = Exact<{
 }>;
 
 
-export type BidDetailsPerVehicleQuery = { __typename?: 'Query', vehicle: { __typename?: 'Vehicle', totalBids?: number | null, registrationNumber: string, bidStatus?: string | null, userVehicleBidsCount?: number | null, event?: { __typename?: 'Event', seller?: { __typename?: 'Seller', name: string } | null } | null, userVehicleBids?: Array<{ __typename?: 'Bid', id: string, amount: number, bidVehicleId: string, userId: string }> | null } };
+export type BidDetailsPerVehicleQuery = { __typename?: 'Query', vehicle: { __typename?: 'Vehicle', totalBids?: number | null, registrationNumber: string, bidStatus?: string | null, userVehicleBidsCount?: number | null, currentBidUser?: { __typename?: 'User', firstName: string, lastName: string, mobile: string } | null, event?: { __typename?: 'Event', seller?: { __typename?: 'Seller', name: string } | null } | null, userVehicleBids?: Array<{ __typename?: 'Bid', id: string, amount: number, bidVehicleId: string, userId: string }> | null } };
 
 
 export const CreateSellerDocument = gql`
@@ -1978,6 +2005,59 @@ export function useCreateEmdupdateMutation(baseOptions?: Apollo.MutationHookOpti
 export type CreateEmdupdateMutationHookResult = ReturnType<typeof useCreateEmdupdateMutation>;
 export type CreateEmdupdateMutationResult = Apollo.MutationResult<CreateEmdupdateMutation>;
 export type CreateEmdupdateMutationOptions = Apollo.BaseMutationOptions<CreateEmdupdateMutation, CreateEmdupdateMutationVariables>;
+export const EmdTableDocument = gql`
+    query EmdTable($where: PaymentWhereUniqueInput!) {
+  payment(where: $where) {
+    id
+    emdUpdate {
+      id
+      createdBy {
+        firstName
+      }
+      createdAt
+      emdNo
+      vehicleBuyingLimitIncrement
+      payment {
+        amount
+      }
+    }
+    paymentFor
+  }
+}
+    `;
+
+/**
+ * __useEmdTableQuery__
+ *
+ * To run a query within a React component, call `useEmdTableQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEmdTableQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEmdTableQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useEmdTableQuery(baseOptions: Apollo.QueryHookOptions<EmdTableQuery, EmdTableQueryVariables> & ({ variables: EmdTableQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<EmdTableQuery, EmdTableQueryVariables>(EmdTableDocument, options);
+      }
+export function useEmdTableLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EmdTableQuery, EmdTableQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<EmdTableQuery, EmdTableQueryVariables>(EmdTableDocument, options);
+        }
+export function useEmdTableSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<EmdTableQuery, EmdTableQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<EmdTableQuery, EmdTableQueryVariables>(EmdTableDocument, options);
+        }
+export type EmdTableQueryHookResult = ReturnType<typeof useEmdTableQuery>;
+export type EmdTableLazyQueryHookResult = ReturnType<typeof useEmdTableLazyQuery>;
+export type EmdTableSuspenseQueryHookResult = ReturnType<typeof useEmdTableSuspenseQuery>;
+export type EmdTableQueryResult = Apollo.QueryResult<EmdTableQuery, EmdTableQueryVariables>;
 export const CreateLocationDocument = gql`
     mutation CreateLocation($createLocationInput: CreateLocationInput!) {
   createLocation(createLocationInput: $createLocationInput) {
@@ -3006,7 +3086,9 @@ export const ViewUserDocument = gql`
     query viewUser($where: UserWhereUniqueInput!) {
   user(where: $where) {
     id
+    idNo
     email
+    vehicleBuyingLimit
     username
     role
     firstName
@@ -3075,6 +3157,11 @@ export const UsersDocument = gql`
     city
     userCategory
     status
+    vehicleBuyingLimit
+    idNo
+    state
+    mobile
+    lastName
   }
 }
     `;
@@ -3516,6 +3603,11 @@ export const BidDetailsPerVehicleDocument = gql`
     totalBids
     registrationNumber
     bidStatus
+    currentBidUser {
+      firstName
+      lastName
+      mobile
+    }
     event {
       seller {
         name

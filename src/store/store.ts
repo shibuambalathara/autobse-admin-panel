@@ -5,15 +5,15 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 import authReducer from './authSlice';
 
 const persistConfig = {
-  key: 'root',
-  storage,
+  key: 'auth', // Name of the slice being persisted
+  storage,     // Use localStorage
 };
 
-const persistedReducer = persistReducer(persistConfig, authReducer);
+const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 
 const store = configureStore({
   reducer: {
-    auth: persistedReducer,
+    auth: persistedAuthReducer, // Auth slice with persistence
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

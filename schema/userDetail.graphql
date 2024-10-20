@@ -1,7 +1,9 @@
 query viewUser($where: UserWhereUniqueInput!) {
   user(where: $where) {
     id
+     idNo
     email
+    vehicleBuyingLimit
     username
     role
     firstName

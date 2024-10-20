@@ -16,3 +16,23 @@ mutation CreateEmdupdate($paymentId: String!, $userId: String!, $createEmdupdate
       email
     }
   }}
+
+  query EmdTable($where: PaymentWhereUniqueInput!) {
+  payment(where: $where) {
+    id
+  emdUpdate {
+      id
+      createdBy {
+        firstName
+      }
+      createdAt
+      emdNo
+      vehicleBuyingLimitIncrement
+      payment {
+        amount
+      }
+    }
+    
+  paymentFor
+  }
+}

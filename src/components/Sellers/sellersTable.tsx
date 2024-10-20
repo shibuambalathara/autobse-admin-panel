@@ -7,6 +7,7 @@ import { useSellersQuery } from "../../utils/graphql"; // Ensure your GraphQL ho
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding } from "@fortawesome/free-regular-svg-icons";
 import TableComponent from "../utils/table";
+import CustomButton from "../utils/buttons";
 export interface Seller {
   id: string;
   name: string;
@@ -63,10 +64,8 @@ const Table: React.FC = () => {
 
   return (
     <div className="w-full flex flex-col">
-      <div className="flex justify-end mr-2 mt-2">
-        <div onClick={() => navigate("/add-seller")} className="btn btn-outline">
-          Add Seller
-        </div>
+      <div className="w-full px-20 ">
+      <CustomButton navigateTo={"/add-seller"} buttonText={" Add Seller"}/>
       </div>
       <div className="w-full  h-fit">
         <div className="flex flex-col justify-center  w-full">
