@@ -63,7 +63,7 @@ function TableComponent({ columns, data }) {
                         {row.cells.map((cell) => (
                           <td
                             {...cell.getCellProps()}
-                            className="whitespace-nowrap px-6 py-4 text-sm text-black"
+                            className="whitespace-nowrap px-4 py-4 text-sm text-black"
                             key={cell.column.id}
                           >
                             {cell.render("Cell")}

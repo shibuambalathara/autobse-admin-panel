@@ -23,7 +23,7 @@ export const ConvertToExcel = (data) => {
       const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
       const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
       const excelData = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
-      FileSaver.saveAs(excelData, 'excel_download.xlsx');
+      FileSaver.saveAs(excelData, 'ACR.xlsx');
  
 
 }

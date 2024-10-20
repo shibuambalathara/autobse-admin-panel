@@ -20,3 +20,4 @@ export const textAreaStyle = { data: `border border-black p-2 rounded-md w-full 
 export const ButtonStylePagination={data:'text-white bg-pink-600 p-2 rounded-xl shadow shadow-slate-500'}
 export const ButtonStyleDisabledPagination={data:' bg-white p-2 rounded-xl shadow border border-pink-500 shadow-slate-500'} 
 export const pageNumber = { data: "mx-1 border-2 border-blue-500 rounded-lg p-2 text-blue-600" };
+export const Tablebutton = { data: "text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out" };

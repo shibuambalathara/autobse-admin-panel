@@ -11,6 +11,7 @@ import { faCalendarDays,  } from '@fortawesome/free-regular-svg-icons'
 import  { ConvertToExcel } from '../utils/excelFormat'
 import { FormatDate } from '../utils/dateFormat'
 import CustomButton from '../utils/buttons';
+import { Tablebutton } from '../utils/style';
 
 
 const EventsTableComponent = () => {
@@ -89,7 +90,7 @@ const handleDelete=(id)=>{
             Header: "Auction No",
             Cell: ({ row }) => (
        row.original.endDate>new Date().toISOString() ?row.original?.eventCategory==='open'? 
-        <a className="btn bg-red-500 " href={`/openAuctionUpdatedByAdmin/${row.original.id}`} target="_blank" rel="noopener noreferrer">{row.original.eventNo}</a>
+        <a className={`${Tablebutton.data} bg-red-500 `} href={`/openAuctionUpdatedByAdmin/${row.original.id}`} target="_blank" rel="noopener noreferrer">{row.original.eventNo}</a>
         :<span class="relative  h-3 w-3  ">
         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-30"></span>
         <span class="relative inline-flex rounded-full h-2 w-2 bg-sky-500">{row.original.eventNo}</span>
@@ -140,7 +141,7 @@ const handleDelete=(id)=>{
           {
             Header: "View Vehicles",
             Cell: ({ row }) => (
-                <a className=" bg-pink-500 text-white" href={`/view-vehicls/${row.original.id}`} target="_blank" rel="noopener noreferrer">{row.original.vehiclesCount} view</a>
+                <a className={`${Tablebutton.data} bg-pink-600 hover:bg-pink-700 `} href={`/view-vehicls/${row.original.id}`} target="_blank" rel="noopener noreferrer">{row.original.vehiclesCount} view</a>
               )
           },
          
@@ -148,7 +149,7 @@ const handleDelete=(id)=>{
             Header: "Upload Excel File",
             Cell: ({ row }) => (
       //        <button className="btn btn-info" onClick={()=>handleUploadExcelFile(row.original.id) }>Upload</button>
-      <a className="btn bg-emerald-500 text-xl " href={`/excel-upload/${row.original.id}`} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faFileArrowUp} /></a>
+      <a className={`${Tablebutton.data} bg-emerald-500 text-xl hover:bg-emerald-600`} href={`/excel-upload/${row.original.id}`} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faFileArrowUp} /></a>
    
       )
           },
@@ -156,14 +157,14 @@ const handleDelete=(id)=>{
           {
             Header: "View/Edit Event",
             Cell: ({ row }) => (
-              <a className="btn bg-cyan-500 text-xl " href={`/edit-event/${row.original.id}`} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faCalendarDays} /></a>
+              <a className={`${Tablebutton.data} bg-cyan-500 text-xl `} href={`/edit-event/${row.original.id}`} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faCalendarDays} /></a>
 
               )
           },
           {
             Header: "ACR (excel)",
             Cell: ({ row }) => (
-              <button className="btn bg-red-500 text-xl " onClick={() => ConvertToExcel(row.original.Report)}><FontAwesomeIcon icon={faFileArrowDown} /></button>
+              <button className={`${Tablebutton.data} bg-red-500 text-xl `} onClick={() => ConvertToExcel(row.original.Report)}><FontAwesomeIcon icon={faFileArrowDown} /></button>
             )
           },
   // {

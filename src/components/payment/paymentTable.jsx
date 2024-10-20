@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus, faE, faUserPen } from "@fortawesome/free-solid-svg-icons";
 import {  faMoneyBill1 } from "@fortawesome/free-regular-svg-icons";
 import { FormatDate } from "../utils/dateFormat";
+import { Tablebutton } from "../utils/style";
 
 const PaymentTable = ({data}) => {
 
@@ -50,7 +51,7 @@ console.log('paymnt',data);
       { Header: "Payment For ", accessor: "paymentFor" },
       { Header: "Status ", accessor: "status" },
       { Header: "Mobile", accessor: "user.mobile" },
-      { Header: "user First Name", accessor: "user.firstName" },
+      { Header: "First Name", accessor: "user.firstName" },
    //   { Header: "user Last Name", accessor: "user.lastName" },
       {
         Header: "Created By",
@@ -84,7 +85,7 @@ console.log('paymnt',data);
             return(
               <>
               {/* Increment by:{ row.original?.emdUpdate[0]?.vehicleBuyingLimitIncrement ??'0'}, */}
-              <br /> 
+             
                {row.original.status}
               </>
               );
@@ -103,7 +104,7 @@ console.log('paymnt',data);
         Header: "View Emds",
         Cell: ({ row }) => (
       row.original.emdUpdateCount!==0 &&     <a
-            className="btn bg-zinc-500 text-xl"
+            className={`${Tablebutton.data} bg-green-500 hover:bg-green-600 text-xl`}
             href={`/emd-payment/${row.original.id}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -118,7 +119,7 @@ console.log('paymnt',data);
         Header: "Payment details",
         Cell: ({ row }) => (
           <a
-            className="btn bg-rose-500  text-xl"
+            className={`${Tablebutton.data} bg-rose-500 hover:bg-rose-600  text-xl`}
             href={`/payment/${row.original?.userId}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -132,7 +133,7 @@ console.log('paymnt',data);
         Header: "View User",
         Cell: ({ row }) => (
           <a
-            className="btn btn-info text-xl"
+            className={`${Tablebutton.data} text-xl bg-blue-500 hover:bg-blue-600`}
             href={`/view-user/${row.original?.userId}`}
             target="_blank"
             rel="noopener noreferrer"
