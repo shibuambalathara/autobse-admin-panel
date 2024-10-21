@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
-import { useUpdateUserMutation, useViewUserQuery } from "../../utils/graphql";
+import { useStatesQuery, useUpdateUserMutation, useViewUserQuery } from "../../utils/graphql";
 import { ShowPopup } from "../alerts/popUps";
 import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyle } from "../utils/style";
 import { indianStates } from "../../utils/data";
 import { FormFieldInput } from "../utils/formField";
 import imageCompression from "browser-image-compression";
-
+import Select from "react-select";
 const UserDetailsComponent = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -16,7 +16,7 @@ const UserDetailsComponent = () => {
     variables: { where: { id } },
   });
   console.log(data, 'user');
-
+  const allStates = useStatesQuery();
   const [updateUser] = useUpdateUserMutation();
   const { register, handleSubmit, formState: { errors }, reset ,control} = useForm();
   const [isUpload, setIsUpload] = useState(false);
@@ -84,6 +84,9 @@ const UserDetailsComponent = () => {
       city: dataOnSubmit?.city,
       status: dataOnSubmit?.status,
       role: dataOnSubmit?.role,
+      states: {
+        set: dataOnSubmit.states.map((state) => ({ id: state.value })),
+      },
     };
 
     try {
@@ -129,7 +132,31 @@ const UserDetailsComponent = () => {
           <InputField label="State" register={register("state", { required: "State is required" })} defaultValue={data.user.state} component="select" options={indianStates} />
           <InputField label="City" register={register("city", { required: "City is required" })} defaultValue={data.user.city} error={errors.city} />
           <InputField label="Pancard" register={register("pancardNumber")} defaultValue={data.user.pancardNo} error={errors.pancardNumber} />
+          <div className="flex flex-col  w-full">
+                <label htmlFor="">Auction Allowed states</label>
 
+                <Controller
+                  name="states"
+                  control={control}
+                  defaultValue={data?.user?.states.map((state) => ({
+                    label: state.name,
+                    value: state.id,
+                  }))}
+                  render={({ field }) => (
+                    <Select
+               className={`${inputStyle.data}`}
+                      option=""
+                      options={allStates?.data?.States?.map((state) => ({
+                        label: state.name,
+                        value: state.id,
+                      }))}
+                      {...field}
+                      isMulti
+                      getOptionValue={(option) => option.value}
+                    />
+                  )}
+                />
+              </div>
           <div className={labelAndInputDiv.data}>
             <label>Role</label>
             <select className={inputStyle.data} {...register("role", { required: "Role is required" })}>

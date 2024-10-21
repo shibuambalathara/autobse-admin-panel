@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { StateNames, useCreateLocationMutation } from "../../utils/graphql";
+import { StateNames, useCreateLocationMutation, useStatesQuery } from "../../utils/graphql";
 import { ShowPopup } from "../alerts/popUps";
-import { indianStates } from "../../utils/data";
+
 import { modalStyle } from "../utils/style"; // Updated import
 
 // Define the data structure for the form input
@@ -13,6 +13,7 @@ type FormInputs = {
 
 const AddLocation: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const allStates = useStatesQuery();
   const {
     register,
     handleSubmit,
@@ -24,10 +25,10 @@ const AddLocation: React.FC = () => {
   const onSubmit: SubmitHandler<FormInputs> = async (dataOnSubmit) => {
     const data = {
       name: dataOnSubmit?.name,
-      state: dataOnSubmit?.state, // Assuming the state is a relationship field
+       // Assuming the state is a relationship field
     };
     try {
-      await createLocation({ variables: { createLocationInput: data } }); // Pass the correct input key
+      await createLocation({ variables: { createLocationInput: data,stateId:dataOnSubmit.state } }); // Pass the correct input key
       ShowPopup("Success!", `Location added successfully!`, "success", 5000, true);
       setIsModalOpen(false); // Close the modal after successful submission
       reset(); // Reset the form after submission
@@ -43,9 +44,9 @@ const AddLocation: React.FC = () => {
         onClick={() => setIsModalOpen(true)}
         className="mt-2 w-fit bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
       >
-        Add Location
+        Add state
       </button>
-      {/* Modal */}
+      {/* Modal */} 
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className={modalStyle.container}>
@@ -73,8 +74,8 @@ const AddLocation: React.FC = () => {
                   className={modalStyle.select}
                 >
                   <option value="">Select State</option>
-                  {indianStates?.map((item) => (
-                    <option key={item} value={item}>{item}</option>
+                  {allStates?.data?.States?.map((item) => (
+                    <option key={item.id} value={item?.id}>{item?.name}</option>
                   ))}
                 </select>
                 {errors.state && <p className={modalStyle.errorText}>State is required</p>}

@@ -47,7 +47,7 @@ mutation CreateVehicle($eventId: String!, $createVehicleInput: CreateVehicleInpu
     powerSteering
     shape
     color
-    state
+  
     city
     area
     paymentTerms

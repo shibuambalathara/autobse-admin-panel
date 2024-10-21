@@ -3,7 +3,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useViewUserQuery, useCreatePaymentMutation } from '../../utils/graphql';
 import { ShowPopup } from '../alerts/popUps';
-import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyle } from '../utils/style';
+import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyle, submit } from '../utils/style';
 import { SelectInput } from '../utils/formField';
 import { paymentsFor } from '../utils/constantValues';
 
@@ -141,7 +141,7 @@ const CreatePayment: React.FC = () => {
         </div>
 
         <div className="flex justify-center my-5">
-          <button type="submit" className="btn btn-outline btn-primary px-10">
+          <button type="submit"  className={`${submit.data}`}>
             Save
           </button>
         </div>

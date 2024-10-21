@@ -29,6 +29,7 @@ import VehicleDetailsPerEvent from './pages/vehicleDetailsPerEvent';
 import BidDetailsPerVehicle from './pages/bidDetailsPerVehicle';
 import AddEmd from './pages/createEmd';
 import EmdPerPayment from './pages/emdPerPayment';
+import States from './pages/states';
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -56,7 +57,7 @@ const App: React.FC = () => {
               <Route path="add-seller" element={<AddSeller />} />
 
               <Route path="viewlocation" element={<ViewLocations />} />
-
+              <Route path="states" element={<States />} />
               <Route path="payment" element={<Payments />} />
               <Route path="create-payment/:id" element={<AddPaymentForUser />} />
               <Route path="update-payment/:id" element={<AddPaymentDetails />}/>

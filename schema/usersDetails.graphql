@@ -13,7 +13,10 @@ query Users {
     status
      vehicleBuyingLimit
  idNo
-    state
+    states {
+      id
+      name
+    }
  
     mobile
     lastName

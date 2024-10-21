@@ -3,7 +3,7 @@ import { useAddUserMutation } from "../../utils/graphql";
 import { ShowPopup } from '../alerts/popUps';
 import { useNavigate } from "react-router-dom";
 import { indianStates } from "../../utils/data";
-import { formStyle } from "../utils/style";
+import { formStyle, h2Style, headerStyle, submit } from "../utils/style";
 import { FormFieldInput, StateInput } from "../utils/formField";
 import { useState } from "react";
 
@@ -84,9 +84,9 @@ const AddUser = () => {
     }
   };
   return (
-    <div className="shadow-xl bg-white m-auto">
-      <div className="py-4 bg-gray-200 rounded px-4 flex items-center shadow-xl justify-center">
-        <h1 className="text-xl py-3 leading-3 font-bold text-gray-900">ADD USER</h1>
+    <div className=" bg-white m-auto">
+      <div className={`${headerStyle.data}`}>
+      <h2 className={`${h2Style.data}`}>ADD USER</h2>
       </div>
       
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -121,8 +121,8 @@ const AddUser = () => {
 
         
 
-          <div className="flex justify-center my-5">
-            <input type="submit" className="btn btn-outline btn-primary" />
+          <div className="flex justify-center my-5 col-span-3">
+            <input type="submit"  className={`${submit.data}`} />
           </div>
         </div>
       </form>

@@ -47,7 +47,7 @@ query Vehicle($where: VehicleWhereUniqueInput!) {
     powerSteering
     shape
     color
-    state
+    
     city
     area
     paymentTerms
@@ -120,7 +120,7 @@ mutation UpdateVehicle($where: VehicleWhereUniqueInput!, $updateVehicleInput: Up
     powerSteering
     shape
     color
-    state
+    
     city
     area
     paymentTerms

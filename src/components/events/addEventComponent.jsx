@@ -12,7 +12,7 @@ useVehicleCategoriesQuery,
 } from "../../utils/graphql";
 import { useNavigate } from "react-router-dom";
 import { terms } from "./terms&conditions";
-import { formStyle, headerStyle, inputStyle, labelAndInputDiv, pageStyle } from "../utils/style";
+import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyle } from "../utils/style";
 
 const AddEventComponent = () => {
   const navigate = useNavigate();
@@ -108,7 +108,7 @@ const AddEventComponent = () => {
     <div className={`${pageStyle.data}`}>
       <div className="space-y-1 ">
         <div className={`${headerStyle.data}`}>
-          <h2 className="text-xl py-3 leading-3 font-bold text-gray-900">
+          <h2 className={`${h2Style.data}`}>
             ADD EVENT
           </h2>
         </div>

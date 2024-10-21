@@ -1,0 +1,22 @@
+mutation CreateState($createStateInput: CreateStateInput!) {
+  createState(createStateInput: $createStateInput) {
+    id
+    name
+  
+  }
+}
+query States {
+  States {
+    id
+    name
+    createdAt
+  }
+}
+mutation UpdateState($where: StateWhereUniqueInput!, $updateStateInput: UpdateStateInput!) {
+  updateState(where: $where, updateStateInput: $updateStateInput) {
+    id
+    name
+    createdAt
+  
+  }
+}
