@@ -20,6 +20,11 @@ query BidDetailsPerVehicle($where: VehicleWhereUniqueInput!) {
       amount
       bidVehicleId
       userId
+       user {
+        firstName
+        mobile
+        lastName
+      }
       
     }
   }

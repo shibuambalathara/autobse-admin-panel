@@ -143,7 +143,7 @@ const { data: userData, refetch: refetchMobile,loading:usersLoading } = useViewU
   return (
     <div className="w-full">
       <div className="w-full px-20 ">
-       <CustomButton navigateTo={"/add-user"} buttonText={" Add User"}/>
+       <CustomButton navigateTo={"/add-user"} buttonText={"Add User"}/>
         <div className="text-center font-extrabold mb-1 text-xl w-full">Users Data Table</div>
       </div>
        <div className="  pl-20 ">
