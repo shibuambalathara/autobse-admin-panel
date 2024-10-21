@@ -17,6 +17,7 @@ import Swal from "sweetalert2";
 import { ShowPopup } from "../alerts/popUps";
 
 import TableComponent from "../utils/table";
+import { Tablebutton } from "../utils/style";
 
 
 
@@ -95,25 +96,25 @@ const BidDetailsPerVehicleComponent = () => {
         Header: "View User",
         Cell: ({ row }) => (
           <button
-            className="btn btn-info"
-            onClick={() => handleUserDetails(row.original.user.id)}
+          className={`${Tablebutton.data} bg-blue-600`}
+            onClick={() => handleUserDetails(row.original.userId)}
           >
             View User
           </button>
         ),
       },
 
-      {
-        Header: "Delete Bid",
-        Cell: ({ row }) => (
-          <button
-            className="btn btn-error"
-            // onClick={() => handleDeleteBid(row.original)}
-          >
-            Delete{" "}
-          </button>
-        ),
-      },
+      // {
+      //   Header: "Delete Bid",
+      //   Cell: ({ row }) => (
+      //     <button
+      //       className="btn btn-error"
+      //       // onClick={() => handleDeleteBid(row.original)}
+      //     >
+      //       Delete{" "}
+      //     </button>
+      //   ),
+      // },
     ],
     []
   );

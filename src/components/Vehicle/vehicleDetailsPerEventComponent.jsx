@@ -13,6 +13,7 @@ import {UpdateBidTime, UpdateEventEndTime} from './updateBidTime';
 import { ConfirmationAlert, SweetalertSuccess } from '../utils/sweetalert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCar } from '@fortawesome/free-solid-svg-icons';
+import { Tablebutton } from '../utils/style';
 
 
 
@@ -180,7 +181,7 @@ Swal.fire({
           {
             Header: "Vehicle Details",accessor: "registrationNumber",
             Cell: ({ row }) => (
-              <a className="btn bg-sky-500 w-24" href={`/edit-vehicle/${row.original.id}`} target="_blank" rel="noopener noreferrer">{row.original.registrationNumber}</a>
+              <a className={`${Tablebutton.data} bg-sky-500`} href={`/edit-vehicle/${row.original.id}`} target="_blank" rel="noopener noreferrer">{row.original.registrationNumber}</a>
 
               )
           },
@@ -190,22 +191,22 @@ Swal.fire({
          { Header: "Vehicle Status", accessor: "vehicleEventStatus" },
          
           { Header: "Bid Status", accessor: "bidStatus" },
-          { Header: "Bid Start Time", accessor: ({bidStartTime,id})=>{return <button onClick={()=>setUpdateDate({date: bidStartTime,id,updateItem:'startTime'})} className='btn bg-rose-500'> {format(new Date (bidStartTime),`dd/MM/yy,  HH:mm:ss`)}</button>}  },
+          { Header: "Bid Start Time", accessor: ({bidStartTime,id})=>{return <button onClick={()=>setUpdateDate({date: bidStartTime,id,updateItem:'startTime'})} className={`${Tablebutton.data} bg-red-600`}> {format(new Date (bidStartTime),`dd/MM/yy,  HH:mm:ss`)}</button>}  },
           
-           { Header: "Bid Time Expire", accessor: ({bidTimeExpire,id})=>{return <button onClick={()=>setUpdateDate({date: bidTimeExpire,id,updateItem:'endtime'})} className='btn bg-orange-500'>{format(new Date (bidTimeExpire),`dd/MM/yy,  HH:mm:ss`)}</button>   }},
+           { Header: "Bid Time Expire", accessor: ({bidTimeExpire,id})=>{return <button onClick={()=>setUpdateDate({date: bidTimeExpire,id,updateItem:'endtime'})} className={`${Tablebutton.data} bg-red-600`}>{format(new Date (bidTimeExpire),`dd/MM/yy,  HH:mm:ss`)}</button>   }},
 
         {
           Header: "Bid Details",
           Cell: ({ row }) => (
             // <button className="btn btn-accent" onClick={()=>handleBidDetails(row.original.id) }>Bid Details</button>
           
-    row.original.totalBids !==0 ?        <a className="btn btn-primary" href={`/bid-details/${row.original.id}`} target="_blank" rel="noopener noreferrer"> view {row.original.totalBids}</a>:'0'
+    row.original.totalBids !==0 ?        <a  className={`${Tablebutton.data} bg-blue-500`} href={`/bid-details/${row.original.id}`} target="_blank" rel="noopener noreferrer"> view {row.original.totalBids}</a>:'0'
             )
         },
         {
           Header: "About Bid",
           Cell: ({ row }) => (
-            row.original.totalBids !==0 ? <button className="btn bg-teal-500" onClick={() => handleAboutBid(row.original)}>About Bid</button>   :"No Bids"
+            row.original.totalBids !==0 ? <button  className={`${Tablebutton.data} bg-teal-500`}  onClick={() => handleAboutBid(row.original)}>About Bid</button>   :"No Bids"
             )
         },
          
