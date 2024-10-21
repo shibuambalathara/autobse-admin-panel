@@ -1,11 +1,9 @@
-mutation CreateLocation($createLocationInput: CreateLocationInput!) {
-  createLocation(createLocationInput: $createLocationInput) {
+mutation CreateLocation($createLocationInput: CreateLocationInput!, $stateId: String!) {
+  createLocation(createLocationInput: $createLocationInput, stateId: $stateId) {
     id
     name
-    state
-    createdAt
-    updatedAt
-    country
-    createdById
+    state {
+      name
+    }
   }
 }

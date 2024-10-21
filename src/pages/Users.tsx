@@ -38,7 +38,7 @@ type User = {
   userCategory: string;
  
   idNo:number;
-  state: string;
+  // state: string;
   status: string;
   mobile: string;
   lastName:string;

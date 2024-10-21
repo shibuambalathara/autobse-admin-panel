@@ -80,7 +80,6 @@ export type CreateExceluploadInput = {
 
 export type CreateLocationInput = {
   name: Scalars['String']['input'];
-  state: StateNames;
 };
 
 export type CreatePaymentInput = {
@@ -106,6 +105,10 @@ export type CreateSellerInput = {
   mobile?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
   nationalHead?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type CreateStateInput = {
+  name: StateNames;
 };
 
 export type CreateStatusInput = {
@@ -324,7 +327,7 @@ export type Location = {
   createdById?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
-  state: Scalars['String']['output'];
+  state?: Maybe<State>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
@@ -357,6 +360,7 @@ export type Mutation = {
   createPayment: Payment;
   createRecentsold: Recentsold;
   createSeller: Seller;
+  createState: State;
   createStatus: Status;
   createUser: User;
   createVehicle: Vehicle;
@@ -371,6 +375,7 @@ export type Mutation = {
   deleteRecentsold: Recentsold;
   deleteSeller: Seller;
   deleteSellerHardDelete: Seller;
+  deleteState: State;
   deleteStatus: Status;
   deleteUser: User;
   deleteVehicle: Vehicle;
@@ -395,6 +400,7 @@ export type Mutation = {
   updatePayment: Payment;
   updateRecentsold: Recentsold;
   updateSeller: Seller;
+  updateState: State;
   updateStatus: Status;
   updateUser: User;
   updateVehicle: Vehicle;
@@ -442,6 +448,7 @@ export type MutationCreateExceluploadArgs = {
 
 export type MutationCreateLocationArgs = {
   createLocationInput: CreateLocationInput;
+  stateId: Scalars['String']['input'];
 };
 
 
@@ -458,6 +465,11 @@ export type MutationCreateRecentsoldArgs = {
 
 export type MutationCreateSellerArgs = {
   createSellerInput: CreateSellerInput;
+};
+
+
+export type MutationCreateStateArgs = {
+  createStateInput: CreateStateInput;
 };
 
 
@@ -529,6 +541,11 @@ export type MutationDeleteSellerArgs = {
 
 export type MutationDeleteSellerHardDeleteArgs = {
   where: SellerWhereUniqueInput;
+};
+
+
+export type MutationDeleteStateArgs = {
+  where: StateWhereUniqueInput;
 };
 
 
@@ -660,6 +677,12 @@ export type MutationUpdateSellerArgs = {
 };
 
 
+export type MutationUpdateStateArgs = {
+  updateStateInput: UpdateStateInput;
+  where: StateWhereUniqueInput;
+};
+
+
 export type MutationUpdateStatusArgs = {
   updateStatusInput: UpdateStatusInput;
   where: StatusWhereUniqueInput;
@@ -746,6 +769,8 @@ export type Query = {
   Bids: Array<Bid>;
   Enquiries: Array<Enquiry>;
   Enquiry: Enquiry;
+  State: State;
+  States: Array<State>;
   deletedEnquiries: Array<Enquiry>;
   deletedEvent: Event;
   deletedEvents: Array<Event>;
@@ -755,6 +780,8 @@ export type Query = {
   deletedPayments: Array<Payment>;
   deletedSeller: Seller;
   deletedSellers: Array<Seller>;
+  deletedState: State;
+  deletedStates: Array<State>;
   deletedStatus: Status;
   deletedStatuses: Array<Status>;
   deletedUser?: Maybe<User>;
@@ -779,6 +806,7 @@ export type Query = {
   payments: Array<Payment>;
   paymentsCount: Scalars['Int']['output'];
   recentSolds: Array<Recentsold>;
+  restoreState: State;
   seller: Seller;
   sellers: Array<Seller>;
   sellersCount: Scalars['Int']['output'];
@@ -808,6 +836,11 @@ export type QueryEnquiryArgs = {
 };
 
 
+export type QueryStateArgs = {
+  where: StateWhereUniqueInput;
+};
+
+
 export type QueryDeletedEventArgs = {
   where: EventWhereUniqueInput;
 };
@@ -825,6 +858,11 @@ export type QueryDeletedPaymentArgs = {
 
 export type QueryDeletedSellerArgs = {
   where: SellerWhereUniqueInput;
+};
+
+
+export type QueryDeletedStateArgs = {
+  where: StateWhereUniqueInput;
 };
 
 
@@ -891,6 +929,11 @@ export type QueryLocationArgs = {
 
 export type QueryPaymentArgs = {
   where: PaymentWhereUniqueInput;
+};
+
+
+export type QueryRestoreStateArgs = {
+  where: StateWhereUniqueInput;
 };
 
 
@@ -975,6 +1018,16 @@ export type SendOtpResponse = {
   status: Scalars['String']['output'];
 };
 
+export type State = {
+  __typename?: 'State';
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  createdById: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  location: Location;
+  name: StateNames;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
 export enum StateNames {
   AndhraPradesh = 'Andhra_Pradesh',
   ArunachalPradesh = 'Arunachal_Pradesh',
@@ -1007,6 +1060,10 @@ export enum StateNames {
   Uttarakhand = 'Uttarakhand',
   WestBengal = 'West_Bengal'
 }
+
+export type StateWhereUniqueInput = {
+  id?: InputMaybe<Scalars['String']['input']>;
+};
 
 export type Status = {
   __typename?: 'Status';
@@ -1072,7 +1129,7 @@ export type UpdateEventInput = {
 
 export type UpdateLocationInput = {
   name?: InputMaybe<Scalars['String']['input']>;
-  state?: InputMaybe<StateNames>;
+  state?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdatePaymentInput = {
@@ -1099,6 +1156,11 @@ export type UpdateSellerInput = {
   mobile?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   nationalHead?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateStateInput = {
+  createdById?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<StateNames>;
 };
 
 export type UpdateStatusInput = {
@@ -1203,9 +1265,12 @@ export type User = {
   BalanceEMDAmount?: Maybe<Scalars['Float']['output']>;
   aadharcard_back_image?: Maybe<Scalars['String']['output']>;
   aadharcard_front_image?: Maybe<Scalars['String']['output']>;
+  bid?: Maybe<Array<Bid>>;
   businessName: Scalars['String']['output'];
   city: Scalars['String']['output'];
   country: Scalars['String']['output'];
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  createdById?: Maybe<Scalars['String']['output']>;
   driving_license_back_image?: Maybe<Scalars['String']['output']>;
   driving_license_front_image?: Maybe<Scalars['String']['output']>;
   email: Scalars['String']['output'];
@@ -1222,8 +1287,10 @@ export type User = {
   paymentsCount?: Maybe<Scalars['Int']['output']>;
   role: Scalars['String']['output'];
   state: Scalars['String']['output'];
+  states?: Maybe<Array<State>>;
   status: Scalars['String']['output'];
   tempToken?: Maybe<Scalars['Float']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
   userCategory: Scalars['String']['output'];
   username: Scalars['String']['output'];
   vehicleBuyingLimit?: Maybe<Scalars['Int']['output']>;
@@ -1425,7 +1492,7 @@ export type AddUserMutation = { __typename?: 'Mutation', createUser: { __typenam
 export type LocationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LocationsQuery = { __typename?: 'Query', locations: Array<{ __typename?: 'Location', id: string, name: string, state: string, createdAt?: any | null, updatedAt?: any | null, country?: string | null, createdById?: string | null }> };
+export type LocationsQuery = { __typename?: 'Query', locations: Array<{ __typename?: 'Location', id: string, name: string, createdAt?: any | null, updatedAt?: any | null, country?: string | null, createdById?: string | null, state?: { __typename?: 'State', name: StateNames } | null }> };
 
 export type LoginMutationVariables = Exact<{
   loginInput: LoginUserInput;
@@ -1470,10 +1537,11 @@ export type EmdTableQuery = { __typename?: 'Query', payment: { __typename?: 'Pay
 
 export type CreateLocationMutationVariables = Exact<{
   createLocationInput: CreateLocationInput;
+  stateId: Scalars['String']['input'];
 }>;
 
 
-export type CreateLocationMutation = { __typename?: 'Mutation', createLocation: { __typename?: 'Location', id: string, name: string, state: string, createdAt?: any | null, updatedAt?: any | null, country?: string | null, createdById?: string | null } };
+export type CreateLocationMutation = { __typename?: 'Mutation', createLocation: { __typename?: 'Location', id: string, name: string, state?: { __typename?: 'State', name: StateNames } | null } };
 
 export type CreateVehicleMutationVariables = Exact<{
   eventId: Scalars['String']['input'];
@@ -1481,7 +1549,7 @@ export type CreateVehicleMutationVariables = Exact<{
 }>;
 
 
-export type CreateVehicleMutation = { __typename?: 'Mutation', createVehicle: { __typename?: 'Vehicle', id: string, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, fuel?: string | null, type?: string | null, rcStatus?: string | null, YOM?: number | null, ownership?: number | null, mileage?: number | null, kmReading?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation?: string | null, vehicleRemarks?: string | null, auctionManager?: string | null, parkingCharges?: string | null, insurance?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, fitness?: string | null, permit?: string | null, engineNo?: string | null, chassisNo?: string | null, image?: string | null, inspectionLink?: string | null, autobseContact?: string | null, autobse_contact_person?: string | null, vehicleCondition?: string | null, powerSteering?: string | null, shape?: string | null, color?: string | null, state?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, climateControl?: string | null, doorCount?: number | null, gearBox?: string | null, buyerFees?: string | null, rtoFine?: string | null, parkingRate?: string | null, approxParkingCharges?: string | null, clientContactPerson?: string | null, clientContactNo?: string | null, additionalRemarks?: string | null, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null } };
+export type CreateVehicleMutation = { __typename?: 'Mutation', createVehicle: { __typename?: 'Vehicle', id: string, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, fuel?: string | null, type?: string | null, rcStatus?: string | null, YOM?: number | null, ownership?: number | null, mileage?: number | null, kmReading?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation?: string | null, vehicleRemarks?: string | null, auctionManager?: string | null, parkingCharges?: string | null, insurance?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, fitness?: string | null, permit?: string | null, engineNo?: string | null, chassisNo?: string | null, image?: string | null, inspectionLink?: string | null, autobseContact?: string | null, autobse_contact_person?: string | null, vehicleCondition?: string | null, powerSteering?: string | null, shape?: string | null, color?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, climateControl?: string | null, doorCount?: number | null, gearBox?: string | null, buyerFees?: string | null, rtoFine?: string | null, parkingRate?: string | null, approxParkingCharges?: string | null, clientContactPerson?: string | null, clientContactNo?: string | null, additionalRemarks?: string | null, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null } };
 
 export type UpdateLocationMutationVariables = Exact<{
   where: LocationWhereUniqueInput;
@@ -1489,7 +1557,7 @@ export type UpdateLocationMutationVariables = Exact<{
 }>;
 
 
-export type UpdateLocationMutation = { __typename?: 'Mutation', updateLocation: { __typename?: 'Location', id: string, name: string, state: string, createdAt?: any | null, updatedAt?: any | null, country?: string | null, createdById?: string | null } };
+export type UpdateLocationMutation = { __typename?: 'Mutation', updateLocation: { __typename?: 'Location', id: string, name: string, state?: { __typename?: 'State', name: StateNames } | null } };
 
 export type PaymentQueryVariables = Exact<{
   where: PaymentWhereUniqueInput;
@@ -1512,12 +1580,12 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', email: string, username: string, role: string, firstName: string, lastName: string, businessName: string, mobile: string, BalanceEMDAmount?: number | null, pancardNo: string, idProofNo: string, country: string, city: string, userCategory: string, tempToken?: number | null, status: string, state: string, id: string } };
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', email: string, username: string, role: string, firstName: string, lastName: string, businessName: string, mobile: string, BalanceEMDAmount?: number | null, pancardNo: string, idProofNo: string, country: string, city: string, userCategory: string, tempToken?: number | null, status: string, id: string } };
 
 export type EventsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type EventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', bidLock?: string | null, id: string, eventNo: number, eventCategory: string, startDate: any, endDate: any, pauseDate?: any | null, pausedTotalTime?: number | null, sellerId: string, vehicleCategoryId: string, noOfBids: number, downloadableFile_filename?: string | null, termsAndConditions: string, createdAt?: any | null, updatedAt?: any | null, createdById: string, extraTimeTrigerIn?: number | null, extraTime?: number | null, vehicleLiveTimeIn?: number | null, gapInBetweenVehicles?: number | null, status?: string | null, vehiclesCount?: number | null, seller?: { __typename?: 'Seller', name: string } | null, location?: { __typename?: 'Location', name: string } | null }> };
+export type EventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', bidLock?: string | null, id: string, eventNo: number, Report?: any | null, eventCategory: string, startDate: any, endDate: any, pauseDate?: any | null, pausedTotalTime?: number | null, sellerId: string, vehicleCategoryId: string, noOfBids: number, downloadableFile_filename?: string | null, termsAndConditions: string, createdAt?: any | null, updatedAt?: any | null, createdById: string, extraTimeTrigerIn?: number | null, extraTime?: number | null, vehicleLiveTimeIn?: number | null, gapInBetweenVehicles?: number | null, status?: string | null, vehiclesCount?: number | null, seller?: { __typename?: 'Seller', name: string } | null, location?: { __typename?: 'Location', name: string } | null }> };
 
 export type EventQueryVariables = Exact<{
   where: EventWhereUniqueInput;
@@ -1531,7 +1599,7 @@ export type EventVehiclesQueryVariables = Exact<{
 }>;
 
 
-export type EventVehiclesQuery = { __typename?: 'Query', event: { __typename?: 'Event', vehicles?: Array<{ __typename?: 'Vehicle', id: string, bidStatus?: string | null, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, fuel?: string | null, type?: string | null, rcStatus?: string | null, YOM?: number | null, ownership?: number | null, mileage?: number | null, kmReading?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation?: string | null, vehicleRemarks?: string | null, auctionManager?: string | null, parkingCharges?: string | null, insurance?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, fitness?: string | null, permit?: string | null, engineNo?: string | null, chassisNo?: string | null, image?: string | null, inspectionLink?: string | null, autobseContact?: string | null, autobse_contact_person?: string | null, vehicleCondition?: string | null, powerSteering?: string | null, shape?: string | null, color?: string | null, state?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, climateControl?: string | null, doorCount?: number | null, gearBox?: string | null, buyerFees?: string | null, rtoFine?: string | null, parkingRate?: string | null, approxParkingCharges?: string | null, clientContactPerson?: string | null, clientContactNo?: string | null, additionalRemarks?: string | null, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null }> | null } };
+export type EventVehiclesQuery = { __typename?: 'Query', event: { __typename?: 'Event', vehicles?: Array<{ __typename?: 'Vehicle', id: string, bidStatus?: string | null, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, fuel?: string | null, type?: string | null, rcStatus?: string | null, YOM?: number | null, ownership?: number | null, mileage?: number | null, kmReading?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation?: string | null, vehicleRemarks?: string | null, auctionManager?: string | null, parkingCharges?: string | null, insurance?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, fitness?: string | null, permit?: string | null, engineNo?: string | null, chassisNo?: string | null, image?: string | null, inspectionLink?: string | null, autobseContact?: string | null, autobse_contact_person?: string | null, vehicleCondition?: string | null, powerSteering?: string | null, shape?: string | null, color?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, climateControl?: string | null, doorCount?: number | null, gearBox?: string | null, buyerFees?: string | null, rtoFine?: string | null, parkingRate?: string | null, approxParkingCharges?: string | null, clientContactPerson?: string | null, clientContactNo?: string | null, additionalRemarks?: string | null, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null }> | null } };
 
 export type CreateExceluploadMutationVariables = Exact<{
   eventId: Scalars['String']['input'];
@@ -1561,7 +1629,7 @@ export type LocationQueryVariables = Exact<{
 }>;
 
 
-export type LocationQuery = { __typename?: 'Query', location: { __typename?: 'Location', id: string, name: string, state: string, createdAt?: any | null, updatedAt?: any | null, country?: string | null, createdById?: string | null } };
+export type LocationQuery = { __typename?: 'Query', location: { __typename?: 'Location', id: string, name: string, createdAt?: any | null, updatedAt?: any | null, country?: string | null, createdById?: string | null } };
 
 export type SendOtpMutationVariables = Exact<{
   sendOtpDto: SendOtpDto;
@@ -1602,17 +1670,37 @@ export type SellersQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type SellersQuery = { __typename?: 'Query', sellers: Array<{ __typename?: 'Seller', id: string, name: string, contactPerson?: string | null, GSTNumber: string, billingContactPerson: string, mobile: string, nationalHead: string, logo: string, createdAt: any, updatedAt: any, createdById: string }> };
 
+export type CreateStateMutationVariables = Exact<{
+  createStateInput: CreateStateInput;
+}>;
+
+
+export type CreateStateMutation = { __typename?: 'Mutation', createState: { __typename?: 'State', id: string, name: StateNames } };
+
+export type StatesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type StatesQuery = { __typename?: 'Query', States: Array<{ __typename?: 'State', id: string, name: StateNames, createdAt?: any | null }> };
+
+export type UpdateStateMutationVariables = Exact<{
+  where: StateWhereUniqueInput;
+  updateStateInput: UpdateStateInput;
+}>;
+
+
+export type UpdateStateMutation = { __typename?: 'Mutation', updateState: { __typename?: 'State', id: string, name: StateNames, createdAt?: any | null } };
+
 export type ViewUserQueryVariables = Exact<{
   where: UserWhereUniqueInput;
 }>;
 
 
-export type ViewUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, idNo: number, email: string, vehicleBuyingLimit?: number | null, username: string, role: string, firstName: string, lastName: string, businessName: string, mobile: string, BalanceEMDAmount?: number | null, pancardNo: string, idProofNo: string, country: string, city: string, userCategory: string, status: string, state: string, tempToken?: number | null, aadharcard_front_image?: string | null, aadharcard_back_image?: string | null, driving_license_front_image?: string | null, driving_license_back_image?: string | null, pancard_image?: string | null } | null };
+export type ViewUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, idNo: number, email: string, vehicleBuyingLimit?: number | null, username: string, role: string, firstName: string, lastName: string, businessName: string, mobile: string, BalanceEMDAmount?: number | null, pancardNo: string, idProofNo: string, country: string, city: string, userCategory: string, status: string, tempToken?: number | null, aadharcard_front_image?: string | null, aadharcard_back_image?: string | null, driving_license_front_image?: string | null, driving_license_back_image?: string | null, pancard_image?: string | null, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null } | null };
 
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string, role: string, firstName: string, BalanceEMDAmount?: number | null, country: string, city: string, userCategory: string, status: string, vehicleBuyingLimit?: number | null, idNo: number, state: string, mobile: string, lastName: string } | null> };
+export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string, role: string, firstName: string, BalanceEMDAmount?: number | null, country: string, city: string, userCategory: string, status: string, vehicleBuyingLimit?: number | null, idNo: number, mobile: string, lastName: string, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null } | null> };
 
 export type CreateVehiclecategoryMutationVariables = Exact<{
   createVehiclecategoryInput: CreateVehiclecategoryInput;
@@ -1651,7 +1739,7 @@ export type VehicleQueryVariables = Exact<{
 }>;
 
 
-export type VehicleQuery = { __typename?: 'Query', vehicle: { __typename?: 'Vehicle', id: string, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, fuel?: string | null, type?: string | null, rcStatus?: string | null, YOM?: number | null, ownership?: number | null, mileage?: number | null, kmReading?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation?: string | null, vehicleRemarks?: string | null, auctionManager?: string | null, parkingCharges?: string | null, insurance?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, fitness?: string | null, permit?: string | null, engineNo?: string | null, chassisNo?: string | null, image?: string | null, inspectionLink?: string | null, autobseContact?: string | null, autobse_contact_person?: string | null, vehicleCondition?: string | null, powerSteering?: string | null, shape?: string | null, color?: string | null, state?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, climateControl?: string | null, doorCount?: number | null, gearBox?: string | null, buyerFees?: string | null, rtoFine?: string | null, parkingRate?: string | null, approxParkingCharges?: string | null, clientContactPerson?: string | null, clientContactNo?: string | null, additionalRemarks?: string | null, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null } };
+export type VehicleQuery = { __typename?: 'Query', vehicle: { __typename?: 'Vehicle', id: string, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, fuel?: string | null, type?: string | null, rcStatus?: string | null, YOM?: number | null, ownership?: number | null, mileage?: number | null, kmReading?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation?: string | null, vehicleRemarks?: string | null, auctionManager?: string | null, parkingCharges?: string | null, insurance?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, fitness?: string | null, permit?: string | null, engineNo?: string | null, chassisNo?: string | null, image?: string | null, inspectionLink?: string | null, autobseContact?: string | null, autobse_contact_person?: string | null, vehicleCondition?: string | null, powerSteering?: string | null, shape?: string | null, color?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, climateControl?: string | null, doorCount?: number | null, gearBox?: string | null, buyerFees?: string | null, rtoFine?: string | null, parkingRate?: string | null, approxParkingCharges?: string | null, clientContactPerson?: string | null, clientContactNo?: string | null, additionalRemarks?: string | null, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null } };
 
 export type UpdateVehicleMutationVariables = Exact<{
   where: VehicleWhereUniqueInput;
@@ -1659,7 +1747,7 @@ export type UpdateVehicleMutationVariables = Exact<{
 }>;
 
 
-export type UpdateVehicleMutation = { __typename?: 'Mutation', updateVehicle: { __typename?: 'Vehicle', id: string, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, fuel?: string | null, type?: string | null, rcStatus?: string | null, YOM?: number | null, ownership?: number | null, mileage?: number | null, kmReading?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation?: string | null, vehicleRemarks?: string | null, auctionManager?: string | null, parkingCharges?: string | null, insurance?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, fitness?: string | null, permit?: string | null, engineNo?: string | null, chassisNo?: string | null, image?: string | null, inspectionLink?: string | null, autobseContact?: string | null, autobse_contact_person?: string | null, vehicleCondition?: string | null, powerSteering?: string | null, shape?: string | null, color?: string | null, state?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, climateControl?: string | null, doorCount?: number | null, gearBox?: string | null, buyerFees?: string | null, rtoFine?: string | null, parkingRate?: string | null, approxParkingCharges?: string | null, clientContactPerson?: string | null, clientContactNo?: string | null, additionalRemarks?: string | null, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null } };
+export type UpdateVehicleMutation = { __typename?: 'Mutation', updateVehicle: { __typename?: 'Vehicle', id: string, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, fuel?: string | null, type?: string | null, rcStatus?: string | null, YOM?: number | null, ownership?: number | null, mileage?: number | null, kmReading?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation?: string | null, vehicleRemarks?: string | null, auctionManager?: string | null, parkingCharges?: string | null, insurance?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, fitness?: string | null, permit?: string | null, engineNo?: string | null, chassisNo?: string | null, image?: string | null, inspectionLink?: string | null, autobseContact?: string | null, autobse_contact_person?: string | null, vehicleCondition?: string | null, powerSteering?: string | null, shape?: string | null, color?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, climateControl?: string | null, doorCount?: number | null, gearBox?: string | null, buyerFees?: string | null, rtoFine?: string | null, parkingRate?: string | null, approxParkingCharges?: string | null, clientContactPerson?: string | null, clientContactNo?: string | null, additionalRemarks?: string | null, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null } };
 
 export type BidDetailsPerVehicleQueryVariables = Exact<{
   where: VehicleWhereUniqueInput;
@@ -1756,7 +1844,9 @@ export const LocationsDocument = gql`
   locations {
     id
     name
-    state
+    state {
+      name
+    }
     createdAt
     updatedAt
     country
@@ -2059,15 +2149,13 @@ export type EmdTableLazyQueryHookResult = ReturnType<typeof useEmdTableLazyQuery
 export type EmdTableSuspenseQueryHookResult = ReturnType<typeof useEmdTableSuspenseQuery>;
 export type EmdTableQueryResult = Apollo.QueryResult<EmdTableQuery, EmdTableQueryVariables>;
 export const CreateLocationDocument = gql`
-    mutation CreateLocation($createLocationInput: CreateLocationInput!) {
-  createLocation(createLocationInput: $createLocationInput) {
+    mutation CreateLocation($createLocationInput: CreateLocationInput!, $stateId: String!) {
+  createLocation(createLocationInput: $createLocationInput, stateId: $stateId) {
     id
     name
-    state
-    createdAt
-    updatedAt
-    country
-    createdById
+    state {
+      name
+    }
   }
 }
     `;
@@ -2087,6 +2175,7 @@ export type CreateLocationMutationFn = Apollo.MutationFunction<CreateLocationMut
  * const [createLocationMutation, { data, loading, error }] = useCreateLocationMutation({
  *   variables: {
  *      createLocationInput: // value for 'createLocationInput'
+ *      stateId: // value for 'stateId'
  *   },
  * });
  */
@@ -2147,7 +2236,6 @@ export const CreateVehicleDocument = gql`
     powerSteering
     shape
     color
-    state
     city
     area
     paymentTerms
@@ -2202,11 +2290,9 @@ export const UpdateLocationDocument = gql`
   updateLocation(where: $where, updateLocationInput: $updateLocationInput) {
     id
     name
-    state
-    createdAt
-    updatedAt
-    country
-    createdById
+    state {
+      name
+    }
   }
 }
     `;
@@ -2355,7 +2441,6 @@ export const UpdateUserDocument = gql`
     userCategory
     tempToken
     status
-    state
     id
   }
 }
@@ -2393,6 +2478,7 @@ export const EventsDocument = gql`
     bidLock
     id
     eventNo
+    Report
     eventCategory
     startDate
     endDate
@@ -2566,7 +2652,6 @@ export const EventVehiclesDocument = gql`
       powerSteering
       shape
       color
-      state
       city
       area
       paymentTerms
@@ -2764,7 +2849,6 @@ export const LocationDocument = gql`
   location(where: $where) {
     id
     name
-    state
     createdAt
     updatedAt
     country
@@ -3082,6 +3166,117 @@ export type SellersQueryHookResult = ReturnType<typeof useSellersQuery>;
 export type SellersLazyQueryHookResult = ReturnType<typeof useSellersLazyQuery>;
 export type SellersSuspenseQueryHookResult = ReturnType<typeof useSellersSuspenseQuery>;
 export type SellersQueryResult = Apollo.QueryResult<SellersQuery, SellersQueryVariables>;
+export const CreateStateDocument = gql`
+    mutation CreateState($createStateInput: CreateStateInput!) {
+  createState(createStateInput: $createStateInput) {
+    id
+    name
+  }
+}
+    `;
+export type CreateStateMutationFn = Apollo.MutationFunction<CreateStateMutation, CreateStateMutationVariables>;
+
+/**
+ * __useCreateStateMutation__
+ *
+ * To run a mutation, you first call `useCreateStateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateStateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createStateMutation, { data, loading, error }] = useCreateStateMutation({
+ *   variables: {
+ *      createStateInput: // value for 'createStateInput'
+ *   },
+ * });
+ */
+export function useCreateStateMutation(baseOptions?: Apollo.MutationHookOptions<CreateStateMutation, CreateStateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateStateMutation, CreateStateMutationVariables>(CreateStateDocument, options);
+      }
+export type CreateStateMutationHookResult = ReturnType<typeof useCreateStateMutation>;
+export type CreateStateMutationResult = Apollo.MutationResult<CreateStateMutation>;
+export type CreateStateMutationOptions = Apollo.BaseMutationOptions<CreateStateMutation, CreateStateMutationVariables>;
+export const StatesDocument = gql`
+    query States {
+  States {
+    id
+    name
+    createdAt
+  }
+}
+    `;
+
+/**
+ * __useStatesQuery__
+ *
+ * To run a query within a React component, call `useStatesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useStatesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useStatesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useStatesQuery(baseOptions?: Apollo.QueryHookOptions<StatesQuery, StatesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<StatesQuery, StatesQueryVariables>(StatesDocument, options);
+      }
+export function useStatesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<StatesQuery, StatesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<StatesQuery, StatesQueryVariables>(StatesDocument, options);
+        }
+export function useStatesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<StatesQuery, StatesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<StatesQuery, StatesQueryVariables>(StatesDocument, options);
+        }
+export type StatesQueryHookResult = ReturnType<typeof useStatesQuery>;
+export type StatesLazyQueryHookResult = ReturnType<typeof useStatesLazyQuery>;
+export type StatesSuspenseQueryHookResult = ReturnType<typeof useStatesSuspenseQuery>;
+export type StatesQueryResult = Apollo.QueryResult<StatesQuery, StatesQueryVariables>;
+export const UpdateStateDocument = gql`
+    mutation UpdateState($where: StateWhereUniqueInput!, $updateStateInput: UpdateStateInput!) {
+  updateState(where: $where, updateStateInput: $updateStateInput) {
+    id
+    name
+    createdAt
+  }
+}
+    `;
+export type UpdateStateMutationFn = Apollo.MutationFunction<UpdateStateMutation, UpdateStateMutationVariables>;
+
+/**
+ * __useUpdateStateMutation__
+ *
+ * To run a mutation, you first call `useUpdateStateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateStateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateStateMutation, { data, loading, error }] = useUpdateStateMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *      updateStateInput: // value for 'updateStateInput'
+ *   },
+ * });
+ */
+export function useUpdateStateMutation(baseOptions?: Apollo.MutationHookOptions<UpdateStateMutation, UpdateStateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateStateMutation, UpdateStateMutationVariables>(UpdateStateDocument, options);
+      }
+export type UpdateStateMutationHookResult = ReturnType<typeof useUpdateStateMutation>;
+export type UpdateStateMutationResult = Apollo.MutationResult<UpdateStateMutation>;
+export type UpdateStateMutationOptions = Apollo.BaseMutationOptions<UpdateStateMutation, UpdateStateMutationVariables>;
 export const ViewUserDocument = gql`
     query viewUser($where: UserWhereUniqueInput!) {
   user(where: $where) {
@@ -3102,7 +3297,10 @@ export const ViewUserDocument = gql`
     city
     userCategory
     status
-    state
+    states {
+      id
+      name
+    }
     tempToken
     aadharcard_front_image
     aadharcard_back_image
@@ -3159,7 +3357,10 @@ export const UsersDocument = gql`
     status
     vehicleBuyingLimit
     idNo
-    state
+    states {
+      id
+      name
+    }
     mobile
     lastName
   }
@@ -3441,7 +3642,6 @@ export const VehicleDocument = gql`
     powerSteering
     shape
     color
-    state
     city
     area
     paymentTerms
@@ -3547,7 +3747,6 @@ export const UpdateVehicleDocument = gql`
     powerSteering
     shape
     color
-    state
     city
     area
     paymentTerms

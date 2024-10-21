@@ -119,7 +119,7 @@ export const StateInput = ({ label, name, options,defaultValue,error, register, 
     <div className="flex flex-col">
       <label htmlFor={name}>{label}</label>
       <select
-        {...register(name,{required:true})}
+        {...register(name,)}
         className={`${inputStyle.data}`}
         {...rest}
         defaultValue={defaultValue}

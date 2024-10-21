@@ -3,6 +3,7 @@ query Events {
     bidLock
     id
     eventNo
+    Report
     eventCategory
     startDate
     endDate

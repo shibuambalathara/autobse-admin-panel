@@ -7,9 +7,10 @@ import { clearAuthData } from '../store/authSlice';
 import { useNavigate } from 'react-router-dom';
 
 const UserDetails = () => {
-  const { user } = useSelector((state: RootState) => state.auth);
+  const { user} = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State to manage dropdown visibility
 

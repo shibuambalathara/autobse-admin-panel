@@ -10,6 +10,7 @@ import { faPenToSquare, faTrashCan } from "@fortawesome/free-regular-svg-icons";
 const ViewLocationComponent: React.FC = () => {
   const { data, loading, error, refetch } = useLocationsQuery();
   const [updateLocation] = useUpdateLocationMutation();
+console.log(data,'loc');
 
   const handleEditLocation = async (name: string, id: string) => {
     const { value: input } = await Swal.fire({
@@ -65,8 +66,8 @@ const ViewLocationComponent: React.FC = () => {
   const columns: Column<Location>[] = useMemo(
     () => [
       { Header: "City", accessor: "name" },
-      { Header: "State", accessor: (row: Location) => row?.state },
-      { Header: "Country", accessor: "country" },
+      { Header: "State", accessor: (row: Location) => row?.state?.name },
+    
       {
         Header: "Edit",
         Cell: ({ row }: { row: { original: Location } }) => (
@@ -78,17 +79,17 @@ const ViewLocationComponent: React.FC = () => {
           </button>
         ),
       },
-      {
-        Header: "Delete",
-        Cell: ({ row }: { row: { original: Location } }) => (
-          <button
-            className="btn bg-red-500 text-xl"
-            onClick={() => handleDelete(row.original.id)}
-          >
-            <FontAwesomeIcon icon={faTrashCan} />
-          </button>
-        ),
-      },
+      // {
+      //   Header: "Delete",
+      //   Cell: ({ row }: { row: { original: Location } }) => (
+      //     <button
+      //       className="btn bg-red-500 text-xl"
+      //       onClick={() => handleDelete(row.original.id)}
+      //     >
+      //       <FontAwesomeIcon icon={faTrashCan} />
+      //     </button>
+      //   ),
+      // },
     ],
     []
   );

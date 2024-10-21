@@ -2,7 +2,9 @@ query Locations {
   locations {
     id
     name
-    state
+    state {
+      name
+    }
     createdAt
     updatedAt
     country

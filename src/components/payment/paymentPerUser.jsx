@@ -7,6 +7,7 @@ import jsPDF from 'jspdf';
 import TableComponent from '../utils/table';
 
 import { FormatDate } from '../utils/dateFormat';
+import { Tablebutton } from '../utils/style';
 
 const PaymentPerUser = () => {
     const {id}=useParams()
@@ -64,13 +65,13 @@ navigate(`/update-payment/${paymentId}`)
             {
             Header: "Update Payment",
             Cell: ({ row }) => (
-              <button className="btn bg-rose-500" onClick={() => handlePaymentStatus(row.original?.id)}>Update Payment</button>
+              <button className={`${Tablebutton.data} bg-green-500`} onClick={() => handlePaymentStatus(row.original?.id)}>Update Payment</button>
             )
           },
           {
             Header: "Emd Details",
             Cell: ({ row }) => (
-     row.original.emdUpdateCount!==0 &&         <a className="btn bg-zinc-500" href={`/emdDetails/${row.original.id}`} target="_blank" rel="noopener noreferrer">Emd Details </a>
+     row.original.emdUpdateCount!==0 &&         <a className={`${Tablebutton.data} bg-zinc-500  `}href={`/emdDetails/${row.original.id}`} target="_blank" rel="noopener noreferrer">Emd Details </a>
             )
           },
           // {
@@ -106,7 +107,7 @@ navigate(`/update-payment/${paymentId}`)
             Header: "Payment Message",
             Cell: ({ row }) => {
               
-    if(row.original.status==='success' ){return(   <button className="btn bg-teal-500" onClick={() => handleMessage(row.original)}>Message To:{data?.user?.mobile}</button>)}
+    if(row.original.status==='approved' ){return(   <button className={`${Tablebutton.data} bg-teal-500`}  onClick={() => handleMessage(row.original)}>Message To:{data?.user?.mobile}</button>)}
     else {
       
       return row.original.status;}
@@ -117,7 +118,7 @@ navigate(`/update-payment/${paymentId}`)
             Header: "Download",
             Cell: ({ row }) => {
               
-    if(row.original.status==='success' ){return(   <button className="btn bg-pink-500" onClick={() => handleDownload(row.original)}>PDF</button>)}
+    if(row.original.status==='approved' ){return(   <button className={`${Tablebutton.data} bg-blue-500`} onClick={() => handleDownload(row.original)}>PDF</button>)}
     else {
       
       return row.original.status;}

@@ -5,6 +5,7 @@ import TableComponent from "../utils/table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faUserPen } from "@fortawesome/free-solid-svg-icons";
 import { faCreditCard } from "@fortawesome/free-regular-svg-icons";
+import { Tablebutton } from "../utils/style";
 // import { FormatDate } from "../utils/dateFormat";
 // import { useEditUserMutation } from "../../utils/graphql";
 
@@ -119,7 +120,7 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
         Cell: ({ row }) =>
           row.original?.vehicleBuyingLimit !== 0 && (
             <a
-              className="btn btn-secondary"
+              className={`${Tablebutton.data}`}
               href={`/buying-limit/${row.original.id}`}
               target="_blank"
               rel="noopener noreferrer"
@@ -133,7 +134,7 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
         Cell: ({ row }) =>
           row.original.paymentsCount !== 0 && (
             <a
-              className="text-white bg-rose-700 w-10 p-2 "
+              className={`${Tablebutton.data} bg-rose-700 w-10 p-2 `}
               href={`/payment/${row.original.id}`}
               target="_blank"
               rel="noopener noreferrer"
@@ -160,7 +161,7 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
         Header: "Create Payment",
         Cell: ({ row }) => (
           <a
-            className="btn bg-red-500 text-xl"
+            className={`${Tablebutton.data} bg-red-500 text-xl`}
             href={`/create-payment/${row.original.id}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -173,7 +174,7 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
         Header: "User Details",
         Cell: ({ row }) => (
           <a
-            className="btn btn-info text-xl"
+            className={`${Tablebutton.data} bg-blue-500`}
             href={`/view-user/${row.original.id}`}
             target="_blank"
             rel="noopener noreferrer"

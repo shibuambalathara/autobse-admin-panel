@@ -49,7 +49,7 @@ query EventVehicles($where: EventWhereUniqueInput!) {
       powerSteering
       shape
       color
-      state
+     
       city
       area
       paymentTerms

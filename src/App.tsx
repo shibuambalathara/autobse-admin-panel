@@ -29,6 +29,7 @@ import VehicleDetailsPerEvent from './pages/vehicleDetailsPerEvent';
 import BidDetailsPerVehicle from './pages/bidDetailsPerVehicle';
 import AddEmd from './pages/createEmd';
 import EmdPerPayment from './pages/emdPerPayment';
+import States from './pages/states';
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -56,22 +57,22 @@ const App: React.FC = () => {
               <Route path="add-seller" element={<AddSeller />} />
 
               <Route path="viewlocation" element={<ViewLocations />} />
-
+              <Route path="states" element={<States />} />
               <Route path="payment" element={<Payments />} />
               <Route path="create-payment/:id" element={<AddPaymentForUser />} />
               <Route path="update-payment/:id" element={<AddPaymentDetails />}/>
-              <Route path="payment/:id" element={<PaymentUserDetails />} />
-              <Route path="add-emd/:id" element={<AddEmd />} />
-              <Route path="emd-payment/:id" element={<EmdPerPayment />} /> 
-              <Route path="addevent" element={<AddEventForm />} />
+              <Route path="payment/:id" element={<PaymentUserDetails/>} />
+              <Route path="add-emd/:id" element={<AddEmd/>} />
+              <Route path="emd-payment/:id" element={<EmdPerPayment/>} /> 
+              <Route path="addevent" element={<AddEventForm/>} />
               {/* <Route path="addeventtype" element={<AddEventType />} />
               <Route path="edit-event/:id" element={<EditEvent />} /> */}
-               <Route path="event-types" element={<EventTypes />} />
-              <Route path="events" element={<AddEvents />} />
-               <Route path="add-vehicle/:id" element={<AddVehicle />} />
-               <Route path="view-vehicls/:id" element={<VehicleDetailsPerEvent />} />
-               <Route path="edit-vehicle/:id" element={<EditVehicle />} />
-               <Route path="excel-upload/:id" element={<AddExcel />} />
+               <Route path="event-types" element={<EventTypes/>} />
+              <Route path="events" element={<AddEvents/>} />
+               <Route path="add-vehicle/:id" element={<AddVehicle/>} />
+               <Route path="view-vehicls/:id" element={<VehicleDetailsPerEvent/>} />
+               <Route path="edit-vehicle/:id" element={<EditVehicle/>} />
+               <Route path="excel-upload/:id" element={<AddExcel/>} />
                <Route path="bid-details/:id" element={<BidDetailsPerVehicle />} />
               </Route>
               </Routes>
