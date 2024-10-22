@@ -30,6 +30,7 @@ import BidDetailsPerVehicle from './pages/bidDetailsPerVehicle';
 import AddEmd from './pages/createEmd';
 import EmdPerPayment from './pages/emdPerPayment';
 import States from './pages/states';
+import VehicleBuyingLimit from './pages/vehicleBuyingLimit';
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -65,12 +66,14 @@ const App: React.FC = () => {
               <Route path="add-emd/:id" element={<AddEmd/>} />
               <Route path="emd-payment/:id" element={<EmdPerPayment/>} /> 
               <Route path="addevent" element={<AddEventForm/>} />
+              <Route path="edit-event/:id" element={<EditEvent />} />
               {/* <Route path="addeventtype" element={<AddEventType />} />
               <Route path="edit-event/:id" element={<EditEvent />} /> */}
                <Route path="event-types" element={<EventTypes/>} />
               <Route path="events" element={<AddEvents/>} />
                <Route path="add-vehicle/:id" element={<AddVehicle/>} />
                <Route path="view-vehicls/:id" element={<VehicleDetailsPerEvent/>} />
+               <Route path="buying-limit/:userId" element={<VehicleBuyingLimit />} />
                <Route path="edit-vehicle/:id" element={<EditVehicle/>} />
                <Route path="excel-upload/:id" element={<AddExcel/>} />
                <Route path="bid-details/:id" element={<BidDetailsPerVehicle />} />

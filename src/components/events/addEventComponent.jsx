@@ -5,7 +5,7 @@ import Select from "react-select";
 import { ShowPopup } from "../alerts/popUps";
 
 import {
-  useSellersQuery,
+  useSellersQuery, 
 useVehicleCategoriesQuery,
   useLocationsQuery,
   useCreateEventMutation,
@@ -15,6 +15,7 @@ import { terms } from "./terms&conditions";
 import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyle } from "../utils/style";
 
 const AddEventComponent = () => {
+  
   const navigate = useNavigate();
   const sellersItem = useSellersQuery();
   const eventType = useVehicleCategoriesQuery();

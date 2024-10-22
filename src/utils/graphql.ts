@@ -1274,6 +1274,7 @@ export type User = {
   driving_license_back_image?: Maybe<Scalars['String']['output']>;
   driving_license_front_image?: Maybe<Scalars['String']['output']>;
   email: Scalars['String']['output'];
+  emdUpdates?: Maybe<Array<Emdupdate>>;
   firstName: Scalars['String']['output'];
   id: Scalars['String']['output'];
   idNo: Scalars['Float']['output'];
@@ -1501,6 +1502,18 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginResponse', access_token: string, user: { __typename?: 'User', id: string, email: string, role: string, firstName: string } } };
 
+export type BuyingLimitQueryVariables = Exact<{
+  where: UserWhereUniqueInput;
+}>;
+
+
+export type BuyingLimitQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, firstName: string, lastName: string, emdUpdates?: Array<{ __typename?: 'Emdupdate', id: string, emdNo: number, vehicleBuyingLimitIncrement?: number | null, createdAt?: any | null, payment?: { __typename?: 'Payment', amount?: number | null, id: string } | null, createdBy?: { __typename?: 'User', id: string, firstName: string } | null }> | null } | null };
+
+export type CountsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CountsQuery = { __typename?: 'Query', usersCount: number, locationsCount: number, vehicleCategoryCount: number, sellersCount: number, vehiclsCount: number, eventsCount: number, paymentsCount: number };
+
 export type CreateEventMutationVariables = Exact<{
   vehicleCategoryId: Scalars['String']['input'];
   locationId: Scalars['String']['input'];
@@ -1510,14 +1523,6 @@ export type CreateEventMutationVariables = Exact<{
 
 
 export type CreateEventMutation = { __typename?: 'Mutation', createEvent: { __typename?: 'Event', bidLock?: string | null, createdAt?: any | null, createdById: string, downloadableFile_filename?: string | null, endDate: any, eventCategory: string, eventNo: number, extraTime?: number | null, extraTimeTrigerIn?: number | null, gapInBetweenVehicles?: number | null, id: string, locationId: string, noOfBids: number, pausedTotalTime?: number | null, pauseDate?: any | null, sellerId: string, startDate: any, status?: string | null, termsAndConditions: string, updatedAt?: any | null, vehicleCategoryId: string, vehicleLiveTimeIn?: number | null } };
-
-export type UpdateEventMutationVariables = Exact<{
-  where: EventWhereUniqueInput;
-  updateEventInput: UpdateEventInput;
-}>;
-
-
-export type UpdateEventMutation = { __typename?: 'Mutation', updateEvent: { __typename?: 'Event', id: string, eventNo: number, eventCategory: string, startDate: any, endDate: any, pauseDate?: any | null, pausedTotalTime?: number | null, sellerId: string, vehicleCategoryId: string, locationId: string, noOfBids: number, downloadableFile_filename?: string | null, termsAndConditions: string, createdAt?: any | null, updatedAt?: any | null, createdById: string, extraTimeTrigerIn?: number | null, extraTime?: number | null, vehicleLiveTimeIn?: number | null, gapInBetweenVehicles?: number | null, status?: string | null, bidLock?: string | null } };
 
 export type CreateEmdupdateMutationVariables = Exact<{
   paymentId: Scalars['String']['input'];
@@ -1550,6 +1555,21 @@ export type CreateVehicleMutationVariables = Exact<{
 
 
 export type CreateVehicleMutation = { __typename?: 'Mutation', createVehicle: { __typename?: 'Vehicle', id: string, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, fuel?: string | null, type?: string | null, rcStatus?: string | null, YOM?: number | null, ownership?: number | null, mileage?: number | null, kmReading?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation?: string | null, vehicleRemarks?: string | null, auctionManager?: string | null, parkingCharges?: string | null, insurance?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, fitness?: string | null, permit?: string | null, engineNo?: string | null, chassisNo?: string | null, image?: string | null, inspectionLink?: string | null, autobseContact?: string | null, autobse_contact_person?: string | null, vehicleCondition?: string | null, powerSteering?: string | null, shape?: string | null, color?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, climateControl?: string | null, doorCount?: number | null, gearBox?: string | null, buyerFees?: string | null, rtoFine?: string | null, parkingRate?: string | null, approxParkingCharges?: string | null, clientContactPerson?: string | null, clientContactNo?: string | null, additionalRemarks?: string | null, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null } };
+
+export type UpdateEventMutationVariables = Exact<{
+  where: EventWhereUniqueInput;
+  updateEventInput: UpdateEventInput;
+}>;
+
+
+export type UpdateEventMutation = { __typename?: 'Mutation', updateEvent: { __typename?: 'Event', id: string, eventNo: number } };
+
+export type SingleEventQueryVariables = Exact<{
+  where: EventWhereUniqueInput;
+}>;
+
+
+export type SingleEventQuery = { __typename?: 'Query', event: { __typename?: 'Event', id: string, eventNo: number, eventCategory: string, startDate: any, endDate: any, firstVehicleEndDate: any, pauseDate?: any | null, pausedTotalTime?: number | null, sellerId: string, vehicleCategoryId: string, locationId: string, noOfBids: number, downloadableFile_filename?: string | null, termsAndConditions: string, createdAt?: any | null, updatedAt?: any | null, createdById: string, extraTimeTrigerIn?: number | null, extraTime?: number | null, vehicleLiveTimeIn?: number | null, gapInBetweenVehicles?: number | null, status?: string | null, bidLock?: string | null, vehiclesCount?: number | null, Report?: any | null } };
 
 export type UpdateLocationMutationVariables = Exact<{
   where: LocationWhereUniqueInput;
@@ -1700,7 +1720,7 @@ export type ViewUserQuery = { __typename?: 'Query', user?: { __typename?: 'User'
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string, role: string, firstName: string, BalanceEMDAmount?: number | null, country: string, city: string, userCategory: string, status: string, vehicleBuyingLimit?: number | null, idNo: number, mobile: string, lastName: string, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null } | null> };
+export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string, role: string, firstName: string, BalanceEMDAmount?: number | null, country: string, city: string, userCategory: string, status: string, vehicleBuyingLimit?: number | null, paymentsCount?: number | null, idNo: number, mobile: string, lastName: string, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null } | null> };
 
 export type CreateVehiclecategoryMutationVariables = Exact<{
   createVehiclecategoryInput: CreateVehiclecategoryInput;
@@ -1925,6 +1945,105 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const BuyingLimitDocument = gql`
+    query buyingLimit($where: UserWhereUniqueInput!) {
+  user(where: $where) {
+    id
+    firstName
+    lastName
+    emdUpdates {
+      id
+      emdNo
+      vehicleBuyingLimitIncrement
+      payment {
+        amount
+        id
+      }
+      createdAt
+      createdBy {
+        id
+        firstName
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useBuyingLimitQuery__
+ *
+ * To run a query within a React component, call `useBuyingLimitQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBuyingLimitQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBuyingLimitQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useBuyingLimitQuery(baseOptions: Apollo.QueryHookOptions<BuyingLimitQuery, BuyingLimitQueryVariables> & ({ variables: BuyingLimitQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BuyingLimitQuery, BuyingLimitQueryVariables>(BuyingLimitDocument, options);
+      }
+export function useBuyingLimitLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BuyingLimitQuery, BuyingLimitQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BuyingLimitQuery, BuyingLimitQueryVariables>(BuyingLimitDocument, options);
+        }
+export function useBuyingLimitSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<BuyingLimitQuery, BuyingLimitQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<BuyingLimitQuery, BuyingLimitQueryVariables>(BuyingLimitDocument, options);
+        }
+export type BuyingLimitQueryHookResult = ReturnType<typeof useBuyingLimitQuery>;
+export type BuyingLimitLazyQueryHookResult = ReturnType<typeof useBuyingLimitLazyQuery>;
+export type BuyingLimitSuspenseQueryHookResult = ReturnType<typeof useBuyingLimitSuspenseQuery>;
+export type BuyingLimitQueryResult = Apollo.QueryResult<BuyingLimitQuery, BuyingLimitQueryVariables>;
+export const CountsDocument = gql`
+    query Counts {
+  usersCount
+  locationsCount
+  vehicleCategoryCount
+  sellersCount
+  vehiclsCount
+  eventsCount
+  paymentsCount
+}
+    `;
+
+/**
+ * __useCountsQuery__
+ *
+ * To run a query within a React component, call `useCountsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCountsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCountsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCountsQuery(baseOptions?: Apollo.QueryHookOptions<CountsQuery, CountsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CountsQuery, CountsQueryVariables>(CountsDocument, options);
+      }
+export function useCountsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CountsQuery, CountsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CountsQuery, CountsQueryVariables>(CountsDocument, options);
+        }
+export function useCountsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<CountsQuery, CountsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<CountsQuery, CountsQueryVariables>(CountsDocument, options);
+        }
+export type CountsQueryHookResult = ReturnType<typeof useCountsQuery>;
+export type CountsLazyQueryHookResult = ReturnType<typeof useCountsLazyQuery>;
+export type CountsSuspenseQueryHookResult = ReturnType<typeof useCountsSuspenseQuery>;
+export type CountsQueryResult = Apollo.QueryResult<CountsQuery, CountsQueryVariables>;
 export const CreateEventDocument = gql`
     mutation CreateEvent($vehicleCategoryId: String!, $locationId: String!, $createEventInput: CreateEventInput!, $sellerId: String!) {
   createEvent(
@@ -1987,61 +2106,6 @@ export function useCreateEventMutation(baseOptions?: Apollo.MutationHookOptions<
 export type CreateEventMutationHookResult = ReturnType<typeof useCreateEventMutation>;
 export type CreateEventMutationResult = Apollo.MutationResult<CreateEventMutation>;
 export type CreateEventMutationOptions = Apollo.BaseMutationOptions<CreateEventMutation, CreateEventMutationVariables>;
-export const UpdateEventDocument = gql`
-    mutation UpdateEvent($where: EventWhereUniqueInput!, $updateEventInput: UpdateEventInput!) {
-  updateEvent(where: $where, updateEventInput: $updateEventInput) {
-    id
-    eventNo
-    eventCategory
-    startDate
-    endDate
-    pauseDate
-    pausedTotalTime
-    sellerId
-    vehicleCategoryId
-    locationId
-    noOfBids
-    downloadableFile_filename
-    termsAndConditions
-    createdAt
-    updatedAt
-    createdById
-    extraTimeTrigerIn
-    extraTime
-    vehicleLiveTimeIn
-    gapInBetweenVehicles
-    status
-    bidLock
-  }
-}
-    `;
-export type UpdateEventMutationFn = Apollo.MutationFunction<UpdateEventMutation, UpdateEventMutationVariables>;
-
-/**
- * __useUpdateEventMutation__
- *
- * To run a mutation, you first call `useUpdateEventMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateEventMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateEventMutation, { data, loading, error }] = useUpdateEventMutation({
- *   variables: {
- *      where: // value for 'where'
- *      updateEventInput: // value for 'updateEventInput'
- *   },
- * });
- */
-export function useUpdateEventMutation(baseOptions?: Apollo.MutationHookOptions<UpdateEventMutation, UpdateEventMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateEventMutation, UpdateEventMutationVariables>(UpdateEventDocument, options);
-      }
-export type UpdateEventMutationHookResult = ReturnType<typeof useUpdateEventMutation>;
-export type UpdateEventMutationResult = Apollo.MutationResult<UpdateEventMutation>;
-export type UpdateEventMutationOptions = Apollo.BaseMutationOptions<UpdateEventMutation, UpdateEventMutationVariables>;
 export const CreateEmdupdateDocument = gql`
     mutation CreateEmdupdate($paymentId: String!, $userId: String!, $createEmdupdateInput: CreateEmdupdateInput!) {
   createEmdupdate(
@@ -2285,6 +2349,105 @@ export function useCreateVehicleMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateVehicleMutationHookResult = ReturnType<typeof useCreateVehicleMutation>;
 export type CreateVehicleMutationResult = Apollo.MutationResult<CreateVehicleMutation>;
 export type CreateVehicleMutationOptions = Apollo.BaseMutationOptions<CreateVehicleMutation, CreateVehicleMutationVariables>;
+export const UpdateEventDocument = gql`
+    mutation UpdateEvent($where: EventWhereUniqueInput!, $updateEventInput: UpdateEventInput!) {
+  updateEvent(where: $where, updateEventInput: $updateEventInput) {
+    id
+    eventNo
+  }
+}
+    `;
+export type UpdateEventMutationFn = Apollo.MutationFunction<UpdateEventMutation, UpdateEventMutationVariables>;
+
+/**
+ * __useUpdateEventMutation__
+ *
+ * To run a mutation, you first call `useUpdateEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEventMutation, { data, loading, error }] = useUpdateEventMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *      updateEventInput: // value for 'updateEventInput'
+ *   },
+ * });
+ */
+export function useUpdateEventMutation(baseOptions?: Apollo.MutationHookOptions<UpdateEventMutation, UpdateEventMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateEventMutation, UpdateEventMutationVariables>(UpdateEventDocument, options);
+      }
+export type UpdateEventMutationHookResult = ReturnType<typeof useUpdateEventMutation>;
+export type UpdateEventMutationResult = Apollo.MutationResult<UpdateEventMutation>;
+export type UpdateEventMutationOptions = Apollo.BaseMutationOptions<UpdateEventMutation, UpdateEventMutationVariables>;
+export const SingleEventDocument = gql`
+    query singleEvent($where: EventWhereUniqueInput!) {
+  event(where: $where) {
+    id
+    eventNo
+    eventCategory
+    startDate
+    endDate
+    firstVehicleEndDate
+    pauseDate
+    pausedTotalTime
+    sellerId
+    vehicleCategoryId
+    locationId
+    noOfBids
+    downloadableFile_filename
+    termsAndConditions
+    createdAt
+    updatedAt
+    createdById
+    extraTimeTrigerIn
+    extraTime
+    vehicleLiveTimeIn
+    gapInBetweenVehicles
+    status
+    bidLock
+    vehiclesCount
+    Report
+  }
+}
+    `;
+
+/**
+ * __useSingleEventQuery__
+ *
+ * To run a query within a React component, call `useSingleEventQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSingleEventQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSingleEventQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useSingleEventQuery(baseOptions: Apollo.QueryHookOptions<SingleEventQuery, SingleEventQueryVariables> & ({ variables: SingleEventQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SingleEventQuery, SingleEventQueryVariables>(SingleEventDocument, options);
+      }
+export function useSingleEventLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SingleEventQuery, SingleEventQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SingleEventQuery, SingleEventQueryVariables>(SingleEventDocument, options);
+        }
+export function useSingleEventSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<SingleEventQuery, SingleEventQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<SingleEventQuery, SingleEventQueryVariables>(SingleEventDocument, options);
+        }
+export type SingleEventQueryHookResult = ReturnType<typeof useSingleEventQuery>;
+export type SingleEventLazyQueryHookResult = ReturnType<typeof useSingleEventLazyQuery>;
+export type SingleEventSuspenseQueryHookResult = ReturnType<typeof useSingleEventSuspenseQuery>;
+export type SingleEventQueryResult = Apollo.QueryResult<SingleEventQuery, SingleEventQueryVariables>;
 export const UpdateLocationDocument = gql`
     mutation UpdateLocation($where: LocationWhereUniqueInput!, $updateLocationInput: UpdateLocationInput!) {
   updateLocation(where: $where, updateLocationInput: $updateLocationInput) {
@@ -3356,6 +3519,7 @@ export const UsersDocument = gql`
     userCategory
     status
     vehicleBuyingLimit
+    paymentsCount
     idNo
     states {
       id

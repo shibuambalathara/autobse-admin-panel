@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useCreateStateMutation, useStatesQuery } from "../../utils/graphql";
 import { ShowPopup } from "../alerts/popUps";
+import { indianStates } from "../../utils/data";
+import { InputField } from "../utils/formField";
 
 const AddState = () => {
   const [createState] = useCreateStateMutation();
@@ -46,13 +48,13 @@ const AddState = () => {
         onClick={() => setIsModalOpen(true)}
         className="mt-2 w-fit bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
       >
-        Add Location
+        Add State 
       </button>
       
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ">
+          <div className="bg-white rounded-lg shadow-lg p-4 px-6">
             <button
               onClick={() => setIsModalOpen(false)}
               className="text-red-500 font-bold float-right"
@@ -60,24 +62,11 @@ const AddState = () => {
               ✕
             </button>
 
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  State Name
-                </label>
-                <input
-                  {...register("name", { required: true })}
-                  className="input input-bordered input-secondary w-full p-2 border border-gray-300 rounded"
-                  type="text"
-                />
-                {errors.name && (
-                  <span className="text-red-500 text-sm">
-                    This field is required
-                  </span>
-                )}
-              </div>
+            <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
+            <InputField label="State Name" register={register("name", { required: "State is required" })}  component="select" options={indianStates} />
+             
 
-              <div className="flex justify-end">
+              <div className="flex justify-center mt-6">
                 <button
                   type="submit"
                   className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"

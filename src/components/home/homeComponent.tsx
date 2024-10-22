@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 // import { useCountQuery, useUsersCountQuery } from "../../utils/graphql";
 import { useNavigate } from "react-router-dom";
+import { useCountsQuery } from "../../utils/graphql";
 
 const HomeComonent = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const HomeComonent = () => {
     setIsHovering(false);
   }
 
-  // const { data, loading, error } = useCountQuery();
+  const { data, loading, error } = useCountsQuery();
   const today = new Date();
   today.setHours(0, 0, 0, 0); 
     const todayISOString = today.toISOString();
@@ -33,7 +34,7 @@ const HomeComonent = () => {
         >
          <div className="text-center font-extrabold">Users Count</div>
           <div className="text-center m-2 lowercase ">
-            {/* {data?.usersCount}  */}
+            {data?.usersCount} 
             <span> Users</span>
           </div>
         </div>
@@ -60,7 +61,7 @@ const HomeComonent = () => {
         >
           <div className="text-center font-extrabold">Payments Count</div>
           <div className="text-center mt-2 lowercase ">
-            {/* {data?.paymentsCount}  */}
+            {data?.paymentsCount} 
             <span className="uppercase">I</span>tems
           </div>
         </div>
@@ -75,7 +76,7 @@ const HomeComonent = () => {
         >
           <div className="text-center font-extrabold">Events Count</div>
           <div className="text-center mt-2 lowercase ">
-            {/* {data?.eventsCount} */}
+            {data?.eventsCount}
              <span className="uppercase">I</span>tems
           </div>
         </div>
@@ -90,7 +91,7 @@ const HomeComonent = () => {
         >
           <div className="text-center font-extrabold">Events Types</div>
           <div className="text-center mt-2 lowercase ">
-            {/* {data?.eventTypesCount} */}
+            {data?.eventsCount}
              <span className="uppercase">I</span>tems
           </div>
         </div>
@@ -104,7 +105,7 @@ const HomeComonent = () => {
         >
           <div className="text-center font-extrabold">Locations Count</div>
           <div className="text-center mt-2 lowercase ">
-            {/* {data?.locationsCount} */}
+            {data?.locationsCount}
              <span className="uppercase">I</span>tems
           </div>
         </div>

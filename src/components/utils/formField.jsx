@@ -1,7 +1,9 @@
 import React from "react";
-import { inputStyle, labelStyle, textAreaStyle } from "./style";
+import { inputStyle, labelAndInputDiv, labelStyle, textAreaStyle } from "./style";
+import { Controller } from "react-hook-form";
 
 
+import Select from "react-select";
 
 
 const CheckboxInput = ({ label, name, register, error }) => {
@@ -164,13 +166,86 @@ export const SelectWithDynamic  = ({   options,defaultValue,error, register,mapp
     </div>
   );
 };
-
+export const InputFields = ({
+  label,
+  register,
+  error,
+  defaultValue,
+  component = "input",
+  options = [],
+  type = "text",
+  control,
+  isMulti = false,
+  name,
+  disabled = false,
+}) => (
+  <div className={`${labelAndInputDiv.data}`}>
+    {label && <label className="font-bold">{label}</label>}
+    {component === "input" && (
+      <input
+        type={type}
+        defaultValue={defaultValue}
+        {...register}
+        className={`${inputStyle.data}`}
+        disabled={disabled}
+      />
+    )}
+    {component === "textarea" && (
+      <textarea
+        defaultValue={defaultValue}
+        {...register}
+        className={`${inputStyle.data} h-40`}
+      />
+    )}
+    {component === "select" && (
+      <select
+        defaultValue={defaultValue}
+        {...register}
+        className={`${inputStyle.data}`}
+      >
+        {options.map((option, index) => (
+          <option key={index} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    )}
+    {component === "controller" && control && (
+      <Controller
+        name={name}
+        control={control}
+        defaultValue={defaultValue}
+        render={({ field }) => (
+          <Select
+            className={`${inputStyle.data}`}
+            options={options}
+            {...field}
+            isMulti={isMulti}
+          />
+        )}
+      />
+    )}
+    {error && <p className="text-red-500">{error.message}</p>}
+  </div>
+);
 // imaged maping
-
+export const InputField = ({ label, type = "text", register, error, defaultValue, component, options }) => (
+  <div className={labelAndInputDiv.data}>
+    <label>{label}</label>
+    {component === "select" ? (
+      <select {...register} defaultValue={defaultValue} className={inputStyle.data}>
+        {options?.map((option, index) => <option key={index} value={option}>{option}</option>)}
+      </select>
+    ) : (
+      <input type={type} {...register} defaultValue={defaultValue} className={inputStyle.data} />
+    )}
+    {error && <p className="text-red-500">{error.message}</p>}
+  </div>
+);
 
 export  const ImageMaping= ({images}) => {
   return (
-    <div className="grid grid-cols-2 gap-x-10  gap-y-5 m-2">
+    <div className="grid grid-cols-2 gap-x-10  gap-y-5 m-2 col-span-3">
     {images?.map((imgs, index) => {
        return (
          <div className=" bg-gray-50 rounded-2xl">

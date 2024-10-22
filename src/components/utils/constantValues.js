@@ -4,7 +4,24 @@ export const bidStatusOptions = [
     { label: 'Fulfilled', value: 'Fulfilled' },
     { label: 'Declined', value: 'Declined' },
   ];
-
+  export const eventCategories = [
+    { value: "online", label: "Online Auction" },
+    { value: "open", label: "Open Auction" },
+  ];
+  
+  export const auctionStatuses = [
+    { value: "Active", label: "Active" },
+    { value: "Pending", label: "Pending" },
+    { value: "Blocked", label: "Blocked" },
+    { value: "Inactive", label: "Inactive" },
+    { value: "Stop", label: "Stop" },
+  ];
+  
+  export const eventLock = [
+    { value: "Locked", label: "Locked" },
+    { value: "Unlocked", label: "Unlocked" },
+  ];
+ 
   export const paymentsFor=[
     
       { value:"registrations",label:"Registration"},
