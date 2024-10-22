@@ -117,32 +117,67 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
       // },
       {
         Header: "Current Buying Limit",
-        Cell: ({ row }) =>
-          row.original?.vehicleBuyingLimit !== 0 && (
+        Cell: ({ row }) => {
+          const buyingLimit = row.original?.vehicleBuyingLimit;
+      
+          // Determine styles based on the buyingLimit value
+          const isDisabled = buyingLimit === 0;
+          const buttonClass = isDisabled
+            ? `${Tablebutton.data} bg-gray-400 cursor-not-allowed`
+            : `${Tablebutton.data} bg-red-600`;
+      
+          return isDisabled ? (
+            <button
+              className={buttonClass}
+              disabled
+              style={{ pointerEvents: "none" }}
+            >
+              Buying Limit: {buyingLimit}
+            </button>
+          ) : (
             <a
-              className={`${Tablebutton.data}`}
+              className={buttonClass}
               href={`/buying-limit/${row.original.id}`}
               target="_blank"
               rel="noopener noreferrer"
             >
-              {row.original?.vehicleBuyingLimit}
+              Buying Limit: {buyingLimit}
             </a>
-          ),
+          );
+        }
       },
       {
         Header: "Payment details",
-        Cell: ({ row }) =>
-          row.original.paymentsCount !== 0 && (
+        Cell: ({ row }) => {
+          const paymentsCount = row.original.paymentsCount;
+      
+          // Determine styles based on the paymentsCount value
+          const isDisabled = paymentsCount === 0;
+          const buttonClass = isDisabled
+            ? `${Tablebutton.data} bg-gray-400 cursor-not-allowed`
+            : `${Tablebutton.data} bg-rose-700`;
+      
+          return isDisabled ? (
+            <button
+              className={`${buttonClass} w-10 p-2`}
+              disabled
+              style={{ pointerEvents: "none" }}
+            >
+              {paymentsCount}
+            </button>
+          ) : (
             <a
-              className={`${Tablebutton.data} bg-rose-700 w-10 p-2 `}
+              className={`${buttonClass} w-10 p-2`}
               href={`/payment/${row.original.id}`}
               target="_blank"
               rel="noopener noreferrer"
             >
-              View{row.original.paymentsCount}
+              {paymentsCount}
             </a>
-          ),
+          );
+        }
       },
+      
       // {
       //   Header: "View Coupons",
       //   Cell: ({ row }) =>

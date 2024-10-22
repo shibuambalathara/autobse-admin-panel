@@ -80,7 +80,7 @@ const VehicleBuyingLimitComponent = () => {
           
           </div>
          
-          <TableComponent tableData={data?.user?.emdUpdates} columns={columns}/>
+          <TableComponent data={data?.user?.emdUpdates} columns={columns}/>
           
         </div>
       </div>

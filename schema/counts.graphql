@@ -1,0 +1,9 @@
+query Counts {
+  usersCount
+  locationsCount
+  vehicleCategoryCount
+  sellersCount
+  vehiclsCount
+  eventsCount
+  paymentsCount
+}

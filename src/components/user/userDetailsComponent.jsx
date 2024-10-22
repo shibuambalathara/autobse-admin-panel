@@ -5,7 +5,7 @@ import { useStatesQuery, useUpdateUserMutation, useViewUserQuery } from "../../u
 import { ShowPopup } from "../alerts/popUps";
 import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyle } from "../utils/style";
 import { indianStates } from "../../utils/data";
-import { FormFieldInput } from "../utils/formField";
+import { FormFieldInput, InputField } from "../utils/formField";
 import imageCompression from "browser-image-compression";
 import Select from "react-select";
 const UserDetailsComponent = () => {
@@ -286,18 +286,6 @@ const UserDetailsComponent = () => {
   );
 };
 
-const InputField = ({ label, type = "text", register, error, defaultValue, component, options }) => (
-  <div className={labelAndInputDiv.data}>
-    <label>{label}</label>
-    {component === "select" ? (
-      <select {...register} defaultValue={defaultValue} className={inputStyle.data}>
-        {options?.map((option, index) => <option key={index} value={option}>{option}</option>)}
-      </select>
-    ) : (
-      <input type={type} {...register} defaultValue={defaultValue} className={inputStyle.data} />
-    )}
-    {error && <p className="text-red-500">{error.message}</p>}
-  </div>
-);
+
 
 export default UserDetailsComponent;

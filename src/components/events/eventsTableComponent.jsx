@@ -141,7 +141,7 @@ const handleDelete=(id)=>{
           {
             Header: "View Vehicles",
             Cell: ({ row }) => (
-                <a className={`${Tablebutton.data} bg-pink-600 hover:bg-pink-700 `} href={`/view-vehicls/${row.original.id}`} target="_blank" rel="noopener noreferrer">{row.original.vehiclesCount} view</a>
+                <a className={`${Tablebutton.data} bg-pink-600 hover:bg-pink-700 `} href={`/view-vehicls/${row.original.id}`} target="_blank" rel="noopener noreferrer">{row.original.vehiclesCount} </a>
               )
           },
          

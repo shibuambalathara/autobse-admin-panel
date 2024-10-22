@@ -1,0 +1,36 @@
+mutation UpdateEvent($where: EventWhereUniqueInput!, $updateEventInput: UpdateEventInput!) {
+  updateEvent(where: $where, updateEventInput: $updateEventInput) {
+    id
+    eventNo
+  }
+}
+
+query singleEvent($where: EventWhereUniqueInput!) {
+  event(where: $where) {
+    id
+    eventNo
+    eventCategory
+    startDate
+    endDate
+    firstVehicleEndDate
+    pauseDate
+    pausedTotalTime
+    sellerId
+    vehicleCategoryId
+    locationId
+    noOfBids
+    downloadableFile_filename
+    termsAndConditions
+    createdAt
+    updatedAt
+    createdById
+    extraTimeTrigerIn
+    extraTime
+    vehicleLiveTimeIn
+    gapInBetweenVehicles
+    status
+    bidLock
+    vehiclesCount
+    Report
+  }
+}

@@ -12,6 +12,7 @@ query Users {
     userCategory
     status
      vehicleBuyingLimit
+      paymentsCount  
  idNo
     states {
       id

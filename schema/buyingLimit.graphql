@@ -1,0 +1,20 @@
+query buyingLimit($where: UserWhereUniqueInput!) {
+  user(where: $where) {
+    id
+     firstName
+    lastName
+    emdUpdates {
+      id
+      emdNo
+      vehicleBuyingLimitIncrement
+      payment {
+        amount
+        id
+      }
+      createdAt
+      createdBy {
+        id
+        firstName
+      }
+    }
+  }}
