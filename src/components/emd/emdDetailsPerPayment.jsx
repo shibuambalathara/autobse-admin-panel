@@ -16,8 +16,9 @@ const EmdDetails = () => {
   const [pageSize, setPageSize] = useState(10);
   const navigate = useNavigate();
 
-  const { data, loading, error,refetch } =useEmdUpdatesPerPaymentQuery({variables:{ where: {payment:{id: {equals:id}}}}});
+  const { data, loading, error,refetch } =useEmdUpdatesPerPaymentQuery({variables:{ where: {id: id}}});
  // const [changeStatus]=useMutationTokenDetailMutation()
+console.log(data);
 
 
 
@@ -97,12 +98,12 @@ const handleMessage=(emdUpdates)=>{
           <div className="mb-4">
             <div className="text-center font-extrabold my-1  text-2xl w-full">
               {" "}
-              Emd of Amount {data?.emdUpdates[0]?.payment?.amount} of {data?.emdUpdates[0]?.user?.firstName} {data?.emdUpdates[0]?.user?.lastName} {" "}
+              Emd of Amount {data.payment?.emdUpdate[0]?.payment?.amount} of {data.payment?.emdUpdate[0]?.user?.firstName} {data.payment?.emdUpdate[0]?.user?.lastName} {" "}
             </div>
        
           </div>
           
-          <TableComponent tableData={ data.emdUpdates} columns={columns}/>
+          <TableComponent data={ data?.payment?.emdUpdate} columns={columns}/>
         </div>
       </div>
     </div>

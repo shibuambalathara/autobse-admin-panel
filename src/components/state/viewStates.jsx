@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import TableComponent from "../utils/table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import { Tablebutton } from "../utils/style";
 
 
 const ViewStates = () => {
@@ -86,13 +87,13 @@ const ViewStates = () => {
       {
         Header: "Edit State",
         Cell: ({ row }) => (
-          <button className="btn bg-red-500 text-xl" onClick={() => handleEditState(row.original?.name,row.original?.id)}><FontAwesomeIcon icon={faPenToSquare} /></button>
+          <button className={`${Tablebutton.data} bg-red-500 `} onClick={() => handleEditState(row.original?.name,row.original?.id)}><FontAwesomeIcon icon={faPenToSquare} /></button>
         )
       },
       {
         Header: "View Users",
         Cell: ({ row }) => (
-          <a  className="btn btn-secondary" href={`/ViewUsersByState/${row.original.id}`} target="_blank" rel="noopener noreferrer">View Users</a>
+          <a  className={`${Tablebutton.data} bg-blue-500 `} href={`/ViewUsersByState/${row.original.id}`} target="_blank" rel="noopener noreferrer">View Users</a>
           )
       },
       // {

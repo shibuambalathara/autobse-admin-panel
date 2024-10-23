@@ -8,6 +8,9 @@ import { useTable,usePagination,useGlobalFilter } from "react-table"
 import {useEmdTableQuery} from '../../utils/graphql'
 import SearchUser from '../utils/search'
 import format from 'date-fns/format'
+import { Tablebutton } from '../utils/style'
+import { faUser } from '@fortawesome/free-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 const EmdTable = () => {
@@ -29,7 +32,21 @@ navigate(`/view-user/${userId}`)
           { Header: "Vehicle buying limit", accessor: "vehicleBuyingLimitIncrement" },
           { Header: "Created At ", accessor: ({createdAt})=>{return format(new Date (createdAt),`dd/MM/yy, HH:mm`)}  },
          
-          { Header: "Created By ", accessor:"createdBy.firstName"  },
+          { 
+            Header: "Created By",
+            Cell: ({ row }) => {
+              return (
+                <a
+                  className={`${Tablebutton.data} bg-blue-500`}
+                  href={`/view-user/${row.original?.createdById}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FontAwesomeIcon icon={faUser} />
+                </a>
+              );
+            }
+          },
          
 
          

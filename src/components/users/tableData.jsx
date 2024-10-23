@@ -88,18 +88,18 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
       { Header: "User ID",  Cell: ({ row }) =>
         row.original?.idNo },
   // { Header: "Email", accessor: "email", },
-  { Header: "Role", accessor: "role", },
+ 
   { Header: "First Name", accessor: "firstName", },
   { Header: "Last Name", accessor: "lastName" },
   { Header: "Mobile", accessor: "mobile" },
   { Header: "Status", accessor: "status", },
- 
+  { Header: "Role", accessor: "role", },
   
   
   // { Header: "Balance (EMD Amount)", accessor: "BalanceEMDAmount", },
   
   { Header: "City", accessor: "city", },
-  { Header: "User Category", accessor: "userCategory", },
+  // { Header: "User Category", accessor: "userCategory", },
   
       // {
       //   Header: "Active Bids",
@@ -123,16 +123,16 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
           // Determine styles based on the buyingLimit value
           const isDisabled = buyingLimit === 0;
           const buttonClass = isDisabled
-            ? `${Tablebutton.data} bg-gray-400 cursor-not-allowed`
-            : `${Tablebutton.data} bg-red-600`;
+            ? `${Tablebutton.data} bg-gray-400   `
+            : `${Tablebutton.data} bg-green-400`;
       
           return isDisabled ? (
             <button
-              className={buttonClass}
+              className={`${buttonClass} cursor-not-allowed `}
               disabled
-              style={{ pointerEvents: "none" }}
+             
             >
-              Buying Limit: {buyingLimit}
+              {buyingLimit}
             </button>
           ) : (
             <a
@@ -141,7 +141,7 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Buying Limit: {buyingLimit}
+               {buyingLimit}
             </a>
           );
         }
@@ -161,7 +161,7 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
             <button
               className={`${buttonClass} w-10 p-2`}
               disabled
-              style={{ pointerEvents: "none" }}
+            
             >
               {paymentsCount}
             </button>
@@ -196,7 +196,7 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
         Header: "Create Payment",
         Cell: ({ row }) => (
           <a
-            className={`${Tablebutton.data} bg-red-500 text-xl`}
+            className={`${Tablebutton.data} bg-red-500 text-lg`}
             href={`/create-payment/${row.original.id}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -209,7 +209,7 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
         Header: "User Details",
         Cell: ({ row }) => (
           <a
-            className={`${Tablebutton.data} bg-blue-500`}
+            className={`${Tablebutton.data} bg-blue-500 `}
             href={`/view-user/${row.original.id}`}
             target="_blank"
             rel="noopener noreferrer"

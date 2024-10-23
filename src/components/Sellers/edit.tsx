@@ -3,45 +3,18 @@ import { useForm } from "react-hook-form";
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSellerQuery, useUpdateSellerMutation } from '../../utils/graphql';
 import { ShowPopup } from '../alerts/popUps';
+import { formStyle, h2Style, headerStyle, pageStyle, submit } from '../utils/style';
+import { FormFieldInput } from '../utils/formField';
 
 interface SellerFormInputs {
   sellerCompanyName: string;
   billingContactPerson: string;
-  contactPerson: string|null|undefined;
+  contactPerson: string | null | undefined;
   GSTNumber: string;
   mobile: string;
   nationalHead: string;
-  logo:string;
+  logo: string;
 }
-
-const InputField = ({
-  label,
-  defaultValue,
-  register,
-  errors,
-  fieldName,
-  type = "text",
-  errorMessage = "This field is required",
-}: {
-  label: string;
-  defaultValue: string | undefined|null;
-  register: any;
-  errors: any;
-  fieldName: string;
-  type?: string;
-  errorMessage?: string;
-}) => (
-  <div className="w-full sm:w-1/2 px-2">
-    <label className="block text-white mb-2">{label}</label>
-    <input
-      defaultValue={defaultValue}
-      type={type}
-      className="input input-bordered w-full text-black bg-white"
-      {...register(fieldName, { required: true })}
-    />
-    {errors[fieldName] && <p className="text-red-500">{errorMessage}</p>}
-  </div>
-);
 
 const Editseller = () => {
   const { id } = useParams();
@@ -50,7 +23,6 @@ const Editseller = () => {
   const { data, loading } = useSellerQuery({
     variables: { where: { id: id } },
   });
-console.log(data);
 
   const [EditSeller] = useUpdateSellerMutation();
 
@@ -73,6 +45,7 @@ console.log(data);
             GSTNumber: dataOnSubmit.GSTNumber,
             mobile: dataOnSubmit.mobile,
             nationalHead: dataOnSubmit.nationalHead,
+            logo: dataOnSubmit.logo,
           }
         }
       });
@@ -87,85 +60,89 @@ console.log(data);
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="bg-blue-800 p-6 rounded-lg shadow-lg text-white max-w-3xl mx-auto">
-      <div className="py-4 bg-blue-700 rounded px-4 text-center shadow-lg">
-        <h2 className="text-2xl font-bold">Seller: {data?.seller?.name}</h2>
+    <div className={`${pageStyle.data}`}>
+      <div className={`${headerStyle.data}`}>
+        <h2 className={`${h2Style.data}`}>
+          Seller: {data?.seller?.name}
+        </h2>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-6">
-        <div className="flex flex-wrap">
-          <InputField
+      <form onSubmit={handleSubmit(onSubmit)} className={`${formStyle.data}`}>
+       
+          <FormFieldInput
             label="Seller Name"
             defaultValue={data?.seller?.name}
             register={register}
-            errors={errors}
-            fieldName="sellerCompanyName"
-            errorMessage="Seller name is required"
+            name="sellerCompanyName"
+            error={errors.sellerCompanyName}
+            type="text"
           />
-          <InputField
+          <FormFieldInput
             label="Contact Person Name"
             defaultValue={data?.seller?.contactPerson}
             register={register}
-            errors={errors}
-            fieldName="contactPerson"
-            errorMessage="Contact person name is required"
+            name="contactPerson"
+            error={errors.contactPerson}
+            type="text"
           />
-        </div>
+       
 
-        <div className="flex flex-wrap">
-          <InputField
+       
+          <FormFieldInput
             label="GST Number"
             defaultValue={data?.seller?.GSTNumber}
             register={register}
-            errors={errors}
-            fieldName="GSTNumber"
-            errorMessage="GST number is required"
+            name="GSTNumber"
+            error={errors.GSTNumber}
+            type="text"
           />
-          <InputField
+          <FormFieldInput
             label="Mobile"
             defaultValue={data?.seller?.mobile}
             register={register}
-            errors={errors}
-            fieldName="mobile"
+            name="mobile"
+            error={errors.mobile}
             type="tel"
-            errorMessage="Mobile number is required"
           />
-        </div>
+       
 
-        <div className="flex flex-wrap">
-          <InputField
+       
+          <FormFieldInput
             label="National Head"
             defaultValue={data?.seller?.nationalHead}
             register={register}
-            errors={errors}
-            fieldName="nationalHead"
+            name="nationalHead"
+            error={errors.nationalHead}
+            type="text"
           />
-          <InputField
+          <FormFieldInput
             label="Billing Contact Person"
             defaultValue={data?.seller?.billingContactPerson}
             register={register}
-            errors={errors}
-            fieldName="billingContactPerson"
+            name="billingContactPerson"
+            error={errors.billingContactPerson}
+            type="text"
           />
-          <InputField
-            label="Billing Contact Person"
+          <FormFieldInput
+            label="Logo URL"
             defaultValue={data?.seller?.logo}
             register={register}
-            errors={errors}
-            fieldName="Logo"
+            name="logo"
+            error={errors.logo}
+            type="url"
           />
-        </div>
+      
 
-        <div className="flex justify-center">
+        <div className="flex justify-center col-span-3">
           <button
             type="submit"
-            className="btn btn-primary bg-white text-blue-700 px-6 py-2 rounded-lg"
+            className={`${submit.data}   `} 
           >
             Save Changes
           </button>
         </div>
       </form>
-    </div>  
+    </div>
   );
 };
 

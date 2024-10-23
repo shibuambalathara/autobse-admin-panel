@@ -6,6 +6,10 @@ import {useNavigate, useParams} from 'react-router-dom'
 import {useEmdTableQuery} from '../../utils/graphql'
 import format from 'date-fns/format'
 import TableComponent from '../utils/table'
+import { Tablebutton } from '../utils/style'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUserPen } from '@fortawesome/free-solid-svg-icons'
+import { faUser } from '@fortawesome/free-regular-svg-icons'
 
 
 const EmdTablePerPayment = () => {
@@ -25,7 +29,21 @@ const{id}=useParams()
           { Header: "Vehicle buying limit", accessor: "vehicleBuyingLimitIncrement" },
           { Header: "Created At ", accessor: ({createdAt})=>{return format(new Date( createdAt),`dd/MM/yy, HH:mm`)} },
          
-          { Header: "Created By ", accessor:"createdBy.firstName"  },
+          {
+            Header: "Created By",
+            Cell: ({ row }) => {
+              return (
+                <a
+                  className={`${Tablebutton.data} bg-blue-500`}
+                  href={`/view-user/${row.original?.createdById}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FontAwesomeIcon icon={faUser} />
+                </a>
+              );
+            }
+          }
          
 
          

@@ -96,7 +96,7 @@ const AddUser = () => {
           <FormFieldInput label="Email" type="email" name="email" register={register} error={errors.email} />
           <FormFieldInput label="Mobile" type="number" name="mobile" register={register} error={errors.mobile} required minLength={10} maxLength={10} />
           <FormFieldInput label="Business Name" type="text" name="bussiness" register={register} error={errors.bussiness} />
-          <div className="flex flex-col w-1/3">
+          {/* <div className="flex flex-col w-1/3">
             <label>ID Proof Type</label>
             <select className="p-3 input input-bordered input-secondary w-full" {...register("idType", {})}>
               <option value="aadhar">Aadhar</option>
@@ -105,11 +105,11 @@ const AddUser = () => {
             <p className="text-red-500">
               {errors.idType && <span>Please select Id proof type</span>}
             </p>
-          </div>
+          </div> */}
           <FormFieldInput label="ID Proof Number" type="text" name="IdNumber" register={register} error={errors.IdNumber} minLength={8} />
           {/* <FormFieldInput label="Image" type="file" name="user_image" register={register} error={errors.user_image} /> */}
-          <FormFieldInput label="Pancard" type="file" name="pancardImage" register={register} error={errors.pancardImage} />
-          <FormFieldInput label="Pancard Number" type="text" name="pancardNumber" register={register} error={errors.pancardNumber} />
+          <FormFieldInput label="Pancard" type="file" name="pancardImage" register={register} error={errors.pancardImage} required/>
+          <FormFieldInput label="Pancard Number" type="text" name="pancardNumber" register={register} error={errors.pancardNumber} required />
           <FormFieldInput label="ID proof (Front)" type="file" name="idProof" register={register} error={errors.idProof} />
           <FormFieldInput label="ID proof (Back)" type="file" name="idBack" register={register} error={errors.idBack} />
           {/* <FormFieldInput label="Dealership Image" type="file" name="dealership" register={register} error={errors.dealership} /> */}

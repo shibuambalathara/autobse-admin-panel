@@ -35,7 +35,7 @@ function TableComponent({ columns, data }) {
         <div className="inline-block  py-2 sm:px-6 lg:px-8">
           <div className="border border-gray-200 dark:border-gray-400 md:rounded-lg overflow-hidden">
             {/* Table wrapper for horizontal scroll */}
-            <div className="overflow-x-auto w-[82rem] h-[30rem]">
+            <div className="overflow-x-auto w-[82rem] min-h-[10rem] max-h-[27rem]">
               <table
                 {...getTableProps()}
                 className="min-w-full text-start text-sm font-light text-black"
@@ -63,7 +63,7 @@ function TableComponent({ columns, data }) {
                         {row.cells.map((cell) => (
                           <td
                             {...cell.getCellProps()}
-                            className="whitespace-nowrap px-4 py-4 text-sm text-black"
+                            className="whitespace-nowrap px-4 py-4 text-sm text-black capitalize font-medium "
                             key={cell.column.id}
                           >
                             {cell.render("Cell")}

@@ -31,6 +31,8 @@ import AddEmd from './pages/createEmd';
 import EmdPerPayment from './pages/emdPerPayment';
 import States from './pages/states';
 import VehicleBuyingLimit from './pages/vehicleBuyingLimit';
+import EmdDetailsPage from './pages/emdDetailsPage';
+import ViewUsersByState from './pages/viewUsersByState';
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -74,9 +76,11 @@ const App: React.FC = () => {
                <Route path="add-vehicle/:id" element={<AddVehicle/>} />
                <Route path="view-vehicls/:id" element={<VehicleDetailsPerEvent/>} />
                <Route path="buying-limit/:userId" element={<VehicleBuyingLimit />} />
+               <Route path="emdDetails/:id" element={<EmdDetailsPage/>} />
                <Route path="edit-vehicle/:id" element={<EditVehicle/>} />
                <Route path="excel-upload/:id" element={<AddExcel/>} />
                <Route path="bid-details/:id" element={<BidDetailsPerVehicle />} />
+               <Route path="ViewUsersByState/:id" element={<ViewUsersByState/>}/>
               </Route>
               </Routes>
           {/* Your routes and other components go here */}

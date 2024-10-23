@@ -61,7 +61,7 @@ const CreatePayment: React.FC = () => {
         </h2>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={`${formStyle.data}`}>
+        <div className={`${formStyle.data}`}>  
           {/* <div className={`${labelAndInputDiv.data}`}>
             <label>User Name</label>
             <input

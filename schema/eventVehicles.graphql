@@ -1,5 +1,10 @@
 query EventVehicles($where: EventWhereUniqueInput!) {
   event(where: $where) {
+    eventNo
+    seller 
+      {
+        name
+      }
     vehicles {
       id
       bidStatus
@@ -17,54 +22,36 @@ query EventVehicles($where: EventWhereUniqueInput!) {
       model
       varient
       category
-      fuel
-      type
-      rcStatus
-      YOM
+      
       ownership
-      mileage
-      kmReading
+     
       insuranceStatus
       yardLocation
       startPrice
       reservePrice
-      repoDt
+      
       veicleLocation
-      vehicleRemarks
-      auctionManager
+     
       parkingCharges
-      insurance
+      
       insuranceValidTill
       tax
       taxValidityDate
-      fitness
-      permit
-      engineNo
-      chassisNo
+      
+     
       image
-      inspectionLink
-      autobseContact
-      autobse_contact_person
-      vehicleCondition
-      powerSteering
-      shape
-      color
+      
      
       city
       area
       paymentTerms
       dateOfRegistration
       hypothication
-      climateControl
-      doorCount
-      gearBox
-      buyerFees
-      rtoFine
-      parkingRate
-      approxParkingCharges
-      clientContactPerson
-      clientContactNo
-      additionalRemarks
+       totalBids
+      
+    
+    
+     
       lotNumber
       createdAt
       updatedAt

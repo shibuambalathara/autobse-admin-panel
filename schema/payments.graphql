@@ -12,6 +12,10 @@ query Payments {
     createdById
     registrationExpire
     paymentFor
+      user {
+      firstName
+      mobile
+    }
   }
 } 
 
@@ -50,6 +54,7 @@ query UserPayments($where: UserWhereUniqueInput!) {
       createdById
       registrationExpire
       paymentFor
+     
     }
   }
 }

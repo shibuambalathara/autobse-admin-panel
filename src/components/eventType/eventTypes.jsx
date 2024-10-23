@@ -72,7 +72,7 @@ refetch()
     <div className='flex justify-end'>
       <AddEventType />
       </div>
-      <div className="text-center font-extrabold my-5 text-lg min-w-full">  Events type Table </div>
+      <div className="text-center font-extrabold my-5 text-lg min-w-full">  Vehicle Catagories Table </div>
 
   <TableComponent data={data?.vehicleCategories
 } columns={columns}/>

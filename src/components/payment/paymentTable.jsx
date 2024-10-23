@@ -4,9 +4,10 @@ import TableComponent from "../utils/table";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus, faE, faUserPen } from "@fortawesome/free-solid-svg-icons";
-import {  faMoneyBill1 } from "@fortawesome/free-regular-svg-icons";
+import {  faMoneyBill1, faUser } from "@fortawesome/free-regular-svg-icons";
 import { FormatDate } from "../utils/dateFormat";
 import { Tablebutton } from "../utils/style";
+
 
 const PaymentTable = ({data}) => {
 
@@ -42,8 +43,8 @@ console.log('paymnt',data);
       },
       {
         Header: "Registration Expire",
-        accessor: ({ RegistrationExpire }) =>
-          RegistrationExpire && new Date(RegistrationExpire),
+        accessor: ({ registrationExpire }) =>
+          registrationExpire && new Date(registrationExpire),
 
     Cell: ({ value }) => ( value ?   FormatDate(value) : "-"),
     className:"bg-red-100", 
@@ -53,11 +54,22 @@ console.log('paymnt',data);
       { Header: "Mobile", accessor: "user.mobile" },
       { Header: "First Name", accessor: "user.firstName" },
    //   { Header: "user Last Name", accessor: "user.lastName" },
-      {
-        Header: "Created By",
-        accessor: (data) =>
-          data.createdBy ? data.createdBy.firstName : "self",
-      },
+   {
+    Header: "Created By",
+    Cell: ({ row }) => {
+      return (
+        <a
+          className={`${Tablebutton.data} bg-blue-500`}
+          href={`/view-user/${row.original?.createdById}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FontAwesomeIcon icon={faUser} />
+        </a>
+      );
+    }
+  }
+,  
 
    
       {
@@ -104,7 +116,7 @@ console.log('paymnt',data);
         Header: "View Emds",
         Cell: ({ row }) => (
       row.original.emdUpdateCount!==0 &&     <a
-            className={`${Tablebutton.data} bg-green-500 hover:bg-green-600 text-xl`}
+            className={`${Tablebutton.data} bg-green-500 hover:bg-green-600 text-lg`}
             href={`/emd-payment/${row.original.id}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -119,7 +131,7 @@ console.log('paymnt',data);
         Header: "Payment details",
         Cell: ({ row }) => (
           <a
-            className={`${Tablebutton.data} bg-rose-500 hover:bg-rose-600  text-xl`}
+            className={`${Tablebutton.data} bg-rose-500 hover:bg-rose-600  text-lg`}
             href={`/payment/${row.original?.userId}`}
             target="_blank"
             rel="noopener noreferrer"
@@ -133,7 +145,7 @@ console.log('paymnt',data);
         Header: "View User",
         Cell: ({ row }) => (
           <a
-            className={`${Tablebutton.data} text-xl bg-blue-500 hover:bg-blue-600`}
+            className={`${Tablebutton.data} text-lg bg-blue-500 hover:bg-blue-600 `}
             href={`/view-user/${row.original?.userId}`}
             target="_blank"
             rel="noopener noreferrer"

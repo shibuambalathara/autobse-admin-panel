@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding } from "@fortawesome/free-regular-svg-icons";
 import TableComponent from "../utils/table";
 import CustomButton from "../utils/buttons";
+import { Tablebutton } from "../utils/style";
 export interface Seller {
   id: string;
   name: string;
@@ -32,8 +33,8 @@ const Table: React.FC = () => {
     () => [
       { Header: "Name", accessor: "name" as const },
       { Header: "Contact Person", accessor: "contactPerson" as const },
-      { Header: "Mobile", accessor: "mobile" as const },
-      { Header: "Billing Contact", accessor: "billingContactPerson" as const },
+      // { Header: "Mobile", accessor: "mobile" as const },
+      // { Header: "Billing Contact", accessor: "billingContactPerson" as const },
       { Header: "National Head", accessor: "nationalHead" as const },
       {
         Header: "Logo",
@@ -46,7 +47,7 @@ const Table: React.FC = () => {
         Header: "View/Edit Seller",
         Cell: ({ row }: { row: { original: Seller } }) => (
           <a
-            className="btn bg-orange-500 text-xl"
+            className={`${Tablebutton.data} bg-red-500 text-lg`}
             href={`/edit-seller/${row.original.id}`}
             target="_blank"
             rel="noopener noreferrer"
