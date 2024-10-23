@@ -211,12 +211,7 @@ Swal.fire({
         },
          
       
-          {
-            Header: "Apply Coupen",
-            Cell: ({ row }) => (
-              row.original.totalBids !==0 ? ( row.original.coupenDetail ? <button onClick={()=>handleMessage(row.original)} className='btn bg-yellow-500'>Message to { row.original.currentBidUser.mobile}</button>   : <button className="btn bg-red-500" onClick={() => handleCoupen(row.original)}>Apply Coupen</button>):"0"
-              )
-          },
+          
           // {
           //     Header:"Have Image?",
           //     Cell:({row})=>(

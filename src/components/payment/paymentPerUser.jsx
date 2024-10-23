@@ -8,6 +8,8 @@ import TableComponent from '../utils/table';
 
 import { FormatDate } from '../utils/dateFormat';
 import { Tablebutton } from '../utils/style';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-regular-svg-icons';
 
 const PaymentPerUser = () => {
     const {id}=useParams()
@@ -61,7 +63,21 @@ navigate(`/update-payment/${paymentId}`)
         
    Cell: ({ value }) =>value ? FormatDate(value):'-',
            },
-            { Header: "Created By ",  accessor: data => data.createdBy ? data.createdBy.firstName : "self" },
+           {
+            Header: "Created By",
+            Cell: ({ row }) => {
+              return (
+                <a
+                  className={`${Tablebutton.data} bg-blue-500`}
+                  href={`/view-user/${row.original?.createdById}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FontAwesomeIcon icon={faUser} />
+                </a>
+              );
+            }
+          },
             {
             Header: "Update Payment",
             Cell: ({ row }) => (

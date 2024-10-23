@@ -7,6 +7,9 @@ import { useTable,useSortBy, usePagination, useGlobalFilter } from "react-table"
 import SearchUser from "../utils/search";
 import TableComponent from "../utils/table";
 import format from 'date-fns/format'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
+import { Tablebutton } from "../utils/style";
 
 const VehicleBuyingLimitComponent = () => {
   const{userId}=useParams()
@@ -15,6 +18,7 @@ const VehicleBuyingLimitComponent = () => {
 
   const { data, loading, error } = useBuyingLimitQuery({variables:{where:{id:userId}}});
  
+console.log(data,"data");
 
   
 
@@ -36,7 +40,21 @@ const VehicleBuyingLimitComponent = () => {
         Cell: ({ value }) => format(value, "dd/MM/yy, HH:mm"),
       },
 
-       { Header: "Created By", accessor: "createdBy.firstName",  className: 'w-1/3',   },
+       {
+        Header: "Created By",
+        Cell: ({ row }) => {
+          return (
+            <a
+              className={`${Tablebutton.data} bg-blue-500`}
+              href={`/view-user/${row.original?.createdById}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FontAwesomeIcon icon={faUser} />
+            </a>
+          );
+        }
+      },
     
 
        {

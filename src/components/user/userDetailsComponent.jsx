@@ -84,9 +84,9 @@ const UserDetailsComponent = () => {
       city: dataOnSubmit?.city,
       status: dataOnSubmit?.status,
       role: dataOnSubmit?.role,
-      states: {
-        set: dataOnSubmit.states.map((state) => ({ id: state.value })),
-      },
+      // states: {
+      //   set: dataOnSubmit.states.map((state) => ({ id: state.value })),
+      // },
     };
 
     try {
@@ -132,7 +132,7 @@ const UserDetailsComponent = () => {
           <InputField label="State" register={register("state", { required: "State is required" })} defaultValue={data.user.state} component="select" options={indianStates} />
           <InputField label="City" register={register("city", { required: "City is required" })} defaultValue={data.user.city} error={errors.city} />
           <InputField label="Pancard" register={register("pancardNumber")} defaultValue={data.user.pancardNo} error={errors.pancardNumber} />
-          <div className="flex flex-col  w-full">
+          {/* <div className="flex flex-col  w-full">
                 <label htmlFor="">Auction Allowed states</label>
 
                 <Controller
@@ -156,7 +156,7 @@ const UserDetailsComponent = () => {
                     />
                   )}
                 />
-              </div>
+              </div> */}
           <div className={labelAndInputDiv.data}>
             <label>Role</label>
             <select className={inputStyle.data} {...register("role", { required: "Role is required" })}>

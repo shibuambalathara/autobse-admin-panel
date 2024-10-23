@@ -23,3 +23,29 @@ query Users {
     lastName
   }
 }
+
+
+query UsersByState($where: UserWhereUniqueInput) {
+  users(where: $where) {
+   id
+    email
+    role
+    firstName
+    BalanceEMDAmount
+    country
+    city
+    userCategory
+    status
+     vehicleBuyingLimit
+      paymentsCount  
+ idNo
+    states {
+      id
+      name
+    }
+ 
+    mobile
+    lastName
+  
+  }
+}

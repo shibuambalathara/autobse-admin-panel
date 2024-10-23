@@ -1,95 +1,39 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTable, usePagination, useGlobalFilter, useSortBy, Column } from "react-table";
-import { useUpdateLocationMutation, useLocationsQuery, Location } from "../../utils/graphql";
-import Swal from "sweetalert2";
+import { useUpdateLocationMutation, useLocationsQuery, Location as GQLLocation } from "../../utils/graphql"; // Alias the Location type
 import TableComponent from "../utils/table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import { Tablebutton } from "../utils/style";
+import EditLocation from "./editLocation";
+ // Import the EditLocation component
 
 const ViewLocationComponent: React.FC = () => {
   const { data, loading, error, refetch } = useLocationsQuery();
-  const [updateLocation] = useUpdateLocationMutation();
-console.log(data,'loc');
+  const [selectedLocation, setSelectedLocation] = useState<GQLLocation | null>(null); // Use GQLLocation to avoid conflict with DOM Location
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false); // State to toggle the Edit modal
 
-  const handleEditLocation = async (name: string, id: string) => {
-    const { value: input } = await Swal.fire({
-      title: 'Enter Location Name',
-      html: '<input id="location" class="swal2-input">',
-      focusConfirm: false,
-      preConfirm: () => {
-        const inputElement = document.getElementById('location') as HTMLInputElement;
-        return [inputElement.value];
-      },
-    });
-
-    const newState = input ? input[0] : '';
-    
-    if (newState) {
-      updateLocation({
-        variables: { where: { id }, updateLocationInput: { name: newState } },
-      })
-        .then((res) => {
-          Swal.fire({
-            icon: 'success',
-            title: `Location "${name}" changed to "${res?.data?.updateLocation?.name}"`,
-          });
-          refetch();
-        })
-        .catch((err) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Location not updated',
-          });
-        });
-    }
+  const handleEditLocation = (location: GQLLocation) => {
+    setSelectedLocation(location); // Set the selected location for editing
+    setIsEditModalOpen(true); // Open the edit modal
   };
 
-  const handleDelete = async (id: string) => {
-    const result = await Swal.fire({
-      title: 'Are you sure?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'Cancel',
-    });
-    
-    if (result.isConfirmed) {
-      // Perform delete operation here
-      Swal.fire({
-        icon: 'success',
-        title: 'Location deleted',
-      });
-    }
-  };
-
-  const columns: Column<Location>[] = useMemo(
+  const columns: Column<GQLLocation>[] = useMemo(
     () => [
       { Header: "City", accessor: "name" },
-      { Header: "State", accessor: (row: Location) => row?.state?.name },
-    
+      { Header: "State", accessor: (row: GQLLocation) => row?.state?.name },
       {
         Header: "Edit",
-        Cell: ({ row }: { row: { original: Location } }) => (
+        Cell: ({ row }: { row: { original: GQLLocation } }) => (
           <button
-            className="btn bg-red-500 text-xl"
-            onClick={() => handleEditLocation(row.original.name, row.original.id)}
+            className={`${Tablebutton.data} btn bg-red-500 text-lg`}
+            onClick={() => handleEditLocation(row.original)} // Call handleEditLocation with the selected location
           >
             <FontAwesomeIcon icon={faPenToSquare} />
           </button>
         ),
       },
-      // {
-      //   Header: "Delete",
-      //   Cell: ({ row }: { row: { original: Location } }) => (
-      //     <button
-      //       className="btn bg-red-500 text-xl"
-      //       onClick={() => handleDelete(row.original.id)}
-      //     >
-      //       <FontAwesomeIcon icon={faTrashCan} />
-      //     </button>
-      //   ),
-      // },
     ],
     []
   );
@@ -99,14 +43,22 @@ console.log(data,'loc');
 
   return (
     <div className="w-full h-full">
-      <div className="  h-fit">
-       
-          <div className="text-center font-extrabold my-5 text-lg w-full">
-            LOCATIONS
-          </div>
-          <TableComponent data={data?.locations||[]} columns={columns} />
+      <div className="h-fit">
+        <div className="text-center font-extrabold my-5 text-lg w-full">
+          LOCATIONS
         </div>
-    
+        <TableComponent data={data?.locations || []} columns={columns} />
+
+        {/* Call the EditLocation component and pass the selected location */}
+        {isEditModalOpen && (
+          <EditLocation
+            isModalOpen={isEditModalOpen}
+            setIsModalOpen={setIsEditModalOpen}
+            location={selectedLocation} // Pass the selected location
+            refetch={refetch} // Pass refetch to update the table after editing
+          />
+        )}
+      </div>
     </div>
   );
 };

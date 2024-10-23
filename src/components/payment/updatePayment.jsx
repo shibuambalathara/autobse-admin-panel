@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from 'react-router-dom';
 import{useViewUserQuery,useUpdatePaymentMutation,usePaymentQuery} from '../../utils/graphql'
 import { ShowPopup } from '../alerts/popUps';
-import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyle } from '../utils/style';
+import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyle, submit } from '../utils/style';
 import { SelectInput } from '../utils/formField';
 import { paymentsFor } from '../utils/constantValues';
 import { getS3ObjectUrl } from '../utils/aws-config';
@@ -151,7 +151,7 @@ const UpdatePayment = () => {
 <div className=" flex justify-center my-5">
           <button
             type="submit" 
-            className="btn btn-outline btn-primary px-10"
+            className={`${submit.data}`}
           >Save Changes </button>
         </div>
         </form>

@@ -1,0 +1,23 @@
+query EmdUpdatesPerPayment($where: PaymentWhereUniqueInput!) {
+  payment(where: $where) {
+    emdUpdate {
+   emdNo
+    id
+    payment {
+      id
+      amount
+      
+    }
+    user {
+      mobile
+      firstName
+      lastName
+    }
+   vehicleBuyingLimitIncrement
+    createdBy {
+      firstName
+    }
+
+    }
+  }
+}

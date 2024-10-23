@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useCreateSellerMutation } from "../../utils/graphql";
 import { ShowPopup } from "../alerts/popUps";
+import { useNavigate } from "react-router-dom";
 // import Select from 'react-select';
 
 interface FormValues {
@@ -16,7 +17,7 @@ interface FormValues {
 const AddSeller: React.FC = () => {
   const [createSeller] = useCreateSellerMutation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+const navigate =useNavigate()
   const {
     register,
     reset,
@@ -48,6 +49,7 @@ const AddSeller: React.FC = () => {
         5000,
         true
       );
+      navigate('/sellers');
     } catch (error: any) {
       ShowPopup("Failed!", `${error?.message}`, "error", 5000, true);
     }
@@ -86,7 +88,7 @@ const AddSeller: React.FC = () => {
                 GST Number <span className="text-red-500">*</span>
               </label>
               <input
-                {...register("gst", { required: true })}
+                {...register("gst", )}
                 className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
                 type="text"
                 placeholder="Enter GST Number"
@@ -128,7 +130,7 @@ const AddSeller: React.FC = () => {
                 Mobile <span className="text-red-500">*</span>
               </label>
               <input
-                {...register("mobile", { required: true })}
+                {...register("mobile",)}
                 className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
                 type="text"
                 placeholder="Enter Mobile Number"
@@ -152,14 +154,14 @@ const AddSeller: React.FC = () => {
             </div>
 
             {/* Event Type (Optional) */}
-            <div>
+            {/* <div>
               <label className="block text-gray-700 font-medium mb-1">
                 Event Type
               </label>
               <div className="relative">
-                {/* Future implementation for event types */}
+               
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* Submit Button */}
