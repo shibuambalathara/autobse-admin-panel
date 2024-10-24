@@ -38,7 +38,7 @@ navigate(`/view-user/${userId}`)
               return (
                 <a
                   className={`${Tablebutton.data} bg-blue-500`}
-                  href={`/view-user/${row.original?.createdById}`}
+                  href={`/view-user/${row.original?.createdBy?.id}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

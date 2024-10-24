@@ -114,7 +114,7 @@ const UserDetailsComponent = () => {
           <InputField label="First Name" register={register("first_Name", { required: "First Name is required" })} defaultValue={data.user.firstName} error={errors.first_Name} />
           <InputField label="Last Name" register={register("last_Name", { required: "Last Name is required" })} defaultValue={data.user.lastName} error={errors.last_Name} />
           <InputField label="Email" type="email" register={register("email", { required: "Email is required" })} defaultValue={data.user.email} error={errors.email} />
-          <InputField label="Username" register={register("user_Name", { required: "Username is required" })} defaultValue={data.user.username} error={errors.user_Name} />
+          <InputField label="Username" register={register("user_Name" )} defaultValue={data.user.username} error={errors.user_Name} disabled={true}/>
           <InputField label="Mobile" type="number" register={register("mobile", { required: "Mobile number is required", minLength: { value: 10, message: "Mobile number must be 10 digits" }, maxLength: { value: 10, message: "Mobile number must be 10 digits" } })} defaultValue={data.user.mobile} error={errors.mobile} />
           <InputField label="Business Name" register={register("bussiness")} defaultValue={data.user.businessName} error={errors.bussiness} />
 
@@ -130,7 +130,7 @@ const UserDetailsComponent = () => {
 
           <InputField label="ID Proof Number" register={register("IdNumber", { minLength: { value: 8, message: "ID proof number must be at least 8 characters" } })} defaultValue={data.user.idProofNo} error={errors.IdNumber} />
           <InputField label="State" register={register("state", { required: "State is required" })} defaultValue={data.user.state} component="select" options={indianStates} />
-          <InputField label="City" register={register("city", { required: "City is required" })} defaultValue={data.user.city} error={errors.city} />
+          <InputField label="City" register={register("city", )} defaultValue={data.user.city} error={errors.city} />
           <InputField label="Pancard" register={register("pancardNumber")} defaultValue={data.user.pancardNo} error={errors.pancardNumber} />
           {/* <div className="flex flex-col  w-full">
                 <label htmlFor="">Auction Allowed states</label>

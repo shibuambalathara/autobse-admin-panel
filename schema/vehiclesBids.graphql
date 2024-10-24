@@ -1,5 +1,6 @@
 query BidDetailsPerVehicle($where: VehicleWhereUniqueInput!) {
   vehicle(where: $where) {
+    id
     totalBids
     registrationNumber
     bidStatus

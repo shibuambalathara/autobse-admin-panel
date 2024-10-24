@@ -21,7 +21,11 @@ const EventsTableComponent = () => {
 
     const {data,loading,error,refetch}=useEventsQuery({variables:
       { 
-        // skip: currentPage * pageSize,take:pageSize, orderBy: {startDate:"desc"}
+        skip: currentPage * pageSize,take:pageSize, orderBy:[
+    {
+      eventNo: "DESC"
+    }
+  ],
         }})
 console.log(data,"data");
 
@@ -220,7 +224,7 @@ const handleDelete=(id)=>{
   
    </div>
      
-       <TableComponent data={data?.events||[]} columns={columns} sortBy='start Date'/>
+       <TableComponent data={data?.events.events||[]} columns={columns} sortBy='start Date'/>
 {/*   
           <LimitedDataPaginationComponents   
           currentPage={currentPage}
