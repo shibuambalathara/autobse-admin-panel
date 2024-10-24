@@ -24,6 +24,7 @@ mutation CreateEmdupdate($paymentId: String!, $userId: String!, $createEmdupdate
       id
       createdBy {
         firstName
+        id
       }
       createdAt
       emdNo

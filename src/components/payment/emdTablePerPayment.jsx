@@ -30,12 +30,12 @@ const{id}=useParams()
           { Header: "Created At ", accessor: ({createdAt})=>{return format(new Date( createdAt),`dd/MM/yy, HH:mm`)} },
          
           {
-            Header: "Created By",
+            Header: "Created By ",
             Cell: ({ row }) => {
               return (
                 <a
                   className={`${Tablebutton.data} bg-blue-500`}
-                  href={`/view-user/${row.original?.createdById}`}
+                  href={`/view-user/${row.original?.createdBy?.id                  }`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

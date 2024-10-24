@@ -1,5 +1,6 @@
-query Events {
-  events {
+query Events($where: EventWhereUniqueInput, $orderBy: [EventOrderByInput!], $take: Int, $skip: Int) {
+  events(where: $where, orderBy: $orderBy, take: $take, skip: $skip) {
+     events {
     bidLock
     id
     eventNo
@@ -29,7 +30,7 @@ query Events {
       location {
       name
     }
-  }
+  }}
 }
 
 

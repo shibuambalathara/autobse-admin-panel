@@ -45,6 +45,8 @@ navigate(`/update-payment/${paymentId}`)
       })
     }
     const handleDownload=(paymentData)=>{
+      console.log(paymentData,"ata download");
+      
       convertToPDF(paymentData,data.user)
     }
 
@@ -59,7 +61,7 @@ navigate(`/update-payment/${paymentId}`)
            { Header: "Updated At",  accessor: ({updatedAt})=>{return FormatDate( updatedAt)} },
            {
             Header: "Registration Expire",
-               accessor: ({ RegistrationExpire }) =>RegistrationExpire && new Date( RegistrationExpire),
+               accessor: ({ registrationExpire }) =>registrationExpire && new Date( registrationExpire),
         
    Cell: ({ value }) =>value ? FormatDate(value):'-',
            },

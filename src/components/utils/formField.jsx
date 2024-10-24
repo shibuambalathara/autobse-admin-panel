@@ -229,7 +229,7 @@ export const InputFields = ({
   </div>
 );
 // imaged maping
-export const InputField = ({ label, type = "text", register, error, defaultValue, component, options }) => (
+export const InputField = ({ label, type = "text", register, error, defaultValue, component, options ,disabled=false}) => (
   <div className={labelAndInputDiv.data}>
     <label>{label}</label>
     {component === "select" ? (
@@ -237,7 +237,7 @@ export const InputField = ({ label, type = "text", register, error, defaultValue
         {options?.map((option, index) => <option key={index} value={option}>{option}</option>)}
       </select>
     ) : (
-      <input type={type} {...register} defaultValue={defaultValue} className={inputStyle.data} />
+      <input type={type} {...register} defaultValue={defaultValue} className={inputStyle.data} disabled={disabled} />
     )}
     {error && <p className="text-red-500">{error.message}</p>}
   </div>

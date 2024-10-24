@@ -242,6 +242,8 @@ export type EnquiryWhereUniqueInput = {
 
 export type Event = {
   __typename?: 'Event';
+  CompletedEventCount?: Maybe<Scalars['Int']['output']>;
+  LiveEventCount?: Maybe<Scalars['Int']['output']>;
   Report?: Maybe<Scalars['JSON']['output']>;
   bidLock?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
@@ -265,6 +267,8 @@ export type Event = {
   startDate: Scalars['DateTime']['output'];
   status?: Maybe<Scalars['String']['output']>;
   termsAndConditions: Scalars['String']['output'];
+  totalEventsCount?: Maybe<Scalars['Int']['output']>;
+  upcomingEventCount?: Maybe<Scalars['Int']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   vehicleCategory?: Maybe<VehicleCategory>;
   vehicleCategoryId: Scalars['String']['output'];
@@ -286,6 +290,16 @@ export type EventVehiclesLiveArgs = {
   orderBy?: InputMaybe<Array<VehicleOrderByInput>>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   take?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type EventListResponse = {
+  __typename?: 'EventListResponse';
+  completedEventCount?: Maybe<Scalars['Int']['output']>;
+  events?: Maybe<Array<Event>>;
+  liveEventCount?: Maybe<Scalars['Int']['output']>;
+  totalEventsCount?: Maybe<Scalars['Int']['output']>;
+  upcomingEventCount?: Maybe<Scalars['Int']['output']>;
+  vehiclesCount: Scalars['Int']['output'];
 };
 
 export type EventOrderByInput = {
@@ -780,6 +794,7 @@ export type Query = {
   Enquiry: Enquiry;
   State: State;
   States: Array<State>;
+  completedEvents?: Maybe<Array<Event>>;
   deletedEnquiries: Array<Enquiry>;
   deletedEvent: Event;
   deletedEvents: Array<Event>;
@@ -802,7 +817,7 @@ export type Query = {
   emdUpdate: Emdupdate;
   emdUpdates: Array<Emdupdate>;
   event: Event;
-  events: Array<Event>;
+  events?: Maybe<EventListResponse>;
   eventsCount: Scalars['Int']['output'];
   excelUpload: Excelupload;
   excelUploads: Array<Excelupload>;
@@ -824,7 +839,7 @@ export type Query = {
   time: Scalars['String']['output'];
   upcomingEvents?: Maybe<Array<Event>>;
   user?: Maybe<User>;
-  users: Array<Maybe<User>>;
+  users?: Maybe<Array<User>>;
   usersCount: Scalars['Int']['output'];
   vehicle: Vehicle;
   vehicleCategories: Array<VehicleCategory>;
@@ -847,6 +862,14 @@ export type QueryEnquiryArgs = {
 
 export type QueryStateArgs = {
   where: StateWhereUniqueInput;
+};
+
+
+export type QueryCompletedEventsArgs = {
+  orderBy?: InputMaybe<Array<EventOrderByInput>>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<EventWhereUniqueInput>;
 };
 
 
@@ -906,6 +929,7 @@ export type QueryEventArgs = {
 
 
 export type QueryEventsArgs = {
+  options?: InputMaybe<QueryOptionsType>;
   orderBy?: InputMaybe<Array<EventOrderByInput>>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   take?: InputMaybe<Scalars['Int']['input']>;
@@ -971,6 +995,9 @@ export type QueryUserArgs = {
 
 
 export type QueryUsersArgs = {
+  orderBy?: InputMaybe<Array<UserOrderByInput>>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<UserWhereUniqueInput>;
 };
 
@@ -988,6 +1015,11 @@ export type QueryVehicleCategoryArgs = {
 export type QueryVehiclesArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   take?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<VehicleWhereUniqueInput>;
+};
+
+export type QueryOptionsType = {
+  enabled?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type Recentsold = {
@@ -1041,9 +1073,10 @@ export type SendOtpResponse = {
 export type State = {
   __typename?: 'State';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
+  createdBy?: Maybe<User>;
   createdById: Scalars['String']['output'];
   id: Scalars['String']['output'];
-  location: Location;
+  location?: Maybe<Array<Location>>;
   name: StateNames;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
@@ -1323,6 +1356,12 @@ export enum UserIdProofTypeType {
   Passport = 'Passport'
 }
 
+export type UserOrderByInput = {
+  createdAt?: InputMaybe<OrderDirection>;
+  id?: InputMaybe<OrderDirection>;
+  idNo?: InputMaybe<OrderDirection>;
+};
+
 export enum UserRoleType {
   Admin = 'admin',
   Dealer = 'dealer',
@@ -1559,7 +1598,7 @@ export type EmdTableQueryVariables = Exact<{
 }>;
 
 
-export type EmdTableQuery = { __typename?: 'Query', payment: { __typename?: 'Payment', id: string, paymentFor?: string | null, emdUpdate?: Array<{ __typename?: 'Emdupdate', id: string, createdAt?: any | null, emdNo: number, vehicleBuyingLimitIncrement?: number | null, createdBy?: { __typename?: 'User', firstName: string } | null, payment?: { __typename?: 'Payment', amount?: number | null } | null }> | null } };
+export type EmdTableQuery = { __typename?: 'Query', payment: { __typename?: 'Payment', id: string, paymentFor?: string | null, emdUpdate?: Array<{ __typename?: 'Emdupdate', id: string, createdAt?: any | null, emdNo: number, vehicleBuyingLimitIncrement?: number | null, createdBy?: { __typename?: 'User', firstName: string, id: string } | null, payment?: { __typename?: 'Payment', amount?: number | null } | null }> | null } };
 
 export type CreateLocationMutationVariables = Exact<{
   createLocationInput: CreateLocationInput;
@@ -1628,12 +1667,17 @@ export type EmdUpdatesPerPaymentQueryVariables = Exact<{
 }>;
 
 
-export type EmdUpdatesPerPaymentQuery = { __typename?: 'Query', payment: { __typename?: 'Payment', emdUpdate?: Array<{ __typename?: 'Emdupdate', emdNo: number, id: string, vehicleBuyingLimitIncrement?: number | null, payment?: { __typename?: 'Payment', id: string, amount?: number | null } | null, user?: { __typename?: 'User', mobile: string, firstName: string, lastName: string } | null, createdBy?: { __typename?: 'User', firstName: string } | null }> | null } };
+export type EmdUpdatesPerPaymentQuery = { __typename?: 'Query', payment: { __typename?: 'Payment', emdUpdate?: Array<{ __typename?: 'Emdupdate', emdNo: number, id: string, vehicleBuyingLimitIncrement?: number | null, payment?: { __typename?: 'Payment', id: string, amount?: number | null } | null, user?: { __typename?: 'User', mobile: string, firstName: string, lastName: string } | null, createdBy?: { __typename?: 'User', id: string, firstName: string } | null }> | null } };
 
-export type EventsQueryVariables = Exact<{ [key: string]: never; }>;
+export type EventsQueryVariables = Exact<{
+  where?: InputMaybe<EventWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<EventOrderByInput> | EventOrderByInput>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+}>;
 
 
-export type EventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', bidLock?: string | null, id: string, eventNo: number, Report?: any | null, eventCategory: string, startDate: any, endDate: any, pauseDate?: any | null, pausedTotalTime?: number | null, sellerId: string, vehicleCategoryId: string, noOfBids: number, downloadableFile_filename?: string | null, termsAndConditions: string, createdAt?: any | null, updatedAt?: any | null, createdById: string, extraTimeTrigerIn?: number | null, extraTime?: number | null, vehicleLiveTimeIn?: number | null, gapInBetweenVehicles?: number | null, status?: string | null, vehiclesCount?: number | null, seller?: { __typename?: 'Seller', name: string } | null, location?: { __typename?: 'Location', name: string } | null }> };
+export type EventsQuery = { __typename?: 'Query', events?: { __typename?: 'EventListResponse', events?: Array<{ __typename?: 'Event', bidLock?: string | null, id: string, eventNo: number, Report?: any | null, eventCategory: string, startDate: any, endDate: any, pauseDate?: any | null, pausedTotalTime?: number | null, sellerId: string, vehicleCategoryId: string, noOfBids: number, downloadableFile_filename?: string | null, termsAndConditions: string, createdAt?: any | null, updatedAt?: any | null, createdById: string, extraTimeTrigerIn?: number | null, extraTime?: number | null, vehicleLiveTimeIn?: number | null, gapInBetweenVehicles?: number | null, status?: string | null, vehiclesCount?: number | null, seller?: { __typename?: 'Seller', name: string } | null, location?: { __typename?: 'Location', name: string } | null }> | null } | null };
 
 export type EventQueryVariables = Exact<{
   where: EventWhereUniqueInput;
@@ -1748,14 +1792,14 @@ export type ViewUserQuery = { __typename?: 'Query', user?: { __typename?: 'User'
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string, role: string, firstName: string, BalanceEMDAmount?: number | null, country: string, city: string, userCategory: string, status: string, vehicleBuyingLimit?: number | null, paymentsCount?: number | null, idNo: number, mobile: string, lastName: string, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null } | null> };
+export type UsersQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', id: string, email: string, role: string, firstName: string, BalanceEMDAmount?: number | null, country: string, city: string, userCategory: string, status: string, vehicleBuyingLimit?: number | null, paymentsCount?: number | null, idNo: number, mobile: string, lastName: string, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null }> | null };
 
 export type UsersByStateQueryVariables = Exact<{
   where?: InputMaybe<UserWhereUniqueInput>;
 }>;
 
 
-export type UsersByStateQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string, role: string, firstName: string, BalanceEMDAmount?: number | null, country: string, city: string, userCategory: string, status: string, vehicleBuyingLimit?: number | null, paymentsCount?: number | null, idNo: number, mobile: string, lastName: string, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null } | null> };
+export type UsersByStateQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', id: string, email: string, role: string, firstName: string, BalanceEMDAmount?: number | null, country: string, city: string, userCategory: string, status: string, vehicleBuyingLimit?: number | null, paymentsCount?: number | null, idNo: number, mobile: string, lastName: string, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null }> | null };
 
 export type CreateVehiclecategoryMutationVariables = Exact<{
   createVehiclecategoryInput: CreateVehiclecategoryInput;
@@ -1809,7 +1853,7 @@ export type BidDetailsPerVehicleQueryVariables = Exact<{
 }>;
 
 
-export type BidDetailsPerVehicleQuery = { __typename?: 'Query', vehicle: { __typename?: 'Vehicle', totalBids?: number | null, registrationNumber: string, bidStatus?: string | null, userVehicleBidsCount?: number | null, currentBidUser?: { __typename?: 'User', firstName: string, lastName: string, mobile: string } | null, event?: { __typename?: 'Event', seller?: { __typename?: 'Seller', name: string } | null } | null, userVehicleBids?: Array<{ __typename?: 'Bid', id: string, amount: number, bidVehicleId: string, userId: string, user?: { __typename?: 'User', firstName: string, mobile: string, lastName: string } | null }> | null } };
+export type BidDetailsPerVehicleQuery = { __typename?: 'Query', vehicle: { __typename?: 'Vehicle', id: string, totalBids?: number | null, registrationNumber: string, bidStatus?: string | null, userVehicleBidsCount?: number | null, currentBidUser?: { __typename?: 'User', firstName: string, lastName: string, mobile: string } | null, event?: { __typename?: 'Event', seller?: { __typename?: 'Seller', name: string } | null } | null, userVehicleBids?: Array<{ __typename?: 'Bid', id: string, amount: number, bidVehicleId: string, userId: string, user?: { __typename?: 'User', firstName: string, mobile: string, lastName: string } | null }> | null } };
 
 
 export const CreateSellerDocument = gql`
@@ -2202,6 +2246,7 @@ export const EmdTableDocument = gql`
       id
       createdBy {
         firstName
+        id
       }
       createdAt
       emdNo
@@ -2687,6 +2732,7 @@ export const EmdUpdatesPerPaymentDocument = gql`
       }
       vehicleBuyingLimitIncrement
       createdBy {
+        id
         firstName
       }
     }
@@ -2727,36 +2773,38 @@ export type EmdUpdatesPerPaymentLazyQueryHookResult = ReturnType<typeof useEmdUp
 export type EmdUpdatesPerPaymentSuspenseQueryHookResult = ReturnType<typeof useEmdUpdatesPerPaymentSuspenseQuery>;
 export type EmdUpdatesPerPaymentQueryResult = Apollo.QueryResult<EmdUpdatesPerPaymentQuery, EmdUpdatesPerPaymentQueryVariables>;
 export const EventsDocument = gql`
-    query Events {
-  events {
-    bidLock
-    id
-    eventNo
-    Report
-    eventCategory
-    startDate
-    endDate
-    pauseDate
-    pausedTotalTime
-    sellerId
-    vehicleCategoryId
-    noOfBids
-    downloadableFile_filename
-    termsAndConditions
-    createdAt
-    updatedAt
-    createdById
-    extraTimeTrigerIn
-    extraTime
-    vehicleLiveTimeIn
-    gapInBetweenVehicles
-    status
-    vehiclesCount
-    seller {
-      name
-    }
-    location {
-      name
+    query Events($where: EventWhereUniqueInput, $orderBy: [EventOrderByInput!], $take: Int, $skip: Int) {
+  events(where: $where, orderBy: $orderBy, take: $take, skip: $skip) {
+    events {
+      bidLock
+      id
+      eventNo
+      Report
+      eventCategory
+      startDate
+      endDate
+      pauseDate
+      pausedTotalTime
+      sellerId
+      vehicleCategoryId
+      noOfBids
+      downloadableFile_filename
+      termsAndConditions
+      createdAt
+      updatedAt
+      createdById
+      extraTimeTrigerIn
+      extraTime
+      vehicleLiveTimeIn
+      gapInBetweenVehicles
+      status
+      vehiclesCount
+      seller {
+        name
+      }
+      location {
+        name
+      }
     }
   }
 }
@@ -2774,6 +2822,10 @@ export const EventsDocument = gql`
  * @example
  * const { data, loading, error } = useEventsQuery({
  *   variables: {
+ *      where: // value for 'where'
+ *      orderBy: // value for 'orderBy'
+ *      take: // value for 'take'
+ *      skip: // value for 'skip'
  *   },
  * });
  */
@@ -4089,6 +4141,7 @@ export type UpdateVehicleMutationOptions = Apollo.BaseMutationOptions<UpdateVehi
 export const BidDetailsPerVehicleDocument = gql`
     query BidDetailsPerVehicle($where: VehicleWhereUniqueInput!) {
   vehicle(where: $where) {
+    id
     totalBids
     registrationNumber
     bidStatus

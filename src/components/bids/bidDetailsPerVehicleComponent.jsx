@@ -76,6 +76,8 @@ const BidDetailsPerVehicleComponent = () => {
   };
 
   const handleReport = (vehicle) => {
+    console.log("repp",vehicle);
+    
       DownloadBidHistory(vehicle);
   };
 

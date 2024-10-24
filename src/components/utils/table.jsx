@@ -1,10 +1,12 @@
 import React, { useMemo, useState } from "react";
-import { useTable, usePagination } from "react-table";
+import { useTable, usePagination, useGlobalFilter, useSortBy } from "react-table";
+import Search from "./search";
 
 function TableComponent({ columns, data }) {
   const [pageIndex, setPageIndex] = useState(0);
 
   const {
+   
     getTableProps,
     getTableBodyProps,
     headerGroups,
@@ -15,6 +17,8 @@ function TableComponent({ columns, data }) {
     nextPage,
     previousPage,
     state: { pageIndex: currentPageIndex },
+    state,
+      setGlobalFilter,
   } = useTable(
     {
       columns,
@@ -22,8 +26,11 @@ function TableComponent({ columns, data }) {
       initialState: { pageIndex },
       pageSize: 10, // Set page size to 10 rows per page
     },
+    useGlobalFilter,
+    useSortBy,
     usePagination
   );
+  const { globalFilter, } = state;
 
   if (!data) {
     return <div>Loading...</div>;
@@ -32,7 +39,9 @@ function TableComponent({ columns, data }) {
   return (
     <div className="flex flex-col items-center">
       <div className="sm:-mx-2 lg:-mx-4">
+     
         <div className="inline-block  py-2 sm:px-6 lg:px-8">
+        <Search  filter={globalFilter} className="  text-white bg-red-200" setFilter={setGlobalFilter}/>
           <div className="border border-gray-200 dark:border-gray-400 md:rounded-lg overflow-hidden">
             {/* Table wrapper for horizontal scroll */}
             <div className="overflow-x-auto w-[82rem] min-h-[10rem] max-h-[27rem]">
