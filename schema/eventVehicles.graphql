@@ -5,7 +5,7 @@ query EventVehicles($where: EventWhereUniqueInput!) {
       {
         name
       }
-    vehicles {
+   vehiclesLive  {
       id
       bidStatus
       vehicleIndexNo

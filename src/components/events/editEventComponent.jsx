@@ -8,7 +8,7 @@ import {
   useSingleEventQuery,
   useUpdateEventMutation,
 } from "../../utils/graphql";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate  } from "react-router-dom";
 import { ShowPopup } from "../alerts/popUps";
 import {
   formStyle,
@@ -16,9 +16,12 @@ import {
   inputStyle,
   labelAndInputDiv,
   pageStyle,
+  submit,
+
 } from "../utils/style";
 import { InputFields } from "../utils/formField";
 import { auctionStatuses, eventCategories, eventLock } from "../utils/constantValues";
+import { fileUploadService } from "../utils/restApi";
 
 const EditEventComponent = () => {
   const [startDatedata, setStartDate] = useState("");
@@ -38,7 +41,7 @@ const EditEventComponent = () => {
   const location = useLocationsQuery();
   const [editEvent] = useUpdateEventMutation({ variables: { where: { id } } });
   const { data, loading, error } = useSingleEventQuery({ variables: { where: { id } } });
-
+const navigate =useNavigate()
   useEffect(() => {
     if (data?.event) {
       const dateObjStart = new Date(data.event.startDate);
@@ -64,8 +67,8 @@ const EditEventComponent = () => {
   const onSubmit = async (dataOnSubmit) => {
     const eventData = {
       eventCategory: dataOnSubmit?.eventCategory,
-      startDate: isoStartDate,
-      endDate: isoEndDatedata,
+      // startDate: isoStartDate,
+      // endDate: isoEndDatedata,
       // firstVehicleEndDate: firstVehicleEndDate, // New field
       // pauseDate: pauseDate, // New field
       // pausedTotalTime: pausedTotalTime, // New field
@@ -76,17 +79,50 @@ const EditEventComponent = () => {
       status: dataOnSubmit?.status,
       termsAndConditions: dataOnSubmit?.conditions,
       bidLock: dataOnSubmit?.lockedOrNot,
-      extraTimeTrigerIn: +dataOnSubmit?.timeTriger,
-      extraTime: +dataOnSubmit?.extraTime,
-      // vehicleLiveTimeIn: +dataOnSubmit?.liveTime,
-      gapInBetweenVehicles: +dataOnSubmit?.gap,
+      // extraTimeTrigerIn: +dataOnSubmit?.timeTriger,
+      // extraTime: +dataOnSubmit?.extraTime,
+      // // vehicleLiveTimeIn: +dataOnSubmit?.liveTime,
+      // gapInBetweenVehicles: +dataOnSubmit?.gap,
     };
 
     try {
       const result = await editEvent({ variables: { updateEventInput: eventData } });
       if (result) {
         ShowPopup("Success!", "Event updated successfully!", "success", 5000, true);
+      
+      
+        const file = dataOnSubmit?.downloadable[0];
+        console.log(file,"file");
+        
+        const uploadUrl = `https://api-dev.autobse.com/api/v1/fileupload/vehicle_list_excel/${id}`;
+       
+      
+        const additionalParams = {
+          eventId: id, // Add other parameters as needed
+        };
+      
+        const response = await fileUploadService({
+          file,
+          uploadUrl,
+          additionalParams,
+       
+        });
+      
+        if (response.success) {
+          ShowPopup(
+            "Success!",
+            `${dataOnSubmit?.uploadFileName} Excel File Added successfully!`,
+            "success",
+            5000,
+            true
+          );
+          navigate('/events');
+        } else {
+          ShowPopup("Failed!", `Document upload failed: ${response.error}`, "error", 5000, true);
+        }
+  
       }
+
     } catch (error) {
       ShowPopup("Failed!", `${error.message}!`, "error", 5000, true);
     }
@@ -109,7 +145,7 @@ const EditEventComponent = () => {
         <form onSubmit={handleSubmit(onSubmit)} className={`${formStyle.data}`}>
           <InputFields
             label="Event Category"
-            register={register("eventCategory", { required: true })}
+            register={register("eventCategory")}
             defaultValue={data?.event?.eventCategory}
             component="select"
             options={eventCategories}
@@ -119,7 +155,7 @@ const EditEventComponent = () => {
           <InputFields
             label="Start Date and Time"
             type="datetime-local"
-            register={register("startDate", { required: true })}
+            register={register("startDate")}
             defaultValue={startDatedata}
             onChange={(e) => handleStartDateToIso(e.target.value)}
             error={errors.startDate}
@@ -128,7 +164,7 @@ const EditEventComponent = () => {
           <InputFields
             label="End Date and Time"
             type="datetime-local"
-            register={register("endDate", { required: true })}
+            register={register("endDate")}
             defaultValue={endDatedata}
             onChange={(e) => handleEndDateToIso(e.target.value)}
             error={errors.endDate}
@@ -149,7 +185,7 @@ const EditEventComponent = () => {
           />
 
           <InputFields
-            label="Event Type"
+            label="Vehicle category"
             register={register("eventId", { required: true })}
             defaultValue={data?.event?.vehicleCategoryId}
             component="select"
@@ -188,6 +224,18 @@ const EditEventComponent = () => {
             options={auctionStatuses}
             error={errors.status}
           />
+           <div className={`${labelAndInputDiv.data}`}>
+              <label className="font-bold">Downloadable File</label>
+              <input
+                type="file"
+                {...register("downloadable", {})}
+                className={`${inputStyle.data}`}
+              ></input>
+              <p className="text-red-500">
+                {" "}
+                {errors.downloadable && <span>Downloadable file required</span>}
+              </p>
+            </div>
 
          
           <InputFields
@@ -241,7 +289,7 @@ const EditEventComponent = () => {
           </div>
  
 
-          <button type="submit" className="btn btn-success">Save Changes</button>
+          <button type="submit" className={`${submit.data} col-span-3 w-40 text-center`}>Save Changes</button>
         </form>
       </div>
     </div>

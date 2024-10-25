@@ -282,7 +282,7 @@ Swal.fire({
 {/* {updateDate?.date &&<UpdateBidTime currentDate={updateDate?.date} handleChangeStartTime={handleChangeStartTime}/>} */}
 {/* {enable && <UpdateEventEndTime handleChangeEndTime={handleChangeEndTime}/>} */}
 
-      <TableComponent data={data?.event?.vehicles} columns={columns} sortBy='lotNumber' order={true}/> 
+      <TableComponent data={data?.event?.vehiclesLive} columns={columns} sortBy='lotNumber' order={true}/> 
 
   </div>
   </div>
