@@ -23,8 +23,10 @@ export type Bid = {
   __typename?: 'Bid';
   amount: Scalars['Float']['output'];
   bidVehicleId: Scalars['String']['output'];
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
   user?: Maybe<User>;
   userId: Scalars['String']['output'];
 };
@@ -91,10 +93,10 @@ export type CreatePaymentInput = {
 };
 
 export type CreateRecentsoldInput = {
-  image: Scalars['String']['input'];
-  location: Scalars['String']['input'];
-  soldDate: Scalars['DateTime']['input'];
-  vehicleName: Scalars['String']['input'];
+  image?: InputMaybe<Scalars['String']['input']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  soldDate?: InputMaybe<Scalars['String']['input']>;
+  vehicleName?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CreateSellerInput = {
@@ -131,7 +133,7 @@ export type CreateUserInput = {
   idProofNo?: InputMaybe<Scalars['String']['input']>;
   idProofType?: InputMaybe<UserIdProofTypeType>;
   lastName?: InputMaybe<Scalars['String']['input']>;
-  mobile?: InputMaybe<Scalars['String']['input']>;
+  mobile: Scalars['String']['input'];
   pancardNo?: InputMaybe<Scalars['String']['input']>;
   pancard_image?: InputMaybe<Scalars['String']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
@@ -218,6 +220,7 @@ export type Emdupdate = {
   __typename?: 'Emdupdate';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   createdBy?: Maybe<User>;
+  createdById?: Maybe<Scalars['String']['output']>;
   emdNo: Scalars['Float']['output'];
   id: Scalars['String']['output'];
   payment?: Maybe<Payment>;
@@ -228,12 +231,14 @@ export type Emdupdate = {
 
 export type Enquiry = {
   __typename?: 'Enquiry';
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
   firstName: Scalars['String']['output'];
   lastName: Scalars['String']['output'];
   message: Scalars['String']['output'];
   mobile: Scalars['String']['output'];
   state: Scalars['String']['output'];
   status: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
 export type EnquiryWhereUniqueInput = {
@@ -247,7 +252,7 @@ export type Event = {
   Report?: Maybe<Scalars['JSON']['output']>;
   bidLock?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
-  createdById: Scalars['String']['output'];
+  createdById?: Maybe<Scalars['String']['output']>;
   downloadableFile_filename?: Maybe<Scalars['String']['output']>;
   endDate: Scalars['DateTime']['output'];
   eventCategory: Scalars['String']['output'];
@@ -276,6 +281,7 @@ export type Event = {
   vehicles?: Maybe<Array<Vehicle>>;
   vehiclesCount?: Maybe<Scalars['Int']['output']>;
   vehiclesLive: Array<Vehicle>;
+  vehiclesTemp: Array<Vehicle>;
 };
 
 
@@ -297,6 +303,7 @@ export type EventListResponse = {
   completedEventCount?: Maybe<Scalars['Int']['output']>;
   events?: Maybe<Array<Event>>;
   liveEventCount?: Maybe<Scalars['Int']['output']>;
+  totalBids?: Maybe<Scalars['Int']['output']>;
   totalEventsCount?: Maybe<Scalars['Int']['output']>;
   upcomingEventCount?: Maybe<Scalars['Int']['output']>;
   vehiclesCount: Scalars['Int']['output'];
@@ -829,6 +836,7 @@ export type Query = {
   payment: Payment;
   payments: Array<Payment>;
   paymentsCount: Scalars['Int']['output'];
+  recentSold: Recentsold;
   recentSolds: Array<Recentsold>;
   restoreState: State;
   seller: Seller;
@@ -965,6 +973,11 @@ export type QueryPaymentArgs = {
 };
 
 
+export type QueryRecentSoldArgs = {
+  where: RecentsoldWhereUniqueInput;
+};
+
+
 export type QueryRestoreStateArgs = {
   where: StateWhereUniqueInput;
 };
@@ -1024,10 +1037,13 @@ export type QueryOptionsType = {
 
 export type Recentsold = {
   __typename?: 'Recentsold';
-  image: Scalars['String']['output'];
-  location: Scalars['String']['output'];
-  soldDate: Scalars['DateTime']['output'];
-  vehicleName: Scalars['String']['output'];
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  image?: Maybe<Scalars['String']['output']>;
+  location?: Maybe<Scalars['String']['output']>;
+  soldDate?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  vehicleName?: Maybe<Scalars['String']['output']>;
 };
 
 export type RecentsoldWhereUniqueInput = {
@@ -1040,7 +1056,7 @@ export type Seller = {
   billingContactPerson: Scalars['String']['output'];
   contactPerson?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
-  createdById: Scalars['String']['output'];
+  createdById?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
   logo: Scalars['String']['output'];
   mobile: Scalars['String']['output'];
@@ -1074,7 +1090,7 @@ export type State = {
   __typename?: 'State';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   createdBy?: Maybe<User>;
-  createdById: Scalars['String']['output'];
+  createdById?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
   location?: Maybe<Array<Location>>;
   name: StateNames;
@@ -1195,10 +1211,10 @@ export type UpdatePaymentInput = {
 };
 
 export type UpdateRecentsoldInput = {
-  image: Scalars['String']['input'];
-  location: Scalars['String']['input'];
-  soldDate: Scalars['DateTime']['input'];
-  vehicleName: Scalars['String']['input'];
+  image?: InputMaybe<Scalars['String']['input']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  soldDate?: InputMaybe<Scalars['String']['input']>;
+  vehicleName?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateSellerInput = {
@@ -1582,7 +1598,7 @@ export type CreateEventMutationVariables = Exact<{
 }>;
 
 
-export type CreateEventMutation = { __typename?: 'Mutation', createEvent: { __typename?: 'Event', bidLock?: string | null, createdAt?: any | null, createdById: string, downloadableFile_filename?: string | null, endDate: any, eventCategory: string, eventNo: number, extraTime?: number | null, extraTimeTrigerIn?: number | null, gapInBetweenVehicles?: number | null, id: string, locationId: string, noOfBids: number, pausedTotalTime?: number | null, pauseDate?: any | null, sellerId: string, startDate: any, status?: string | null, termsAndConditions: string, updatedAt?: any | null, vehicleCategoryId: string, vehicleLiveTimeIn?: number | null } };
+export type CreateEventMutation = { __typename?: 'Mutation', createEvent: { __typename?: 'Event', bidLock?: string | null, createdAt?: any | null, createdById?: string | null, downloadableFile_filename?: string | null, endDate: any, eventCategory: string, eventNo: number, extraTime?: number | null, extraTimeTrigerIn?: number | null, gapInBetweenVehicles?: number | null, id: string, locationId: string, noOfBids: number, pausedTotalTime?: number | null, pauseDate?: any | null, sellerId: string, startDate: any, status?: string | null, termsAndConditions: string, updatedAt?: any | null, vehicleCategoryId: string, vehicleLiveTimeIn?: number | null } };
 
 export type CreateEmdupdateMutationVariables = Exact<{
   paymentId: Scalars['String']['input'];
@@ -1629,7 +1645,7 @@ export type SingleEventQueryVariables = Exact<{
 }>;
 
 
-export type SingleEventQuery = { __typename?: 'Query', event: { __typename?: 'Event', id: string, eventNo: number, eventCategory: string, startDate: any, endDate: any, firstVehicleEndDate: any, pauseDate?: any | null, pausedTotalTime?: number | null, sellerId: string, vehicleCategoryId: string, locationId: string, noOfBids: number, downloadableFile_filename?: string | null, termsAndConditions: string, createdAt?: any | null, updatedAt?: any | null, createdById: string, extraTimeTrigerIn?: number | null, extraTime?: number | null, vehicleLiveTimeIn?: number | null, gapInBetweenVehicles?: number | null, status?: string | null, bidLock?: string | null, vehiclesCount?: number | null, Report?: any | null } };
+export type SingleEventQuery = { __typename?: 'Query', event: { __typename?: 'Event', id: string, eventNo: number, eventCategory: string, startDate: any, endDate: any, firstVehicleEndDate: any, pauseDate?: any | null, pausedTotalTime?: number | null, sellerId: string, vehicleCategoryId: string, locationId: string, noOfBids: number, downloadableFile_filename?: string | null, termsAndConditions: string, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null, extraTimeTrigerIn?: number | null, extraTime?: number | null, vehicleLiveTimeIn?: number | null, gapInBetweenVehicles?: number | null, status?: string | null, bidLock?: string | null, vehiclesCount?: number | null, Report?: any | null } };
 
 export type UpdateLocationMutationVariables = Exact<{
   where: LocationWhereUniqueInput;
@@ -1677,21 +1693,21 @@ export type EventsQueryVariables = Exact<{
 }>;
 
 
-export type EventsQuery = { __typename?: 'Query', events?: { __typename?: 'EventListResponse', events?: Array<{ __typename?: 'Event', bidLock?: string | null, id: string, eventNo: number, Report?: any | null, eventCategory: string, startDate: any, endDate: any, pauseDate?: any | null, pausedTotalTime?: number | null, sellerId: string, vehicleCategoryId: string, noOfBids: number, downloadableFile_filename?: string | null, termsAndConditions: string, createdAt?: any | null, updatedAt?: any | null, createdById: string, extraTimeTrigerIn?: number | null, extraTime?: number | null, vehicleLiveTimeIn?: number | null, gapInBetweenVehicles?: number | null, status?: string | null, vehiclesCount?: number | null, seller?: { __typename?: 'Seller', name: string } | null, location?: { __typename?: 'Location', name: string } | null }> | null } | null };
+export type EventsQuery = { __typename?: 'Query', events?: { __typename?: 'EventListResponse', events?: Array<{ __typename?: 'Event', bidLock?: string | null, id: string, eventNo: number, Report?: any | null, eventCategory: string, startDate: any, endDate: any, pauseDate?: any | null, pausedTotalTime?: number | null, sellerId: string, vehicleCategoryId: string, noOfBids: number, downloadableFile_filename?: string | null, termsAndConditions: string, createdAt?: any | null, updatedAt?: any | null, extraTimeTrigerIn?: number | null, extraTime?: number | null, vehicleLiveTimeIn?: number | null, gapInBetweenVehicles?: number | null, status?: string | null, vehiclesCount?: number | null, seller?: { __typename?: 'Seller', name: string } | null, location?: { __typename?: 'Location', name: string } | null }> | null } | null };
 
 export type EventQueryVariables = Exact<{
   where: EventWhereUniqueInput;
 }>;
 
 
-export type EventQuery = { __typename?: 'Query', event: { __typename?: 'Event', id: string, eventNo: number, eventCategory: string, startDate: any, endDate: any, pauseDate?: any | null, pausedTotalTime?: number | null, sellerId: string, vehicleCategoryId: string, locationId: string, noOfBids: number, downloadableFile_filename?: string | null, termsAndConditions: string, createdAt?: any | null, updatedAt?: any | null, createdById: string, extraTimeTrigerIn?: number | null, extraTime?: number | null, vehicleLiveTimeIn?: number | null, gapInBetweenVehicles?: number | null, status?: string | null, bidLock?: string | null } };
+export type EventQuery = { __typename?: 'Query', event: { __typename?: 'Event', id: string, eventNo: number, eventCategory: string, startDate: any, endDate: any, pauseDate?: any | null, pausedTotalTime?: number | null, sellerId: string, vehicleCategoryId: string, locationId: string, noOfBids: number, downloadableFile_filename?: string | null, termsAndConditions: string, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null, extraTimeTrigerIn?: number | null, extraTime?: number | null, vehicleLiveTimeIn?: number | null, gapInBetweenVehicles?: number | null, status?: string | null, bidLock?: string | null } };
 
 export type EventVehiclesQueryVariables = Exact<{
   where: EventWhereUniqueInput;
 }>;
 
 
-export type EventVehiclesQuery = { __typename?: 'Query', event: { __typename?: 'Event', eventNo: number, seller?: { __typename?: 'Seller', name: string } | null, vehicles?: Array<{ __typename?: 'Vehicle', id: string, bidStatus?: string | null, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, ownership?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, veicleLocation?: string | null, parkingCharges?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, image?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, totalBids?: number | null, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null }> | null } };
+export type EventVehiclesQuery = { __typename?: 'Query', event: { __typename?: 'Event', eventNo: number, seller?: { __typename?: 'Seller', name: string } | null, vehiclesLive: Array<{ __typename?: 'Vehicle', id: string, bidStatus?: string | null, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, createdById?: string | null, ownership?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, veicleLocation?: string | null, parkingCharges?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, image?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, totalBids?: number | null, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, currentBidUser?: { __typename?: 'User', firstName: string, lastName: string } | null }> } };
 
 export type CreateExceluploadMutationVariables = Exact<{
   eventId: Scalars['String']['input'];
@@ -1706,7 +1722,7 @@ export type SellerQueryVariables = Exact<{
 }>;
 
 
-export type SellerQuery = { __typename?: 'Query', seller: { __typename?: 'Seller', name: string, contactPerson?: string | null, GSTNumber: string, billingContactPerson: string, mobile: string, nationalHead: string, logo: string, updatedAt: any, createdAt: any, createdById: string, id: string } };
+export type SellerQuery = { __typename?: 'Query', seller: { __typename?: 'Seller', name: string, contactPerson?: string | null, GSTNumber: string, billingContactPerson: string, mobile: string, nationalHead: string, logo: string, updatedAt: any, createdAt: any, createdById?: string | null, id: string } };
 
 export type UpdateSellerMutationVariables = Exact<{
   where: SellerWhereUniqueInput;
@@ -1714,7 +1730,7 @@ export type UpdateSellerMutationVariables = Exact<{
 }>;
 
 
-export type UpdateSellerMutation = { __typename?: 'Mutation', updateSeller: { __typename?: 'Seller', name: string, contactPerson?: string | null, GSTNumber: string, billingContactPerson: string, mobile: string, nationalHead: string, logo: string, createdAt: any, updatedAt: any, createdById: string, id: string } };
+export type UpdateSellerMutation = { __typename?: 'Mutation', updateSeller: { __typename?: 'Seller', name: string, contactPerson?: string | null, GSTNumber: string, billingContactPerson: string, mobile: string, nationalHead: string, logo: string, createdAt: any, updatedAt: any, createdById?: string | null, id: string } };
 
 export type LocationQueryVariables = Exact<{
   where: LocationWhereUniqueInput;
@@ -1760,7 +1776,7 @@ export type UserPaymentsQuery = { __typename?: 'Query', user?: { __typename?: 'U
 export type SellersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SellersQuery = { __typename?: 'Query', sellers: Array<{ __typename?: 'Seller', id: string, name: string, contactPerson?: string | null, GSTNumber: string, billingContactPerson: string, mobile: string, nationalHead: string, logo: string, createdAt: any, updatedAt: any, createdById: string }> };
+export type SellersQuery = { __typename?: 'Query', sellers: Array<{ __typename?: 'Seller', id: string, name: string, contactPerson?: string | null, GSTNumber: string, billingContactPerson: string, mobile: string, nationalHead: string, logo: string, createdAt: any, updatedAt: any, createdById?: string | null }> };
 
 export type CreateStateMutationVariables = Exact<{
   createStateInput: CreateStateInput;
@@ -1853,7 +1869,7 @@ export type BidDetailsPerVehicleQueryVariables = Exact<{
 }>;
 
 
-export type BidDetailsPerVehicleQuery = { __typename?: 'Query', vehicle: { __typename?: 'Vehicle', id: string, totalBids?: number | null, registrationNumber: string, bidStatus?: string | null, userVehicleBidsCount?: number | null, currentBidUser?: { __typename?: 'User', firstName: string, lastName: string, mobile: string } | null, event?: { __typename?: 'Event', seller?: { __typename?: 'Seller', name: string } | null } | null, userVehicleBids?: Array<{ __typename?: 'Bid', id: string, amount: number, bidVehicleId: string, userId: string, user?: { __typename?: 'User', firstName: string, mobile: string, lastName: string } | null }> | null } };
+export type BidDetailsPerVehicleQuery = { __typename?: 'Query', vehicle: { __typename?: 'Vehicle', id: string, lotNumber?: number | null, yardLocation?: string | null, totalBids?: number | null, registrationNumber: string, bidStatus?: string | null, userVehicleBidsCount?: number | null, currentBidUser?: { __typename?: 'User', firstName: string, lastName: string, mobile: string } | null, event?: { __typename?: 'Event', seller?: { __typename?: 'Seller', name: string } | null } | null, userVehicleBids?: Array<{ __typename?: 'Bid', createdAt?: any | null, id: string, amount: number, bidVehicleId: string, userId: string, user?: { __typename?: 'User', firstName: string, mobile: string, lastName: string } | null }> | null } };
 
 
 export const CreateSellerDocument = gql`
@@ -2792,7 +2808,6 @@ export const EventsDocument = gql`
       termsAndConditions
       createdAt
       updatedAt
-      createdById
       extraTimeTrigerIn
       extraTime
       vehicleLiveTimeIn
@@ -2913,7 +2928,11 @@ export const EventVehiclesDocument = gql`
     seller {
       name
     }
-    vehicles {
+    vehiclesLive {
+      currentBidUser {
+        firstName
+        lastName
+      }
       id
       bidStatus
       vehicleIndexNo
@@ -2930,6 +2949,7 @@ export const EventVehiclesDocument = gql`
       model
       varient
       category
+      createdById
       ownership
       insuranceStatus
       yardLocation
@@ -4142,6 +4162,8 @@ export const BidDetailsPerVehicleDocument = gql`
     query BidDetailsPerVehicle($where: VehicleWhereUniqueInput!) {
   vehicle(where: $where) {
     id
+    lotNumber
+    yardLocation
     totalBids
     registrationNumber
     bidStatus
@@ -4157,6 +4179,7 @@ export const BidDetailsPerVehicleDocument = gql`
     }
     userVehicleBidsCount
     userVehicleBids {
+      createdAt
       id
       amount
       bidVehicleId

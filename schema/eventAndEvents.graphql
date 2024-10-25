@@ -17,7 +17,7 @@ query Events($where: EventWhereUniqueInput, $orderBy: [EventOrderByInput!], $tak
     termsAndConditions
     createdAt
     updatedAt
-    createdById
+   
     extraTimeTrigerIn
     extraTime
     vehicleLiveTimeIn

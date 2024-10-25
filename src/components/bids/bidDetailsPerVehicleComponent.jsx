@@ -17,7 +17,7 @@ import Swal from "sweetalert2";
 import { ShowPopup } from "../alerts/popUps";
 
 import TableComponent from "../utils/table";
-import { Tablebutton } from "../utils/style";
+import {  Tablebutton } from "../utils/style";
 
 
 
@@ -145,7 +145,7 @@ const BidDetailsPerVehicleComponent = () => {
             Bidders Details of Lot No:
             <span className="text-red-500">
               {" "}
-              {data?.vehicle?.vehicleIndexNo}
+              {data?.vehicle?.lotNumber}
             </span>{" "}
             & Auction No:
             <span className="text-red-500">
@@ -176,7 +176,7 @@ const BidDetailsPerVehicleComponent = () => {
                 <span className="font-bold"> {data?.vehicle?.bidStatus}</span>
               </h1>
               <a
-                className="btn bg-sky-600"
+                className={`${Tablebutton.data } bg-blue-800 hover:bg-orange-700`}
                 target="_blank"
                 rel="noopener noreferrer"
                 href={`/edit-vehicle/${data?.vehicle?.id}`}
@@ -185,7 +185,7 @@ const BidDetailsPerVehicleComponent = () => {
                 Change Status
               </a>
               <button
-                className="btn bg-pink-500"
+                  className={`${Tablebutton.data } bg-orange-600 hover:bg-blue-900`}
                 onClick={(e) => handleReport(data?.vehicle)}
               >
                 Bid Sheet

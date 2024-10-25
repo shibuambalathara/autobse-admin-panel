@@ -12,7 +12,8 @@ useVehicleCategoriesQuery,
 } from "../../utils/graphql";
 import { useNavigate } from "react-router-dom";
 import { terms } from "./terms&conditions";
-import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyle } from "../utils/style";
+import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyle, submit } from "../utils/style";
+import { fileUploadService } from "../utils/restApi";
 
 const AddEventComponent = () => {
   
@@ -33,7 +34,7 @@ const AddEventComponent = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (dataOnSubmit) => {
+  const onSubmit = async(dataOnSubmit) => {
     // Convert the start and end date to ISO format
     const isoStartDate = new Date(dataOnSubmit?.startDate).toISOString();
     const isoEndDate = new Date(dataOnSubmit?.endDate).toISOString();
@@ -77,26 +78,61 @@ const AddEventComponent = () => {
       createEventInput: createEventInput,
       sellerId: dataOnSubmit?.sellerName || "",
     };
+    try {
+      
+      const result= await addEvent({ variables })
+      let id =result?.data?.createEvent?.id 
+    console.log(result,"result");
+
+    const file = dataOnSubmit?.downloadable[0];
+    console.log(file,"file");
+    
+    const uploadUrl = `https://api-dev.autobse.com/api/v1/fileupload/vehicle_list_excel/${id}`;
+   
   
+    const additionalParams = {
+      eventId: id, // Add other parameters as needed
+    };
+  
+    const response = await fileUploadService({
+      file,
+      uploadUrl,
+      additionalParams,
+   
+    });
+  
+    if (response.success) {
+      ShowPopup(
+        "Success!",
+        `${dataOnSubmit?.uploadFileName} Excel File Added successfully!`,
+        "success",
+        5000,
+        true
+      );
+      navigate('/events');
+    } else {
+      ShowPopup("Failed!", `Document upload failed: ${response.error}`, "error", 5000, true);
+    }
+
+
+   
+      ShowPopup(
+        "Success!",
+        "Event Created Successfully! Upload Excel Now",
+        "success",
+        5000,
+        true
+      );
+      
+      // Navigate to excel upload page
+      navigate(`/excel-upload/${id}`);
+    }
+    catch (error) {
+      ShowPopup("Failed!", `${error.message}!`, "error", 5000, true);
+    }
     // Make the API call using the create event mutation
-    addEvent({ variables })
-      .then((result) => {
-        // Show success popup if the event is created successfully
-        ShowPopup(
-          "Success!",
-          "Event Created Successfully! Upload Excel Now",
-          "success",
-          5000,
-          true
-        );
-        
-        // Navigate to excel upload page
-        navigate(`/excel-upload/${result?.data?.createEvent?.id}`);
-      })
-      .catch((error) => {
-        // Show error popup in case of any issues
-        ShowPopup("Failed!", error.message, "error", 5000, true);
-      });
+    
+     
   };
   
 
@@ -411,11 +447,11 @@ const AddEventComponent = () => {
               className={`${inputStyle.data} h-40`}            />
           </div>
           <div className="text-center m-5 ">
-            {!data && <button className="btn btn-success px-10"> Save </button>}
+            {!data && <button className={submit.data}> Save </button>}
           </div>
         </form>
         {data && (
-          <button onClick={handleOnClick} className="btn w-fit btn-secondary">
+          <button onClick={handleOnClick} className={submit.data}>
             {" "}
             Upload Excel file{" "}
           </button>

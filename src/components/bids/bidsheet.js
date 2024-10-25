@@ -69,13 +69,13 @@ export const  DownloadBidHistory =async (vehicle) => {
     // Add the table after the textual content
     const sortedBids = vehicle?.userVehicleBids.slice().sort((a, b) => a.amount - b.amount);
   
-    const tableHeaders = ["Token NO", "Buyer Name", "Mobile NO", "Bid Dt & Time", "Bid Amount"];
+    const tableHeaders = [ "Buyer Name", "Mobile NO", "Bid Dt & Time", "Bid Amount"];
     const tableData = sortedBids.map((bid) => [
       // bid?.user?.tempToken,
       bid?.user?.firstName,
       bid?.user?.mobile,
       format(new Date(bid.createdAt), 'dd/MM/yy, HH:mm:ss'),
-      bid.amount.toString(),
+      bid.amount,
     ]);
   
     pdf.autoTable({
