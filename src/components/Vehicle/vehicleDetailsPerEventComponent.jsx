@@ -200,7 +200,7 @@ Swal.fire({
           Cell: ({ row }) => (
             // <button className="btn btn-accent" onClick={()=>handleBidDetails(row.original.id) }>Bid Details</button>
           
-    row.original.totalBids !==0 ?        <a  className={`${Tablebutton.data} bg-blue-500`} href={`/bid-details/${row.original.id}`} target="_blank" rel="noopener noreferrer"> view {row.original.totalBids}</a>:'0'
+    row.original.totalBids !==0 ?        <a  className={`${Tablebutton.data} bg-blue-500`} href={`/bid-details/${row.original.id}`} target="_blank" rel="noopener noreferrer">  {row.original.totalBids}</a>:'0'
             )
         },
         {

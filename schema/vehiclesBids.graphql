@@ -1,6 +1,8 @@
 query BidDetailsPerVehicle($where: VehicleWhereUniqueInput!) {
   vehicle(where: $where) {
     id
+    lotNumber
+    yardLocation
     totalBids
     registrationNumber
     bidStatus
@@ -17,6 +19,7 @@ query BidDetailsPerVehicle($where: VehicleWhereUniqueInput!) {
     }
     userVehicleBidsCount
     userVehicleBids {
+      createdAt
       id
       amount
       bidVehicleId
