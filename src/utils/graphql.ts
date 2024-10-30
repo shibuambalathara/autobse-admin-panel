@@ -22,6 +22,7 @@ export type Scalars = {
 export type Bid = {
   __typename?: 'Bid';
   amount: Scalars['Float']['output'];
+  bidVehicle?: Maybe<Vehicle>;
   bidVehicleId: Scalars['String']['output'];
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['String']['output'];
@@ -32,6 +33,7 @@ export type Bid = {
 };
 
 export type BidWhereUniqueInput = {
+  bidVehicleId?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -866,6 +868,11 @@ export type Query = {
 
 
 export type QueryBidArgs = {
+  where: BidWhereUniqueInput;
+};
+
+
+export type QueryBidsArgs = {
   where: BidWhereUniqueInput;
 };
 
@@ -1885,6 +1892,13 @@ export type BidDetailsPerVehicleQueryVariables = Exact<{
 
 
 export type BidDetailsPerVehicleQuery = { __typename?: 'Query', vehicle: { __typename?: 'Vehicle', id: string, lotNumber?: number | null, yardLocation?: string | null, totalBids?: number | null, registrationNumber: string, bidStatus?: string | null, userVehicleBidsCount?: number | null, currentBidUser?: { __typename?: 'User', firstName: string, lastName: string, mobile: string } | null, event?: { __typename?: 'Event', seller?: { __typename?: 'Seller', name: string } | null } | null, userVehicleBids?: Array<{ __typename?: 'Bid', createdAt?: any | null, id: string, amount: number, bidVehicleId: string, userId: string, user?: { __typename?: 'User', firstName: string, mobile: string, lastName: string } | null }> | null } };
+
+export type BidDetailsQueryVariables = Exact<{
+  where: BidWhereUniqueInput;
+}>;
+
+
+export type BidDetailsQuery = { __typename?: 'Query', Bids: Array<{ __typename?: 'Bid', createdAt?: any | null, id: string, amount: number, bidVehicleId: string, userId: string, bidVehicle?: { __typename?: 'Vehicle', lotNumber?: number | null, yardLocation?: string | null, totalBids?: number | null, registrationNumber: string, bidStatus?: string | null, userVehicleBidsCount?: number | null, currentBidUser?: { __typename?: 'User', firstName: string, lastName: string, mobile: string } | null, event?: { __typename?: 'Event', seller?: { __typename?: 'Seller', name: string } | null } | null } | null, user?: { __typename?: 'User', firstName: string, mobile: string, lastName: string } | null }> };
 
 
 export const CreateSellerDocument = gql`
@@ -4241,3 +4255,70 @@ export type BidDetailsPerVehicleQueryHookResult = ReturnType<typeof useBidDetail
 export type BidDetailsPerVehicleLazyQueryHookResult = ReturnType<typeof useBidDetailsPerVehicleLazyQuery>;
 export type BidDetailsPerVehicleSuspenseQueryHookResult = ReturnType<typeof useBidDetailsPerVehicleSuspenseQuery>;
 export type BidDetailsPerVehicleQueryResult = Apollo.QueryResult<BidDetailsPerVehicleQuery, BidDetailsPerVehicleQueryVariables>;
+export const BidDetailsDocument = gql`
+    query BidDetails($where: BidWhereUniqueInput!) {
+  Bids(where: $where) {
+    bidVehicle {
+      lotNumber
+      yardLocation
+      totalBids
+      registrationNumber
+      bidStatus
+      currentBidUser {
+        firstName
+        lastName
+        mobile
+      }
+      event {
+        seller {
+          name
+        }
+      }
+      userVehicleBidsCount
+    }
+    createdAt
+    id
+    amount
+    bidVehicleId
+    userId
+    user {
+      firstName
+      mobile
+      lastName
+    }
+  }
+}
+    `;
+
+/**
+ * __useBidDetailsQuery__
+ *
+ * To run a query within a React component, call `useBidDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBidDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBidDetailsQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useBidDetailsQuery(baseOptions: Apollo.QueryHookOptions<BidDetailsQuery, BidDetailsQueryVariables> & ({ variables: BidDetailsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BidDetailsQuery, BidDetailsQueryVariables>(BidDetailsDocument, options);
+      }
+export function useBidDetailsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BidDetailsQuery, BidDetailsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BidDetailsQuery, BidDetailsQueryVariables>(BidDetailsDocument, options);
+        }
+export function useBidDetailsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<BidDetailsQuery, BidDetailsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<BidDetailsQuery, BidDetailsQueryVariables>(BidDetailsDocument, options);
+        }
+export type BidDetailsQueryHookResult = ReturnType<typeof useBidDetailsQuery>;
+export type BidDetailsLazyQueryHookResult = ReturnType<typeof useBidDetailsLazyQuery>;
+export type BidDetailsSuspenseQueryHookResult = ReturnType<typeof useBidDetailsSuspenseQuery>;
+export type BidDetailsQueryResult = Apollo.QueryResult<BidDetailsQuery, BidDetailsQueryVariables>;

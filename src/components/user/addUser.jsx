@@ -114,7 +114,7 @@ const AddUser = () => {
           <FormFieldInput label="ID proof (Back)" type="file" name="idBack" register={register} error={errors.idBack} />
           {/* <FormFieldInput label="Dealership Image" type="file" name="dealership" register={register} error={errors.dealership} /> */}
 
-          <FormFieldInput label="Country" type="text" name="country" register={register} error={errors.country} />
+        
           <FormFieldInput label="City" type="text" name="city" register={register} error={errors.city} />
 
           < StateInput options={indianStates} label="State" type="text" name="state" register={register} error={errors.state} />

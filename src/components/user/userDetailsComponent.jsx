@@ -18,7 +18,9 @@ const UserDetailsComponent = () => {
   });
   const imageLabels = {
     pancard_image: "Pancard",
+    aadharcard_front_image: "ID Proof front",
     aadharcard_back_image: "ID Proof Back",
+
     driving_license_front_image: "License Front",
     driving_license_back_image: "License Back",
   };
@@ -171,6 +173,7 @@ const UserDetailsComponent = () => {
 
                 <Controller
                   name="states"
+                  rules={{ required: "Please select at least one state" }} 
                   control={control}
                   defaultValue={data?.user?.states.map((state) => ({
                     label: state.name,
@@ -178,6 +181,7 @@ const UserDetailsComponent = () => {
                   }))}
                   render={({ field }) => (
                     <Select
+                    
                className={`${inputStyle.data}`}
                       option=""
                       options={allStates?.data?.States?.map((state) => ({
@@ -190,6 +194,7 @@ const UserDetailsComponent = () => {
                     />
                   )}
                 />
+                 <p className="text-red-500">{errors.states && <span>{errors.states.message}</span>}</p>
               </div>
           <div className="col-span-3 grid grid-cols-2 gap-4 mt-4">
            
