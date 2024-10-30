@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
-import { useStatesQuery, useUpdateUserMutation, useViewUserQuery } from "../../utils/graphql";
+import { useStatesQuery, useUpdateUserMutation, useViewUserQuery ,} from "../../utils/graphql";
 import { ShowPopup } from "../alerts/popUps";
 import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyle, submit } from "../utils/style";
 import { indianStates } from "../../utils/data";
 import { InputField } from "../utils/formField";
 import imageCompression from "browser-image-compression";
+import Select from "react-select";
 
 const UserDetailsComponent = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const UserDetailsComponent = () => {
   };
   const allStates = useStatesQuery();
   const [updateUser] = useUpdateUserMutation();
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const { register, handleSubmit, formState: { errors }, reset,control } = useForm();
   const [isUpload, setIsUpload] = useState(false);
   const [fileData, setFileData] = useState({
     pancard_image: { file: null, preview: null },
@@ -105,13 +106,16 @@ const UserDetailsComponent = () => {
       city: dataOnSubmit?.city,
       status: dataOnSubmit?.status,
       role: dataOnSubmit?.role,
+      states: 
+          dataOnSubmit.states.map((state) => (state?.label )),
+      
     };
 
     try {
       await updateUser({ variables: { where: { id }, data: user } });
        await uploadFile();
       ShowPopup("Success!", `${dataOnSubmit.first_Name} updated successfully!`, "success", 5000, true);
-      reset(); // Reset form after success
+      navigate('/users') // Reset form after success
     } catch (err) {
       ShowPopup("User Update Failed!", err.message, "error", 5000, true);
     }
@@ -136,10 +140,34 @@ const UserDetailsComponent = () => {
           <InputField label="Mobile" type="number" register={register("mobile", { required: "Mobile number is required", minLength: { value: 10, message: "Mobile number must be 10 digits" }, maxLength: { value: 10, message: "Mobile number must be 10 digits" } })} defaultValue={data.user.mobile} error={errors.mobile} />
           <InputField label="Business Name" register={register("bussiness")} defaultValue={data.user.businessName} error={errors.bussiness} />
           <InputField label="ID Proof Number" register={register("IdNumber", { minLength: { value: 8, message: "ID proof number must be at least 8 characters" } })} defaultValue={data.user.idProofNo} error={errors.IdNumber} />
-          <InputField label="State" register={register("state", { required: "State is required" })} defaultValue={data.user.state} component="select" options={indianStates} />
+          <InputField label="State" register={register("state", { required: "State is required" })} defaultValue={data.user.State} component="select" options={indianStates} />
           <InputField label="City" register={register("city")} defaultValue={data.user.city} error={errors.city} />
           <InputField label="Pancard" register={register("pancardNumber")} defaultValue={data.user.pancardNo} error={errors.pancardNumber} />
+          <div className="flex flex-col  w-full">
+                <label htmlFor="">Auction Allowed states</label>
 
+                <Controller
+                  name="states"
+                  control={control}
+                  defaultValue={data?.user?.states.map((state) => ({
+                    label: state.name,
+                    value: state.id,
+                  }))}
+                  render={({ field }) => (
+                    <Select
+               className={`${inputStyle.data}`}
+                      option=""
+                      options={allStates?.data?.States?.map((state) => ({
+                        label: state.name,
+                        value: state.id,
+                      }))}
+                      {...field}
+                      isMulti
+                      getOptionValue={(option) => option.value}
+                    />
+                  )}
+                />
+              </div>
           <div className="col-span-3 grid grid-cols-2 gap-4 mt-4">
            
            

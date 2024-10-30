@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { StateNames, useCreateVehicleMutation ,useVehicleCategoriesQuery} from "../../utils/graphql";
 import { ShowPopup } from '../alerts/popUps';
 import { CatInput, FormFieldInput, SelectInput, StateInput, TextAreaInput } from "../utils/formField";
@@ -9,6 +9,7 @@ import { indianStates } from "../../utils/data";
 
 const AddVehicleComponent = () => {
   const { id } = useParams();
+  const navigate =useNavigate()
   const [createVehicle] = useCreateVehicleMutation();
   const { register, handleSubmit, formState: { errors } } = useForm();
   const category= useVehicleCategoriesQuery();
@@ -100,6 +101,7 @@ const AddVehicleComponent = () => {
       if (result) {
         ShowPopup("Success!", `${dataOnSubmit?.registrationNumber} Added successfully!`, "success", 5000, true);
       }
+      navigate('/events')
     } catch (error) {
       ShowPopup("Failed!", `${error.message}`, "error", 5000, true);
     }
