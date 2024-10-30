@@ -98,23 +98,23 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
   
   // { Header: "Balance (EMD Amount)", accessor: "BalanceEMDAmount", },
   
-  { Header: "City", accessor: "city", },
+  // { Header: "City", accessor: "city", },
   // { Header: "User Category", accessor: "userCategory", },
   
-      // {
-      //   Header: "Active Bids",
-      //   Cell: ({ row }) =>
-      //     row.original.activeBidsCount !== 0 && (
-      //       <a
-      //         className="btn btn-primary"
-      //         href={`/bids-user/${row.original.id}`}
-      //         target="_blank"
-      //         rel="noopener noreferrer"
-      //       >
-      //         {row.original.activeBidsCount}
-      //       </a>
-      //     ),
-      // },
+      {
+        Header: "Active Bids",
+        Cell: ({ row }) =>
+          // row.original.activeBidsCount !== 0 && (
+            <a
+            className= {`${Tablebutton.data} bg-green-400`}
+              href={`/bids-user/${row.original.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {row.original.activeBidsCount}
+            </a>
+         
+      },
       {
         Header: "Current Buying Limit",
         Cell: ({ row }) => {

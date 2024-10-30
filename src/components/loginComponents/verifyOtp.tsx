@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setAuthData } from '../../store/authSlice';
 import { useVerifyOtpMutation } from '../../utils/graphql';
+import { Toast } from '../utils/toast';
 
 interface LoginForm {
  
@@ -50,6 +51,9 @@ const VerifyLogin: React.FC<VerifyLoginProps> = ({ number }) => {
 
   return (
     <>
+     {message && (
+       <Toast message={message} type={"error"}/>
+      )}
     <form onSubmit={handleSubmit(onSubmit)}>
             
               <div className="mt-4">
@@ -58,14 +62,20 @@ const VerifyLogin: React.FC<VerifyLoginProps> = ({ number }) => {
                 </label>
                 <input
                   type="number"
-                  {...register("otp", { required: true })}
+                  {...register("otp", { required: "Please enter otp",pattern: {
+                    value: /^[0-9]{4}$/, // 10 digit phone number pattern
+                    message: "Please enter a valid 4-digit  number"
+                  } })}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 mt-1"
                   placeholder="Enter the OTP"
                 />
+                {errors.otp && (
+              <p className="text-red-500 text-sm mt-1">{errors.otp.message}</p>
+            )}
               </div>
               <button
                 type="submit"
-                className="w-full bg-black text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition mt-4"
+               className="w-full bg-black opacity-80 text-white py-2 px-4 rounded-lg hover:bg-black hover:opacity-100 mt-6" 
               >
                 Verify OTP
               </button>

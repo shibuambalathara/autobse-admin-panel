@@ -29,10 +29,6 @@ query VehicleCategory($where: VehicleCategoryWhereUniqueInput!) {
 
 mutation UpdateVehicleCategory($where: VehicleCategoryWhereUniqueInput!, $updateVehiclecategoryInput: UpdateVehiclecategoryInput!) {
   updateVehicleCategory(where: $where, updateVehiclecategoryInput: $updateVehiclecategoryInput) {
-    createdAt
-    createdById
     id
-    name
-    updatedAt
   }
 }

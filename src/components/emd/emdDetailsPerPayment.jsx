@@ -7,6 +7,7 @@ import { useTable,useSortBy, usePagination, useGlobalFilter } from "react-table"
 import Swal from "sweetalert2";
 import {   useEmdUpdatesPerPaymentQuery } from "../../utils/graphql";
 import TableComponent from "../utils/table";
+import { Tablebutton } from "../utils/style";
 
 
 const EmdDetails = () => {
@@ -25,18 +26,16 @@ console.log(data);
 const handleMessage=(emdUpdates)=>{
  
   const {user,payment,vehicleBuyingLimitIncrement,}=emdUpdates
-  const formatedDate=format(new Date(payment.coupenDetail[0].createdAt),`dd/MM/yy, HH:mm`)
+  
   
   Swal.fire({
     html: `<div>
         <h1>Message From Team AutoBse</h1>
         
-        <p>Dear: ${user.firstName} ${user.lastName},</p>
-        <p>You have ${vehicleBuyingLimitIncrement} Buying Limit against the payment of Rs.${payment.amount}. Created at ${formatedDate}</p>
+        <p>Dear: ${user?.firstName} ${user?.lastName},</p>
+        <p>You have ${vehicleBuyingLimitIncrement} Buying Limit against the payment of Rs.${payment?.amount}</p>
        
-        <p>Coupons are ${payment.coupenDetail.map((coupen, index) => {
-            return `<p>${index + 1}. ${coupen.coupenNumber}</p>`;
-        }).join('')}</p>
+        
         <p>For more details, please contact Team AutoBse.</p>
         <p>Thank you.</p>
       </div>`
@@ -59,19 +58,12 @@ const handleMessage=(emdUpdates)=>{
         Cell: ({ row }) => (
            
              
-               <button className="btn bg-teal-500" onClick={()=>handleMessage(row.original) }>Message to:{row.original?.user?.mobile}</button>
+               <button className={`${Tablebutton.data} bg-teal-500`} onClick={()=>handleMessage(row.original) }>Message to:{row.original?.user?.mobile}</button>
     
     
   
  
         )
-      },
-      {
-        Header: "View Token status ",
-        Cell: ({ row }) => (
-    
-          <a className="btn btn-primary w-24" href={`/coupenPerPayment/${row.original?.payment?.id}`} target="_blank" rel="noopener noreferrer">View status</a>
-        ),
       },
      
     ],
@@ -98,7 +90,7 @@ const handleMessage=(emdUpdates)=>{
           <div className="mb-4">
             <div className="text-center font-extrabold my-1  text-2xl w-full">
               {" "}
-              Emd of Amount {data.payment?.emdUpdate[0]?.payment?.amount} of {data.payment?.emdUpdate[0]?.user?.firstName} {data.payment?.emdUpdate[0]?.user?.lastName} {" "}
+              Emd  Amount {data.payment?.emdUpdate[0]?.payment?.amount} of {data.payment?.emdUpdate[0]?.user?.firstName} {data.payment?.emdUpdate[0]?.user?.lastName} {" "}
             </div>
        
           </div>

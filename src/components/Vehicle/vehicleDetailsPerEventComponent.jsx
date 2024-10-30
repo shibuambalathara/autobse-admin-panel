@@ -186,7 +186,7 @@ Swal.fire({
               )
           },
           { Header: "State", accessor: "state" },
-         { Header: "City", accessor: "city" },
+        //  { Header: "City", accessor: "city" },
       
          { Header: "Vehicle Status", accessor: "vehicleEventStatus" },
          

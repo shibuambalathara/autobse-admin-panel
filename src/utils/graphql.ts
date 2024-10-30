@@ -134,7 +134,7 @@ export type CreateUserInput = {
   idProofType?: InputMaybe<UserIdProofTypeType>;
   lastName?: InputMaybe<Scalars['String']['input']>;
   mobile: Scalars['String']['input'];
-  pancardNo?: InputMaybe<Scalars['String']['input']>;
+  pancardNo: Scalars['String']['input'];
   pancard_image?: InputMaybe<Scalars['String']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<UserRoleType>;
@@ -293,6 +293,13 @@ export type EventVehiclesArgs = {
 
 
 export type EventVehiclesLiveArgs = {
+  orderBy?: InputMaybe<Array<VehicleOrderByInput>>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type EventVehiclesTempArgs = {
   orderBy?: InputMaybe<Array<VehicleOrderByInput>>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   take?: InputMaybe<Scalars['Int']['input']>;
@@ -1026,6 +1033,7 @@ export type QueryVehicleCategoryArgs = {
 
 
 export type QueryVehiclesArgs = {
+  orderBy?: InputMaybe<Array<VehicleOrderByInput>>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   take?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<VehicleWhereUniqueInput>;
@@ -1252,6 +1260,7 @@ export type UpdateUserInput = {
   password?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<UserRoleType>;
   state?: InputMaybe<StateNames>;
+  states?: InputMaybe<Array<StateNames>>;
   status?: InputMaybe<UserStatusType>;
   tempToken?: InputMaybe<Scalars['Float']['input']>;
   userCategory?: InputMaybe<Scalars['String']['input']>;
@@ -1397,6 +1406,7 @@ export type UserWhereUniqueInput = {
   idNo?: InputMaybe<Scalars['Float']['input']>;
   mobile?: InputMaybe<Scalars['String']['input']>;
   pancardNo?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<UserRoleType>;
   state?: InputMaybe<StateNames>;
   tempToken?: InputMaybe<Scalars['Float']['input']>;
 };
@@ -1847,7 +1857,7 @@ export type UpdateVehicleCategoryMutationVariables = Exact<{
 }>;
 
 
-export type UpdateVehicleCategoryMutation = { __typename?: 'Mutation', updateVehicleCategory: { __typename?: 'VehicleCategory', createdAt?: any | null, createdById?: string | null, id: string, name: string, updatedAt?: any | null } };
+export type UpdateVehicleCategoryMutation = { __typename?: 'Mutation', updateVehicleCategory: { __typename?: 'VehicleCategory', id: string } };
 
 export type SubscriptionVehicleUpdatesSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -3899,11 +3909,7 @@ export const UpdateVehicleCategoryDocument = gql`
     where: $where
     updateVehiclecategoryInput: $updateVehiclecategoryInput
   ) {
-    createdAt
-    createdById
     id
-    name
-    updatedAt
   }
 }
     `;

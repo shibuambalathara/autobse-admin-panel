@@ -102,12 +102,16 @@ const Login: React.FC = () => {
                   mobile
                 </label>
                 <input
-                 {...register("userName", { required: true })}
+                 {...register("userName", { required: "Please enter mobile number" })}
                   
                  
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 mt-1"
-                  placeholder="Enter your email or mobile No"
+                  placeholder="Enter mobile number"
                 />
+{errors.userName && (
+              <p className="text-red-500 text-sm mt-1">{errors.userName.message}</p>
+            )}
+
               </div>
               <div className="mb-4">
                 <label htmlFor="password" className="block text-gray-700">
@@ -115,10 +119,13 @@ const Login: React.FC = () => {
                 </label>
                 <input
                   type="password"
-                  {...register("password", { required: true })}
+                  {...register("password", { required: "Please Enter your password" })}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 mt-1"
                   placeholder="Enter your password"
                 />
+                {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+            )}
               </div>
               <button
                 type="submit"
