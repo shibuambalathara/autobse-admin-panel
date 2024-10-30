@@ -18,7 +18,9 @@ const UserDetailsComponent = () => {
   });
   const imageLabels = {
     pancard_image: "Pancard",
+    aadharcard_front_image: "ID Proof front",
     aadharcard_back_image: "ID Proof Back",
+
     driving_license_front_image: "License Front",
     driving_license_back_image: "License Back",
   };
@@ -139,15 +141,39 @@ const UserDetailsComponent = () => {
           <InputField label="Username" register={register("user_Name")} defaultValue={data.user.username} error={errors.user_Name} disabled={true} />
           <InputField label="Mobile" type="number" register={register("mobile", { required: "Mobile number is required", minLength: { value: 10, message: "Mobile number must be 10 digits" }, maxLength: { value: 10, message: "Mobile number must be 10 digits" } })} defaultValue={data.user.mobile} error={errors.mobile} />
           <InputField label="Business Name" register={register("bussiness")} defaultValue={data.user.businessName} error={errors.bussiness} />
-          <InputField label="ID Proof Number" register={register("IdNumber", { minLength: { value: 8, message: "ID proof number must be at least 8 characters" } })} defaultValue={data.user.idProofNo} error={errors.IdNumber} />
+          <InputField label="ID Proof Number" register={register("IdNumber", )} defaultValue={data.user.idProofNo} error={errors.IdNumber} />
           <InputField label="State" register={register("state", { required: "State is required" })} defaultValue={data.user.State} component="select" options={indianStates} />
           <InputField label="City" register={register("city")} defaultValue={data.user.city} error={errors.city} />
           <InputField label="Pancard" register={register("pancardNumber")} defaultValue={data.user.pancardNo} error={errors.pancardNumber} />
+          <div className={labelAndInputDiv.data}>
+            <label>Role</label>
+            <select className={inputStyle.data} {...register("role", { required: "Role is required" })}>
+              <option value={data.user.role}>{data.user.role}</option>
+              <option value="admin">Admin</option>
+              <option value="staff">Staff</option>
+              <option value="seller">Seller</option>
+              <option value="dealer">Dealer</option>
+            </select>
+            <p className="text-red-500">{errors.role && <span>{errors.role.message}</span>}</p>
+          </div>
+
+          <div className={labelAndInputDiv.data}>
+            <label>Status</label>
+            <select defaultValue={data.user.status} className={inputStyle.data} {...register("status", { required: "Status is required" })}>
+              <option value="">Select Status</option>
+              <option value="pending">Pending</option>
+              <option value="blocked">Blocked</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+            <p className="text-red-500">{errors.status && <span>{errors.status.message}</span>}</p>
+          </div>
           <div className="flex flex-col  w-full">
                 <label htmlFor="">Auction Allowed states</label>
 
                 <Controller
                   name="states"
+                  rules={{ required: "Please select at least one state" }} 
                   control={control}
                   defaultValue={data?.user?.states.map((state) => ({
                     label: state.name,
@@ -155,6 +181,7 @@ const UserDetailsComponent = () => {
                   }))}
                   render={({ field }) => (
                     <Select
+                    
                className={`${inputStyle.data}`}
                       option=""
                       options={allStates?.data?.States?.map((state) => ({
@@ -167,6 +194,7 @@ const UserDetailsComponent = () => {
                     />
                   )}
                 />
+                 <p className="text-red-500">{errors.states && <span>{errors.states.message}</span>}</p>
               </div>
           <div className="col-span-3 grid grid-cols-2 gap-4 mt-4">
            

@@ -3,8 +3,8 @@ import React, { useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import {
-  useBidDetailsPerVehicleQuery,
-
+  useBidDetailsPerbidVehicleQuery,
+useBidDetailsQuery
   // useDeleteBidMutation,
   // useDeletedBiddataMutation,
 } from "../../utils/graphql";
@@ -21,11 +21,11 @@ import {  Tablebutton } from "../utils/style";
 
 
 
-const BidDetailsPerVehicleComponent = () => {
+const BidDetailsPerbidVehicleComponent = () => {
   // const [isModalOpen, setIsModalOpen] = useState(false);
   const { id } = useParams();
-  const { data, loading, error, refetch } = useBidDetailsPerVehicleQuery({
-    variables: { where: { id } },
+  const { data, loading, error, refetch } = useBidDetailsQuery({
+    variables: { where: { bidVehicleId:id } },
   });
   console.log(data ,'data');
   
@@ -48,7 +48,7 @@ const BidDetailsPerVehicleComponent = () => {
       
 //       const result = await deleteBid({ variables: { where: { id:data.id } } });
 //       // store deleted bid data details
-//       let store=await deletedbidData({variables:{data:{deletedbidVehicle:{connect:{id}},amount:data?.amount,user:{connect:{id:data?.user?.id}}}}})
+//       let store=await deletedbidData({variables:{data:{deletedbidbidVehicle:{connect:{id}},amount:data?.amount,user:{connect:{id:data?.user?.id}}}}})
 //       // ---------------------
 
 //       if (result?.data) {
@@ -75,10 +75,10 @@ const BidDetailsPerVehicleComponent = () => {
     navigate(`/view-user/${id}`);
   };
 
-  const handleReport = (vehicle) => {
-    console.log("repp",vehicle);
+  const handleReport = (bidVehicle) => {
+    console.log("repp",bidVehicle);
     
-      DownloadBidHistory(vehicle);
+      DownloadBidHistory(bidVehicle);
   };
 
   const columns = useMemo(
@@ -145,11 +145,11 @@ const BidDetailsPerVehicleComponent = () => {
             Bidders Details of Lot No:
             <span className="text-red-500">
               {" "}
-              {data?.vehicle?.lotNumber}
+              {data?.Bids[0]?.bidVehicle?.lotNumber}
             </span>{" "}
             & Auction No:
             <span className="text-red-500">
-              {data?.vehicle?.event?.eventNo}
+              {data?.Bids[0]?.bidVehicle?.event?.eventNo}
             </span>{" "}
           </div>
           <div className="grid grid-cols-3 mx-2">
@@ -158,48 +158,48 @@ const BidDetailsPerVehicleComponent = () => {
                 Reg. No :
                 <span className="font-bold">
                   {" "}
-                  {data?.vehicle?.registrationNumber}
+                  {data?.Bids[0]?.bidVehicle?.registrationNumber}
                 </span>
               </h1>
-              <h1>
-                Vehicle Event Status :
+              {/* <h1>
+                bidVehicle Event Status :
                 <span className="font-bold">
                   {" "}
-                  {data?.vehicle?.vehicleEventStatus}
+                  {data?.Bids[0]?.bidVehicle?.bidVehicleEventStatus}
                 </span>
-              </h1>
+              </h1> */}
             </div>
            
             <div className="space-y-2">
               <h1>
                 Bid Status :
-                <span className="font-bold"> {data?.vehicle?.bidStatus}</span>
+                <span className="font-bold"> {data?.Bids[0]?.bidVehicle?.bidStatus}</span>
               </h1>
               <a
                 className={`${Tablebutton.data } bg-blue-800 hover:bg-orange-700`}
                 target="_blank"
                 rel="noopener noreferrer"
-                href={`/edit-vehicle/${data?.vehicle?.id}`}
+                href={`/edit-bidVehicle/${data?.Bids[0]?.bidVehicle?.id}`}
               >
                 {" "}
                 Change Status
               </a>
               <button
                   className={`${Tablebutton.data } bg-orange-600 hover:bg-blue-900`}
-                onClick={(e) => handleReport(data?.vehicle)}
+                onClick={(e) => handleReport(data?.Bids[0]?.bidVehicle)}
               >
                 Bid Sheet
               </button>
             </div>
-            <div >Seller :<span className="font-bold">{data?.vehicle?.event?.seller?.name}</span></div>
+            <div >Seller :<span className="font-bold">{data?.Bids[0]?.bidVehicle?.event?.seller?.name}</span></div>
           </div>
         </div>
-        <TableComponent data={data?.vehicle?.userVehicleBids} columns={columns} sortBy='amount' />
-        {/* <Deletedbidtable vehicleId={id}/> */}
+        <TableComponent data={data?.Bids||[]} columns={columns} sortBy='amount' />
+        {/* <Deletedbidtable bidVehicleId={id}/> */}
         
       </div>
     </div>
   );
 };
 
-export default BidDetailsPerVehicleComponent;
+export default BidDetailsPerbidVehicleComponent;

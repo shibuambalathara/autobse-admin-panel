@@ -33,3 +33,42 @@ query BidDetailsPerVehicle($where: VehicleWhereUniqueInput!) {
     }
   }
 }
+
+
+
+query BidDetails($where: BidWhereUniqueInput!) {
+ Bids(where: $where) {
+ bidVehicle {
+  
+ 
+  lotNumber
+    yardLocation
+    totalBids
+    registrationNumber
+    bidStatus
+    currentBidUser {
+      firstName
+      lastName
+      mobile
+      
+    }
+    event {
+      seller {
+        name
+      }
+    }
+    userVehicleBidsCount
+ }
+      createdAt
+      id
+      amount
+      bidVehicleId
+      userId
+       user {
+        firstName
+        mobile
+        lastName
+      }
+      
+ }
+ }
