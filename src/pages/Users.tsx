@@ -2,94 +2,89 @@ import { useEffect, useState } from "react";
 import {
   useUsersQuery,
   useViewUserQuery,
- 
+  useUsersLazyQuery,
+  OrderDirection,
+  StateNames
 } from "../utils/graphql"; // Adjust imports based on actual GraphQL queries and hooks
 import { useNavigate } from "react-router-dom";
 import LimitedDataPaginationComponents from "../components/utils/limitedDataPagination";
 import TabbleOfUsersOrUser from "../components/users/tableData";
 import SearchByNumber from "../components/utils/searchByNumber";
 import CustomButton from "../components/utils/buttons";
+import SearchByState from "../components/utils/searchByState";
 
-// Define variables type based on your GraphQL schema
 type UserQueryVariables = {
   skip?: number;
   take?: number;
-  data?: {
-    mobile?: string;
-  };
+  data?: { mobile?: string };
   where?: {
     createdAt?: { gte: string };
     role?: { equals: string };
-    state?: { equals: string };
+    state?: StateNames;
     tempToken?: { equals: number };
   };
   orderBy?: Array<{ idNo: 'asc' | 'desc' }>;
 };
 
-// Define the user type based on the given data structure
 type User = {
   id: string;
-  email: string ;
+  email: string;
   role: string;
   firstName: string;
   BalanceEMDAmount: number;
   country: string;
   city: string;
   userCategory: string;
- 
-  idNo:number;
-  // state: string;
+  idNo: number;
   status: string;
   mobile: string;
-  lastName:string;
+  lastName: string;
 };
 
-const   Users = () => {
+const Users = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [inputData, setInputData] = useState<string>("");
   const [startDate, setStartDate] = useState<string>("");
   const [dealerRole, setDealerRole] = useState<string | undefined>(undefined);
-  const [state, setState] = useState<string>('');
-  const [token, setToken] = useState<number>( 0);
+  const [state, setState] = useState<StateNames | undefined>(undefined);
+  const [token, setToken] = useState<number>(0);
   const [lastQueryType, setLastQueryType] = useState<"number" | "date" | "role" | "state" | "all" | "token">("all");
 
   const [users, setUsers] = useState<User[]>([]);
 
-  // Fetch all users initially
   const { data: allUsers, refetch: refetchAll } = useUsersQuery({
     variables: {
-      
-      // skip: currentPage * pageSize,
-      // take: pageSize,
-      // orderBy: [{ idNo: 'desc' }],
+       skip: currentPage * pageSize,
+      take: pageSize,
+      orderBy: [{ idNo: OrderDirection.Desc }],
     },
   });
-console.log('data',allUsers);
-const { data: userData, refetch: refetchMobile,loading:usersLoading } = useViewUserQuery({
-  variables: { where: { mobile: String(inputData) } },
-});
-  // Function to refetch data based on last query type
+
+  const [fetchStateData, { data: stateData, refetch: refetchStateData, loading: stateLoading }] = useUsersLazyQuery({
+    variables: { where: { state } },
+  });
+
+  const { data: userData, refetch: refetchMobile, loading: usersLoading } = useViewUserQuery({
+    variables: { where: { mobile: String(inputData) } },
+  });
+
   const refetchAllData = () => {
     switch (lastQueryType) {
       case "all":
-        // refetchAll();
+        refetchAll();
         break;
-        case "number":
-          refetchMobile();
-          break;
-      // Other cases for different refetch types
+      case "number":
+        refetchMobile();
+        break;
+      case "state":
+        refetchStateData();
+        break;
     }
   };
 
   useEffect(() => {
-    // if (allUsers && allUsers.users) {
-    //   // Filter out null values before setting the state
-    //   const filteredUsers = allUsers.users.filter((user): user is User => user !== null);
-    //   setUsers(filteredUsers);
-    // }
-
     let fetchedUsers: User[] = [];
     switch (lastQueryType) {
       case "all":
@@ -98,37 +93,37 @@ const { data: userData, refetch: refetchMobile,loading:usersLoading } = useViewU
       case "number":
         fetchedUsers = userData?.user ? [userData.user as User] : [];
         break;
-      }
-      setUsers(fetchedUsers);
-  }, [allUsers, userData, lastQueryType]);
+      case "state":
+        fetchedUsers = (stateData?.users || []).filter((user): user is User => user !== null);
+        break;
+    }
+    setUsers(fetchedUsers);
+  }, [allUsers, userData, lastQueryType, stateData]);
+
   const handleInputData = (data: string) => {
     setInputData(data);
     setLastQueryType("number");
-    // fetchUserByMobile(); // Trigger fetch based on the input logic
   };
 
   const handleInputDate = (data: string) => {
     setStartDate(data);
     setLastQueryType("date");
-    // fetchByDate(); // Trigger fetch based on the input logic
   };
 
   const handleInputRole = (data: string) => {
     setDealerRole(data);
     setLastQueryType("role");
-    // fetchByRole(); // Trigger fetch based on the input logic
   };
 
-  const handleInputState = (data: string) => {
+  const handleInputState = (data: StateNames) => {
+    fetchStateData()
     setState(data);
     setLastQueryType("state");
-    // fetchStateData(); // Trigger fetch based on the input logic
   };
 
   const handleToken = (data: number) => {
     setToken(data);
     setLastQueryType("token");
-    // fetchByToken(); // Trigger fetch based on the input logic
   };
 
   const handlePageChange = (newPage: number) => {
@@ -136,65 +131,23 @@ const { data: userData, refetch: refetchMobile,loading:usersLoading } = useViewU
     refetchAllData();
   };
 
-  // if (!allUsers)
-  //   return <div className="loading">Loading...</div>;
- 
- 
   return (
     <div className="w-full">
-      <div className="w-full px-20 ">
-       <CustomButton navigateTo={"/add-user"} buttonText={"Add User"}/>
+      <div className="w-full px-20">
+        <CustomButton navigateTo={"/add-user"} buttonText={"Add User"} />
         <div className="text-center font-extrabold mb-1 text-xl w-full">Users Data Table</div>
       </div>
-       <div className="  pl-20 ">
-       
+      <div className="pl-20 flex gap-5">
         <SearchByNumber inputData={handleInputData} />
-        {/* <SearchByDate setDate={handleInputDate} />
-        <SeachByRole setRole={handleInputRole} />
         <SearchByState setState={handleInputState} />
-        <SearchByToken setToken={handleToken} /> */}
-       </div> 
-      <div className="">
-        {/* <table className="min-w-full bg-white border border-gray-200">
-          <thead>
-            <tr>
-              <th className="px-4 py-2 border">ID</th>
-              <th className="px-4 py-2 border">Email</th>
-              <th className="px-4 py-2 border">Role</th>
-              <th className="px-4 py-2 border">First Name</th>
-              <th className="px-4 py-2 border">Balance EMD Amount</th>
-              <th className="px-4 py-2 border">Country</th>
-              <th className="px-4 py-2 border">City</th>
-              <th className="px-4 py-2 border">User Category</th>
-              <th className="px-4 py-2 border">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user.id}>
-                <td className="px-4 py-2 border">{user.id}</td>
-                <td className="px-4 py-2 border">{user.email || "-"}</td>
-                <td className="px-4 py-2 border">{user.role}</td>
-                <td className="px-4 py-2 border">{user.firstName || "-"}</td>
-                <td className="px-4 py-2 border">{user.BalanceEMDAmount}</td>
-                <td className="px-4 py-2 border">{user.country || "-"}</td>
-                <td className="px-4 py-2 border">{user.city || "-"}</td>
-                <td className="px-4 py-2 border">{user.userCategory || "-"}</td>
-                <td className="px-4 py-2 border">{user.status}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table> */}
-
-        <TabbleOfUsersOrUser users={users} refetch={refetchAllData} />
       </div>
-      {/* Pagination component */}
-      {/* {lastQueryType === "all" && (
+      <div>
+        <TabbleOfUsersOrUser users={users} refetch={refetchAllData} />
         <LimitedDataPaginationComponents
-          currentPage={currentPage}
-          onPageChange={handlePageChange}
-        />
-      )} */}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+          />
+      </div>
     </div>
   );
 };

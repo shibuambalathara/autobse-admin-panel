@@ -1805,7 +1805,12 @@ export type ViewUserQueryVariables = Exact<{
 
 export type ViewUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, idNo: number, email: string, vehicleBuyingLimit?: number | null, username: string, role: string, firstName: string, lastName: string, businessName: string, mobile: string, BalanceEMDAmount?: number | null, pancardNo: string, idProofNo: string, country: string, city: string, userCategory: string, status: string, tempToken?: number | null, aadharcard_front_image?: string | null, aadharcard_back_image?: string | null, driving_license_front_image?: string | null, driving_license_back_image?: string | null, pancard_image?: string | null, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null } | null };
 
-export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
+export type UsersQueryVariables = Exact<{
+  where?: InputMaybe<UserWhereUniqueInput>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<UserOrderByInput> | UserOrderByInput>;
+}>;
 
 
 export type UsersQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', id: string, email: string, role: string, firstName: string, BalanceEMDAmount?: number | null, country: string, city: string, userCategory: string, status: string, vehicleBuyingLimit?: number | null, paymentsCount?: number | null, idNo: number, mobile: string, lastName: string, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null }> | null };
@@ -3648,8 +3653,8 @@ export type ViewUserLazyQueryHookResult = ReturnType<typeof useViewUserLazyQuery
 export type ViewUserSuspenseQueryHookResult = ReturnType<typeof useViewUserSuspenseQuery>;
 export type ViewUserQueryResult = Apollo.QueryResult<ViewUserQuery, ViewUserQueryVariables>;
 export const UsersDocument = gql`
-    query Users {
-  users {
+    query Users($where: UserWhereUniqueInput, $take: Int, $skip: Int, $orderBy: [UserOrderByInput!]) {
+  users(where: $where, take: $take, skip: $skip, orderBy: $orderBy) {
     id
     email
     role
@@ -3684,6 +3689,10 @@ export const UsersDocument = gql`
  * @example
  * const { data, loading, error } = useUsersQuery({
  *   variables: {
+ *      where: // value for 'where'
+ *      take: // value for 'take'
+ *      skip: // value for 'skip'
+ *      orderBy: // value for 'orderBy'
  *   },
  * });
  */

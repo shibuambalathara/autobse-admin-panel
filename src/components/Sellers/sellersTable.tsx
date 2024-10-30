@@ -9,6 +9,7 @@ import { faBuilding } from "@fortawesome/free-regular-svg-icons";
 import TableComponent from "../utils/table";
 import CustomButton from "../utils/buttons";
 import { Tablebutton } from "../utils/style";
+import AutobseLoading from "../utils/autobseLoading";
 export interface Seller {
   id: string;
   name: string;
@@ -60,7 +61,13 @@ const Table: React.FC = () => {
     []
   );
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return (
+    <div>
+       <AutobseLoading/>
+        {/* <LoadingAnimation/> */}
+    </div>
+   
+  );
   if (error) return <p>Error: {error.message}</p>;
 
   return (

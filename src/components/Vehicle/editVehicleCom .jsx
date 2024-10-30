@@ -11,7 +11,7 @@ import CheckboxInput, { CatInput, FormFieldInput, ImageMaping, StateInput } from
 import ImageUpload from "../upload/imageUpload";
 import { DateConvert } from "../utils/dateFormat";
 import { indianStates } from "../../utils/data";
-import { formStyle, h2Style, headerStyle, pageStyle } from "../utils/style";
+import { formStyle, h2Style, headerStyle, pageStyle, submit } from "../utils/style";
 
 const EditVehicleComponent = () => {
   const [viewImageUpload, setViewImageUpload] = useState(false);
@@ -281,30 +281,31 @@ const EditVehicleComponent = () => {
           <FormFieldInput label="Additional Remarks" type="text" name="AdditionalRemarks" register={register} error={errors.AdditionalRemarks} />
 
           <FormFieldInput label="Lot Number" type="number" name="lotNumber" register={register} error={errors.lotNumber} />
-          <CheckboxInput label="Climate Control" type="checkbox" name="climateControl" register={register} error={errors.climateControl} />
-          <CheckboxInput label="Power Steering" type="checkbox" name="powerSteering" register={register} error={errors.powerSteering} />
+          <FormFieldInput label="Climate Control"  type="text" name="climateControl" register={register} error={errors.climateControl} />
+          <FormFieldInput label="Power Steering"  type="text" name="powerSteering" register={register} error={errors.powerSteering} />
           {/* <button type="submit" className="mt-5 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 col-span-3 w-36  justify-self-center">
           Submit
         </button> */}
 
 <ImageMaping images={images}/>
+<div className="col-span-3">
+  <p className="text-lg font-semibold mb-2">Image URLs:</p>
+  <textarea
+    defaultValue={formatTextAreaValue(data?.vehicle?.image)}
+    {...register("images", {})}
+    className="w-3/4 h-44 border border-gray-400 rounded-md p-2 shadow-md text-gray-700 hover:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+  />
+</div>
 
-     
-<textarea
-defaultValue={formatTextAreaValue(data?.vehicle?.frontImage)}
-{...register("images", {})}
+        <div className=" col-span-3">
 
-className="w-3/4 h-40 border-gray-400 rounded m-2 p-2 flex   outline-none shadow text-gray-700 hover:bg-white"
-/>
-        <div className="w-1/2">
-
-{viewImageUpload && <ImageUpload />}
+ <ImageUpload />
  </div>
- <button type="button" onClick={()=>setViewImageUpload(!viewImageUpload)} className="btn bg-red-500  col-span-3 text-white text-center">Image Upload</button> 
+ 
 
 
  <div className="text-center my-5 col-span-3">
-              <button className="bg-blue-600 text-white p-4  mb-5"> Save Changes</button>
+              <button className={submit?.data}> Save Changes</button>
             </div>
         </form>
        

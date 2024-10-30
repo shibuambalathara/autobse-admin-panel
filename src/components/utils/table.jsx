@@ -1,8 +1,10 @@
 import React, { useMemo, useState } from "react";
 import { useTable, usePagination, useGlobalFilter, useSortBy } from "react-table";
 import Search from "./search";
+import LimitedDataPaginationComponents from "./limitedDataPagination";
 
-function TableComponent({ columns, data }) {
+function TableComponent(prop) {
+  const { columns, data ,pagination }=prop
   const [pageIndex, setPageIndex] = useState(0);
 
   const {
@@ -44,7 +46,7 @@ function TableComponent({ columns, data }) {
         <Search  filter={globalFilter} className="  text-white bg-red-200" setFilter={setGlobalFilter}/>
           <div className="border border-gray-200 dark:border-gray-400 md:rounded-lg overflow-hidden">
             {/* Table wrapper for horizontal scroll */}
-            <div className="overflow-x-auto w-[82rem] min-h-[10rem] max-h-[27rem]">
+            <div className="overflow-x-auto lg:w-[82rem] md:w-[35rem] sm:w-[20rem] min-h-[10rem] max-h-[27rem]">
               <table
                 {...getTableProps()}
                 className="min-w-full text-start text-sm font-light text-black"
@@ -88,6 +90,7 @@ function TableComponent({ columns, data }) {
             {/* Pagination Controls */}
            
           </div>
+        {pagination!=="false"&&
           <div className="pagination mt-4 flex items-center justify-between">
               <button
                 onClick={() => previousPage()}
@@ -109,8 +112,8 @@ function TableComponent({ columns, data }) {
               >
                 Next
               </button>
-            </div>
-        </div>
+            </div>}
+        </div> 
       </div>
     </div>
   );

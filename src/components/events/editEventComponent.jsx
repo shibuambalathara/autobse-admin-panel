@@ -92,7 +92,7 @@ const navigate =useNavigate()
       
       
         const file = dataOnSubmit?.downloadable[0];
-        console.log(file,"file");
+        if(file){
         
         const uploadUrl = `https://api-dev.autobse.com/api/v1/fileupload/vehicle_list_excel/${id}`;
        
@@ -111,7 +111,7 @@ const navigate =useNavigate()
         if (response.success) {
           ShowPopup(
             "Success!",
-            `${dataOnSubmit?.uploadFileName} Excel File Added successfully!`,
+            ` Excel File Added successfully!`,
             "success",
             5000,
             true
@@ -120,7 +120,7 @@ const navigate =useNavigate()
         } else {
           ShowPopup("Failed!", `Document upload failed: ${response.error}`, "error", 5000, true);
         }
-  
+      }
       }
 
     } catch (error) {
@@ -289,7 +289,7 @@ const navigate =useNavigate()
           </div>
  
 
-          <button type="submit" className={`${submit.data} col-span-3 w-40 text-center`}>Save Changes</button>
+          <button type="submit" className={`${submit.data} col-span-3 w-40 mx-auto`}>Save Changes</button>
         </form>
       </div>
     </div>

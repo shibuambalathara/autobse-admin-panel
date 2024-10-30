@@ -86,7 +86,7 @@ const AddEventComponent = () => {
 
     const file = dataOnSubmit?.downloadable[0];
     console.log(file,"file");
-    
+    if(file){
     const uploadUrl = `https://api-dev.autobse.com/api/v1/fileupload/vehicle_list_excel/${id}`;
    
   
@@ -104,17 +104,17 @@ const AddEventComponent = () => {
     if (response.success) {
       ShowPopup(
         "Success!",
-        `${dataOnSubmit?.uploadFileName} Excel File Added successfully!`,
+        ` Excel File Added successfully!`,
         "success",
         5000,
         true
       );
       navigate('/events');
     } else {
-      ShowPopup("Failed!", `Document upload failed: ${response.error}`, "error", 5000, true);
+      ShowPopup("Failed!", `Document upload failed: ${response.error}`, "error", 8000, true);
     }
 
-
+  }
    
       ShowPopup(
         "Success!",

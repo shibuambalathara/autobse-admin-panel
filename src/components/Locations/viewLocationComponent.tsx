@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { Tablebutton } from "../utils/style";
 import EditLocation from "./editLocation";
+import AutobseLoading from "../utils/autobseLoading";
  // Import the EditLocation component
 
 const ViewLocationComponent: React.FC = () => {
@@ -38,7 +39,13 @@ const ViewLocationComponent: React.FC = () => {
     []
   );
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)  return (
+    <div>
+       <AutobseLoading/>
+        {/* <LoadingAnimation/> */}
+    </div>
+   
+  );
   if (error) return <p>Error: {error.message}</p>;
 
   return (

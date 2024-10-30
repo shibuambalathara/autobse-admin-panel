@@ -10,6 +10,7 @@ import { FormatDate } from '../utils/dateFormat';
 import { Tablebutton } from '../utils/style';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
+import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 
 const PaymentPerUser = () => {
     const {id}=useParams()
@@ -92,35 +93,36 @@ navigate(`/update-payment/${paymentId}`)
      row.original.emdUpdateCount!==0 &&         <a className={`${Tablebutton.data} bg-zinc-500  `}href={`/emdDetails/${row.original.id}`} target="_blank" rel="noopener noreferrer">Emd Details </a>
             )
           },
-          // {
-          //   Header: "Create Buying Limit",
-          //   Cell: ({ row }) => {
-          //     if (
-          //       row.original.emdUpdateCount === 0 &&
-          //       row.original.paymentFor === 'emd' &&
-          //       row.original.status === 'success'
-          //     ) {
-          //       return (
-          //         <a
-          //           className="btn btn-secondary"
-          //           href={`/add-emd/${row.original.id}`}
-          //           target="_blank"
-          //           rel="noopener noreferrer"
-          //         >
-          //           Increase Buying Limit
-          //         </a>
-          //       );
-          //     }
-          //      else {
-          //       return(
-          //         <>
-          //         Increment by:{ row.original.emdUpdate[0]?.vehicleBuyingLimitIncrement ??'0'},
-          //         <br /> Status: {row.original.status}
-          //         </>
-          //         );
-          //     }
-          //   }
-          // },
+          {
+            Header: "Create Buying Limit",
+            Cell: ({ row }) => {
+              if (
+                // row.original.emdUpdateCount === 0
+                // &&
+                row.original.paymentFor === 'emd'
+                 &&
+                row.original.status === 'approved'
+              ) {
+                return (
+                  <a
+                    className="  text-2xl"
+                    href={`/add-emd/${row.original.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                   <FontAwesomeIcon icon={faCirclePlus} />
+                  </a>
+                );
+              }
+               else {
+                return(
+                  <>
+                  {/* Increment by:{ row.original?.emdUpdate[0]?.vehicleBuyingLimitIncrement ??'0'}, */}
+                 
+                   {row.original.status}
+                  </>
+                  );
+              }}},
           {
             Header: "Payment Message",
             Cell: ({ row }) => {

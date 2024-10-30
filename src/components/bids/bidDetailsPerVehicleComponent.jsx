@@ -121,15 +121,15 @@ const BidDetailsPerVehicleComponent = () => {
     []
   );
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      refetch(); 
-    }, 2000);
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     refetch(); 
+  //   }, 2000);
   
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
+  //   return () => {
+  //     clearInterval(intervalId);
+  //   };
+  // }, []);
  
 
   if (loading) return <p>Loading...</p>;
