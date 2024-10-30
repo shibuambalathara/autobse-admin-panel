@@ -17,18 +17,17 @@ const UpdatePayment = () => {
   const [addAmount]=useUpdatePaymentMutation({variables: { where: { id: id } }})
  const navigate=useNavigate()
 
-//  const fetchImage = async () => {
-//  if(payment?.data?.payment?.image?.url){
-//   const url= await getS3ObjectUrl(payment?.data?.payment?.image?.url);
-//   setPaymentUrl(url)
-// }
-//  }
+ const fetchImage = async () => {
+ if(payment?.data?.payment?.image){
+  setPaymentUrl(payment?.data?.payment?.image)
+}
+ }
 
 
-//  console.log("payment url",payment?.data?.payment?.image?.url)
-// useEffect(() => {
-// fetchImage();
-// }, [payment]);
+ 
+useEffect(() => {
+fetchImage();
+}, [payment]);
 
   const {
     register,
@@ -150,7 +149,7 @@ const UpdatePayment = () => {
 
           
       
-          {/* <div className={`${labelAndInputDiv.data}`}>
+          <div className={`${labelAndInputDiv.data}`}>
 
               <label  htmlFor="">Payment proof Image</label>
          
@@ -164,7 +163,7 @@ const UpdatePayment = () => {
               />
                <input type="file"  className={`${inputStyle.data}`} {...register("imgForPaymentProof", { })}></input>
             </div>
-</div> */}
+</div>
 </div>
 <div className=" flex justify-center my-5">
           <button

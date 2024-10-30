@@ -31,7 +31,7 @@ const AddEventType = (load) => {
       });
      
       setIsModalOpen(false);
-     load()
+    //  load()
     } catch (err) {
       Swal.fire({
         title: "Error",
