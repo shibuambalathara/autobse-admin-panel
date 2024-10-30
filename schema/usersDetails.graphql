@@ -1,7 +1,9 @@
 
 
-query Users {
-  users {
+query Users($where: UserWhereUniqueInput, $take: Int, $skip: Int, $orderBy: [UserOrderByInput!]) {
+  users(where: $where, take: $take, skip: $skip, orderBy: $orderBy) {
+    
+
     id
     email
     role
@@ -21,8 +23,8 @@ query Users {
  
     mobile
     lastName
-  }
-}
+  
+}}
 
 
 query UsersByState($where: UserWhereUniqueInput) {

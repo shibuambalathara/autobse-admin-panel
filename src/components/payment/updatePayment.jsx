@@ -33,9 +33,24 @@ const UpdatePayment = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     watch,
     formState: { errors },
   } = useForm();
+
+  useEffect(() => {
+    if (payment?.data?.payment) {
+      const { amount, paymentFor, description, status } = payment.data.payment;
+      setValue('amount', amount);
+      setValue('paymentFor', paymentFor);
+      setValue('description', description);
+      setValue('paymentStatus', status);
+
+      if (payment?.data?.payment?.image?.url) {
+        getS3ObjectUrl(payment.data.payment.image.url).then(setPaymentUrl);
+      }
+    }
+  }, [payment, setValue]);
   const onSubmit = async(dataOnSubmit) =>{ 
  
   const amount={
@@ -101,10 +116,14 @@ const UpdatePayment = () => {
             <p className="text-red-500"> {errors.amount && <span>Amount Required</span>}</p>
           </div>
           <div className={`${labelAndInputDiv.data}`}>
-          <SelectInput label="Payment For" name="paymentFor" defaultValue={payment?.data?.payment?.paymentFor} options={paymentsFor} register={register}/>
-
-    <p className="text-red-500"> {errors.paymentFor && <span>This field cannot empty</span>}</p>
-
+            <SelectInput
+              label="Payment For"
+              name="paymentFor"
+              defaultValue={payment?.data?.payment?.paymentFor}
+              options={paymentsFor}
+              register={register}
+            />
+            <p className="text-red-500">{errors.paymentFor && <span>This field cannot be empty</span>}</p>
           </div>
      
 
@@ -116,23 +135,22 @@ const UpdatePayment = () => {
             {/* <p className="text-red-500"> {errors.description && <span>Atleast 8 charators required</span>}</p> */}
           </div>
           <div className={`${labelAndInputDiv.data}`}>
-            <label htmlFor="">Payment Status</label>
-            <select  defaultValue={payment?.data?.payment?.status}    className={`${inputStyle.data}`} {...register("paymentStatus", {})}>
-            <option value={payment?.data?.payment?.status}>{payment?.data?.payment?.status}</option>
-      <option value="pending">Pending</option>
-      <option value="approved">Approved</option>
-      <option value="rejected">Rejected</option>
-      
-    
-    </select>
-    <p className="text-red-500"> {errors.paymentStatus && <span>Please select Id proof type</span>}</p>
-
+            <label htmlFor="paymentStatus">Payment Status</label>
+            <select
+              className={`${inputStyle.data}`}
+              {...register("paymentStatus", { required: "Please select payment status" })}
+            >
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+            </select>
+            <p className="text-red-500">{errors.paymentStatus && <span>{errors.paymentStatus.message}</span>}</p>
           </div>
 
 
           
       
-          <div className={`${labelAndInputDiv.data}`}>
+          {/* <div className={`${labelAndInputDiv.data}`}>
 
               <label  htmlFor="">Payment proof Image</label>
          
@@ -146,7 +164,7 @@ const UpdatePayment = () => {
               />
                <input type="file"  className={`${inputStyle.data}`} {...register("imgForPaymentProof", { })}></input>
             </div>
-</div>
+</div> */}
 </div>
 <div className=" flex justify-center my-5">
           <button

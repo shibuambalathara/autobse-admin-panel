@@ -181,8 +181,8 @@ const AddVehicleComponent = () => {
             <FormFieldInput label="Current Bid Amount" type="number" name="currentBidAmount" register={register} error={errors.currentBidAmount} />
             <FormFieldInput label="Bid Amount Update" type="number" name="bidAmountUpdate" register={register} error={errors.bidAmountUpdate} />
           </div>
-          <div className="flex justify-end mt-6">
-            <button type="submit" className="bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-500 transition duration-300">
+          <div className="flex justify-center mt-6">
+            <button type="submit" className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-green-500 transition duration-300">
               Submit
             </button>
           </div>

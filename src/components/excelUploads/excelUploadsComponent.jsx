@@ -97,8 +97,15 @@ const ExcelUploadsComponent =() => {
           body: formDataPayload ,
          
         });
-  
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+     
+       
+        if (!response.ok)
+      
+          {
+            const   errorMessage = await response.json()
+            
+            throw new Error(`${errorMessage.message}`);
+          } 
         const result = await response.json();
   
         if (result.success) {

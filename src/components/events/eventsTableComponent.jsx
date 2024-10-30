@@ -12,6 +12,9 @@ import  { ConvertToExcel } from '../utils/excelFormat'
 import { FormatDate } from '../utils/dateFormat'
 import CustomButton from '../utils/buttons';
 import { Tablebutton } from '../utils/style';
+import { FaCar, FaTruck } from 'react-icons/fa';
+import LoadingAnimation from '../utils/loading';
+import AutobseLoading from '../utils/autobseLoading';
 
 
 const EventsTableComponent = () => {
@@ -192,17 +195,25 @@ const handleDelete=(id)=>{
         
         const totalPages = (data?.events?.length );
 
-        useEffect(() => {
-          const intervalId = setInterval(() => {
-            refetch(); 
-          }, 2000);
+        // useEffect(() => {
+        //   // const intervalId = setInterval(() => {
+        //     refetch(); 
+        //   // }, 2000);
         
-          return () => {
-            clearInterval(intervalId);
-          };
-        }, []);
+          
+        // }, []);
 
-      if (loading) return <p>Loading...</p>;
+        if (loading) {
+          return (
+            <div>
+               <AutobseLoading/>
+                {/* <LoadingAnimation/> */}
+            </div>
+           
+          );
+        
+        
+        }        
       
     
 
@@ -224,12 +235,12 @@ const handleDelete=(id)=>{
   
    </div>
      
-       <TableComponent data={data?.events.events||[]} columns={columns} sortBy='start Date'/>
-{/*   
+       <TableComponent data={data?.events.events||[]} columns={columns} sortBy='start Date' pagination="false"/>
+  
           <LimitedDataPaginationComponents   
           currentPage={currentPage}
         totalPages={totalPages}
-        onPageChange={handlePageChange}/> */}
+        onPageChange={handlePageChange}/>
   </div> 
   </div>
   

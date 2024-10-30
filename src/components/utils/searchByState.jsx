@@ -7,14 +7,13 @@ const SearchByState = ({setState}) => {
 
   return (
     
-    <div className='flex justify-between'>
-    <div className="  align-middle">
-<p className="my-auto">   Search By State</p>
+<div className='flex flex-col  w-64'>
+<h2 className=" font-semibold mb-1 text-sm text-start">  Search By State</h2>
 
          <select
   
     placeholder="select"
-    className="input input-bordered input-secondary  w-64 "
+     className=" p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
     onChange={(e) => {
         const value = e.target.value;
       //  setValue("state",value);
@@ -23,7 +22,7 @@ const SearchByState = ({setState}) => {
       }}
   >
     <option value="">Select State </option>
-    {states?.states?.map((item) => (
+    {states?.States.map((item) => (
       <option key={item.name} value={item.name}>
         {item.name}
       </option>
@@ -31,7 +30,7 @@ const SearchByState = ({setState}) => {
  
   </select>
     
-    </div>
+    
     <div>
 
     </div>
