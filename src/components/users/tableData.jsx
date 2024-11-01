@@ -111,7 +111,7 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {row.original.activeBidsCount}
+              {row.original.activeBids?.length}
             </a>
          
       },

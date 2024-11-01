@@ -1350,6 +1350,7 @@ export type User = {
   BalanceEMDAmount?: Maybe<Scalars['Float']['output']>;
   aadharcard_back_image?: Maybe<Scalars['String']['output']>;
   aadharcard_front_image?: Maybe<Scalars['String']['output']>;
+  activeBids?: Maybe<Array<Vehicle>>;
   bid?: Maybe<Array<Bid>>;
   businessName: Scalars['String']['output'];
   city: Scalars['String']['output'];
@@ -1600,7 +1601,7 @@ export type BuyingLimitQueryVariables = Exact<{
 }>;
 
 
-export type BuyingLimitQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, firstName: string, lastName: string, emdUpdates?: Array<{ __typename?: 'Emdupdate', id: string, emdNo: number, vehicleBuyingLimitIncrement?: number | null, createdAt?: any | null, payment?: { __typename?: 'Payment', amount?: number | null, id: string } | null, createdBy?: { __typename?: 'User', id: string, firstName: string } | null }> | null } | null };
+export type BuyingLimitQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, firstName: string, lastName: string, emdUpdates?: Array<{ __typename?: 'Emdupdate', id: string, emdNo: number, vehicleBuyingLimitIncrement?: number | null, createdAt?: any | null, createdById?: string | null, payment?: { __typename?: 'Payment', amount?: number | null, id: string } | null, createdBy?: { __typename?: 'User', id: string, firstName: string } | null }> | null } | null };
 
 export type CountsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1788,7 +1789,7 @@ export type UserPaymentsQueryVariables = Exact<{
 }>;
 
 
-export type UserPaymentsQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, payments?: Array<{ __typename?: 'Payment', refNo?: number | null, amount?: number | null, description?: string | null, id: string, status?: string | null, userId?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null, registrationExpire?: any | null, paymentFor?: string | null }> | null } | null };
+export type UserPaymentsQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, firstName: string, lastName: string, payments?: Array<{ __typename?: 'Payment', refNo?: number | null, amount?: number | null, description?: string | null, id: string, status?: string | null, userId?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null, registrationExpire?: any | null, paymentFor?: string | null }> | null } | null };
 
 export type SellersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1830,7 +1831,7 @@ export type UsersQueryVariables = Exact<{
 }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', id: string, email: string, role: string, firstName: string, BalanceEMDAmount?: number | null, country: string, city: string, userCategory: string, status: string, vehicleBuyingLimit?: number | null, paymentsCount?: number | null, idNo: number, mobile: string, lastName: string, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null }> | null };
+export type UsersQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', id: string, email: string, role: string, firstName: string, BalanceEMDAmount?: number | null, country: string, city: string, userCategory: string, status: string, vehicleBuyingLimit?: number | null, paymentsCount?: number | null, idNo: number, mobile: string, lastName: string, activeBids?: Array<{ __typename?: 'Vehicle', id: string }> | null, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null }> | null };
 
 export type UsersByStateQueryVariables = Exact<{
   where?: InputMaybe<UserWhereUniqueInput>;
@@ -2084,6 +2085,7 @@ export const BuyingLimitDocument = gql`
         id
       }
       createdAt
+      createdById
       createdBy {
         id
         firstName
@@ -3400,6 +3402,8 @@ export const UserPaymentsDocument = gql`
     query UserPayments($where: UserWhereUniqueInput!) {
   user(where: $where) {
     id
+    firstName
+    lastName
     payments {
       refNo
       amount
@@ -3691,6 +3695,9 @@ export const UsersDocument = gql`
     vehicleBuyingLimit
     paymentsCount
     idNo
+    activeBids {
+      id
+    }
     states {
       id
       name

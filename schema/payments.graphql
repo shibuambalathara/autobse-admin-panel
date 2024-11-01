@@ -41,6 +41,8 @@ mutation CreatePayment($createPaymentInput: CreatePaymentInput!, $userId: String
 query UserPayments($where: UserWhereUniqueInput!) {
   user(where: $where) {
     id
+    firstName
+    lastName
     payments {
       refNo
       amount
