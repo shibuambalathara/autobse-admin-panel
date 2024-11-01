@@ -223,7 +223,7 @@ const UserDetailsComponent = () => {
 
         </div>
         <div className="flex justify-center my-5 col-span-3">
-            <button type="submit"  className={`${submit.data}`} >Submit </button>
+            <button type="submit"  className={`${submit.data}`} >UPDATE </button>
           </div>
       </form>
     </div>
