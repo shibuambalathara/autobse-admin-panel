@@ -12,6 +12,7 @@ query buyingLimit($where: UserWhereUniqueInput!) {
         id
       }
       createdAt
+      createdById
       createdBy {
         id
         firstName

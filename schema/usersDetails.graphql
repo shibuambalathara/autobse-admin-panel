@@ -16,6 +16,9 @@ query Users($where: UserWhereUniqueInput, $take: Int, $skip: Int, $orderBy: [Use
      vehicleBuyingLimit
       paymentsCount  
  idNo
+ activeBids {
+      id
+    }
     states {
       id
       name

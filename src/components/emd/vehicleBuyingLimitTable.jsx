@@ -93,7 +93,7 @@ console.log(data,"data");
           <div className="mb-4">
             <div className="text-center font-extrabold my-1  text-2xl w-full">
               {" "}
-              {data?.user?.firstName} {data?.user?.lastName} BUYING LIMIT DETAILS
+              {data?.user?.firstName.toUpperCase()} {data?.user?.lastName.toUpperCase()} BUYING LIMIT DETAILS
             </div>
           
           </div>

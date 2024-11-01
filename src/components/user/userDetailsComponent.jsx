@@ -139,7 +139,8 @@ const UserDetailsComponent = () => {
           <InputField label="Last Name" register={register("last_Name", { required: "Last Name is required" })} defaultValue={data.user.lastName} error={errors.last_Name} />
           <InputField label="Email" type="email" register={register("email", { required: "Email is required" })} defaultValue={data.user.email} error={errors.email} />
           <InputField label="Username" register={register("user_Name")} defaultValue={data.user.username} error={errors.user_Name} disabled={true} />
-          <InputField label="Mobile" type="number" register={register("mobile", { required: "Mobile number is required", minLength: { value: 10, message: "Mobile number must be 10 digits" }, maxLength: { value: 10, message: "Mobile number must be 10 digits" } })} defaultValue={data.user.mobile} error={errors.mobile} />
+          <InputField label="Mobile" register={register("mobile")} defaultValue={data.user.mobile} error={errors.mobile} disabled={true} />
+          {/* <InputField label="Mobile" type="number" register={register("mobile", { required: "Mobile number is required", minLength: { value: 10, message: "Mobile number must be 10 digits" }, maxLength: { value: 10, message: "Mobile number must be 10 digits" } })} defaultValue={data.user.mobile} error={errors.mobile} /> */}
           <InputField label="Business Name" register={register("bussiness")} defaultValue={data.user.businessName} error={errors.bussiness} />
           <InputField label="ID Proof Number" register={register("IdNumber", )} defaultValue={data.user.idProofNo} error={errors.IdNumber} />
           <InputField label="State" register={register("state", { required: "State is required" })} defaultValue={data.user.State} component="select" options={indianStates} />
@@ -223,7 +224,7 @@ const UserDetailsComponent = () => {
 
         </div>
         <div className="flex justify-center my-5 col-span-3">
-            <button type="submit"  className={`${submit.data}`} >Submit </button>
+            <button type="submit"  className={`${submit.data}`} >UPDATE </button>
           </div>
       </form>
     </div>

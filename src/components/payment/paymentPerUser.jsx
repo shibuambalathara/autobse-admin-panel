@@ -166,10 +166,11 @@ navigate(`/update-payment/${paymentId}`)
     
     <div className=" flex flex-col w-full justify-center m-auto ">
     <div className="mb-2">
-  <div className="text-center  font-extrabold my-5 text-lg min-w-full">  Payment Data Table of {data?.user?.firstName} {data?.user?.lastName} </div>
+  <div className="text-center  font-extrabold my-5 text-lg min-w-full">  PAYMENT DATA TABLE OF {data?.user?.firstName?.toUpperCase()} {data?.user?.lastName?.toUpperCase()} </div>
 
   </div>
-  
+ 
+
           <TableComponent data={data?.user?.payments} columns={columns} sortBy='Created At'/>
 
   
