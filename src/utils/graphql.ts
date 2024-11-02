@@ -1843,7 +1843,7 @@ export type ViewUserQueryVariables = Exact<{
 }>;
 
 
-export type ViewUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, idNo: number, email: string, vehicleBuyingLimit?: number | null, username: string, role: string, state: string, firstName: string, lastName: string, businessName: string, mobile: string, BalanceEMDAmount?: number | null, pancardNo: string, idProofNo: string, country: string, city: string, userCategory: string, status: string, tempToken?: number | null, aadharcard_front_image?: string | null, aadharcard_back_image?: string | null, driving_license_front_image?: string | null, driving_license_back_image?: string | null, pancard_image?: string | null, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null } | null };
+export type ViewUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, idNo: number, email: string, vehicleBuyingLimit?: number | null, username: string, role: string, state: string, firstName: string, lastName: string, businessName: string, mobile: string, BalanceEMDAmount?: number | null, pancardNo: string, idProofNo: string, country: string, city: string, userCategory: string, paymentsCount?: number | null, status: string, tempToken?: number | null, aadharcard_front_image?: string | null, aadharcard_back_image?: string | null, driving_license_front_image?: string | null, driving_license_back_image?: string | null, pancard_image?: string | null, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null, activeBids?: Array<{ __typename?: 'Vehicle', id: string }> | null } | null };
 
 export type UsersQueryVariables = Exact<{
   where?: InputMaybe<UserWhereUniqueInput>;
@@ -3656,10 +3656,14 @@ export const ViewUserDocument = gql`
     country
     city
     userCategory
+    paymentsCount
     status
     states {
       id
       name
+    }
+    activeBids {
+      id
     }
     tempToken
     aadharcard_front_image

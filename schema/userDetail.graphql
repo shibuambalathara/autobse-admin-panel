@@ -17,10 +17,14 @@ query viewUser($where: UserWhereUniqueInput!) {
     country
     city
     userCategory
+    paymentsCount
     status
      states {
       id
       name
+    }
+     activeBids {
+      id
     }
     tempToken
     aadharcard_front_image
