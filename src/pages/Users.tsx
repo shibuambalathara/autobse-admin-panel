@@ -39,6 +39,7 @@ type User = {
   status: string;
   mobile: string;
   lastName: string;
+  state:string;
 };
 
 const Users = () => {

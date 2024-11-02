@@ -284,6 +284,7 @@ export type Event = {
   vehiclesCount?: Maybe<Scalars['Int']['output']>;
   vehiclesLive: Array<Vehicle>;
   vehiclesTemp: Array<Vehicle>;
+  watchedBy?: Maybe<Array<User>>;
 };
 
 
@@ -1372,6 +1373,7 @@ export type User = {
   pancard_image?: Maybe<Scalars['String']['output']>;
   payments?: Maybe<Array<Payment>>;
   paymentsCount?: Maybe<Scalars['Int']['output']>;
+  removeWatchlist: Array<User>;
   role: Scalars['String']['output'];
   state: Scalars['String']['output'];
   states?: Maybe<Array<State>>;
@@ -1381,6 +1383,25 @@ export type User = {
   userCategory: Scalars['String']['output'];
   username: Scalars['String']['output'];
   vehicleBuyingLimit?: Maybe<Scalars['Int']['output']>;
+  watchList?: Maybe<Array<Vehicle>>;
+  watchListTemp: Array<User>;
+};
+
+
+export type UserRemoveWatchlistArgs = {
+  vehicleUniqueInput: VehicleWhereUniqueInput;
+};
+
+
+export type UserWatchListArgs = {
+  vehicleUniqueInput: VehicleWhereUniqueInput;
+};
+
+
+export type UserWatchListTempArgs = {
+  orderBy?: InputMaybe<Array<UserOrderByInput>>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export enum UserIdProofTypeType {
@@ -1495,6 +1516,7 @@ export type Vehicle = {
   vehicleIndexNo: Scalars['Float']['output'];
   vehicleRemarks?: Maybe<Scalars['String']['output']>;
   veicleLocation?: Maybe<Scalars['String']['output']>;
+  watchedBy?: Maybe<Array<User>>;
   yardLocation?: Maybe<Scalars['String']['output']>;
 };
 
@@ -1821,7 +1843,7 @@ export type ViewUserQueryVariables = Exact<{
 }>;
 
 
-export type ViewUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, idNo: number, email: string, vehicleBuyingLimit?: number | null, username: string, role: string, firstName: string, lastName: string, businessName: string, mobile: string, BalanceEMDAmount?: number | null, pancardNo: string, idProofNo: string, country: string, city: string, userCategory: string, status: string, tempToken?: number | null, aadharcard_front_image?: string | null, aadharcard_back_image?: string | null, driving_license_front_image?: string | null, driving_license_back_image?: string | null, pancard_image?: string | null, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null } | null };
+export type ViewUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, idNo: number, email: string, vehicleBuyingLimit?: number | null, username: string, role: string, state: string, firstName: string, lastName: string, businessName: string, mobile: string, BalanceEMDAmount?: number | null, pancardNo: string, idProofNo: string, country: string, city: string, userCategory: string, status: string, tempToken?: number | null, aadharcard_front_image?: string | null, aadharcard_back_image?: string | null, driving_license_front_image?: string | null, driving_license_back_image?: string | null, pancard_image?: string | null, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null } | null };
 
 export type UsersQueryVariables = Exact<{
   where?: InputMaybe<UserWhereUniqueInput>;
@@ -1831,7 +1853,7 @@ export type UsersQueryVariables = Exact<{
 }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', id: string, email: string, role: string, firstName: string, BalanceEMDAmount?: number | null, country: string, city: string, userCategory: string, status: string, vehicleBuyingLimit?: number | null, paymentsCount?: number | null, idNo: number, mobile: string, lastName: string, activeBids?: Array<{ __typename?: 'Vehicle', id: string }> | null, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null }> | null };
+export type UsersQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', id: string, email: string, role: string, firstName: string, BalanceEMDAmount?: number | null, country: string, state: string, city: string, userCategory: string, status: string, vehicleBuyingLimit?: number | null, paymentsCount?: number | null, idNo: number, mobile: string, lastName: string, activeBids?: Array<{ __typename?: 'Vehicle', id: string }> | null, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null }> | null };
 
 export type UsersByStateQueryVariables = Exact<{
   where?: InputMaybe<UserWhereUniqueInput>;
@@ -3623,6 +3645,7 @@ export const ViewUserDocument = gql`
     vehicleBuyingLimit
     username
     role
+    state
     firstName
     lastName
     businessName
@@ -3689,6 +3712,7 @@ export const UsersDocument = gql`
     firstName
     BalanceEMDAmount
     country
+    state
     city
     userCategory
     status
