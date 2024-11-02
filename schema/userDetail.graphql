@@ -6,6 +6,7 @@ query viewUser($where: UserWhereUniqueInput!) {
     vehicleBuyingLimit
     username
     role
+    state
     firstName
     lastName
     businessName

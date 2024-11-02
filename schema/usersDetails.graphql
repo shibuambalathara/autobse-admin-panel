@@ -10,6 +10,7 @@ query Users($where: UserWhereUniqueInput, $take: Int, $skip: Int, $orderBy: [Use
     firstName
     BalanceEMDAmount
     country
+    state
     city
     userCategory
     status
