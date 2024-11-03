@@ -143,7 +143,7 @@ const UserDetailsComponent = () => {
           {/* <InputField label="Mobile" type="number" register={register("mobile", { required: "Mobile number is required", minLength: { value: 10, message: "Mobile number must be 10 digits" }, maxLength: { value: 10, message: "Mobile number must be 10 digits" } })} defaultValue={data.user.mobile} error={errors.mobile} /> */}
           <InputField label="Business Name" register={register("bussiness")} defaultValue={data.user.businessName} error={errors.bussiness} />
           <InputField label="ID Proof Number" register={register("IdNumber", )} defaultValue={data.user.idProofNo} error={errors.IdNumber} />
-          <InputField label="State" register={register("state", { required: "State is required" })} defaultValue={data.user.State} component="select" options={indianStates} />
+          <InputField label="State" register={register("state", { required: "State is required" })} defaultValue={data.user.state} component="select" options={indianStates} />
           <InputField label="City" register={register("city")} defaultValue={data.user.city} error={errors.city} />
           <InputField label="Pancard" register={register("pancardNumber")} defaultValue={data.user.pancardNo} error={errors.pancardNumber} />
           <div className={labelAndInputDiv.data}>
