@@ -26,8 +26,17 @@ console.log(vehicleSub ,'subs');
 
     const [userId,setUserId]=useState('0')
     const [updateDate,setUpdateDate]=useState({date:null,id:null,updateItem:null})
-    
-    const {data,loading,error,refetch}=useEventVehiclesQuery({variables:{where:{id}}})
+    const  variables={
+      orderBy: [
+        {
+          bidTimeExpire:"ASC"
+        }
+      ],
+      where: {
+        id: id
+      }
+    }
+    const {data,loading,error,refetch}=useEventVehiclesQuery({variables})
     console.log("data per event",data)
     // const[updateEventEndTime]=useUpdateEventMutation()
     // const [updateBidTime]=useUpdateVehicleMutation()
