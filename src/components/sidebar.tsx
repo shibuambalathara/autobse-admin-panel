@@ -47,7 +47,7 @@ const Sidebar = () => {
     ) : (
       <div className='bg-blue-900 h-full shadow-xl px-1'>
         <div className='flex justify-end'>
-          <button onClick={toggleSidebar} className='text-white md:block hidden'>
+          <button onClick={toggleSidebar} className='text-white md:block hidden mx-auto'>
             <FontAwesomeIcon icon={faBars} style={{ fontSize: 24 }} />
           </button>
         </div>

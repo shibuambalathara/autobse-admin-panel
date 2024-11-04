@@ -9,6 +9,7 @@ import { InputField } from "../utils/formField";
 import imageCompression from "browser-image-compression";
 import Select from "react-select";
 
+
 const UserDetailsComponent = () => {
   const navigate = useNavigate();
   const { id } = useParams();

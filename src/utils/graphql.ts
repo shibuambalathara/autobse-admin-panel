@@ -1592,6 +1592,13 @@ export enum VehicleEventStatus {
   Upcoming = 'upcoming'
 }
 
+export type ActiveBidsPerUserQueryVariables = Exact<{
+  where: UserWhereUniqueInput;
+}>;
+
+
+export type ActiveBidsPerUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, firstName: string, lastName: string, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null, activeBids?: Array<{ __typename?: 'Vehicle', bidAmountUpdate?: number | null, startBidAmount?: number | null, currentBidAmount?: number | null, id: string, registrationNumber: string, bidStatus?: string | null, bidTimeExpire: any, vehicleIndexNo: number, totalBids?: number | null, userVehicleBidsCount?: number | null }> | null } | null };
+
 export type CreateSellerMutationVariables = Exact<{
   createSellerInput: CreateSellerInput;
 }>;
@@ -1747,7 +1754,7 @@ export type EventVehiclesQueryVariables = Exact<{
 }>;
 
 
-export type EventVehiclesQuery = { __typename?: 'Query', event: { __typename?: 'Event', eventNo: number, seller?: { __typename?: 'Seller', name: string } | null, vehiclesLive: Array<{ __typename?: 'Vehicle', id: string, bidStatus?: string | null, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, createdById?: string | null, ownership?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, veicleLocation?: string | null, parkingCharges?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, image?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, totalBids?: number | null, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, currentBidUser?: { __typename?: 'User', firstName: string, lastName: string } | null }> } };
+export type EventVehiclesQuery = { __typename?: 'Query', event: { __typename?: 'Event', eventNo: number, seller?: { __typename?: 'Seller', name: string } | null, vehiclesLive: Array<{ __typename?: 'Vehicle', state?: string | null, id: string, bidStatus?: string | null, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, createdById?: string | null, ownership?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, veicleLocation?: string | null, parkingCharges?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, image?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, totalBids?: number | null, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, currentBidUser?: { __typename?: 'User', firstName: string, lastName: string } | null }> } };
 
 export type CreateExceluploadMutationVariables = Exact<{
   eventId: Scalars['String']['input'];
@@ -1907,7 +1914,7 @@ export type UpdateVehicleMutationVariables = Exact<{
 }>;
 
 
-export type UpdateVehicleMutation = { __typename?: 'Mutation', updateVehicle: { __typename?: 'Vehicle', id: string, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, fuel?: string | null, type?: string | null, rcStatus?: string | null, YOM?: number | null, ownership?: number | null, mileage?: number | null, kmReading?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation?: string | null, vehicleRemarks?: string | null, auctionManager?: string | null, parkingCharges?: string | null, insurance?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, fitness?: string | null, permit?: string | null, engineNo?: string | null, chassisNo?: string | null, image?: string | null, inspectionLink?: string | null, autobseContact?: string | null, autobse_contact_person?: string | null, vehicleCondition?: string | null, powerSteering?: string | null, shape?: string | null, color?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, climateControl?: string | null, doorCount?: number | null, gearBox?: string | null, buyerFees?: string | null, rtoFine?: string | null, parkingRate?: string | null, approxParkingCharges?: string | null, clientContactPerson?: string | null, clientContactNo?: string | null, additionalRemarks?: string | null, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null } };
+export type UpdateVehicleMutation = { __typename?: 'Mutation', updateVehicle: { __typename?: 'Vehicle', id: string, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, fuel?: string | null, type?: string | null, rcStatus?: string | null, YOM?: number | null, ownership?: number | null, mileage?: number | null, kmReading?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation?: string | null, vehicleRemarks?: string | null, auctionManager?: string | null, parkingCharges?: string | null, insurance?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, fitness?: string | null, permit?: string | null, engineNo?: string | null, chassisNo?: string | null, image?: string | null, inspectionLink?: string | null, autobseContact?: string | null, autobse_contact_person?: string | null, vehicleCondition?: string | null, powerSteering?: string | null, shape?: string | null, color?: string | null, bidStatus?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, climateControl?: string | null, doorCount?: number | null, gearBox?: string | null, buyerFees?: string | null, rtoFine?: string | null, parkingRate?: string | null, approxParkingCharges?: string | null, clientContactPerson?: string | null, clientContactNo?: string | null, additionalRemarks?: string | null, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null } };
 
 export type BidDetailsPerVehicleQueryVariables = Exact<{
   where: VehicleWhereUniqueInput;
@@ -1924,6 +1931,64 @@ export type BidDetailsQueryVariables = Exact<{
 export type BidDetailsQuery = { __typename?: 'Query', Bids: Array<{ __typename?: 'Bid', createdAt?: any | null, id: string, amount: number, bidVehicleId: string, userId: string, bidVehicle?: { __typename?: 'Vehicle', lotNumber?: number | null, yardLocation?: string | null, totalBids?: number | null, registrationNumber: string, bidStatus?: string | null, userVehicleBidsCount?: number | null, currentBidUser?: { __typename?: 'User', firstName: string, lastName: string, mobile: string } | null, event?: { __typename?: 'Event', seller?: { __typename?: 'Seller', name: string } | null } | null } | null, user?: { __typename?: 'User', firstName: string, mobile: string, lastName: string } | null }> };
 
 
+export const ActiveBidsPerUserDocument = gql`
+    query ActiveBidsPerUser($where: UserWhereUniqueInput!) {
+  user(where: $where) {
+    id
+    firstName
+    lastName
+    states {
+      id
+      name
+    }
+    activeBids {
+      bidAmountUpdate
+      startBidAmount
+      currentBidAmount
+      id
+      registrationNumber
+      bidStatus
+      bidTimeExpire
+      vehicleIndexNo
+      totalBids
+      userVehicleBidsCount
+    }
+  }
+}
+    `;
+
+/**
+ * __useActiveBidsPerUserQuery__
+ *
+ * To run a query within a React component, call `useActiveBidsPerUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useActiveBidsPerUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useActiveBidsPerUserQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useActiveBidsPerUserQuery(baseOptions: Apollo.QueryHookOptions<ActiveBidsPerUserQuery, ActiveBidsPerUserQueryVariables> & ({ variables: ActiveBidsPerUserQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ActiveBidsPerUserQuery, ActiveBidsPerUserQueryVariables>(ActiveBidsPerUserDocument, options);
+      }
+export function useActiveBidsPerUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ActiveBidsPerUserQuery, ActiveBidsPerUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ActiveBidsPerUserQuery, ActiveBidsPerUserQueryVariables>(ActiveBidsPerUserDocument, options);
+        }
+export function useActiveBidsPerUserSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ActiveBidsPerUserQuery, ActiveBidsPerUserQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ActiveBidsPerUserQuery, ActiveBidsPerUserQueryVariables>(ActiveBidsPerUserDocument, options);
+        }
+export type ActiveBidsPerUserQueryHookResult = ReturnType<typeof useActiveBidsPerUserQuery>;
+export type ActiveBidsPerUserLazyQueryHookResult = ReturnType<typeof useActiveBidsPerUserLazyQuery>;
+export type ActiveBidsPerUserSuspenseQueryHookResult = ReturnType<typeof useActiveBidsPerUserSuspenseQuery>;
+export type ActiveBidsPerUserQueryResult = Apollo.QueryResult<ActiveBidsPerUserQuery, ActiveBidsPerUserQueryVariables>;
 export const CreateSellerDocument = gql`
     mutation CreateSeller($createSellerInput: CreateSellerInput!) {
   createSeller(createSellerInput: $createSellerInput) {
@@ -2986,6 +3051,7 @@ export const EventVehiclesDocument = gql`
         firstName
         lastName
       }
+      state
       id
       bidStatus
       vehicleIndexNo
@@ -4173,6 +4239,7 @@ export const UpdateVehicleDocument = gql`
     powerSteering
     shape
     color
+    bidStatus
     city
     area
     paymentTerms

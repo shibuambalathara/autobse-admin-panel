@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useViewUserQuery, useCreatePaymentMutation } from '../../utils/graphql';
+import { useViewUserQuery, useCreatePaymentMutation, PaymentType, PaymentStatusType } from '../../utils/graphql';
 import { ShowPopup } from '../alerts/popUps';
 import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyle, submit } from '../utils/style';
 import { SelectInput } from '../utils/formField';
@@ -10,7 +10,7 @@ import { paymentsFor } from '../utils/constantValues';
 interface PaymentFormInput {
   amount: number;
   description: string;
-  paymentFor: string;
+  paymentFor: PaymentType;
   paymentStatus: string;
   imgForPaymentProof?: FileList;
 }
@@ -23,36 +23,58 @@ const CreatePayment: React.FC = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm<PaymentFormInput>();
 
-  const onSubmit: SubmitHandler<PaymentFormInput> = async (dataOnSubmit) => {
-    // Constructing the data based on the updated input structure
-    const createPaymentInput: any = {
-      amount: +dataOnSubmit.amount,
-      description: dataOnSubmit.description || "",
-      status: dataOnSubmit.paymentStatus,
-      paymentFor: dataOnSubmit.paymentFor,
-      image: "",
-    };
-
-    if (dataOnSubmit.imgForPaymentProof && dataOnSubmit.imgForPaymentProof.length) {
-      createPaymentInput.image = { upload: dataOnSubmit.imgForPaymentProof[0] };
+  const uploadDocuments = async (formData: PaymentFormInput, userId: string) => {
+    if (!formData.imgForPaymentProof || formData.imgForPaymentProof.length === 0) {
+      ShowPopup("Error", "Please upload a payment proof image.", "error", 5000, true);
+      return;
     }
 
+    const formDataPayload = new FormData();
+    formDataPayload.append("image", formData.imgForPaymentProof[0]);
+
+    try {
+      const response = await fetch(`https://api-dev.autobse.com/api/v1/fileupload/paymentImg/${userId}`, {
+        method: "PUT",
+        body: formDataPayload,
+      });
+
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      const result = await response.json();
+
+      navigate('/users');
+    } catch (error: any) {
+      console.error("Error during document upload:", error);
+      ShowPopup("Failed!", `Document upload failed: ${error.message}`, "error", 5000, true);
+    }
+  };
+
+
+  const onSubmit: SubmitHandler<PaymentFormInput> = async (dataOnSubmit) => {
+    const createPaymentInput = {
+      amount: +dataOnSubmit.amount,
+      description: dataOnSubmit.description || "",
+      status: dataOnSubmit.paymentStatus as PaymentStatusType, // Cast to PaymentStatusType
+      paymentFor: dataOnSubmit.paymentFor,
+    };
+  
     const submissionData = {
       createPaymentInput: createPaymentInput,
       userId: id
     };
-
+  
     try {
-      const result = await addAmount({ variables: submissionData  });
+      const result = await addAmount({ variables: submissionData });
       if (result) {
         ShowPopup("Success!", `${dataOnSubmit.paymentFor} created successfully!`, "success", 5000, true);
-        navigate('/payment');
+      }
+      const newUserId = result.data?.createPayment?.id;
+      if (newUserId) {
+        await uploadDocuments(dataOnSubmit, newUserId);
       }
     } catch (error: any) {
-      ShowPopup("Failed!", `${error.message}`, "failed", 5000, true);
+      ShowPopup("Failed!", `${error.message}`, "error", 5000, true);
     }
   };
-
   return (
     <div className={`${pageStyle.data}`}>
       <div className={`${headerStyle.data}`}>
@@ -62,30 +84,6 @@ const CreatePayment: React.FC = () => {
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={`${formStyle.data}`}>  
-          {/* <div className={`${labelAndInputDiv.data}`}>
-            <label>User Name</label>
-            <input
-              value={data?.user?.firstName}
-              disabled
-              type="text"
-              className={`${inputStyle.data}`}
-              {...register("IdNumber", { minLength: 8 })}
-            />
-            {errors.IdNumber && <p className="text-red-500">At least 8 characters required</p>}
-          </div> */}
-
-          {/* <div className={`${labelAndInputDiv.data}`}>
-            <label>User ID</label>
-            <input
-              value={data?.user.}
-              disabled
-              type="text"
-              className={`${inputStyle.data}`}
-              {...register("IdNumber", { minLength: 8 })}
-            />
-            {errors.IdNumber && <p className="text-red-500">At least 8 characters required</p>}
-          </div> */}
-
           <div className={`${labelAndInputDiv.data}`}>
             <label>Amount</label>
             <input
@@ -102,7 +100,7 @@ const CreatePayment: React.FC = () => {
               name="paymentFor"
               options={paymentsFor}
               register={register}
-              defaultValue="" // You can set a default value here, e.g., an empty string or the first option
+              defaultValue=""
               error={errors.paymentFor ? "This field cannot be empty" : null}
             />
             {errors.paymentFor && <p className="text-red-500">This field cannot be empty</p>}
@@ -121,7 +119,7 @@ const CreatePayment: React.FC = () => {
             <label>Payment Status</label>
             <select
               className={`${inputStyle.data}`}
-              {...register("paymentStatus")}
+              {...register("paymentStatus", { required: true })}
             >
               <option value="pending">Pending</option>
               <option value="approved">Approved</option>
@@ -141,7 +139,7 @@ const CreatePayment: React.FC = () => {
         </div>
 
         <div className="flex justify-center my-5">
-          <button type="submit"  className={`${submit.data}`}>
+          <button type="submit" className={`${submit.data}`}>
             Save
           </button>
         </div>

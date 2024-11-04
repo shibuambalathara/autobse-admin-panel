@@ -33,6 +33,7 @@ import States from './pages/states';
 import VehicleBuyingLimit from './pages/vehicleBuyingLimit';
 import EmdDetailsPage from './pages/emdDetailsPage';
 import ViewUsersByState from './pages/viewUsersByState';
+import BidsPerUser from './pages/bidsPerUser';
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -50,7 +51,7 @@ const App: React.FC = () => {
           <Route element={<ProtectedRoutes />}>
               <Route path="/" element={<Home />} />
               <Route path="users" element={<Users />} />
-
+              <Route path="bids-user/:id" element={<BidsPerUser />} />
               <Route path="add-user" element={<AddUser />} />
               
               <Route path="view-user/:id" element={<UserDetails />} />
