@@ -103,7 +103,7 @@ const CreatePayment: React.FC = () => {
               defaultValue=""
               error={errors.paymentFor ? "This field cannot be empty" : null}
             />
-            {errors.paymentFor && <p className="text-red-500">This field cannot be empty</p>}
+           
           </div>
 
           <div className={`${labelAndInputDiv.data}`}>
