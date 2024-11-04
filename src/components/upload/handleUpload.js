@@ -54,7 +54,7 @@ export const HandleUpload = async (files, setFiles, setPercent, setDownloadUrls)
     Promise.all(uploadTasks)
       .then((urls) => {
         const urlsString = urls.join(', ');
-        setDownloadUrls(urlsString);
+        setDownloadUrls([urlsString]);
         setFiles([]); // Clear the selected files after successful upload
         setPercent(0); // Reset the progress bar
       })

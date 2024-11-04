@@ -10,6 +10,7 @@ query EventVehicles($where: EventWhereUniqueInput!, $orderBy: [VehicleOrderByInp
       firstName
       lastName
     }
+    state
       id
       bidStatus
       vehicleIndexNo
