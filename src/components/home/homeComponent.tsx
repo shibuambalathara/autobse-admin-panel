@@ -47,7 +47,7 @@ const HomeComponent: React.FC = () => {
     //   </div>
 
     //   <div onMouseEnter={() => handleMouseEnter("eventTypes")} onMouseLeave={handleMouseLeave} className={cardClass} onClick={() => navigate("event-types")}>
-    //     <div className="text-center font-extrabold text-xl">Events Types</div>
+    //     <div className="text-center font-extrabold text-xl">Vehicle Category</div>
     //     <div className="text-center m-2 lowercase text-2xl">{data?.vehicleCategoryCount}<span className="text-sm"> Items</span></div>
     //   </div>
 

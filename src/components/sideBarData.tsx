@@ -50,7 +50,7 @@ const Sidebar_items: SidebarItem[] = [
     iconType: faComment
   },
   {
-    name: "Events types",
+    name: "Vehicle Category",
     path: "event-types",
     iconType: faCar
   },

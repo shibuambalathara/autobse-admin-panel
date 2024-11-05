@@ -118,7 +118,7 @@ const AddVehicleComponent = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={`${formStyle.data}`}>
             <FormFieldInput label="Registration Number" type="text" name="registrationNumber" register={register} error={errors.registrationNumber} required />
-            <FormFieldInput label="Loan Agreement No." type="text" name="loanAgreementNo" register={register} error={errors.loanAgreementNo} required />
+            <FormFieldInput label="Loan Agreement No" type="text" name="loanAgreementNo" register={register} error={errors.loanAgreementNo} required />
             <FormFieldInput label="Make" type="text" name="make" register={register} error={errors.make} required />
             <FormFieldInput label="Model" type="text" name="model" register={register} error={errors.model} />
             <FormFieldInput label="Varient" type="text" name="varient" register={register} error={errors.varient} />
@@ -137,9 +137,9 @@ const AddVehicleComponent = () => {
               </select> */}
             {/* <FormFieldInput label="Category" type="text" name="category" register={register} error={errors.category} /> */}
             <FormFieldInput label="Start Price" type="number" name="startPrice" register={register} error={errors.startPrice} />
-            <FormFieldInput label="Lot Number" type="number" name="lotNumber" register={register} error={errors.lotNumber} />
-            <TextAreaInput label="Additional Remarks" name="additionalRemarks" register={register} error={errors.additionalRemarks} />
-            <FormFieldInput label="Client Contact No." type="text" name="clientContactNo" register={register} error={errors.clientContactNo} />
+            <FormFieldInput label="Lot Number" type="number" name="lotNumber" register={register} error={errors.lotNumber}  />
+            <TextAreaInput label="Additional Remarks" name="additionalRemarks" register={register} error={errors.additionalRemarks}  />
+            <FormFieldInput label="Client Contact No" type="text" name="clientContactNo" register={register} error={errors.clientContactNo} />
             <FormFieldInput label="Client Contact Person" type="text" name="clientContactPerson" register={register} error={errors.clientContactPerson} />
             <FormFieldInput label="Approx Parking Charges" type="number" name="approxParkingCharges" register={register} error={errors.approxParkingCharges} />
             <FormFieldInput label="Parking Rate" type="number" name="parkingRate" register={register} error={errors.parkingRate} />
@@ -174,7 +174,7 @@ const AddVehicleComponent = () => {
             <FormFieldInput label="KM Reading" type="number" name="kmReading" register={register} error={errors.kmReading} />
             <FormFieldInput label="Mileage" type="number" name="mileage" register={register} error={errors.mileage} />
             <FormFieldInput label="Ownership" type="number" name="ownership" register={register} error={errors.ownership} />
-            <FormFieldInput label="Year of Manufacture (YOM)" type="number" name="YOM" register={register} error={errors.YOM} />
+            <FormFieldInput label="Year Of Manufacture (YOM)" type="number" name="YOM" register={register} error={errors.YOM} />
             <FormFieldInput label="RC Status" type="text" name="rcStatus" register={register} error={errors.rcStatus} />
             <FormFieldInput label="Fuel Type" type="text" name="fuel" register={register} error={errors.fuel} />
             <FormFieldInput label="Quote Increament" type="number" name="quoteIncreament" register={register} error={errors.quoteIncreament} />
