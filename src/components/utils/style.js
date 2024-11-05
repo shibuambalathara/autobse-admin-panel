@@ -16,6 +16,7 @@ export const modalStyle = {
   };
 export const labelAndInputDiv = { data: `flex flex-col` };
 export const inputStyle = { data: `border border-black p-2 rounded-md w-full focus:outline-none focus:ring ` };
+export const filterStyle = { data: ` p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm w-full ` };
 export const textAreaStyle = { data: `border border-black p-2 rounded-md w-full h-40 focus:outline-none focus:ring ` };
 export const ButtonStylePagination={data:'px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600'}
 export const ButtonStyleDisabledPagination={data:' px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600'} 

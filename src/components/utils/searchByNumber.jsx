@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
+import { filterStyle } from './style';
 
 const SearchByNumber = ({ inputData }) => {
   const {
@@ -13,9 +14,9 @@ const SearchByNumber = ({ inputData }) => {
       <div className='flex flex-col  w-64'>
         <h2 className=" font-semibold mb-1 text-sm  text-start">Search By Mobile</h2>
         <input
-          placeholder="Enter mobile number"
+          placeholder="Enter Mobile"
           type="number"
-          className=" p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+          className={`${filterStyle.data}`}
           {...register("mobile", {
             required: true,
             minLength: 10,

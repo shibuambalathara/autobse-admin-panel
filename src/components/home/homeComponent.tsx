@@ -1,146 +1,78 @@
 import React, { useState } from "react";
-// import { useCountQuery, useUsersCountQuery } from "../../utils/graphql";
 import { useNavigate } from "react-router-dom";
 import { useCountsQuery } from "../../utils/graphql";
 
-const HomeComonent = () => {
+const HomeComponent: React.FC = () => {
   const navigate = useNavigate();
-  const [isHovering, setIsHovering] = useState(false);
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
-  function handleMouseEnter() {
-    setIsHovering(true);
-  }
+  const handleMouseEnter = (item: string) => {
+    setHoveredItem(item);
+  };
 
-  function handleMouseLeave() {
-    setIsHovering(false);
-  }
+  const handleMouseLeave = () => {
+    setHoveredItem(null);
+  };
 
   const { data, loading, error } = useCountsQuery();
   const today = new Date();
   today.setHours(0, 0, 0, 0); 
-    const todayISOString = today.toISOString();
-  //  const {data:newUsersToday}=useUsersCountQuery({variables:{where:{createdAt:{gte: todayISOString}}}})
-  let pulseClasses = `flex flex-col text-black  border-2 w-60 shadow-xl rounded bg-white p-5  ml-5     `;
+  const todayISOString = today.toISOString();
 
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+  const cardClass = "flex flex-col items-center text-black border border-gray-300 shadow-lg rounded-lg bg-white p-5 transition transform hover:scale-105 hover:shadow-2xl cursor-pointer";
 
   return (
-    <div className="flex flex-wrap m-5 space-x-12 h-96 space-y-20 justify-center items-center bg">
-      <div  style={{ marginTop: "80px" }}>
-        <div
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          className={pulseClasses}
-          onClick={() => navigate("users")}
-        >
-         <div className="text-center font-extrabold">Users Count</div>
-          <div className="text-center m-2 lowercase ">
-            {data?.usersCount} 
-            <span> Users</span>
-          </div>
-        </div>
-      </div>
-      <div
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          className={pulseClasses}
-          onClick={() => navigate("users")}
-        >
-           <div className="text-center font-extrabold"> New User(s) Today</div>
-          <div className="text-center m-2 lowercase ">
-            {/* {newUsersToday?.usersCount} <span className="">User(s)</span> */}
-          </div>
-        </div>
+    // <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-6 bg-gray-100 min-h-screen">
+    //   <div onMouseEnter={() => handleMouseEnter("users")} onMouseLeave={handleMouseLeave} className={cardClass} onClick={() => navigate("users")}>
+    //     <div className="text-center font-extrabold text-xl">Users Count</div>
+    //     <div className="text-center m-2 lowercase text-2xl">{data?.usersCount}<span className="text-sm"> Users</span></div>
+    //   </div>
+      
+    //   <div onMouseEnter={() => handleMouseEnter("newUsersToday")} onMouseLeave={handleMouseLeave} className={cardClass} onClick={() => navigate("users")}>
+    //     <div className="text-center font-extrabold text-xl">New User(s) Today</div>
+    //     <div className="text-center m-2 lowercase text-2xl">{data?.newUsersToday?.usersCount}<span className="text-sm"> User(s)</span></div>
+    //   </div>
 
+    //   <div onMouseEnter={() => handleMouseEnter("payments")} onMouseLeave={handleMouseLeave} className={cardClass} onClick={() => navigate("payment")}>
+    //     <div className="text-center font-extrabold text-xl">Payments Count</div>
+    //     <div className="text-center m-2 lowercase text-2xl">{data?.paymentsCount}<span className="text-sm"> Items</span></div>
+    //   </div>
 
-      <div>
-        <div
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          className={pulseClasses}
-          onClick={() => navigate("payment")}
-        >
-          <div className="text-center font-extrabold">Payments Count</div>
-          <div className="text-center mt-2 lowercase ">
-            {data?.paymentsCount} 
-            <span className="uppercase">I</span>tems
-          </div>
-        </div>
-      </div>
- 
-      <div>
-        <div
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          className={pulseClasses}
-          onClick={() => navigate("events")}
-        >
-          <div className="text-center font-extrabold">Events Count</div>
-          <div className="text-center mt-2 lowercase ">
-            {data?.eventsCount}
-             <span className="uppercase">I</span>tems
-          </div>
-        </div>
-      </div>
+    //   <div onMouseEnter={() => handleMouseEnter("events")} onMouseLeave={handleMouseLeave} className={cardClass} onClick={() => navigate("events")}>
+    //     <div className="text-center font-extrabold text-xl">Events Count</div>
+    //     <div className="text-center m-2 lowercase text-2xl">{data?.eventsCount}<span className="text-sm"> Items</span></div>
+    //   </div>
 
-      <div >
-        <div
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          className={pulseClasses}
-          onClick={() => navigate("event-types")}
-        >
-          <div className="text-center font-extrabold">Events Types</div>
-          <div className="text-center mt-2 lowercase ">
-            {data?.eventsCount}
-             <span className="uppercase">I</span>tems
-          </div>
-        </div>
+    //   <div onMouseEnter={() => handleMouseEnter("eventTypes")} onMouseLeave={handleMouseLeave} className={cardClass} onClick={() => navigate("event-types")}>
+    //     <div className="text-center font-extrabold text-xl">Events Types</div>
+    //     <div className="text-center m-2 lowercase text-2xl">{data?.vehicleCategoryCount}<span className="text-sm"> Items</span></div>
+    //   </div>
+
+    //   <div onMouseEnter={() => handleMouseEnter("locations")} onMouseLeave={handleMouseLeave} className={cardClass} onClick={() => navigate("viewlocation")}>
+    //     <div className="text-center font-extrabold text-xl">Locations Count</div>
+    //     <div className="text-center m-2 lowercase text-2xl">{data?.locationsCount}<span className="text-sm"> Items</span></div>
+    //   </div>
+
+    //   <div onMouseEnter={() => handleMouseEnter("states")} onMouseLeave={handleMouseLeave} className={cardClass} onClick={() => navigate("states")}>
+    //     <div className="text-center font-extrabold text-xl">States Count</div>
+    //     <div className="text-center m-2 lowercase text-2xl">{data?.locationsCount}<span className="text-sm"> Items</span></div>
+    //   </div>
+
+    //   <div onMouseEnter={() => handleMouseEnter("sellers")} onMouseLeave={handleMouseLeave} className={cardClass} onClick={() => navigate("sellers")}>
+    //     <div className="text-center font-extrabold text-xl">Sellers Count</div>
+    //     <div className="text-center m-2 lowercase text-2xl">{data?.sellersCount}<span className="text-sm"> Items</span></div>
+    //   </div>
+    // </div>
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-6"> 
+    <h1 className="text-4xl font-bold mb-4">Welcome to Your Dashboard</h1>
+     <p className="text-lg text-gray-700 text-center max-w-md"> 
+      Manage your users, payments, events, locations, and more. Navigate through the menu to access 
+      different sections of the dashboard. We're here to help you keep everything running smoothly. </p>
       </div>
-      <div >
-        <div
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          className={pulseClasses}
-          onClick={() => navigate("viewlocation")}
-        >
-          <div className="text-center font-extrabold">Locations Count</div>
-          <div className="text-center mt-2 lowercase ">
-            {data?.locationsCount}
-             <span className="uppercase">I</span>tems
-          </div>
-        </div>
-      </div>
-      <div >
-        <div
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          className={pulseClasses}
-          onClick={() => navigate("states")}
-        >
-          <div className="text-center font-extrabold">States Count</div>
-          <div className="text-center mt-2 lowercase ">
-            {/* {data?.statesCount}  */}
-            <span className="uppercase">I</span>tems
-          </div>
-        </div>
-      </div>
- 
-      <div >
-        <div
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          className={pulseClasses}
-          onClick={() => navigate("sellers")}
-        >
-          <div className="text-center font-extrabold">Sellers Count</div>
-          <div className="text-center mt-2 lowercase ">
-            {/* {data?.sellersCount}  */}
-            <span className="uppercase">I</span>tems
-          </div>
-        </div>
-      </div>
-    </div>
   );
 };
 
-export default HomeComonent;
+export default HomeComponent;

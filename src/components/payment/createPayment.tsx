@@ -6,6 +6,7 @@ import { ShowPopup } from '../alerts/popUps';
 import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyle, submit } from '../utils/style';
 import { SelectInput } from '../utils/formField';
 import { paymentsFor } from '../utils/constantValues';
+import FileInput from '../utils/fileInputs';
 
 interface PaymentFormInput {
   amount: number;
@@ -56,12 +57,12 @@ const CreatePayment: React.FC = () => {
       status: dataOnSubmit.paymentStatus as PaymentStatusType, // Cast to PaymentStatusType
       paymentFor: dataOnSubmit.paymentFor,
     };
-  
+
     const submissionData = {
       createPaymentInput: createPaymentInput,
       userId: id
     };
-  
+
     try {
       const result = await addAmount({ variables: submissionData });
       if (result) {
@@ -83,7 +84,7 @@ const CreatePayment: React.FC = () => {
         </h2>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={`${formStyle.data}`}>  
+        <div className={`${formStyle.data}`}>
           <div className={`${labelAndInputDiv.data}`}>
             <label>Amount</label>
             <input
@@ -100,10 +101,10 @@ const CreatePayment: React.FC = () => {
               name="paymentFor"
               options={paymentsFor}
               register={register}
-              defaultValue=""
+              defaultValue="Select Payment For"
               error={errors.paymentFor ? "This field cannot be empty" : null}
             />
-           
+
           </div>
 
           <div className={`${labelAndInputDiv.data}`}>
@@ -128,14 +129,8 @@ const CreatePayment: React.FC = () => {
             {errors.paymentStatus && <p className="text-red-500">Please select payment status</p>}
           </div>
 
-          <div className={`${labelAndInputDiv.data}`}>
-            <label>Payment Proof Image</label>
-            <input
-              type="file"
-              className={`${inputStyle.data}`}
-              {...register("imgForPaymentProof")}
-            />
-          </div>
+          <FileInput label="Payment Proof Image" accept="image/*" 
+          maxSizeMB={2} register={register} fieldName="imgForPaymentProof" />
         </div>
 
         <div className="flex justify-center my-5">
@@ -149,3 +144,5 @@ const CreatePayment: React.FC = () => {
 };
 
 export default CreatePayment;
+
+
