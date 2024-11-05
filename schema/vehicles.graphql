@@ -120,7 +120,7 @@ mutation UpdateVehicle($where: VehicleWhereUniqueInput!, $updateVehicleInput: Up
     powerSteering
     shape
     color
-    
+    bidStatus
     city
     area
     paymentTerms

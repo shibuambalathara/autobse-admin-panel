@@ -36,7 +36,6 @@ const AddUser = () => {
       if (!newUserId) {
         throw new Error("User creation failed. No ID returned.");
       }
-
       setUserId(newUserId);
       ShowPopup("Success!", `${formData.first_Name} added successfully!`, "success", 5000, true);
 
