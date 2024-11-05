@@ -1,11 +1,11 @@
-query EventVehicles($where: EventWhereUniqueInput!) {
+query EventVehicles($where: EventWhereUniqueInput!, $orderBy: [VehicleOrderByInput!]) {
   event(where: $where) {
     eventNo
     seller 
       {
         name
       }
-   vehiclesLive  {
+   vehiclesLive(orderBy: $orderBy)  {
     currentBidUser {
       firstName
       lastName
@@ -56,7 +56,7 @@ query EventVehicles($where: EventWhereUniqueInput!) {
       
     
     
-     
+     state
       lotNumber
       createdAt
       updatedAt
