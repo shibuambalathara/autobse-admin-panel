@@ -1,11 +1,11 @@
-query EventVehicles($where: EventWhereUniqueInput!) {
+query EventVehicles($where: EventWhereUniqueInput!, $orderBy: [VehicleOrderByInput!]) {
   event(where: $where) {
     eventNo
     seller 
       {
         name
       }
-   vehiclesLive  {
+   vehiclesLive(orderBy: $orderBy)  {
     event {
       seller {
         name
