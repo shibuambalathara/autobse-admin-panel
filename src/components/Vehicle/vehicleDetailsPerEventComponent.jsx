@@ -286,7 +286,7 @@ Swal.fire({
     <h1>Event End Date # <span className='font-bold'>{format(new Date (data?.event?.endDate),`dd/MM/yy,  HH:mm`)}</span></h1> */}
      { (data?.event?.endDate >new Date().toISOString())   &&
       <a className={`${Tablebutton.data} bg-black`} href={`/add-vehicle/${id}`} target="_blank" rel="noopener noreferrer">+ <FontAwesomeIcon icon={faCar}  /></a>} 
-           <button className={`${Tablebutton.data} bg-black`} onClick={()=>handleBidSheets([data?.event?.vehiclesLive])}>All Bid Sheet</button>
+           <button className={`${Tablebutton.data} bg-black`} onClick={()=>handleBidSheets(data?.event?.vehiclesLive)}>All Bid Sheet</button>
          
         </div>
     <div className='h-1 font-bold'>Seller Name :{data?.event?.seller?.name}</div>

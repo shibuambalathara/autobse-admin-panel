@@ -6,17 +6,24 @@ import { saveAs } from 'file-saver';
 export const DownloadBidSheetsBeforeAuction = async (vehicles) => {
   const zip = new JSZip();
 
-  // Iterate over each vehicle and generate a PDF for each
-  vehicles.forEach((vehicle) => {
+  if (!Array.isArray(vehicles) || vehicles.length === 0) {
+    console.error("Invalid or empty vehicles array.");
+    return;
+  }
+
+  // Generate PDFs using map and await each PDF's generation
+  const pdfPromises = vehicles.map(async (vehicle, index) => {
+      // Log each vehicle
+
     const pdf = new jsPDF();
     const logoImg = '../logo.jpeg';
-    
-    const sellername = `${vehicle?.event?.seller?.name}`;
-    const lotNumber = `${vehicle?.lotNumber}`;
-    const loanAgreementNo = `${vehicle?.loanAgreementNo}`;
-    const vehiclename = `${vehicle?.make} ${vehicle?.varient}`;
-    const registrationNumber = `${vehicle?.registrationNumber}`;
-    
+
+    const sellername = vehicle?.event?.seller?.name || '';
+    const lotNumber = vehicle?.lotNumber || '';
+    const loanAgreementNo = vehicle?.loanAgreementNo || '';
+    const vehiclename = `${vehicle?.make || ''} ${vehicle?.varient || ''}`.trim();
+    const registrationNumber = vehicle?.registrationNumber || '';
+
     pdf.addImage(logoImg, 'JPEG', 20, 10, 35, 15);
     pdf.setFontSize(12);
     pdf.setFont('helvetica', 'bold');
@@ -62,7 +69,7 @@ export const DownloadBidSheetsBeforeAuction = async (vehicles) => {
     pdf.autoTable({
       head: [tableHeaders],
       body: tableData,
-      styles: { lineColor: [0, 0, 0], lineWidth: 0.5, rowHeight: 11 },
+      styles: { lineColor: [0, 0, 0], lineWidth: 0.5, minCellHeight: 11 },
       headStyles: { fillColor: null, textColor: [0, 0, 0] },
       startY: 130,
     });
@@ -73,11 +80,14 @@ export const DownloadBidSheetsBeforeAuction = async (vehicles) => {
 
     // Convert PDF to Blob and add to ZIP
     const pdfBlob = pdf.output('blob');
-    const filename = `bidsheet-${vehicle?.registrationNumber}.pdf`;
+    const filename = `bidsheet-${registrationNumber}.pdf`;
     zip.file(filename, pdfBlob);
   });
 
-  // Generate and download the ZIP file containing all PDFs in the root folder
+  // Wait for all PDFs to be generated and added to the ZIP
+  await Promise.all(pdfPromises);
+
+  // Generate and download the ZIP file containing all PDFs
   const zipBlob = await zip.generateAsync({ type: 'blob' });
   saveAs(zipBlob, 'bidsheets.zip');
 };

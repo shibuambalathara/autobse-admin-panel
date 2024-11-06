@@ -35,24 +35,15 @@ query EventVehicles($where: EventWhereUniqueInput!, $orderBy: [VehicleOrderByInp
       category
       createdById
       ownership
-    
       insuranceStatus
       yardLocation
       startPrice
       reservePrice
-      
       veicleLocation
-     
       parkingCharges
-      
       insuranceValidTill
       tax
       taxValidityDate
-      
-     
-      image
-      
-     
       city
       area
       paymentTerms

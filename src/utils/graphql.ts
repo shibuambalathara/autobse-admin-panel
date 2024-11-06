@@ -1273,6 +1273,7 @@ export type UpdateUserInput = {
   tempToken?: InputMaybe<Scalars['Float']['input']>;
   userCategory?: InputMaybe<Scalars['String']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
+  watchList?: InputMaybe<WatchListUpdateInput>;
 };
 
 export type UpdateVehicleInput = {
@@ -1303,6 +1304,7 @@ export type UpdateVehicleInput = {
   fuel?: InputMaybe<Scalars['String']['input']>;
   gearBox?: InputMaybe<Scalars['String']['input']>;
   hypothication?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   image?: InputMaybe<Scalars['String']['input']>;
   inspectionLink?: InputMaybe<Scalars['String']['input']>;
   insurance?: InputMaybe<Scalars['String']['input']>;
@@ -1373,7 +1375,6 @@ export type User = {
   pancard_image?: Maybe<Scalars['String']['output']>;
   payments?: Maybe<Array<Payment>>;
   paymentsCount?: Maybe<Scalars['Int']['output']>;
-  removeWatchlist: Array<User>;
   role: Scalars['String']['output'];
   state: Scalars['String']['output'];
   states?: Maybe<Array<State>>;
@@ -1384,24 +1385,6 @@ export type User = {
   username: Scalars['String']['output'];
   vehicleBuyingLimit?: Maybe<Scalars['Int']['output']>;
   watchList?: Maybe<Array<Vehicle>>;
-  watchListTemp: Array<User>;
-};
-
-
-export type UserRemoveWatchlistArgs = {
-  vehicleUniqueInput: VehicleWhereUniqueInput;
-};
-
-
-export type UserWatchListArgs = {
-  vehicleUniqueInput: VehicleWhereUniqueInput;
-};
-
-
-export type UserWatchListTempArgs = {
-  orderBy?: InputMaybe<Array<UserOrderByInput>>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  take?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export enum UserIdProofTypeType {
@@ -1564,6 +1547,11 @@ export type VerifyOtpResponse = {
   __typename?: 'VerifyOtpResponse';
   access_token: Scalars['String']['output'];
   user: User;
+};
+
+export type WatchListUpdateInput = {
+  connect?: InputMaybe<Array<VehicleWhereUniqueInput>>;
+  disconnect?: InputMaybe<Array<VehicleWhereUniqueInput>>;
 };
 
 export enum EventBidLockType {
@@ -1769,7 +1757,7 @@ export type EventVehiclesQueryVariables = Exact<{
 }>;
 
 
-export type EventVehiclesQuery = { __typename?: 'Query', event: { __typename?: 'Event', eventNo: number, seller?: { __typename?: 'Seller', name: string } | null, vehiclesLive: Array<{ __typename?: 'Vehicle', lotNumber?: number | null, state?: string | null, id: string, bidStatus?: string | null, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, createdById?: string | null, ownership?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, veicleLocation?: string | null, parkingCharges?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, image?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, totalBids?: number | null, createdAt?: any | null, updatedAt?: any | null, event?: { __typename?: 'Event', seller?: { __typename?: 'Seller', name: string } | null } | null, currentBidUser?: { __typename?: 'User', firstName: string, lastName: string } | null }> } };
+export type EventVehiclesQuery = { __typename?: 'Query', event: { __typename?: 'Event', eventNo: number, seller?: { __typename?: 'Seller', name: string } | null, vehiclesLive: Array<{ __typename?: 'Vehicle', lotNumber?: number | null, state?: string | null, id: string, bidStatus?: string | null, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, createdById?: string | null, ownership?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, veicleLocation?: string | null, parkingCharges?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, totalBids?: number | null, createdAt?: any | null, updatedAt?: any | null, event?: { __typename?: 'Event', seller?: { __typename?: 'Seller', name: string } | null } | null, currentBidUser?: { __typename?: 'User', firstName: string, lastName: string } | null }> } };
 
 export type CreateExceluploadMutationVariables = Exact<{
   eventId: Scalars['String']['input'];
@@ -3182,7 +3170,7 @@ export const EventVehiclesDocument = gql`
     seller {
       name
     }
-    vehiclesLive {
+    vehiclesLive(orderBy: $orderBy) {
       event {
         seller {
           name
@@ -3221,7 +3209,6 @@ export const EventVehiclesDocument = gql`
       insuranceValidTill
       tax
       taxValidityDate
-      image
       city
       area
       paymentTerms
