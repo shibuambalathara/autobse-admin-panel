@@ -27,11 +27,12 @@ export default CheckboxInput;
 
 //  type is input
 export const FormFieldInput = ({ label, type, name, register,defaultValue, error, ...rest }) => {
+  const {required}= rest
   return (
     <div className="flex flex-col">
      
-      <label  className={`${labelStyle.data}`} htmlFor={name}>
-        {label}
+      <label  className={`${labelStyle.data}`} htmlFor={name}> 
+        {label}{required&&<span className="text-red-500 text-lg pl-1">*</span>}
       </label>
       <input
         type={type}
@@ -50,7 +51,7 @@ export const FormFieldInput = ({ label, type, name, register,defaultValue, error
 export const TextAreaInput = ({ label, type, name, register,defaultValue, error, ...rest }) => {
   return (
     <div className="flex flex-col">
-      <label className="t" htmlFor={name}>
+      <label className={`${labelStyle.data}`}  htmlFor={name}>
         {label}
       </label>
       <textarea
@@ -119,7 +120,7 @@ export const StateInput = ({ label, name, options,defaultValue,error, register, 
   
   return (
     <div className="flex flex-col">
-      <label htmlFor={name}>{label}</label>
+      <label className={`${labelStyle.data}`} htmlFor={name}>{label}</label>
       <select
         {...register(name,)}
         className={`${inputStyle.data}`}

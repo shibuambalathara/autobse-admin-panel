@@ -1,18 +1,24 @@
-import React, { useState } from 'react'
-
-import  LoginCom from'../components/loginComponents/loginCom'
+import React, { useState, useEffect } from 'react';
+import LoginCom from '../components/loginComponents/loginCom';
 import OtpLogin from '../components/loginComponents/otpLogin';
+import { useLocation } from 'react-router-dom';
+import { Toaster, toast } from 'react-hot-toast';
 
 export const LoginPage = () => {
-
-
-  // return (
-  //   <div className='w-full'>
-  //    <LoginCom/> 
-  //   </div>
-  // )
-
+  const location = useLocation();
+  const message = location.state?.message;
   const [activeTab, setActiveTab] = useState<'login' | 'otp'>('login');
+
+  // Show toast if message is available
+  useEffect(() => {
+    if (message) {
+      toast.error(message, {
+        icon: '⚠️',
+        duration: 4000,
+        position: 'top-center',
+      });
+    }
+  }, [message]);
 
   // Function to handle tab switch
   const handleTabChange = (tab: 'login' | 'otp') => {
@@ -21,21 +27,23 @@ export const LoginPage = () => {
 
   return (
     <div className="flex h-screen w-full">
-      {/* Left Pane */}
-      <div className="hidden lg:flex items-center justify-center  bg-blue-800 text-black w-5/12">
-        <div className="max-w-md text-center flex item">
+      {/* Toaster for notifications */}
+      <Toaster />
 
-          <h1 className='text-white text-5xl font-extrabold my-auto '>Auto<span className='text-orange-500'>bse</span></h1>
+      {/* Left Pane */}
+      <div className="hidden lg:flex items-center justify-center bg-blue-800 text-black w-5/12">
+        <div className="max-w-md text-center flex items-center">
+          <h1 className="text-white text-5xl font-extrabold my-auto">
+            Auto<span className="text-orange-500">bse</span>
+          </h1>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="524.67004"
             height="531.39694"
             className="w-full"
-            // alt="Illustration"
-            // title="Illustration"
             viewBox="0 0 524.67004 531.39694"
           >
-            <polygon  
+            <polygon
               points="117.67523 88.74385 113.67523 109.74385 133.61763 115.36589 131.1398 92.94604 117.67523 88.74385"
               fill="#a0616a"
             />
@@ -49,7 +57,7 @@ export const LoginPage = () => {
       </div>
 
       {/* Right Pane with Tabs */}
-      <div className="flex flex-col justify-center items-center flex-1  w-2/3">
+      <div className="flex flex-col justify-center items-center flex-1 w-2/3">
         <div className="bg-white shadow-lg rounded-lg p-6 w-fit">
           {/* Tabs */}
           <div className="flex mb-6">
@@ -72,16 +80,12 @@ export const LoginPage = () => {
           </div>
 
           {/* Content for Login */}
-          {activeTab === 'login' && (
-             <LoginCom/> 
-          )}
+          {activeTab === 'login' && <LoginCom />}
 
           {/* Content for Login with OTP */}
-          {activeTab === 'otp' && (
-            <OtpLogin/>
-          )}
+          {activeTab === 'otp' && <OtpLogin />}
         </div>
       </div>
     </div>
   );
-}
+};

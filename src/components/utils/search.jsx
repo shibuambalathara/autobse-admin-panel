@@ -1,11 +1,12 @@
 import React from 'react'
+import { filterStyle } from './style'
 
 const Search = ({filter,setFilter}) => {
   return (
     <div className=' flex w-full my-2'>
-    <span className='text-black w-full '>
+    <span className='text-black w-64 '>
       
-        <input className='border-black border-2  rounded-xl py-2 px-4 focus:outline-none focus:border-sky-200' placeholder='search by Name, Id...' type="text"  value={filter || ''} onChange={(e)=>setFilter(e.target.value)}/>
+        <input  className={`${filterStyle.data}`} placeholder='Quick Search... ' type="text"  value={filter || ''} onChange={(e)=>setFilter(e.target.value)}/>
     </span>
     </div>
   )

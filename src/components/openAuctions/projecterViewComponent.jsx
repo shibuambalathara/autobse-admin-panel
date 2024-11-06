@@ -256,7 +256,7 @@ const LivetimeOfVehicle = () => {
                     </div>
 
                     <div className="flex justify-between  mx-5">
-                      <label>Year of Manufacture</label>
+                      <label>Year Of Manufacture</label>
                       <label className="font-bold">
                         {liveItem?.yearOfManufacture}
                       </label>
