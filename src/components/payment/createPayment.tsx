@@ -66,7 +66,7 @@ const CreatePayment: React.FC = () => {
     try {
       const result = await addAmount({ variables: submissionData });
       if (result) {
-        ShowPopup("Success!", `${dataOnSubmit.paymentFor} created successfully!`, "success", 5000, true);
+        ShowPopup("Success!", `Payment created successfully!`, "success", 5000, true);
       }
       const newUserId = result.data?.createPayment?.id;
       if (newUserId) {
@@ -130,7 +130,7 @@ const CreatePayment: React.FC = () => {
           </div>
 
           <FileInput label="Payment Proof Image" accept="image/*" 
-          maxSizeMB={2} register={register} fieldName="imgForPaymentProof" />
+          maxSizeMB={1} register={register} fieldName="imgForPaymentProof" />
         </div>
 
         <div className="flex justify-center my-5">
