@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useForm } from "react-hook-form";
+import { filter, filterStyle } from './style';
 
 const SearchByDate = ({setDate}) => {
     const {
@@ -12,14 +13,12 @@ const SearchByDate = ({setDate}) => {
         formState: { errors },
       } = useForm();
   return (
-    <div className='flex justify-between'>
-                
-    <div className="  align-middle">
-<p className="my-auto">   Search By Reg. Date</p>
+    <div className={`${filter.div}`}>
+        <h2 className={`${filter.h2}`}>Search By Reg </h2>
     <input type='date'
-  placeholder=" Enter mobile Number"
 
-  className="p-3  input input-bordered input-secondary w-64"
+
+  className={`${filterStyle.data}`}
   {...register("startDate", {
     required: true,
    
@@ -39,8 +38,7 @@ const SearchByDate = ({setDate}) => {
     {" "}
     {errors.mobile && <span>Please Enter 10 digits</span>}
   </p>
-  </div>
-
+  
 </div>
   )
 }

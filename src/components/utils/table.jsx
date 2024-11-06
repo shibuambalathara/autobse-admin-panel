@@ -40,13 +40,13 @@ function TableComponent(prop) {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="sm:-mx-2 lg:-mx-4">
+      <div className="">
      
-        <div className="inline-block  py-2 sm:px-6 lg:px-8">
+        <div className="inline-block  py-2 sm:px-6 lg:px-4">
         <Search  filter={globalFilter} className="  text-white bg-red-200" setFilter={setGlobalFilter}/>
           <div className="border border-gray-200 dark:border-gray-400 md:rounded-lg overflow-hidden">
             {/* Table wrapper for horizontal scroll */}
-            <div className="overflow-x-auto lg:w-[82rem] md:w-[35rem] sm:w-[20rem] min-h-[10rem] max-h-[27rem]">
+            <div className="overflow-x-auto lg:w-[80rem] md:w-[35rem] sm:w-[20rem] min-h-[10rem] max-h-[27rem]">
               <table
                 {...getTableProps()}
                 className="min-w-full text-start text-sm font-light text-black"
