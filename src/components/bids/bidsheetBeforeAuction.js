@@ -8,11 +8,11 @@ export const  DownloadBidSheetBeforeAuction = async (vehicle) => {
     const logoImg = '../logo.jpeg';
   
                   
-      const sellername=`${vehicle?.event?.seller?.name}`
-     const lotNumber =    `${vehicle?.lotNumber}`;
-const loan_agreement_no= `${vehicle?.loanAgreementNo}`;
-     const vehiclename =   `${vehicle?.make}  ${vehicle?.varient}`;
-     const registrationnumber = `${vehicle?.registrationNumber}`;
+    const sellername = vehicle?.event?.seller?.name || '';
+    const lotNumber = vehicle?.lotNumber || '';
+    const loanAgreementNo = vehicle?.loanAgreementNo || '';
+    const vehiclename = `${vehicle?.make || ''} ${vehicle?.varient || ''}`.trim();
+    const registrationNumber = vehicle?.registrationNumber || '';
     //  const LocationParked=`${vehicle?.yardLocation}`
 
   
@@ -52,10 +52,10 @@ const loan_agreement_no= `${vehicle?.loanAgreementNo}`;
 
     const vehicleInfo = [
         ['Lot No:', lotNumber],
-        ['LAN No:', loan_agreement_no], 
+        ['LAN No:', loanAgreementNo], 
         ['Seller Name:', sellername],
         ['Vehicle Make & Model:', vehiclename],
-        ['Registration No:', registrationnumber],
+        ['Registration No:', registrationNumber],
         ['Location Parked:', ''], 
       ];
       pdf.autoTable({
