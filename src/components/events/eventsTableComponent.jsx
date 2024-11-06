@@ -106,12 +106,12 @@ const handleDelete=(id)=>{
             
             )
           },
-          { Header: "seller Name", accessor: "seller.name" },
+          { Header: "Seller Name", accessor: "seller.name" },
           { Header: "Location", accessor: "location.name" },
           { Header: "Event Category ", accessor: "eventCategory" },
           //  { Header: "Start Date ", accessor: ({startDate})=>{return format(new Date( startDate),`dd/MM/yy, HH:mm`)} },
           {
-            Header: "start Date",
+            Header: "Start Date",
             accessor: ({ startDate }) => new Date( startDate),
             sortType: "datetime",
             Cell: ({ value }) => FormatDate(value),

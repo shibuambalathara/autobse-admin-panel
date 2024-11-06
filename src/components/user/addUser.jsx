@@ -109,8 +109,8 @@ const AddUser = () => {
           {/* <FormFieldInput label="Image" type="file" name="user_image" register={register} error={errors.user_image} /> */}
           <FormFieldInput label="Pancard" type="file" name="pancardImage" register={register} error={errors.pancardImage} required/>
           <FormFieldInput label="Pancard Number" type="text" name="pancardNumber" register={register} error={errors.pancardNumber} required />
-          <FormFieldInput label="ID proof (Front)" type="file" name="idProof" register={register} error={errors.idProof} />
-          <FormFieldInput label="ID proof (Back)" type="file" name="idBack" register={register} error={errors.idBack} />
+          <FormFieldInput label="ID Proof (Front)" type="file" name="idProof" register={register} error={errors.idProof} />
+          <FormFieldInput label="ID Proof (Back)" type="file" name="idBack" register={register} error={errors.idBack} />
           {/* <FormFieldInput label="Dealership Image" type="file" name="dealership" register={register} error={errors.dealership} /> */}
 
         

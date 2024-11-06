@@ -201,7 +201,7 @@ const UserDetailsComponent = () => {
           <div className="col-span-3 grid grid-cols-2 gap-4 mt-4">
            
            
-              <div className="col-span-3 gap-4 grid grid-cols-2 mt-4">
+              <div className="col-span-3 gap-4 grid grid-cols-3 mt-4">
               {Object.keys(imageLabels).map((key, index) => (
                   <div key={index} className="flex flex-col items-center gap-2">
                     <label className="text-gray-700 text-sm font-bold mb-2">

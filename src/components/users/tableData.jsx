@@ -148,7 +148,7 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
         }
       },
       {
-        Header: "Payment details",
+        Header: "Payment Details",
         Cell: ({ row }) => {
           const paymentsCount = row.original.paymentsCount;
       

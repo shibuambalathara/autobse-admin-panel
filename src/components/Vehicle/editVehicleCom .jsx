@@ -225,7 +225,7 @@ const EditVehicleComponent = () => {
           <FormFieldInput defaultValue={data?.vehicle?.type}label="Type" type="text" name="type" register={register} error={errors.type} />
           
           <FormFieldInput defaultValue={data?.vehicle?.rcStatus} label="RC Status" type="text" name="rcStatus" register={register} error={errors.rcStatus} />
-          <FormFieldInput defaultValue={data?.vehicle?.YOM} label="Year of Manufacture" type="date" name="yearOfManuFacture" register={register} error={errors.yearOfManuFacture} />
+          <FormFieldInput defaultValue={data?.vehicle?.YOM} label="Year Of Manufacture" type="date" name="yearOfManuFacture" register={register} error={errors.yearOfManuFacture} />
           <FormFieldInput defaultValue={data?.vehicle?.ownership} label="Ownership" type="number" name="Ownership" register={register} error={errors.Ownership} />
           <FormFieldInput defaultValue={data?.vehicle?.quoteIncreament} label="QuoteIncreament" type="number" name="quoteInc" register={register} error={errors.Ownership} />
           <FormFieldInput defaultValue={data?.vehicle?.mileage} label="Mileage" type="number" name="mileage" register={register} error={errors.mileage} />
