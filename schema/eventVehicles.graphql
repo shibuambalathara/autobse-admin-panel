@@ -6,10 +6,16 @@ query EventVehicles($where: EventWhereUniqueInput!) {
         name
       }
    vehiclesLive  {
+    event {
+      seller {
+        name
+      }
+    }
     currentBidUser {
       firstName
       lastName
     }
+    lotNumber
     state
       id
       bidStatus
@@ -29,7 +35,7 @@ query EventVehicles($where: EventWhereUniqueInput!) {
       category
       createdById
       ownership
-     
+    
       insuranceStatus
       yardLocation
       startPrice
@@ -53,11 +59,6 @@ query EventVehicles($where: EventWhereUniqueInput!) {
       dateOfRegistration
       hypothication
        totalBids
-      
-    
-    
-     
-      lotNumber
       createdAt
       updatedAt
       createdById

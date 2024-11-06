@@ -1,16 +1,19 @@
-// src/components/Login.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setAuthData } from '../../store/authSlice';
 import { useVerifyOtpMutation } from '../../utils/graphql';
-import { Toast } from '../utils/toast';
+import { Toaster, toast } from 'react-hot-toast';
 
 interface LoginForm {
- 
   otp: string;
 }
+
+type ToastProps = {
+  message: string;
+  type?: 'success' | 'error' | 'info';
+};
 
 interface VerifyLoginProps {
   number: string;
@@ -20,40 +23,59 @@ const VerifyLogin: React.FC<VerifyLoginProps> = ({ number }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState<ToastProps | null>(null);
+
+  // Toast function to display notifications
+  const showToast = ({ message, type }: ToastProps) => {
+    switch (type) {
+      case 'success':
+        toast.success(message, { icon: '✅' });
+        break;
+      case 'error':
+        toast.error(message, { icon: '❌' });
+        break;
+      default:
+        toast(message, { icon: 'ℹ️' });
+    }
+  };
+
+  // Trigger toast only when message changes
+  useEffect(() => {
+    if (message) {
+      showToast(message);
+      setMessage(null); // Reset message after showing toast
+    }
+  }, [message]);
+
   const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>();
-  const [loginData, { data, loading, error }] =useVerifyOtpMutation();
+  const [loginData] = useVerifyOtpMutation();
 
   const onSubmit: SubmitHandler<LoginForm> = async (dataOnSubmit) => {
     try {
       const result = await loginData({
         variables: {
-            verfiyOtpDto: { mobile:number, otp:dataOnSubmit.otp }
+          verfiyOtpDto: { mobile: number, otp: dataOnSubmit.otp }
         },
       });
-      console.log(result ,'result');
-      
+
       if (!result?.data?.verifyOtp?.access_token) {
-        setMessage('No token found');
+        setMessage({ message: 'No token found', type: 'error' });
       } else {
         const { access_token, user } = result.data.verifyOtp;
         dispatch(setAuthData({ token: access_token, user }));
 
-        // Redirect to the homepage
+        setMessage({ message: 'Login successful', type: 'success' });
         navigate('/');
-        // window.location.reload();
       }
     } catch (err) {
       console.error(err, 'error');
-      setMessage('Login failed');
+      setMessage({ message: 'Login failed', type: 'error' });
     }
   };
 
   return (
     <>
-     {message && (
-       <Toast message={message} type={"error"}/>
-      )}
+      <Toaster position="top-right" reverseOrder={false} />
     <form onSubmit={handleSubmit(onSubmit)}>
             
               <div className="mt-4">

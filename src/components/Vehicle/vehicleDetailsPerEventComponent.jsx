@@ -14,6 +14,8 @@ import { ConfirmationAlert, SweetalertSuccess } from '../utils/sweetalert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCar } from '@fortawesome/free-solid-svg-icons';
 import { Tablebutton } from '../utils/style';
+import { DownloadBidSheetBeforeAuction } from '../bids/bidsheetBeforeAuction';
+import { DownloadBidSheetsBeforeAuction } from '../bids/bidsheetfolder';
 
 
 
@@ -154,7 +156,15 @@ const result = await ConfirmationAlert()
       // })
       // }
     }
-  
+    const handleBidSheet=(vehicle)=>{
+      DownloadBidSheetBeforeAuction(vehicle)
+     
+    }
+    const handleBidSheets=(vehicles)=>{
+      console.log("vehicles per event",vehicles)
+ DownloadBidSheetsBeforeAuction(vehicles)
+     
+    }
      
     
     const handleMessage=(vehicleDetails)=>{
@@ -209,7 +219,12 @@ Swal.fire({
             row.original.totalBids !==0 ? <button  className={`${Tablebutton.data} bg-teal-500`}  onClick={() => handleAboutBid(row.original)}>About Bid</button>   :"No Bids"
             )
         },
-         
+        {
+          Header:"Bid sheet",
+          Cell: ({ row }) => (  
+            <button className={`${Tablebutton.data} bg-black`} onClick={() => handleBidSheet(row.original)}>BidSheet</button>
+          )
+        },
       
           
           // {
@@ -260,7 +275,10 @@ Swal.fire({
     <h1 >No Of Vehicles # <span className='font-bold'>{data?.event?.vehiclesCount}</span></h1>
     <h1>Event Category # <span className='font-bold'>{data?.event?.eventCategory}</span></h1>
     <h1>Event End Date # <span className='font-bold'>{format(new Date (data?.event?.endDate),`dd/MM/yy,  HH:mm`)}</span></h1> */}
-    
+     { (data?.event?.endDate >new Date().toISOString())   &&
+      <a className={`${Tablebutton.data} bg-black`} href={`/add-vehicle/${id}`} target="_blank" rel="noopener noreferrer">+ <FontAwesomeIcon icon={faCar}  /></a>} 
+           <button className={`${Tablebutton.data} bg-black`} onClick={()=>handleBidSheets([data?.event?.vehiclesLive])}>All Bid Sheet</button>
+         
         </div>
     <div className='h-1 font-bold'>Seller Name :{data?.event?.seller?.name}</div>
       <div className='space-y-1'>

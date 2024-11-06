@@ -5,14 +5,19 @@ import { RootState } from '../store/store'; // Adjust the path to your store fil
 
 const ProtectedRoute: React.FC = () => {
   // Access the token and role from the Redux store
-  const { token } = useSelector((state: RootState) => state.auth); // Adjust the path as necessary
-  const { user} = useSelector((state: RootState) => state.auth)
-  console.log(user);
+  const { token, user } = useSelector((state: RootState) => state.auth); // Adjust the path as necessary
   
-  // Check if the token exists
-  const isAuthenticated = !!token;
+  
+  // Check if the user is authenticated and has the required role
+  const isAuthenticated = Boolean(token) && ['admin', 'staff'].includes(user?.role ?? '');
 
-  return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
+  console.log(isAuthenticated);
+  
+  const redirectState = { 
+    state: { message: 'Access restricted. Please log in as an admin or staff member.' } 
+  };
+
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" {...redirectState} />;
 };
 
 export default ProtectedRoute;
