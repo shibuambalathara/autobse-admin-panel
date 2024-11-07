@@ -120,11 +120,6 @@ const EditVehicleComponent = () => {
 
   const onSubmit = async (formData) => {
     const cleanedRightImage = formData?.images.replace(/,\n/g, ',');
-    let repo, tax, insuranceValidity, regDate;
-    if (formData?.repoDate) repo = new Date(formData?.repoDate).toISOString();
-    if (formData?.insuranceValidDate) insuranceValidity = new Date(formData?.insuranceValidDate).toISOString();
-    if (formData?.taxValidityDate) tax = new Date(formData?.taxValidityDate).toISOString();
-    if (formData?.dateOfRegistration) regDate = new Date(formData?.dateOfRegistration).toISOString();
 
     const vehicleData = {
       
@@ -147,15 +142,15 @@ const EditVehicleComponent = () => {
       yardLocation: formData?.yardLocation,
       startPrice: +formData?.startPrice || 0,
       reservePrice: +formData?.reservePrice || 0,
-      repoDt: repo,
+      repoDt: formData?.repoDate,
       veicleLocation: formData?.vehicleLocation,
       vehicleRemarks: formData?.vehicleRemarks,
       auctionManager: formData?.autionManager,
       parkingCharges: formData?.approxParkingCharges,
       insurance: formData?.insurance,
-      insuranceValidTill: insuranceValidity || null,
+      insuranceValidTill: formData?.insuranceValidDate || null,
       tax: formData?.tax,
-      taxValidityDate: tax || null,
+      taxValidityDate: formData?.insuranceValidDate || null,
       fitness: formData?.fitness,
       permit: formData?.permit,
       engineNo: formData?.engineNumber,
@@ -171,7 +166,7 @@ const EditVehicleComponent = () => {
       city: formData?.city,
       area: formData?.area,
       paymentTerms: formData?.paymentTerms,
-      dateOfRegistration: regDate,
+      dateOfRegistration: formData?.dateOfRegistration,
       hypothication: formData?.hypothication,
       climateControl: formData?.climateControl||"",
       doorCount: +formData?.doorCount || null,
@@ -225,7 +220,7 @@ const EditVehicleComponent = () => {
           <FormFieldInput defaultValue={data?.vehicle?.type}label="Type" type="text" name="type" register={register} error={errors.type} />
           
           <FormFieldInput defaultValue={data?.vehicle?.rcStatus} label="RC Status" type="text" name="rcStatus" register={register} error={errors.rcStatus} />
-          <FormFieldInput defaultValue={data?.vehicle?.YOM} label="Year Of Manufacture" type="date" name="yearOfManuFacture" register={register} error={errors.yearOfManuFacture} />
+          <FormFieldInput defaultValue={data?.vehicle?.YOM} label="Year Of Manufacture" type="text" name="yearOfManuFacture" register={register} error={errors.yearOfManuFacture} />
           <FormFieldInput defaultValue={data?.vehicle?.ownership} label="Ownership" type="number" name="Ownership" register={register} error={errors.Ownership} />
           <FormFieldInput defaultValue={data?.vehicle?.quoteIncreament} label="QuoteIncreament" type="number" name="quoteInc" register={register} error={errors.Ownership} />
           <FormFieldInput defaultValue={data?.vehicle?.mileage} label="Mileage" type="number" name="mileage" register={register} error={errors.mileage} />
@@ -236,7 +231,7 @@ const EditVehicleComponent = () => {
           <FormFieldInput label="Start Price" type="number" name="startPrice" register={register} error={errors.startPrice} />
           <FormFieldInput label="Reserve Price" type="number" name="reservePrice" register={register} error={errors.reservePrice} />
 
-          <FormFieldInput label="Repo Date" type="date" name="repoDate" register={register} error={errors.repoDate} />
+          <FormFieldInput label="Repo Date" type="text" name="repoDate" register={register} error={errors.repoDate} />
           <FormFieldInput label="Vehicle Location" type="text" name="vehicleLocation" register={register} error={errors.vehicleLocation} />
           <FormFieldInput label="Vehicle Remarks" type="text" name="vehicleRemarks" register={register} error={errors.vehicleRemarks} />
           
@@ -244,9 +239,9 @@ const EditVehicleComponent = () => {
           <FormFieldInput label="Approx Parking Charges" type="number" name="approxParkingCharges" register={register} error={errors.approxParkingCharges} />
           <FormFieldInput label="Insurance" type="text" name="insurance" register={register} error={errors.insurance} />
           
-          <FormFieldInput label="Insurance Valid Till" type="date" name="insuranceValidDate" register={register} error={errors.insuranceValidDate} />
+          <FormFieldInput label="Insurance Valid Till" type="text" name="insuranceValidDate" register={register} error={errors.insuranceValidDate} />
           <FormFieldInput label="Tax" type="text" name="tax" register={register} error={errors.tax} />
-          <FormFieldInput label="Tax Validity Date" type="date" name="taxValidityDate" register={register} error={errors.taxValidityDate} />
+          <FormFieldInput label="Tax Validity Date" type="text" name="taxValidityDate" register={register} error={errors.taxValidityDate} />
           
           <FormFieldInput label="Fitness" type="text" name="fitness" register={register} error={errors.fitness} />
           <FormFieldInput label="Permit" type="text" name="permit" register={register} error={errors.permit} />
@@ -266,7 +261,7 @@ const EditVehicleComponent = () => {
           
           <FormFieldInput label="Area" type="text" name="area" register={register} error={errors.area} />
           <FormFieldInput label="Payment Terms" type="text" name="paymentTerms" register={register} error={errors.paymentTerms} />
-          <FormFieldInput label="Date of Registration" type="date" name="dateOfRegistration" register={register} error={errors.dateOfRegistration} />
+          <FormFieldInput label="Date of Registration" type="text" name="dateOfRegistration" register={register} error={errors.dateOfRegistration} />
           
           <FormFieldInput label="Hypothication" type="text" name="hypothication" register={register} error={errors.hypothication} />
          

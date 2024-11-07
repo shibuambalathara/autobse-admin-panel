@@ -35,7 +35,7 @@ const UpdatePayment = () => {
           method: "PUT",
           body: formDataPayload,
         });
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) throw new Error(`Image upload failed: ${response.status}`);
         const result = await response.json();
         if (result?.success) {
           setPaymentUrl(result?.res?.image); // Update with new image URL after successful upload

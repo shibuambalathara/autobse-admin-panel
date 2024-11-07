@@ -8,10 +8,10 @@ export const  DownloadBidSheetBeforeAuction = async (vehicle) => {
     const logoImg = '../logo.jpeg';
   
                   
-    const sellername = vehicle?.event?.seller?.name || '';
+    const sellername = `${vehicle?.event?.seller?.name || ''}`.toUpperCase();
     const lotNumber = vehicle?.lotNumber || '';
     const loanAgreementNo = vehicle?.loanAgreementNo || '';
-    const vehiclename = `${vehicle?.make || ''} ${vehicle?.varient || ''}`.trim();
+    const vehiclename = `${vehicle?.make || ''} ${vehicle?.varient || ''}`.trim().toUpperCase();
     const registrationNumber = vehicle?.registrationNumber || '';
     //  const LocationParked=`${vehicle?.yardLocation}`
 

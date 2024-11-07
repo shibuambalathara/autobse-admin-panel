@@ -87,9 +87,7 @@ const UserDetailsComponent = () => {
         method: "PUT",
         body: formDataPayload,
       });
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      const result = await response.json();
-      if (result.success) console.log("Document upload successful:", result);
+      if (!response.ok) throw new Error(`Image upload failed: ${response.status}`);
     } catch (error) {
       console.error("Error during document upload:", error);
     }
@@ -201,9 +199,9 @@ const UserDetailsComponent = () => {
           <div className="col-span-3 grid grid-cols-2 gap-4 mt-4">
            
            
-              <div className="col-span-3 gap-4 grid grid-cols-3 mt-4">
+              <div className="col-span-3 gap-4 grid grid-cols-3 mt-4  ">
               {Object.keys(imageLabels).map((key, index) => (
-                  <div key={index} className="flex flex-col items-center gap-2">
+                  <div key={index} className="flex flex-col items-center gap-2 h-64">
                     <label className="text-gray-700 text-sm font-bold mb-2">
                     {imageLabels[key]} Image
                     </label>
