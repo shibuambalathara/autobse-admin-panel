@@ -2,7 +2,7 @@
 
 import { useStatesQuery } from '../../utils/graphql';
 
-const SearchByState = ({setState}) => {
+const SearchByState = ({setState,value}) => {
     const {data:states}=useStatesQuery()
 
   return (
@@ -11,7 +11,7 @@ const SearchByState = ({setState}) => {
 <h2 className=" font-semibold mb-1 text-sm text-start">  Search By State</h2>
 
          <select
-  
+  value={value}
     placeholder="select"
      className=" p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
     onChange={(e) => {

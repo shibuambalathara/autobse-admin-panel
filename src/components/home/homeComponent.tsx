@@ -69,8 +69,7 @@ const HomeComponent: React.FC = () => {
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-6"> 
     <h1 className="text-4xl font-bold mb-4">Welcome to Your Dashboard</h1>
      <p className="text-lg text-gray-700 text-center max-w-md"> 
-      Manage your users, payments, events, locations, and more. Navigate through the menu to access 
-      different sections of the dashboard. We're here to help you keep everything running smoothly. </p>
+       </p>
       </div>
   );
 };

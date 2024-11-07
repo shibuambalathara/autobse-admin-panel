@@ -18,12 +18,11 @@ export const DownloadBidSheetsBeforeAuction = async (vehicles) => {
     const pdf = new jsPDF();
     const logoImg = '../logo.jpeg';
 
-    const sellername = vehicle?.event?.seller?.name || '';
+    const sellername = `${vehicle?.event?.seller?.name || ''}`.toUpperCase();
     const lotNumber = vehicle?.lotNumber || '';
     const loanAgreementNo = vehicle?.loanAgreementNo || '';
-    const vehiclename = `${vehicle?.make || ''} ${vehicle?.varient || ''}`.trim();
+    const vehiclename = `${vehicle?.make || ''} ${vehicle?.varient || ''}`.trim().toUpperCase();
     const registrationNumber = vehicle?.registrationNumber || '';
-
     pdf.addImage(logoImg, 'JPEG', 20, 10, 35, 15);
     pdf.setFontSize(12);
     pdf.setFont('helvetica', 'bold');

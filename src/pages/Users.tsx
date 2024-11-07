@@ -1,29 +1,33 @@
 import { useEffect, useState } from "react";
 import {
-  useUsersQuery,
-  useViewUserQuery,
   useUsersLazyQuery,
   OrderDirection,
-  StateNames
-} from "../utils/graphql"; // Adjust imports based on actual GraphQL queries and hooks
+  StateNames,
+  UserRoleType,
+  useCountsQuery
+} from "../utils/graphql";
 import { useNavigate } from "react-router-dom";
 import LimitedDataPaginationComponents from "../components/utils/limitedDataPagination";
 import TabbleOfUsersOrUser from "../components/users/tableData";
 import SearchByNumber from "../components/utils/searchByNumber";
 import CustomButton from "../components/utils/buttons";
 import SearchByState from "../components/utils/searchByState";
+import SearchByDate from "../components/utils/SearchByDate";
+import SeachByRole from "../components/utils/seachByRole";
+import NoResults from "../components/utils/emptyComponent";
+import NotFoundPage from "../components/utils/emptyComponent";
 
 type UserQueryVariables = {
-  skip?: number;
-  take?: number;
-  data?: { mobile?: string };
   where?: {
+    mobile?: string;
     createdAt?: { gte: string };
-    role?: { equals: string };
+    role?: UserRoleType;
     state?: StateNames;
-    tempToken?: { equals: number };
-  };
-  orderBy?: Array<{ idNo: 'asc' | 'desc' }>;
+    tempToken?: number;
+  } | null;
+  take?: number;
+  skip?: number;
+  orderBy?: Array<{ idNo: OrderDirection }>;
 };
 
 type User = {
@@ -39,71 +43,71 @@ type User = {
   status: string;
   mobile: string;
   lastName: string;
-  state:string;
+  state: string;
 };
 
 const Users = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
-  const [inputData, setInputData] = useState<string>("");
+  const [userCount, setUserCount] = useState(0);
+  const [inputData, setInputData] = useState<string | number>();
   const [startDate, setStartDate] = useState<string>("");
-  const [dealerRole, setDealerRole] = useState<string | undefined>(undefined);
+  const [dealerRole, setDealerRole] = useState<UserRoleType | undefined>(undefined);
   const [state, setState] = useState<StateNames | undefined>(undefined);
   const [token, setToken] = useState<number>(0);
   const [lastQueryType, setLastQueryType] = useState<"number" | "date" | "role" | "state" | "all" | "token">("all");
 
   const [users, setUsers] = useState<User[]>([]);
-
-  const { data: allUsers, refetch: refetchAll } = useUsersQuery({
-    variables: {
-       skip: currentPage * pageSize,
-      take: pageSize,
-      orderBy: [{ idNo: OrderDirection.Desc }],
-    },
-  });
-
-  const [fetchStateData, { data: stateData, refetch: refetchStateData, loading: stateLoading }] = useUsersLazyQuery({
-    variables: { where: { state } },
-  });
-
-  const { data: userData, refetch: refetchMobile, loading: usersLoading } = useViewUserQuery({
-    variables: { where: { mobile: String(inputData) } },
-  });
-
-  const refetchAllData = () => {
-    switch (lastQueryType) {
-      case "all":
-        refetchAll();
-        break;
-      case "number":
-        refetchMobile();
-        break;
-      case "state":
-        refetchStateData();
-        break;
-    }
-  };
+  const { data: countData, loading: countLoading, error: countError } = useCountsQuery();
+  const [fetchUsers, { data, refetch, loading }] = useUsersLazyQuery();
 
   useEffect(() => {
-    let fetchedUsers: User[] = [];
-    switch (lastQueryType) {
-      case "all":
-        fetchedUsers = (allUsers?.users || []).filter((user): user is User => user !== null);
-        break;
-      case "number":
-        fetchedUsers = userData?.user ? [userData.user as User] : [];
-        break;
-      case "state":
-        fetchedUsers = (stateData?.users || []).filter((user): user is User => user !== null);
-        break;
+    if (countData && countData.usersCount !== undefined) {
+      setUserCount(countData.usersCount);
     }
-    setUsers(fetchedUsers);
-  }, [allUsers, userData, lastQueryType, stateData]);
+  }, [countData]);
+
+  const buildQueryVariables = (): UserQueryVariables => {
+    const whereClause: UserQueryVariables["where"] = {};
+
+    if (inputData) whereClause.mobile = String(inputData);
+    if (state) whereClause.state = state;
+    if (startDate) whereClause.createdAt = { gte: startDate };
+    if (dealerRole) whereClause.role = dealerRole;
+    if (token) whereClause.tempToken = token;
+
+    return {
+      where: Object.keys(whereClause).length > 0 ? whereClause : null,
+      take: pageSize,
+      skip: currentPage * pageSize,
+      orderBy: [{ idNo: OrderDirection.Desc }]
+    };
+  };
+
+  const refetchAllData = () => refetch(buildQueryVariables());
+
+  useEffect(() => {
+    refetchAllData();
+  }, [currentPage, pageSize, inputData, dealerRole, state]);
+
+  useEffect(() => {
+    if (data && data.users) {
+      const fetchedUsers = data.users.filter((user): user is User => user !== null);
+      setUsers(fetchedUsers);
+
+      // Update userCount based on filters
+      const isFiltered = inputData || state  || dealerRole ;
+      setUserCount(isFiltered ? fetchedUsers.length : countData?.usersCount || 0);
+    }
+  }, [data, countData, inputData, state, dealerRole]);
 
   const handleInputData = (data: string) => {
-    setInputData(data);
-    setLastQueryType("number");
+    const parsedData = parseInt(data, 10);
+    if (!isNaN(parsedData)) {
+      setInputData(parsedData);
+      setLastQueryType("number");
+    }
   };
 
   const handleInputDate = (data: string) => {
@@ -111,13 +115,16 @@ const Users = () => {
     setLastQueryType("date");
   };
 
-  const handleInputRole = (data: string) => {
+  const handleClearFilters = () => {
+    window.location.reload();
+  };
+
+  const handleInputRole = (data: UserRoleType) => {
     setDealerRole(data);
     setLastQueryType("role");
   };
 
   const handleInputState = (data: StateNames) => {
-    fetchStateData()
     setState(data);
     setLastQueryType("state");
   };
@@ -138,16 +145,40 @@ const Users = () => {
         <CustomButton navigateTo={"/add-user"} buttonText={"Add User"} />
         <div className="text-center font-extrabold mb-1 text-xl w-full">Users Data Table</div>
       </div>
-      <div className="pl-20 flex gap-5">
-        <SearchByNumber inputData={handleInputData} />
-        <SearchByState setState={handleInputState} />
+      <div className="pl-24 mt-4 flex gap-5 h-fit">
+        <SearchByNumber inputData={handleInputData} value={inputData} />
+        <SearchByState setState={handleInputState} value={state} />
+        {/* <SearchByDate setDate={handleInputDate} value={startDate} /> */}
+        <SeachByRole setRole={handleInputRole} value={dealerRole} />
+        <button
+          className="bg-red-600 text-white h-10 place-self-end px-6 font-semibold rounded-lg shadow-md transform hover:scale-105 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-400 p-2 border text-sm w-fit"
+          onClick={handleClearFilters}
+        >
+          Clear
+        </button>
       </div>
       <div>
-        <TabbleOfUsersOrUser users={users} refetch={refetchAllData} />
-        <LimitedDataPaginationComponents
-            currentPage={currentPage}
-            onPageChange={handlePageChange}
-          />
+        {users.length > 0 ? (
+          <>
+            <TabbleOfUsersOrUser users={users} refetch={refetchAllData} />
+            <LimitedDataPaginationComponents
+              totalItems={userCount}
+              itemsPerPage={pageSize}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
+            />
+          </>
+        ) : (
+          <>
+            <NotFoundPage />
+            <LimitedDataPaginationComponents
+              totalItems={userCount}
+              itemsPerPage={pageSize}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
+            />
+          </>
+        )}
       </div>
     </div>
   );

@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { useForm } from "react-hook-form";
+import { filter, filterStyle } from './style';
 
-const SeachByRole = ({setRole}) => {
+const SeachByRole = ({setRole,value}) => {
     const {
         register,
        
@@ -9,14 +10,16 @@ const SeachByRole = ({setRole}) => {
         formState: { errors },
       } = useForm();
   return (
-    <div className='flex justify-between'>
-    <div className="align-middle">
-<p className="my-auto">   Search By Role</p>
+  
+ 
+ <div className={`${filter.div}`}>
+        <h2 className={`${filter.h2}`}>Search By Role</h2>
 
          <select
     {...register("role", { required: true })}
     placeholder="select"
-    className="input input-bordered input-secondary  w-64 "
+    className={`${filterStyle.data}`}
+    value={value}
     onChange={(e) => {
       const value = e.target.value;
       setValue("role",value);
@@ -32,7 +35,7 @@ const SeachByRole = ({setRole}) => {
  
   </select>
     
-    </div>
+   
     <div>
     </div>
 

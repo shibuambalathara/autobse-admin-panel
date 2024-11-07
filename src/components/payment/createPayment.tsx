@@ -39,7 +39,7 @@ const CreatePayment: React.FC = () => {
         body: formDataPayload,
       });
 
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok) throw new Error(`Image upload failed: ${response.status}`);
       const result = await response.json();
 
       navigate('/users');
@@ -65,12 +65,14 @@ const CreatePayment: React.FC = () => {
 
     try {
       const result = await addAmount({ variables: submissionData });
+      
+      
       if (result) {
-        ShowPopup("Success!", `Payment created successfully!`, "success", 5000, true);
-      }
-      const newUserId = result.data?.createPayment?.id;
+        const newUserId = result.data?.createPayment?.id;
       if (newUserId) {
         await uploadDocuments(dataOnSubmit, newUserId);
+      }
+        ShowPopup("Success!", `Payment created successfully!`, "success", 5000, true);
       }
     } catch (error: any) {
       ShowPopup("Failed!", `${error.message}`, "error", 5000, true);

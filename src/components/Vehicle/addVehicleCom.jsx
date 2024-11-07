@@ -149,7 +149,7 @@ const AddVehicleComponent = () => {
             <FormFieldInput label="Door Count" type="number" name="doorCount" register={register} error={errors.doorCount} />
             <FormFieldInput label="Climate Control" type="text" name="climateControl" register={register} error={errors.climateControl} />
             <FormFieldInput label="Hypothication" type="text" name="hypothication" register={register} error={errors.hypothication} />
-            <FormFieldInput label="Date of Registration" type="date" name="dateOfRegistration" register={register} error={errors.dateOfRegistration} />
+            <FormFieldInput label="Date of Registration" type="text" name="dateOfRegistration" register={register} error={errors.dateOfRegistration} />
             <FormFieldInput label="Payment Terms" type="text" name="paymentTerms" register={register} error={errors.paymentTerms} />
             <FormFieldInput label="Area" type="text" name="area" register={register} error={errors.area} />
             <FormFieldInput label="City" type="text" name="city" register={register} error={errors.city} />
@@ -166,10 +166,10 @@ const AddVehicleComponent = () => {
             <FormFieldInput label="Engine Number" type="text" name="engineNo" register={register} error={errors.engineNo} />
             <FormFieldInput label="Permit" type="text" name="permit" register={register} error={errors.permit} />
             <FormFieldInput label="Fitness" type="text" name="fitness" register={register} error={errors.fitness} />
-            <FormFieldInput label="Tax Validity Date" type="date" name="taxValidityDate" register={register} error={errors.taxValidityDate} />
-            <FormFieldInput label="Insurance Valid Till" type="date" name="insuranceValidTill" register={register} error={errors.insuranceValidTill} />
+            <FormFieldInput label="Tax Validity Date" type="text" name="taxValidityDate" register={register} error={errors.taxValidityDate} />
+            <FormFieldInput label="Insurance Valid Till" type="text" name="insuranceValidTill" register={register} error={errors.insuranceValidTill} />
             <FormFieldInput label="Parking Charges" type="number" name="parkingCharges" register={register} error={errors.parkingCharges} />
-            <FormFieldInput label="Repo Date" type="date" name="repoDt" register={register} error={errors.repoDt} />
+            <FormFieldInput label="Repo Date" type="text" name="repoDt" register={register} error={errors.repoDt} />
             <FormFieldInput label="Reserve Price" type="number" name="reservePrice" register={register} error={errors.reservePrice} />
             <FormFieldInput label="KM Reading" type="number" name="kmReading" register={register} error={errors.kmReading} />
             <FormFieldInput label="Mileage" type="number" name="mileage" register={register} error={errors.mileage} />
