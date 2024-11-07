@@ -14,7 +14,7 @@ const ProtectedRoute: React.FC = () => {
   console.log(isAuthenticated);
   
   const redirectState = { 
-    state: { message: 'Access restricted. Please log in as an admin or staff member.' } 
+    state: { message: 'Access restricted. Dealer cannot access admin panel' } 
   };
 
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" {...redirectState} />;

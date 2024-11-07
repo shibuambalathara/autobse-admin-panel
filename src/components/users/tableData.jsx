@@ -105,16 +105,32 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
       {
         Header: "Active Bids",
         Cell: ({ row }) =>
-          // row.original.activeBidsCount !== 0 && (
+      {
+        const activeBidsCount = row.original?.activeBids?.length;
+       
+          const isDisabled =activeBidsCount === 0;
+          const buttonClass = isDisabled
+            ? `${Tablebutton.data} bg-gray-400   `
+            : `${Tablebutton.data} bg-green-400`;
+      
+          return isDisabled ? (
+            <button
+              className={`${buttonClass} cursor-not-allowed `}
+              disabled
+             
+            >
+              {activeBidsCount}
+            </button>
+          ) : (
             <a
-            className= {`${Tablebutton.data} bg-green-400`}
-              href={`/bids-user/${row.original.id}`}
+              className={buttonClass}
+              href={`/buying-limit/${row.original.id}`}
               target="_blank"
               rel="noopener noreferrer"
             >
-              {row.original.activeBids?.length}
+               {activeBidsCount}
             </a>
-         
+          );}
       },
       {
         Header: "Current Buying Limit",

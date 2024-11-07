@@ -11,7 +11,7 @@ export const LoginPage = () => {
 
   // Show toast if message is available
   useEffect(() => {
-    if (message) {
+    if (message !== undefined) {
       toast.error(message, {
         icon: '⚠️',
         duration: 4000,
