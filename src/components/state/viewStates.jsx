@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import TableComponent from "../utils/table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
-import { Tablebutton } from "../utils/style";
+import { pageHead, Tablebutton } from "../utils/style";
 import EditState from "./editState";
 import AutobseLoading from "../utils/autobseLoading";
 
@@ -62,7 +62,7 @@ const ViewStates = () => {
     <div className="w-full h-full">
       <div className="max-w-6xl mx-auto h-fit">
         <div className="flex flex-col justify-center m-auto w-full">
-          <div className="text-center font-extrabold my-5 text-lg w-full">
+          <div className={pageHead.data}>
             STATES
           </div>
           {isModalOpen && (

@@ -16,10 +16,8 @@ import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
 import { ConvertToExcel } from "../utils/excelFormat";
 import { FormatDate } from "../utils/dateFormat";
 import CustomButton from "../utils/buttons";
-import { Tablebutton } from "../utils/style";
+import { pageHead, Tablebutton } from "../utils/style";
 import { FaCar, FaTruck } from "react-icons/fa";
-import LoadingAnimation from "../utils/loading";
-import AutobseLoading from "../utils/autobseLoading";
 
 const EventsTableComponent = () => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -245,7 +243,7 @@ const EventsTableComponent = () => {
   if (loading) {
     return (
       <div>
-        <AutobseLoading />
+        {/* <AutobseLoading /> */}
         {/* <LoadingAnimation/> */}
       </div>
     );
@@ -261,7 +259,7 @@ const EventsTableComponent = () => {
       </div>
       <div className=" flex flex-col w-full justify-center m-auto ">
         <div className="mb-2">
-          <div className="text-center font-extrabold my-5 text-lg min-w-full">
+          <div className={pageHead.data}>
             {" "}
             Events Data Table{" "}
           </div>

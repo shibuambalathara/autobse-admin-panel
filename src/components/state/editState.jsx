@@ -26,40 +26,60 @@ const EditState = ({ id, isModalOpen, setIsModalOpen, refetch ,name}) => {
       setLoading(false);
     }
   };
-
+  
   return (
-    <div className="relative flex justify-center items-center">
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg shadow-lg p-4 px-6">
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="text-red-500 font-bold float-right"
-            >
-              ✕
-            </button>
-            <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
-              <InputField
-                label="State Name"
-                defaultValue={name}
-                register={register("name", { required: "State is required" })}
-                component="select"
-                options={indianStates}
-              />
-              <div className="flex justify-center mt-6">
-                <button
-                  type="submit"
-                  className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-                  disabled={loading}
-                >
-                  {loading ? "Updating..." : "Edit State"}
-                </button>
-              </div>
-            </form>
+<div className="relative flex justify-center items-center">
+  {isModalOpen && (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="w-[400px] bg-white rounded-xl shadow-xl p-8 relative">
+        
+        {/* Close Button */}
+        <button
+          onClick={() => setIsModalOpen(false)}
+          className="text-gray-400 hover:text-red-500 font-bold absolute top-4 right-4 text-2xl"
+        >
+          ✕
+        </button>
+
+        {/* Heading */}
+        <h2 className="text-center font-extrabold my-5 text-lg w-full">Edit State</h2>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          
+          {/* State Input */}
+          <div className="flex flex-col">
+            <label className="text-lg font-medium text-gray-700 mb-2" htmlFor="state-name">
+              State Name
+            </label>
+            <InputField
+              // label="State Name"
+              defaultValue={name}
+              register={register("name", { required: "State is required" })}
+              component="select"
+              options={indianStates}
+              className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
           </div>
-        </div>
-      )}
+
+          {/* Submit Button */}
+          <div className="flex justify-center mt-8">
+            <button
+              type="submit"
+              className="bg-blue-600 text-white font-medium text-lg py-2 px-10 rounded-lg hover:bg-blue-700 transition duration-150"
+              disabled={loading}
+            >
+              {loading ? "Updating..." : "Update"}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
+  )}
+</div>
+
+
+
   );
 };
 
