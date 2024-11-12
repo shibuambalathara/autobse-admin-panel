@@ -8,6 +8,7 @@ import { indianStates } from "../../utils/data";
 import { InputField } from "../utils/formField";
 import imageCompression from "browser-image-compression";
 import Select from "react-select";
+import { FaEdit, FaUpload } from "react-icons/fa";
 
 
 const UserDetailsComponent = () => {
@@ -196,29 +197,55 @@ const UserDetailsComponent = () => {
                 />
                  <p className="text-red-500">{errors.states && <span>{errors.states.message}</span>}</p>
               </div>
-          <div className="col-span-3 grid grid-cols-2 gap-4 mt-4">
+          <div className="col-span-3  mt-4">
            
            
-              <div className="col-span-3 gap-4 grid grid-cols-3 mt-4  ">
-              {Object.keys(imageLabels).map((key, index) => (
-                  <div key={index} className="flex flex-col items-center gap-2 h-64">
-                    <label className="text-gray-700 text-sm font-bold mb-2">
-                    {imageLabels[key]} Image
-                    </label>
-                    {fileData[key].preview && (
-                      <img src={fileData[key].preview} alt={`${key} preview`} className="object-cover w-72 h-64 mt-2 rounded-lg" />
-                    )}
-                    <input
-                      type="file"
-                      name={key}
-                      onChange={handleFileChange}
-                      className="block  text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-                    />
-                    
-                  </div>
-                ))}
-              </div>
-           
+          <div className="col-span-3 gap-10 gap-y-6 grid grid-cols-3 mt-4">
+      {Object.keys(imageLabels).map((key, index) => (
+        <div key={index} className="flex flex-col items-center  h-72 w-88 relative group">
+          <label className="text-gray-700 text-sm font-bold mb-2">
+            {imageLabels[key]} Image
+          </label>
+
+          {/* Image Preview or Gray Background */}
+          {fileData[key]?.preview ? (
+            <div className="relative w-full h-full flex items-center justify-center">
+              <img
+                src={fileData[key].preview}
+                alt={`${key} preview`}
+                className="object-cover w-full h-64 mt-2 rounded-lg"
+              />
+              <button
+               type="button"
+                className="absolute inset-0 h-64 mt-2  bg-black bg-opacity-50 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity rounded-lg"
+                onClick={() => document.getElementById(`file-input-${index}`).click()}
+              >
+                <FaEdit className="text-2xl" />
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center justify-center w-full h-64 mt-2 bg-gray-100 rounded-lg group-hover:bg-gray-200 transition-colors">
+              <button
+              type="button"
+                className="flex items-center justify-center text-gray-500"
+                onClick={() => document.getElementById(`file-input-${index}`).click()}
+              >
+                <FaUpload className="text-2xl" />
+              </button>
+            </div>
+          )}
+
+          {/* Hidden Input */}
+          <input
+            type="file"
+            id={`file-input-${index}`}
+            name={key}
+            onChange={handleFileChange}
+            className="hidden"
+          />
+        </div>
+      ))}
+    </div>
           </div>
 
         </div>

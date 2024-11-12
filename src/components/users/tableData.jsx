@@ -124,7 +124,7 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
           ) : (
             <a
               className={buttonClass}
-              href={`/buying-limit/${row.original.id}`}
+              href={`/bids-user/${row.original.id}`}
               target="_blank"
               rel="noopener noreferrer"
             >

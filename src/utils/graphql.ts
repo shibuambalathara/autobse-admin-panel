@@ -1855,6 +1855,11 @@ export type SubscriptionBidCreationSubscriptionVariables = Exact<{ [key: string]
 
 export type SubscriptionBidCreationSubscription = { __typename?: 'Subscription', subscriptionBidCreation: { __typename?: 'Bid', id: string } };
 
+export type SubscriptionUserUpdatesSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SubscriptionUserUpdatesSubscription = { __typename?: 'Subscription', subscriptionUserUpdates: { __typename?: 'User', id: string } };
+
 export type ViewUserQueryVariables = Exact<{
   where: UserWhereUniqueInput;
 }>;
@@ -3867,6 +3872,35 @@ export function useSubscriptionBidCreationSubscription(baseOptions?: Apollo.Subs
       }
 export type SubscriptionBidCreationSubscriptionHookResult = ReturnType<typeof useSubscriptionBidCreationSubscription>;
 export type SubscriptionBidCreationSubscriptionResult = Apollo.SubscriptionResult<SubscriptionBidCreationSubscription>;
+export const SubscriptionUserUpdatesDocument = gql`
+    subscription SubscriptionUserUpdates {
+  subscriptionUserUpdates {
+    id
+  }
+}
+    `;
+
+/**
+ * __useSubscriptionUserUpdatesSubscription__
+ *
+ * To run a query within a React component, call `useSubscriptionUserUpdatesSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscriptionUserUpdatesSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSubscriptionUserUpdatesSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useSubscriptionUserUpdatesSubscription(baseOptions?: Apollo.SubscriptionHookOptions<SubscriptionUserUpdatesSubscription, SubscriptionUserUpdatesSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<SubscriptionUserUpdatesSubscription, SubscriptionUserUpdatesSubscriptionVariables>(SubscriptionUserUpdatesDocument, options);
+      }
+export type SubscriptionUserUpdatesSubscriptionHookResult = ReturnType<typeof useSubscriptionUserUpdatesSubscription>;
+export type SubscriptionUserUpdatesSubscriptionResult = Apollo.SubscriptionResult<SubscriptionUserUpdatesSubscription>;
 export const ViewUserDocument = gql`
     query viewUser($where: UserWhereUniqueInput!) {
   user(where: $where) {

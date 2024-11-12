@@ -3,3 +3,8 @@ subscription SubscriptionBidCreation {
     id
   }
 }
+subscription SubscriptionUserUpdates {
+  subscriptionUserUpdates {
+    id
+  }
+}
