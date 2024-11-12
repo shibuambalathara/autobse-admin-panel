@@ -267,7 +267,7 @@ const VehicleDetailsPerEventComponent = () => {
           ),
       },
       {
-        Header: "Bid sheet",
+        Header: `Bid sheet  (Before auction)`,
         Cell: ({ row }) => (
           <button
             className={`${Tablebutton?.data} bg-blue-500`}
@@ -276,6 +276,7 @@ const VehicleDetailsPerEventComponent = () => {
             BidSheet
           </button>
         ),
+        
       },
 
       // {

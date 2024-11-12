@@ -11,7 +11,7 @@ export const  DownloadBidSheetBeforeAuction = async (vehicle) => {
     const sellername = `${vehicle?.event?.seller?.name || ''}`.toUpperCase();
     const lotNumber = vehicle?.lotNumber || '';
     const loanAgreementNo = vehicle?.loanAgreementNo || '';
-    const vehiclename = `${vehicle?.make || ''} ${vehicle?.varient || ''}`.trim().toUpperCase();
+    const vehiclename = `${vehicle?.make || ''} ${vehicle?.model || ''}`.trim().toUpperCase();
     const registrationNumber = vehicle?.registrationNumber || '';
     //  const LocationParked=`${vehicle?.yardLocation}`
 
