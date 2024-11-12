@@ -44,26 +44,26 @@ const Sidebar_items: SidebarItem[] = [
     path: "states",
     iconType: faEarthAsia
   },
-  {
-    name: "Enquiries",
-    path: "enquiry",
-    iconType: faComment
-  },
+  // {
+  //   name: "Enquiries",
+  //   path: "enquiry",
+  //   iconType: faComment
+  // },
   {
     name: "Vehicle Category",
     path: "event-types",
     iconType: faCar
   },
-  {
-    name: "Find Auction",
-    path: "find-auction",
-    iconType: faMagnifyingGlass
-  },
   // {
-  //   name: "Institution",
-  //   path: "institution",
-  //   iconType: faBuildingColumns
+  //   name: "Find Auction",
+  //   path: "find-auction",
+  //   iconType: faMagnifyingGlass
   // },
+  {
+    name: "Institution",
+    path: "institution",
+    iconType: faBuildingColumns
+  },
   {
     name: "Sell a Car",
     path: "sell-a-car",

@@ -66,7 +66,7 @@ const HomeComponent: React.FC = () => {
     //     <div className="text-center m-2 lowercase text-2xl">{data?.sellersCount}<span className="text-sm"> Items</span></div>
     //   </div>
     // </div>
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-6"> 
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-6 overflow-hidden"> 
     <h1 className="text-4xl font-bold mb-4">Welcome to Your Dashboard</h1>
      <p className="text-lg text-gray-700 text-center max-w-md"> 
        </p>

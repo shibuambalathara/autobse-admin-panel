@@ -4,7 +4,8 @@ import {
   OrderDirection,
   StateNames,
   UserRoleType,
-  useCountsQuery
+  useCountsQuery,
+  useSubscriptionUserUpdatesSubscription
 } from "../utils/graphql";
 import { useNavigate } from "react-router-dom";
 import LimitedDataPaginationComponents from "../components/utils/limitedDataPagination";
@@ -58,10 +59,11 @@ const Users = () => {
   const [state, setState] = useState<StateNames | undefined>(undefined);
   const [token, setToken] = useState<number>(0);
   const [lastQueryType, setLastQueryType] = useState<"number" | "date" | "role" | "state" | "all" | "token">("all");
-
+const  subscribeUser= useSubscriptionUserUpdatesSubscription()
   const [users, setUsers] = useState<User[]>([]);
   const { data: countData, loading: countLoading, error: countError } = useCountsQuery();
   const [fetchUsers, { data, refetch, loading }] = useUsersLazyQuery();
+console.log(subscribeUser ,"usersub");
 
   useEffect(() => {
     if (countData && countData.usersCount !== undefined) {
@@ -90,7 +92,7 @@ const Users = () => {
 
   useEffect(() => {
     refetchAllData();
-  }, [currentPage, pageSize, inputData, dealerRole, state]);
+  }, [currentPage, pageSize, inputData, dealerRole, state,subscribeUser]);
 
   useEffect(() => {
     if (data && data.users) {
