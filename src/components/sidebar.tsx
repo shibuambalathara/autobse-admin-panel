@@ -21,7 +21,7 @@ const Sidebar: React.FC = () => {
   return (
     <div className=''>
       {sidebarVisible ? (
-        <div className='h-full bg-blue-900 space-y-5 pl-3 pt-3  shadow-xl pr-4   '>
+        <div className='h-full min-h-lvh bg-blue-900 space-y-5 pl-3 pt-3  shadow-xl pr-4   '>
           <div className='flex justify-end'>
             <button onClick={toggleSidebar} className='text-white'>
               <FontAwesomeIcon icon={faTimes} style={{ fontSize: 20 }} />
@@ -41,7 +41,7 @@ const Sidebar: React.FC = () => {
           ))}
         </div>
       ) : (
-        <div className='bg-blue-900 h-full shadow-xl px-2 py-1 space-y-5 '>
+        <div className='bg-blue-900 h-full min-h-lvh shadow-xl px-2 py-1 space-y-5 '>
           <div className='flex justify-end'>
             <button onClick={toggleSidebar} className='text-white md:block hidden mx-auto'>
               <FontAwesomeIcon icon={faBars} style={{ fontSize: 20 }} />
