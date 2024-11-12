@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import {
   useEventVehiclesQuery,
   useSubscriptionVehicleUpdatesSubscription,
+  useUpdateEventMutation,
+  useUpdateVehicleMutation,
+  useSubscriptionBidCreationSubscription,
 } from "../../utils/graphql";
 import format from "date-fns/format";
 import Swal from "sweetalert2";
@@ -20,6 +23,7 @@ import { FaDownload } from "react-icons/fa";
 const VehicleDetailsPerEventComponent = () => {
   const { id } = useParams();
   const vehicleSub = useSubscriptionVehicleUpdatesSubscription();
+  const bidSub = useSubscriptionBidCreationSubscription();
   console.log(vehicleSub, "subs");
 
   const [userId, setUserId] = useState("0");
@@ -42,39 +46,33 @@ const VehicleDetailsPerEventComponent = () => {
     variables,
   });
   console.log("data per event", data);
-  // const[updateEventEndTime]=useUpdateEventMutation()
-  // const [updateBidTime]=useUpdateVehicleMutation()
-  // const [updateCoupen]=useUpdateCoupenMutation()
+  const [updateEventEndTime] = useUpdateEventMutation();
+  const [updateBidTime] = useUpdateVehicleMutation();
+
   const [enable, setEnable] = useState(false);
 
-  //   const [DeleteVehicle]=useDeleteVehicleMutation();
-  //   const {data:coupens} =useCoupensperUserQuery({variables:{  where: {
-  //     userDetail: {
-  //       id: {
-  //         equals: userId
-  //       },
-
-  //     },
-  //     coupenStatus:{equals:"unclaimed"}
-  //   }
-  // }})
-
-  // const handleChangeStartTime=async(update)=>{
-  //    const isodate=new Date(update).toISOString()
-  //   const result=await ConfirmationAlert()
-  //   if(updateDate?.updateItem==='startTime' && result?.isConfirmed)
-  //   {
-  //       updateBidTime({variables:{where:{id:updateDate?.id},data:{bidStartTime:isodate}}})
-
-  //     }
-  //     if(updateDate?.updateItem==='endtime' && result?.isConfirmed)
-  //     {
-  //         updateBidTime({variables:{where:{id:updateDate?.id},data:{bidTimeExpire:isodate}}})
-
-  //       }
-  //     refetch()
-  //     setUpdateDate({data:null,id:null,updateItem:null})
-  // }
+  const handleChangeStartTime = async (update) => {
+    const isodate = new Date(update).toISOString();
+    const result = await ConfirmationAlert();
+    if (updateDate?.updateItem === "startTime" && result?.isConfirmed) {
+      updateBidTime({
+        variables: {
+          where: { id: updateDate?.id },
+          updateVehicleInput: { bidStartTime: isodate },
+        },
+      });
+    }
+    if (updateDate?.updateItem === "endtime" && result?.isConfirmed) {
+      updateBidTime({
+        variables: {
+          where: { id: updateDate?.id },
+          updateVehicleInput: { bidTimeExpire: isodate },
+        },
+      });
+    }
+    refetch();
+    setUpdateDate({ data: null, id: null, updateItem: null });
+  };
   const handleChangeEndTime = async (extendTime) => {
     if (data?.event?.vehicles) {
       const splitted = extendTime.split(":");
@@ -99,9 +97,16 @@ const VehicleDetailsPerEventComponent = () => {
               ? new Date(new Date(vehicle?.bidTimeExpire).getTime() + clock)
               : new Date(new Date(vehicle?.bidTimeExpire).getTime() - clock);
 
-          // updateBidTime({variables:{data:{bidTimeExpire:updated.toISOString()},where:{id:vehicle?.id}}})
+          updateBidTime({
+            variables: {
+              updateVehicleInput: { bidTimeExpire: updated.toISOString() },
+              where: { id: vehicle?.id },
+            },
+          });
         });
-        //  updateEventEndTime({variables:{data:{endDate:updated},where:{id}}})
+        updateEventEndTime({
+          variables: { updateEventInput: { endDate: updated }, where: { id } },
+        });
       }
     }
   };
@@ -135,34 +140,6 @@ const VehicleDetailsPerEventComponent = () => {
 
           </div>`,
     });
-  };
-  const handleCoupen = async (bidDetails) => {
-    const { currentBidUser, id } = bidDetails;
-    setUserId(currentBidUser?.id);
-    // if(coupens && userId===currentBidUser?.id){
-    //   const { value: input } = await Swal.fire({
-    //     title: 'Select Coupen',
-    //     html:
-    //     '<select id="coupenId" class="swal2-select">'+
-    //     coupens?.coupens.map(coupen => `<option value="${coupen.id}">${coupen.coupenNumber}</option>`).join('') +
-    //     '</select>',
-
-    //     focusConfirm: false,
-    //     preConfirm: () => {
-    //       return [
-
-    //         document.getElementById('coupenId').value
-    //       ];
-    //     }
-    //   });
-    //   const CoupenId=input[0]
-
-    //   updateCoupen({variables:{where: {"id":CoupenId},
-    //   data: {coupenStatus:"applied",vehicleDetail:{connect:{id}}}
-    // }}).then(()=>{
-    //   refetch()
-    // })
-    // }
   };
   const handleBidSheet = (vehicle) => {
     DownloadBidSheetBeforeAuction(vehicle);
@@ -231,7 +208,6 @@ const VehicleDetailsPerEventComponent = () => {
               }
               className={`${Tablebutton.data} bg-red-600`}
             >
-              {" "}
               {format(new Date(bidStartTime), `dd/MM/yy,  HH:mm:ss`)}
             </button>
           );
@@ -270,7 +246,6 @@ const VehicleDetailsPerEventComponent = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {" "}
               {row.original.totalBids}
             </a>
           ) : (
@@ -295,7 +270,7 @@ const VehicleDetailsPerEventComponent = () => {
         Header: "Bid sheet",
         Cell: ({ row }) => (
           <button
-            className={`${Tablebutton.data} bg-blue-500`}
+            className={`${Tablebutton?.data} bg-blue-500`}
             onClick={() => handleBidSheet(row.original)}
           >
             BidSheet
@@ -322,7 +297,7 @@ const VehicleDetailsPerEventComponent = () => {
 
   useEffect(() => {
     refetch();
-  }, [vehicleSub]);
+  }, [vehicleSub, bidSub]);
 
   if (loading) return <p>Loading...</p>;
 
@@ -330,15 +305,14 @@ const VehicleDetailsPerEventComponent = () => {
     <div className="flex flex-col">
       <div className="mb-2">
         <div className="flex flex-col items-center">
-        <div className="text-center font-extrabold my-5 text-lg min-w-full">
-          Vehicle Data Table of Event No {data?.event?.eventNo}{" "}
-        </div>
-        <div className=" font-bold ">
+          <div className="text-center font-extrabold my-5 text-lg min-w-full">
+            Vehicle Data Table of Event No {data?.event?.eventNo}
+          </div>
+          <div className=" font-bold ">
             Seller Name: {data?.event?.seller?.name}
           </div>
-          </div>
-        <div className="flex justify-end px-24">
-          {" "}
+        </div>
+        <div className="flex justify-end px-28">
           <div className="min-w-fit">
             {data?.event?.endDate > new Date().toISOString() && (
               <a
@@ -347,22 +321,21 @@ const VehicleDetailsPerEventComponent = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {" "}
                 +
-                <FontAwesomeIcon icon={faCar} className="ml-2" />{" "}
+                <FontAwesomeIcon icon={faCar} className="ml-2" />
               </a>
             )}
-           <button
-  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors duration-300 ml-2 flex items-center gap-2"
-  onClick={() => handleBidSheets(data?.event?.vehiclesLive)}
->
-  <span>Download All Bid Sheets</span>
-</button>
+            <button
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors duration-300 ml-2 flex items-center gap-2"
+              onClick={() => handleBidSheets(data?.event?.vehiclesLive)}
+            >
+              <span>Download All Bid Sheets</span>
+            </button>
+          </div>
 
-          </div>{" "}
-          
-          <div className="space-y-1">
-            {" "}
+        </div>
+        
+        <div className=" grid-cols-2 grid">
             {data?.event?.endDate > new Date().toISOString() && (
               <a
                 className="btn btn-accent text-xl"
@@ -370,8 +343,7 @@ const VehicleDetailsPerEventComponent = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {" "}
-                + <FontAwesomeIcon icon={faCar} />{" "}
+                + <FontAwesomeIcon icon={faCar} />
               </a>
             )}
             {data?.event?.eventCategory === "online" && (
@@ -380,14 +352,26 @@ const VehicleDetailsPerEventComponent = () => {
                   className="w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-green-500 transition-colors duration-300"
                   onClick={() => setEnable(true)}
                 >
-                  {" "}
-                  Update end time{" "}
-                </button>{" "}
+                  Update end time
+                </button>
               </div>
-            )}{" "}
-          </div>{" "}
-        </div>{" "}
+            )}
+            
+          </div>
+          <div className="px-28">
+          {updateDate?.date && (
+        <UpdateBidTime
+          currentDate={updateDate?.date}
+          handleChangeStartTime={handleChangeStartTime}
+        />
+      )}
+      {enable && (
+        <UpdateEventEndTime handleChangeEndTime={handleChangeEndTime} />
+      )}
+          </div>
       </div>
+
+     
       <TableComponent
         data={data?.event?.vehiclesLive}
         columns={columns}

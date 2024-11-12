@@ -6,7 +6,7 @@ const LimitedDataPaginationComponents = ({ currentPage, totalItems, itemsPerPage
   const endItem = Math.min(startItem + itemsPerPage - 1, totalItems);
 
   return (
-    <div className="flex flex-col lg:flex-row  justify-center gap-10">
+    <div className="flex flex-col lg:flex-row  justify-center gap-10 pb-10">
       {/* Items Count and Page Info */}
       <div className="flex flex-col lg:flex-row items-center space-x-2 text-xs">
         {/* <button className="py-2 px-4 bg-white text-gray-600 font-medium rounded hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center">

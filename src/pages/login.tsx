@@ -28,7 +28,9 @@ export const LoginPage = () => {
   return (
     <div className="flex h-screen w-full">
       {/* Toaster for notifications */}
-      <Toaster />
+      {message !== undefined&&
+         <Toaster />
+         }
 
       {/* Left Pane */}
       <div className="hidden lg:flex items-center justify-center bg-blue-800 text-black w-5/12">

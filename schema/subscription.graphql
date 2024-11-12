@@ -1,0 +1,10 @@
+subscription SubscriptionBidCreation {
+  subscriptionBidCreation {
+    id
+  }
+}
+subscription SubscriptionUserUpdates {
+  subscriptionUserUpdates {
+    id
+  }
+}
