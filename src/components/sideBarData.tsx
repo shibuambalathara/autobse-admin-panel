@@ -59,21 +59,21 @@ const Sidebar_items: SidebarItem[] = [
   //   path: "find-auction",
   //   iconType: faMagnifyingGlass
   // },
-  // {
-  //   name: "Institution",
-  //   path: "institution",
-  //   iconType: faBuildingColumns
-  // },
-  // {
-  //   name: "Sell a Car",
-  //   path: "sell-a-car",
-  //   iconType: faCarOn
-  // },
-  // {
-  //   name: "Image Upload",
-  //   path: "image-upload",
-  //   iconType: faFileArrowUp
-  // },
+  {
+    name: "Institution",
+    path: "institution",
+    iconType: faBuildingColumns
+  },
+  {
+    name: "Sell a Car",
+    path: "sell-a-car",
+    iconType: faCarOn
+  },
+  {
+    name: "Image Upload",
+    path: "image-upload",
+    iconType: faFileArrowUp
+  },
 ];
 
 export default Sidebar_items;
