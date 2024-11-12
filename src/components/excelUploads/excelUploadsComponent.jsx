@@ -4,7 +4,7 @@ import { useForm,} from "react-hook-form";
 import { useParams,useNavigate  } from "react-router-dom";
 import { useCreateExceluploadMutation, useUpdateEventMutation, useEventQuery } from "../../utils/graphql";
 import { ShowPopup } from "../alerts/popUps";
-import { formStyle, h2Style, headerStyle, pageStyle } from "../utils/style";
+import { formStyle, h2Style, headerStyle, pageStyle, Tablebutton } from "../utils/style";
 import { FormFieldInput } from "../utils/formField";
 import store from "../../store/store";
 
@@ -163,8 +163,8 @@ const ExcelUploadsComponent =() => {
         
           <FormFieldInput label="Upload file" type="file" name="uploadFile" register={register} error={errors.uploadFile} required/>
 
-          <div className=" flex  mt-5 mb-5">
-          <button class="btn bg-pink-500 hover:bg-red-500 px-10">Save</button>
+          <div className="self-end  ">
+          <button class={`${Tablebutton.data} bg-blue-600 hover:bg-blue-800 px-10`}>Save</button>
           </div>
           </div>
         </form>
