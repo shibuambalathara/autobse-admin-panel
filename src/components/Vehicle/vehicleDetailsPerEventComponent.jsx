@@ -6,6 +6,7 @@ import {
   useUpdateEventMutation,
   useUpdateVehicleMutation,
   useSubscriptionBidCreationSubscription,
+  useUpdateDateMutation,
 } from "../../utils/graphql";
 import format from "date-fns/format";
 import Swal from "sweetalert2";
@@ -18,14 +19,18 @@ import { faCar } from "@fortawesome/free-solid-svg-icons";
 import { Tablebutton } from "../utils/style";
 import { DownloadBidSheetBeforeAuction } from "../bids/bidsheetBeforeAuction";
 import { DownloadBidSheetsBeforeAuction } from "../bids/bidsheetfolder";
-import { FaDownload } from "react-icons/fa";
+import { FaDownload, FaSpinner } from "react-icons/fa";
+import BidModal from "../bids/bidModal";
 
 const VehicleDetailsPerEventComponent = () => {
   const { id } = useParams();
   const vehicleSub = useSubscriptionVehicleUpdatesSubscription();
   const bidSub = useSubscriptionBidCreationSubscription();
   console.log(vehicleSub, "subs");
-
+  
+  const [rowData, setRowData] = useState(null);
+  const [bidOpen,  setBidOpen] = useState(false);
+  const [downlod, setDownlod] = useState(true);
   const [userId, setUserId] = useState("0");
   const [updateDate, setUpdateDate] = useState({
     date: null,
@@ -47,7 +52,7 @@ const VehicleDetailsPerEventComponent = () => {
   });
   console.log("data per event", data);
   const [updateEventEndTime] = useUpdateEventMutation();
-  const [updateBidTime] = useUpdateVehicleMutation();
+  const [updateBidTime] = useUpdateDateMutation();
 
   const [enable, setEnable] = useState(false);
 
@@ -144,10 +149,28 @@ const VehicleDetailsPerEventComponent = () => {
   const handleBidSheet = (vehicle) => {
     DownloadBidSheetBeforeAuction(vehicle);
   };
-  const handleBidSheets = (vehicles) => {
-    console.log("vehicles per event", vehicles);
-    DownloadBidSheetsBeforeAuction(vehicles);
+  const handleBidSheets = async (vehicles) => {
+    setDownlod(false); // Immediately set to downloading state to show loading spinner
+  
+    // Add a small delay to ensure the button visually updates before the download begins
+    setTimeout(async () => {
+      try {
+        const res = await DownloadBidSheetsBeforeAuction(vehicles);
+  
+        if (res) {
+          console.log("Download successful", res);
+          // Additional success actions if needed
+        } else {
+          console.error("Download failed");
+        }
+      } catch (error) {
+        console.error("Error downloading bid sheets:", error);
+      } finally {
+        setDownlod(true); // Reset to default state after download
+      }
+    }, 100); // Adjust the delay if needed, e.g., 100ms
   };
+  
 
   const handleMessage = (vehicleDetails) => {
     const {
@@ -188,9 +211,9 @@ const VehicleDetailsPerEventComponent = () => {
           </a>
         ),
       },
-      { Header: "State", accessor: "state" },
+      // { Header: "State", accessor: "state" },
       //  { Header: "City", accessor: "city" },
-
+      
       { Header: "Vehicle Status", accessor: "vehicleEventStatus" },
 
       { Header: "Bid Status", accessor: "bidStatus" },
@@ -233,6 +256,21 @@ const VehicleDetailsPerEventComponent = () => {
           );
         },
       },
+      { Header: "Bid Now",  Cell: ({ row }) => (
+        <>
+        <button
+        className={`${Tablebutton?.data} bg-blue-500`}
+        onClick={() => {
+          setBidOpen(true);
+          setRowData(row.original);
+        }}
+      >
+        Bid Now
+      </button>
+      
+       
+        </>
+      ), },
 
       {
         Header: "Bid Details",
@@ -303,6 +341,9 @@ const VehicleDetailsPerEventComponent = () => {
   if (loading) return <p>Loading...</p>;
 
   return (
+    <>
+          {bidOpen
+      && <BidModal item={rowData} event={data?.event} IsCompleted={true} bidOpen={setBidOpen}/>}
     <div className="flex flex-col">
       <div className="mb-2">
         <div className="flex flex-col items-center">
@@ -326,12 +367,20 @@ const VehicleDetailsPerEventComponent = () => {
                 <FontAwesomeIcon icon={faCar} className="ml-2" />
               </a>
             )}
-            <button
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors duration-300 ml-2 flex items-center gap-2"
-              onClick={() => handleBidSheets(data?.event?.vehiclesLive)}
-            >
-              <span>Download All Bid Sheets</span>
-            </button>
+           <button
+  className={`bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors duration-300 ml-2 flex items-center gap-2 ${!downlod ? 'cursor-not-allowed opacity-50' : ''}`}
+  onClick={() => handleBidSheets(data?.event?.vehiclesLive)}
+  disabled={!downlod} // Disable button when downloading
+>
+  {downlod ? (
+    <span>Download All Bid Sheets</span>
+  ) : (
+    <>
+      <FaSpinner className="animate-spin" /> {/* Show spinner icon */}
+      <span>Downloading...</span>
+    </>
+  )}
+</button>
           </div>
 
         </div>
@@ -380,6 +429,7 @@ const VehicleDetailsPerEventComponent = () => {
         order={true}
       />
     </div>
+    </>
   );
 };
 

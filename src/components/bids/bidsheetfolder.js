@@ -89,4 +89,5 @@ export const DownloadBidSheetsBeforeAuction = async (vehicles) => {
   // Generate and download the ZIP file containing all PDFs
   const zipBlob = await zip.generateAsync({ type: 'blob' });
   saveAs(zipBlob, 'bidsheets.zip');
+  return ('success')
 };

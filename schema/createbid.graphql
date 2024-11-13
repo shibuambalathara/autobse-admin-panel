@@ -1,0 +1,6 @@
+mutation CreateBid($createBidInput: CreateBidInput!, $bidVehicleId: String!, $userUniqueInput: UserWhereUniqueInput) {
+  createBid(createBidInput: $createBidInput, bidVehicleId: $bidVehicleId, userUniqueInput: $userUniqueInput) {
+  id  
+    name
+  }
+}
