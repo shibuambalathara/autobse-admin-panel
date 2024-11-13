@@ -17,6 +17,7 @@ import SearchByDate from "../components/utils/SearchByDate";
 import SeachByRole from "../components/utils/seachByRole";
 import NoResults from "../components/utils/emptyComponent";
 import NotFoundPage from "../components/utils/emptyComponent";
+import { h2Style, pageHead } from "../components/utils/style";
 
 type UserQueryVariables = {
   where?: {
@@ -145,7 +146,7 @@ console.log(subscribeUser ,"usersub");
     <div className="w-full">
       <div className="w-full px-20">
         <CustomButton navigateTo={"/add-user"} buttonText={"Add User"} />
-        <div className="text-center font-extrabold mb-1 text-xl w-full">Users Data Table</div>
+        <div className={pageHead.data}>Users Data Table</div>
       </div>
       <div className="pl-24 mt-4 flex gap-5 h-fit">
         <SearchByNumber inputData={handleInputData} value={inputData} />

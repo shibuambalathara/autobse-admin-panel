@@ -74,7 +74,7 @@ function TableComponent(prop) {
                 </tbody>
               </table>
             </div>
-
+    
             {/* Pagination Controls */}
           </div>
           {!pagination && (

@@ -56,36 +56,48 @@ const EditLocation: React.FC<EditLocationProps> = ({ isModalOpen, setIsModalOpen
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className={modalStyle.container}>
-        <button onClick={() => setIsModalOpen(false)} className={modalStyle.closeButton}>✕</button>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className={modalStyle.inputContainer}>
-            <label htmlFor="name" className={modalStyle.label}>City</label>
-            <input {...register("name", { required: true })} className={modalStyle.input} placeholder="Enter City Name" />
-            {errors.name && <p className={modalStyle.errorText}>City name is required</p>}
-          </div>
-
-          <div className={modalStyle.inputContainer}>
-            <label htmlFor="state" className={modalStyle.label}>State</label>
-            <select {...register("state", { required: true })} className={modalStyle.select}>
-              <option value="">Select State</option>
-              {allStates?.data?.States?.map((item) => (
-                <option key={item.id} value={item.id as StateNames}> {/* Ensure value is StateNames */}
-                  {item.name}
-                </option>
-              ))}
-            </select>
-            {errors.state && <p className={modalStyle.errorText}>State is required</p>}
-          </div>
-
-          <div className={modalStyle.buttonContainer}>
-            <button type="submit" className={modalStyle.button} disabled={loading}>
-              {loading ? "Updating..." : "Update Location"}
-            </button>
-          </div>
-        </form>
-      </div>
+    <div className={`${modalStyle.container} w-96 h-96 p-8 rounded-lg`}>
+      <button onClick={() => setIsModalOpen(false)} className={modalStyle.closeButton}>✕</button>
+  
+      {/* Heading */}
+      <h2 className="text-center font-extrabold my-5 text-lg w-full">Update Location</h2>
+  
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <div className={modalStyle.inputContainer}>
+          <label htmlFor="name" className={`${modalStyle.label} text-lg`}>City</label>
+          <input
+            {...register("name", { required: true })}
+            className={`${modalStyle.input} text-base p-3`}
+            placeholder="Enter City Name"
+          />
+          {errors.name && <p className={`${modalStyle.errorText} text-sm`}>City name is required</p>}
+        </div>
+  
+        <div className={modalStyle.inputContainer}>
+          <label htmlFor="state" className={`${modalStyle.label} text-lg`}>State</label>
+          <select
+            {...register("state", { required: true })}
+            className={`${modalStyle.select} text-base p-3`}
+          >
+            <option value="">Select State</option>
+            {allStates?.data?.States?.map((item) => (
+              <option key={item.id} value={item.id as StateNames}>
+                {item.name}
+              </option>
+            ))}
+          </select>
+          {errors.state && <p className={`${modalStyle.errorText} text-sm`}>State is required</p>}
+        </div>
+  
+        <div className={`${modalStyle.buttonContainer} mt-4`}>
+          <button type="submit" className={`${modalStyle.button} text-lg p-3`} disabled={loading}>
+            {loading ? "Updating..." : "Update"}
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
+  
   );
 };
 

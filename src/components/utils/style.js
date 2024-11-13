@@ -2,6 +2,9 @@ export const pageStyle = { data: ` bg-white m-6 ` };
 export const formStyle = { data: `grid md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-5 mx-3 my-2 p-6` };
 export const headerStyle = { data: `py-3 bg-gray-200  px-4 flex items-center shadow-xl justify-center rounded-t-lg` };
 export const h2Style = { data: `text-lg py-1 leading-3 font-bold  uppercase ` };
+export const pageHead = { data: `text-lg py-1 leading-3 font-extrabold  uppercase text-center` };
+
+
 export const labelStyle = { data: `font-bold text-black` };
 export const modalStyle = {
     container: `bg-white rounded-lg shadow-lg p-6 space-y-6 relative`,

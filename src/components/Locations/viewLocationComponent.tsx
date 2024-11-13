@@ -5,7 +5,7 @@ import { useUpdateLocationMutation, useLocationsQuery, Location as GQLLocation }
 import TableComponent from "../utils/table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-regular-svg-icons";
-import { Tablebutton } from "../utils/style";
+import { pageHead, Tablebutton } from "../utils/style";
 import EditLocation from "./editLocation";
 import AutobseLoading from "../utils/autobseLoading";
  // Import the EditLocation component
@@ -51,7 +51,7 @@ const ViewLocationComponent: React.FC = () => {
   return (
     <div className="w-full h-full">
       <div className="h-fit">
-        <div className="text-center font-extrabold my-5 text-lg w-full">
+        <div className={pageHead.data}>
           LOCATIONS
         </div>
         <TableComponent data={data?.locations || []} columns={columns} />

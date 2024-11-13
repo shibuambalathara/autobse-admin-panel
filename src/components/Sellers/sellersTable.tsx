@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBuilding } from "@fortawesome/free-regular-svg-icons";
 import TableComponent from "../utils/table";
 import CustomButton from "../utils/buttons";
-import { Tablebutton } from "../utils/style";
+import { pageHead, Tablebutton } from "../utils/style";
 import AutobseLoading from "../utils/autobseLoading";
 export interface Seller {
   id: string;
@@ -78,7 +78,7 @@ const Table: React.FC = () => {
       <div className="w-full  h-fit">
         <div className="flex flex-col justify-center  w-full">
           <div className="w-full mb-2">
-            <div className="text-center font-extrabold my-5 text-lg ">SELLERS</div>
+            <div className={pageHead.data}>SELLERS</div>
           </div>
           <TableComponent data={data?.sellers || []} columns={columns} />
         </div>

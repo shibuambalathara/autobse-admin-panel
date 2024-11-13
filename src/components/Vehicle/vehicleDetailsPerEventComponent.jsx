@@ -4,7 +4,6 @@ import {
   useEventVehiclesQuery,
   useSubscriptionVehicleUpdatesSubscription,
   useUpdateEventMutation,
-  useUpdateVehicleMutation,
   useSubscriptionBidCreationSubscription,
   useUpdateDateMutation,
 } from "../../utils/graphql";
@@ -13,13 +12,13 @@ import Swal from "sweetalert2";
 
 import TableComponent from "../utils/table";
 import { UpdateBidTime, UpdateEventEndTime } from "./updateBidTime";
-import { ConfirmationAlert, SweetalertSuccess } from "../utils/sweetalert";
+import { ConfirmationAlert} from "../utils/sweetalert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCar } from "@fortawesome/free-solid-svg-icons";
 import { Tablebutton } from "../utils/style";
 import { DownloadBidSheetBeforeAuction } from "../bids/bidsheetBeforeAuction";
 import { DownloadBidSheetsBeforeAuction } from "../bids/bidsheetfolder";
-import { FaDownload, FaSpinner } from "react-icons/fa";
+import { FaSpinner } from "react-icons/fa";
 import BidModal from "../bids/bidModal";
 
 const VehicleDetailsPerEventComponent = () => {
@@ -47,7 +46,7 @@ const VehicleDetailsPerEventComponent = () => {
       id: id,
     },
   };
-  const { data, loading, error, refetch } = useEventVehiclesQuery({
+  const { data, loading,  refetch } = useEventVehiclesQuery({
     variables,
   });
   console.log("data per event", data);
