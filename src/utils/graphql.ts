@@ -1589,7 +1589,7 @@ export type ActiveBidsPerUserQueryVariables = Exact<{
 }>;
 
 
-export type ActiveBidsPerUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, firstName: string, lastName: string, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null, activeBids?: Array<{ __typename?: 'Vehicle', bidAmountUpdate?: number | null, startBidAmount?: number | null, currentBidAmount?: number | null, id: string, registrationNumber: string, bidStatus?: string | null, bidTimeExpire: any, vehicleIndexNo: number, totalBids?: number | null, userVehicleBidsCount?: number | null }> | null } | null };
+export type ActiveBidsPerUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, firstName: string, lastName: string, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null, activeBids?: Array<{ __typename?: 'Vehicle', vehicleIndexNo: number, make?: string | null, bidAmountUpdate?: number | null, startBidAmount?: number | null, currentBidAmount?: number | null, id: string, registrationNumber: string, bidStatus?: string | null, bidTimeExpire: any, totalBids?: number | null, userVehicleBidsCount?: number | null, currentBidUser?: { __typename?: 'User', username: string, firstName: string, lastName: string, pancardNo: string, mobile: string } | null, event?: { __typename?: 'Event', seller?: { __typename?: 'Seller', name: string } | null } | null }> | null } | null };
 
 export type CreateSellerMutationVariables = Exact<{
   createSellerInput: CreateSellerInput;
@@ -1962,6 +1962,20 @@ export const ActiveBidsPerUserDocument = gql`
       name
     }
     activeBids {
+      vehicleIndexNo
+      make
+      currentBidUser {
+        username
+        firstName
+        lastName
+        pancardNo
+        mobile
+      }
+      event {
+        seller {
+          name
+        }
+      }
       bidAmountUpdate
       startBidAmount
       currentBidAmount

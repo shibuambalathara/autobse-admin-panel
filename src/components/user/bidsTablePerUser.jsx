@@ -1,6 +1,6 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useActiveBidsPerUserQuery, useBidsTableQuery, useUpdateVehicleMutation, useVehicleQuery } from '../../utils/graphql';
+import { useActiveBidsPerUserQuery, useUpdateVehicleMutation, useVehicleQuery } from '../../utils/graphql';
 import format from "date-fns/format";
 import jsPDF from 'jspdf';
 import { ShowPopup } from '../alerts/popUps';
@@ -13,6 +13,8 @@ const BidsTablePerUser = () => {
   const [statuschangeId, setStatusChangeId] = useState('');
   const { data: vehicleDetails } = useVehicleQuery({ variables: { where: { id: vehicleId } } });
   const { data, loading, error } = useActiveBidsPerUserQuery({ variables: { where: { id } } });
+  console.log(data,"hsus");
+  
   const navigate = useNavigate();
   
   const [editVehicle] = useUpdateVehicleMutation();
