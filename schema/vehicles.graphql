@@ -142,3 +142,13 @@ mutation UpdateVehicle($where: VehicleWhereUniqueInput!, $updateVehicleInput: Up
     createdById
   }
 }
+
+
+mutation UpdateDate($where: VehicleWhereUniqueInput!, $updateVehicleInput: UpdateVehicleInput!) {
+  updateVehicle(where: $where, updateVehicleInput: $updateVehicleInput) {
+    id
+    
+   
+   
+  }
+}
