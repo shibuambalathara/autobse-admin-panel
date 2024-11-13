@@ -456,6 +456,7 @@ export type MutationDeleteUserHardDeleteArgs = {
 export type MutationCreateBidArgs = {
   bidVehicleId: Scalars['String']['input'];
   createBidInput: CreateBidInput;
+  userUniqueInput?: InputMaybe<UserWhereUniqueInput>;
 };
 
 
@@ -1166,6 +1167,7 @@ export type StatusWhereUniqueInput = {
 export type Subscription = {
   __typename?: 'Subscription';
   subscriptionBidCreation: Bid;
+  subscriptionEventUpdates: Event;
   subscriptionUserUpdates: User;
   subscriptionVehicleUpdates: Vehicle;
 };
@@ -1587,7 +1589,7 @@ export type ActiveBidsPerUserQueryVariables = Exact<{
 }>;
 
 
-export type ActiveBidsPerUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, firstName: string, lastName: string, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null, activeBids?: Array<{ __typename?: 'Vehicle', bidAmountUpdate?: number | null, startBidAmount?: number | null, currentBidAmount?: number | null, id: string, registrationNumber: string, bidStatus?: string | null, bidTimeExpire: any, vehicleIndexNo: number, totalBids?: number | null, userVehicleBidsCount?: number | null }> | null } | null };
+export type ActiveBidsPerUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, firstName: string, lastName: string, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null, activeBids?: Array<{ __typename?: 'Vehicle', vehicleIndexNo: number, make?: string | null, bidAmountUpdate?: number | null, startBidAmount?: number | null, currentBidAmount?: number | null, id: string, registrationNumber: string, bidStatus?: string | null, bidTimeExpire: any, totalBids?: number | null, userVehicleBidsCount?: number | null, currentBidUser?: { __typename?: 'User', username: string, firstName: string, lastName: string, pancardNo: string, mobile: string } | null, event?: { __typename?: 'Event', seller?: { __typename?: 'Seller', name: string } | null } | null }> | null } | null };
 
 export type CreateSellerMutationVariables = Exact<{
   createSellerInput: CreateSellerInput;
@@ -1682,6 +1684,15 @@ export type CreateVehicleMutationVariables = Exact<{
 
 
 export type CreateVehicleMutation = { __typename?: 'Mutation', createVehicle: { __typename?: 'Vehicle', id: string, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, fuel?: string | null, type?: string | null, rcStatus?: string | null, YOM?: number | null, ownership?: number | null, mileage?: number | null, kmReading?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation?: string | null, vehicleRemarks?: string | null, auctionManager?: string | null, parkingCharges?: string | null, insurance?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, fitness?: string | null, permit?: string | null, engineNo?: string | null, chassisNo?: string | null, image?: string | null, inspectionLink?: string | null, autobseContact?: string | null, autobse_contact_person?: string | null, vehicleCondition?: string | null, powerSteering?: string | null, shape?: string | null, color?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, climateControl?: string | null, doorCount?: number | null, gearBox?: string | null, buyerFees?: string | null, rtoFine?: string | null, parkingRate?: string | null, approxParkingCharges?: string | null, clientContactPerson?: string | null, clientContactNo?: string | null, additionalRemarks?: string | null, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null } };
+
+export type CreateBidMutationVariables = Exact<{
+  createBidInput: CreateBidInput;
+  bidVehicleId: Scalars['String']['input'];
+  userUniqueInput?: InputMaybe<UserWhereUniqueInput>;
+}>;
+
+
+export type CreateBidMutation = { __typename?: 'Mutation', createBid: { __typename?: 'Bid', id: string, name: string } };
 
 export type UpdateEventMutationVariables = Exact<{
   where: EventWhereUniqueInput;
@@ -1931,6 +1942,14 @@ export type UpdateVehicleMutationVariables = Exact<{
 
 export type UpdateVehicleMutation = { __typename?: 'Mutation', updateVehicle: { __typename?: 'Vehicle', id: string, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, fuel?: string | null, type?: string | null, rcStatus?: string | null, YOM?: number | null, ownership?: number | null, mileage?: number | null, kmReading?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation?: string | null, vehicleRemarks?: string | null, auctionManager?: string | null, parkingCharges?: string | null, insurance?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, fitness?: string | null, permit?: string | null, engineNo?: string | null, chassisNo?: string | null, image?: string | null, inspectionLink?: string | null, autobseContact?: string | null, autobse_contact_person?: string | null, vehicleCondition?: string | null, powerSteering?: string | null, shape?: string | null, color?: string | null, bidStatus?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, climateControl?: string | null, doorCount?: number | null, gearBox?: string | null, buyerFees?: string | null, rtoFine?: string | null, parkingRate?: string | null, approxParkingCharges?: string | null, clientContactPerson?: string | null, clientContactNo?: string | null, additionalRemarks?: string | null, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null } };
 
+export type UpdateDateMutationVariables = Exact<{
+  where: VehicleWhereUniqueInput;
+  updateVehicleInput: UpdateVehicleInput;
+}>;
+
+
+export type UpdateDateMutation = { __typename?: 'Mutation', updateVehicle: { __typename?: 'Vehicle', id: string } };
+
 
 export const ActiveBidsPerUserDocument = gql`
     query ActiveBidsPerUser($where: UserWhereUniqueInput!) {
@@ -1943,6 +1962,20 @@ export const ActiveBidsPerUserDocument = gql`
       name
     }
     activeBids {
+      vehicleIndexNo
+      make
+      currentBidUser {
+        username
+        firstName
+        lastName
+        pancardNo
+        mobile
+      }
+      event {
+        seller {
+          name
+        }
+      }
       bidAmountUpdate
       startBidAmount
       currentBidAmount
@@ -2699,6 +2732,46 @@ export function useCreateVehicleMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateVehicleMutationHookResult = ReturnType<typeof useCreateVehicleMutation>;
 export type CreateVehicleMutationResult = Apollo.MutationResult<CreateVehicleMutation>;
 export type CreateVehicleMutationOptions = Apollo.BaseMutationOptions<CreateVehicleMutation, CreateVehicleMutationVariables>;
+export const CreateBidDocument = gql`
+    mutation CreateBid($createBidInput: CreateBidInput!, $bidVehicleId: String!, $userUniqueInput: UserWhereUniqueInput) {
+  createBid(
+    createBidInput: $createBidInput
+    bidVehicleId: $bidVehicleId
+    userUniqueInput: $userUniqueInput
+  ) {
+    id
+    name
+  }
+}
+    `;
+export type CreateBidMutationFn = Apollo.MutationFunction<CreateBidMutation, CreateBidMutationVariables>;
+
+/**
+ * __useCreateBidMutation__
+ *
+ * To run a mutation, you first call `useCreateBidMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateBidMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createBidMutation, { data, loading, error }] = useCreateBidMutation({
+ *   variables: {
+ *      createBidInput: // value for 'createBidInput'
+ *      bidVehicleId: // value for 'bidVehicleId'
+ *      userUniqueInput: // value for 'userUniqueInput'
+ *   },
+ * });
+ */
+export function useCreateBidMutation(baseOptions?: Apollo.MutationHookOptions<CreateBidMutation, CreateBidMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateBidMutation, CreateBidMutationVariables>(CreateBidDocument, options);
+      }
+export type CreateBidMutationHookResult = ReturnType<typeof useCreateBidMutation>;
+export type CreateBidMutationResult = Apollo.MutationResult<CreateBidMutation>;
+export type CreateBidMutationOptions = Apollo.BaseMutationOptions<CreateBidMutation, CreateBidMutationVariables>;
 export const UpdateEventDocument = gql`
     mutation UpdateEvent($where: EventWhereUniqueInput!, $updateEventInput: UpdateEventInput!) {
   updateEvent(where: $where, updateEventInput: $updateEventInput) {
@@ -4488,3 +4561,37 @@ export function useUpdateVehicleMutation(baseOptions?: Apollo.MutationHookOption
 export type UpdateVehicleMutationHookResult = ReturnType<typeof useUpdateVehicleMutation>;
 export type UpdateVehicleMutationResult = Apollo.MutationResult<UpdateVehicleMutation>;
 export type UpdateVehicleMutationOptions = Apollo.BaseMutationOptions<UpdateVehicleMutation, UpdateVehicleMutationVariables>;
+export const UpdateDateDocument = gql`
+    mutation UpdateDate($where: VehicleWhereUniqueInput!, $updateVehicleInput: UpdateVehicleInput!) {
+  updateVehicle(where: $where, updateVehicleInput: $updateVehicleInput) {
+    id
+  }
+}
+    `;
+export type UpdateDateMutationFn = Apollo.MutationFunction<UpdateDateMutation, UpdateDateMutationVariables>;
+
+/**
+ * __useUpdateDateMutation__
+ *
+ * To run a mutation, you first call `useUpdateDateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateDateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateDateMutation, { data, loading, error }] = useUpdateDateMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *      updateVehicleInput: // value for 'updateVehicleInput'
+ *   },
+ * });
+ */
+export function useUpdateDateMutation(baseOptions?: Apollo.MutationHookOptions<UpdateDateMutation, UpdateDateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateDateMutation, UpdateDateMutationVariables>(UpdateDateDocument, options);
+      }
+export type UpdateDateMutationHookResult = ReturnType<typeof useUpdateDateMutation>;
+export type UpdateDateMutationResult = Apollo.MutationResult<UpdateDateMutation>;
+export type UpdateDateMutationOptions = Apollo.BaseMutationOptions<UpdateDateMutation, UpdateDateMutationVariables>;

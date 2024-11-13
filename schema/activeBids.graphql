@@ -10,6 +10,20 @@ query ActiveBidsPerUser($where: UserWhereUniqueInput!) {
   }
    
     activeBids {
+      vehicleIndexNo
+      make
+      currentBidUser {
+        username
+        firstName
+        lastName
+        pancardNo
+        mobile
+      }
+    event {
+      seller {
+        name
+      }
+    }
 bidAmountUpdate
 startBidAmount
 currentBidAmount

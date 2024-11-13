@@ -21,7 +21,7 @@ export const DownloadBidSheetsBeforeAuction = async (vehicles) => {
     const sellername = `${vehicle?.event?.seller?.name || ''}`.toUpperCase();
     const lotNumber = vehicle?.lotNumber || '';
     const loanAgreementNo = vehicle?.loanAgreementNo || '';
-    const vehiclename = `${vehicle?.make || ''} ${vehicle?.varient || ''}`.trim().toUpperCase();
+    const vehiclename = `${vehicle?.make || ''} ${vehicle?.model || ''}`.trim().toUpperCase();
     const registrationNumber = vehicle?.registrationNumber || '';
     pdf.addImage(logoImg, 'JPEG', 20, 10, 35, 15);
     pdf.setFontSize(12);
@@ -79,7 +79,7 @@ export const DownloadBidSheetsBeforeAuction = async (vehicles) => {
 
     // Convert PDF to Blob and add to ZIP
     const pdfBlob = pdf.output('blob');
-    const filename = `bidsheet-${registrationNumber}.pdf`;
+    const filename = `bidsheet-${lotNumber} ${registrationNumber}.pdf`;
     zip.file(filename, pdfBlob);
   });
 
@@ -89,4 +89,5 @@ export const DownloadBidSheetsBeforeAuction = async (vehicles) => {
   // Generate and download the ZIP file containing all PDFs
   const zipBlob = await zip.generateAsync({ type: 'blob' });
   saveAs(zipBlob, 'bidsheets.zip');
+  return ('success')
 };
