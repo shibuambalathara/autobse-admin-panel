@@ -2,10 +2,16 @@ query EventVehicles($where: EventWhereUniqueInput!, $orderBy: [VehicleOrderByInp
   event(where: $where) {
     eventNo
     seller 
+
       {
         name
       }
    vehiclesLive(orderBy: $orderBy)  {
+    userVehicleBids {
+      amount
+      
+    }
+    
     event {
       seller {
         name

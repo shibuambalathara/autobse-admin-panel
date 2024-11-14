@@ -166,16 +166,35 @@ const EventsTableComponent = () => {
 
       {
         Header: "View Vehicles",
-        Cell: ({ row }) => (
-          <a
-            className={`${Tablebutton.data} bg-pink-600 hover:bg-pink-700 `}
-            href={`/view-vehicls/${row.original.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {row.original.vehiclesCount}{" "}
-          </a>
-        ),
+        Cell: ({ row }) =>
+          {
+            const vehicleCount = row.original.vehiclesCount
+        
+          
+            const isDisabled = vehicleCount === 0;
+            const buttonClass = isDisabled
+              ? `${Tablebutton.data} bg-gray-400   `
+              : `${Tablebutton.data} bg-[#43a5a0]`;
+        
+            return isDisabled ? (
+              <button
+                className={`${buttonClass} cursor-not-allowed `}
+                disabled
+               
+              >
+                {vehicleCount}
+              </button>
+            ) : (
+              <a
+                className={buttonClass}
+                href={`/view-vehicls/${row.original.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                 {vehicleCount}
+              </a>
+            );
+          },
       },
 
       {
