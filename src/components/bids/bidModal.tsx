@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faThumbsDown, faUserSlash, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
@@ -12,17 +12,19 @@ interface BidModalProps {
     quoteIncreament: number;
     userVehicleBidsCount?: number;
     myBidRank?: number;
+    currentBidAmount: number;
   };
   event: any;
   IsCompleted: boolean;
   bidOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  bidsub:any;
 }
 
-const BidModal: React.FC<BidModalProps> = ({ item, event, IsCompleted, bidOpen }) => {
+const BidModal: React.FC<BidModalProps> = ({ item, event, IsCompleted, bidOpen,bidsub }) => {
     console.log(item,"hh");
     
   const [callCreateBid] = useCreateBidMutation();
-
+ 
   const handleBidSubmission = useCallback(
     async (amount: number,mobile: string, vehicleId: string) => {
       try {
@@ -61,20 +63,20 @@ const BidModal: React.FC<BidModalProps> = ({ item, event, IsCompleted, bidOpen }
         {/* Bid Details Content */}
         <div className="px-4 py-2">
           <h2 className="text-base text-gray-900 text-center font-roboto font-bold">
-            Bid Details
+            CREATE BID
           </h2>
           <div className="space-y-2 mt-2 text-sm">
             <div className="flex items-center justify-between">
               <span className="font-roboto font-medium text-sm text-[#646464]">
                 Start Price
               </span>
-              <span className="font-bold text-base">₹ {item?.startPrice}</span>
+              <span className="font-bold text-base">{item?.startPrice?`₹ ${item?.startPrice}`:""}</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="font-roboto font-medium text-sm text-[#646464]">
-                Reserve Price
+                Current Bid Amount
               </span>
-              <span className="font-bold text-base">₹ {item?.reservePrice}</span>
+              <span className="font-bold text-base">₹ {item?.currentBidAmount}</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="font-roboto font-medium text-sm text-[#646464]">
@@ -82,40 +84,14 @@ const BidModal: React.FC<BidModalProps> = ({ item, event, IsCompleted, bidOpen }
               </span>
               <span className="font-bold text-base">₹ {item?.quoteIncreament}</span>
             </div>
-            <div className="flex items-center justify-between">
-              <span className="font-bold">Current Status</span>
-              {item?.userVehicleBidsCount && item?.myBidRank ? (
-                item?.myBidRank === 1 ? (
-                  <p className="space-x-2">
-                    <FontAwesomeIcon icon={faThumbsUp} />
-                    <span style={{ color: "#00CC00" }} className="font-bold text-base">
-                      Winning
-                    </span>
-                  </p>
-                ) : (
-                  <p className="space-x-2">
-                    <FontAwesomeIcon icon={faThumbsDown} />
-                    <span style={{ color: "#FF3333" }} className="font-bold text-base">
-                      Losing
-                    </span>
-                  </p>
-                )
-              ) : (
-                <p className="space-x-2">
-                  <FontAwesomeIcon icon={faUserSlash} />
-                  <span style={{ color: "#CCCC00" }} className="font-bold text-base">
-                    Not Enrolled
-                  </span>
-                </p>
-              )}
-            </div>
+            
           </div>
         </div>
         
         {/* Enter Bid Section */}
         <div>
           {IsCompleted && (
-            <EnterBid row={item} call={handleBidSubmission} event={event} />
+            <EnterBid row={item} call={handleBidSubmission} event={event} bidSub={bidsub} />
           )}
         </div>
       </div>

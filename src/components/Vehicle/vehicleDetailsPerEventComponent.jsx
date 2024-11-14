@@ -342,7 +342,7 @@ const VehicleDetailsPerEventComponent = () => {
   return (
     <>
           {bidOpen
-      && <BidModal item={rowData} event={data?.event} IsCompleted={true} bidOpen={setBidOpen}/>}
+      && <BidModal item={rowData} event={data?.event} IsCompleted={true} bidOpen={setBidOpen} bidSubs={bidSub}/>}
     <div className="flex flex-col">
       <div className="mb-2">
         <div className="flex flex-col items-center">

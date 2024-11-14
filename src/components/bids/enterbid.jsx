@@ -4,7 +4,7 @@ import { labelStyle } from "../utils/style";
 import { input } from "@material-tailwind/react";
 import { useForm } from "react-hook-form";
 
-export const EnterBid = ({ row, call, event }) => {
+export const EnterBid = ({ row, call, event,bidSub }) => {
   const {
     register,
     handleSubmit,
@@ -13,23 +13,20 @@ export const EnterBid = ({ row, call, event }) => {
   } = useForm();
   const [bidAmount, setBidAmount] = useState("");
   const [mobile, setMobile] = useState("");
+console.log(bidAmount);
 
   useEffect(() => {
     const calculateBidAmount = () => {
-      if (event?.bidLock === "locked") {
+     
         if (row?.currentBidAmount) {
           return row.currentBidAmount + +row.quoteIncreament;
         } else {
           return row?.startPrice || row?.quoteIncreament;
         }
-      } else {
-        return row?.userVehicleBids?.length
-          ? row.userVehicleBids[0]?.amount + +row.quoteIncreament
-          : row?.startPrice || row?.quoteIncreament;
-      }
+    
     };
     setBidAmount(calculateBidAmount().toString());
-  }, [event?.bidLock, row]);
+  }, [event?.bidLock, row,bidSub]);
 
   const onSubmit = () => {
     if (parseInt(bidAmount) === 0) {
