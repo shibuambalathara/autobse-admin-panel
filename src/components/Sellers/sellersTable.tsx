@@ -72,13 +72,14 @@ const Table: React.FC = () => {
 
   return (
     <div className="w-full flex flex-col">
-      <div className="w-full px-20 ">
+      <div className="w-full px-24 ">
+      <div className={pageHead.data}>SELLERS</div>
       <CustomButton navigateTo={"/add-seller"} buttonText={" Add Seller"}/>
       </div>
       <div className="w-full  h-fit">
         <div className="flex flex-col justify-center  w-full">
           <div className="w-full mb-2">
-            <div className={pageHead.data}>SELLERS</div>
+           
           </div>
           <TableComponent data={data?.sellers || []} columns={columns} />
         </div>

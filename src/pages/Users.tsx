@@ -144,9 +144,10 @@ console.log(subscribeUser ,"usersub");
 
   return (
     <div className="w-full">
-      <div className="w-full px-20">
+      <div className="w-full px-24 ">
+      <div className={pageHead.data}>Users Data Table</div>
         <CustomButton navigateTo={"/add-user"} buttonText={"Add User"} />
-        <div className={pageHead.data}>Users Data Table</div>
+        
       </div>
       <div className="pl-24 mt-4 flex gap-5 h-fit">
         <SearchByNumber inputData={handleInputData} value={inputData} />

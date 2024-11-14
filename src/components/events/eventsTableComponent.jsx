@@ -251,19 +251,21 @@ const EventsTableComponent = () => {
 
   return (
     <div className="flex  flex-col w-full justify-around overflow-hidden">
+        <div className={pageHead.data}>
+            
+            Events Data Table
+          </div>
       <div className="flex justify-end   m-2 px-20">
+        
         <CustomButton navigateTo={"/addevent"} buttonText={" Add Event"} />
         {/* <div>
         <Report/>
         </div> */}
       </div>
       <div className=" flex flex-col w-full justify-center m-auto ">
-        <div className="mb-2">
-          <div className={pageHead.data}>
-            {" "}
-            Events Data Table{" "}
-          </div>
-        </div>
+       
+        
+       
 
         <TableComponent
           data={data?.events.events || []}

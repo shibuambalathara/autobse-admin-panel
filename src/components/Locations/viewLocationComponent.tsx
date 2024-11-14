@@ -49,11 +49,9 @@ const ViewLocationComponent: React.FC = () => {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full ">
       <div className="h-fit">
-        <div className={pageHead.data}>
-          LOCATIONS
-        </div>
+       
         <TableComponent data={data?.locations || []} columns={columns} />
 
         {/* Call the EditLocation component and pass the selected location */}

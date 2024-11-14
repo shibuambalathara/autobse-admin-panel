@@ -59,12 +59,10 @@ const ViewStates = () => {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full ">
       <div className="max-w-6xl mx-auto h-fit">
         <div className="flex flex-col justify-center m-auto w-full">
-          <div className={pageHead.data}>
-            STATES
-          </div>
+         
           {isModalOpen && (
             <EditState
               id={selectedStateId}
