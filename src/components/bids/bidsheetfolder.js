@@ -10,10 +10,13 @@ export const DownloadBidSheetsBeforeAuction = async (vehicles) => {
     console.error("Invalid or empty vehicles array.");
     return;
   }
-
+  let int =1 
   // Generate PDFs using map and await each PDF's generation
   const pdfPromises = vehicles.map(async (vehicle, index) => {
       // Log each vehicle
+
+int =+1
+console.log(int,"h");
 
     const pdf = new jsPDF();
     const logoImg = '../logo.jpeg';
@@ -79,7 +82,9 @@ export const DownloadBidSheetsBeforeAuction = async (vehicles) => {
 
     // Convert PDF to Blob and add to ZIP
     const pdfBlob = pdf.output('blob');
-    const filename = `bidsheet-${lotNumber} ${registrationNumber}.pdf`;
+    // let isUnique
+    // if(lotNumber&&registrationNumber)
+    const filename = `bidsheet-${lotNumber}  ${registrationNumber}.pdf`;
     zip.file(filename, pdfBlob);
   });
 

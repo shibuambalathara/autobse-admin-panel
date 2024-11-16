@@ -146,7 +146,7 @@ console.log(subscribeUser ,"usersub");
     <div className="w-full">
       <div className="w-full px-24 ">
       <div className={pageHead.data}>Users Data Table</div>
-        <CustomButton navigateTo={"/add-user"} buttonText={"Add User"} />
+        
         
       </div>
       <div className="pl-24 mt-4 flex gap-5 h-fit">
@@ -160,6 +160,12 @@ console.log(subscribeUser ,"usersub");
         >
           Clear
         </button>
+        <div className="place-self-end flex gap-5">
+        
+        <CustomButton navigateTo={"/add-user"} buttonText={"Add User"} />
+        <CustomButton navigateTo={"/deleted-users"} buttonText={"Restore User"} />
+        </div>
+        
       </div>
       <div>
         {users.length > 0 ? (

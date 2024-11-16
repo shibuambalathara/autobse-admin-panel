@@ -152,3 +152,20 @@ mutation UpdateDate($where: VehicleWhereUniqueInput!, $updateVehicleInput: Updat
    
   }
 }
+
+
+mutation DeleteVehicle($where: VehicleWhereUniqueInput!) {
+  deleteVehicle(where: $where) {
+    id
+    registrationNumber
+    vehicleIndexNo
+  }
+}
+
+mutation Restorevehicle($where: VehicleWhereUniqueInput!) {
+  restorevehicle(where: $where) {
+    id
+    vehicleIndexNo
+    registrationNumber
+  }
+}
