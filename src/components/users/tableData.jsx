@@ -1,68 +1,22 @@
 import React, { useMemo } from "react";
-import { useLocation } from "react-router-dom";
+
 import Swal from "sweetalert2";
 import TableComponent from "../utils/table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faUserPen } from "@fortawesome/free-solid-svg-icons";
+import {  faUserPen } from "@fortawesome/free-solid-svg-icons";
 import { faCreditCard } from "@fortawesome/free-regular-svg-icons";
 import { Tablebutton } from "../utils/style";
 // import { FormatDate } from "../utils/dateFormat";
-// import { useEditUserMutation } from "../../utils/graphql";
+import { useDeleteUserMutation } from "../../utils/graphql";
+import { SweetalertSuccess } from "../utils/sweetalert";
 
 const TabbleOfUsersOrUser = ({ users, refetch }) => {
   console.log("users", users);
-  const location = useLocation();
-  const currentPageStartWith = location.pathname;
-  // const [updateUser ] = useEditUserMutation();
-
-  // Function to handle message display using SweetAlert
-  const handleMessage = (coupen) => {
-    const { coupenDetail, firstName, lastName, currentVehicleBuyingLimit } = coupen;
-
-    Swal.fire({
-      html: `<div>
-        <h1>Message From Team AutoBse</h1>
-        <p>Dear: ${firstName} ${lastName},</p>
-        <p>Thank you for participating in the auction.</p>
-        <p>You have ${currentVehicleBuyingLimit.vehicleBuyingLimit} Buying Limit.</p>
-        <p>Coupons are ${coupenDetail
-          .map((coupen, index) => {
-            return `<p>${index + 1}. ${coupen.coupenNumber}</p>`;
-          })
-          .join('')}</p>
-        <p>For more details, please contact Team AutoBse.</p>
-        <p>Thank you.</p>
-      </div>`,
-    });
-  };
+  // const location = useLocation();
+  // const currentPageStartWith = location.pathname;
 
   // Function to handle token creation/update using SweetAlert
-  const handleToken = async (id) => {
-    console.log("id", id);
-    const { value: newToken } = await Swal.fire({
-      title: "Enter Token Number",
-      input: "number",
-      inputLabel: "Token number",
-      showCancelButton: true,
-      inputValidator: (value) => {
-        if (!value) {
-          return "You need to write something!";
-        }
-      },
-    });
-    // If the token is confirmed, you can uncomment and handle the mutation here
-    // if (newToken) {
-    //   updateUser({variables:{data:{tempToken:+newToken},where:{id}}})
-    //     .then((res) => {
-    //       refetch();
-    //       console.log("response", res);
-    //     })
-    //     .catch((err) => {
-    //       console.log("error", err);
-    //       Swal.fire({ text: "Token Already exists", icon: 'error' });
-    //     });
-    // }
-  };
+const  [deleteUser]= useDeleteUserMutation()
 
   // Function to handle user deletion with confirmation
   const handleDelete = async (id) => {
@@ -73,13 +27,17 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
       confirmButtonText: "Yes",
       cancelButtonText: "Cancel",
     });
-    // If the user confirms deletion, you can uncomment and handle the mutation here
-    // if (response.isConfirmed) {
-    //   updateUser({variables:{data:{tempToken:null},where:{id}}}).then((res) => {
-    //     console.log(res);
-    //     refetch();
-    //   });
-    // }
+    
+    if (response.isConfirmed) {
+   const res = deleteUser ({variables:{where:{id}}}).then((res) => {
+        console.log(res);
+        refetch();
+        
+      });if(res){
+        SweetalertSuccess()
+      }
+
+    }
   };
 
   // Define the table columns with only required fields
@@ -235,44 +193,13 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
           </a>
         ),
       },
-      // {
-      //   Header: "Token",
-      //   Cell: ({ row }) => (
-      //     <div className="flex">
-      //       <button
-      //         className="rounded-md p-1 text-white bg-green-700"
-      //         onClick={() => handleToken(row.original?.id)}
-      //       >
-      //         CREATE/UPDATE
-      //       </button>
-      //       {row?.original?.tempToken && (
-      //         <button
-      //           className="rounded-md p-1 text-red-500"
-      //           onClick={() => handleDelete(row.original?.id)}
-      //         >
-      //           <FontAwesomeIcon icon={faTrash} />
-      //         </button>
-      //       )}
-      //     </div>
-      //   ),
-      // },
-      // { Header: "Temp Token", accessor: "tempToken", },
-      // ...(currentPageStartWith === "/users"
-      //   ? []
-      //   : [
-      //       {
-      //         Header: "Message",
-      //         Cell: ({ row }) =>
-      //           row?.original?.coupenDetail && (
-      //             <button
-      //               className="btn bg-yellow-500"
-      //               onClick={() => handleMessage(row.original)}
-      //             >
-      //               Message To {row.original.mobile}
-      //             </button>
-      //           ),
-      //       },
-      //     ]),
+    
+      {
+        Header: "User",
+        Cell: ({ row }) => (
+          <button className="btn btn-error" onClick={() => handleDelete(row.original.id,row.original.totalBids)}>Remove</button>
+        )
+      },
     ],
     [users]
   );

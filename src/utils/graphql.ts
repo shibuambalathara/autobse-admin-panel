@@ -32,9 +32,15 @@ export type Bid = {
   userId: Scalars['String']['output'];
 };
 
+export type BidOrderByInput = {
+  createdAt?: InputMaybe<OrderDirection>;
+  updatedAt?: InputMaybe<OrderDirection>;
+};
+
 export type BidWhereUniqueInput = {
   bidVehicleId?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
+  userId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export enum ContactUsStatusType {
@@ -357,6 +363,17 @@ export type Excelupload = {
   id: Scalars['String']['output'];
   name?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type IdFilter = {
+  equals?: InputMaybe<Scalars['String']['input']>;
+  gt?: InputMaybe<Scalars['String']['input']>;
+  gte?: InputMaybe<Scalars['String']['input']>;
+  in?: InputMaybe<Array<Scalars['String']['input']>>;
+  lt?: InputMaybe<Scalars['String']['input']>;
+  lte?: InputMaybe<Scalars['String']['input']>;
+  not?: InputMaybe<Scalars['String']['input']>;
+  notIn?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type Location = {
@@ -1042,9 +1059,10 @@ export type QueryVehicleCategoryArgs = {
 
 
 export type QueryVehiclesArgs = {
-  orderBy?: InputMaybe<Array<VehicleOrderByInput>>;
+  orderBy?: InputMaybe<Array<BidOrderByInput>>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   take?: InputMaybe<Scalars['Int']['input']>;
+  vehiclesOrderBy?: InputMaybe<Array<VehicleOrderByInput>>;
   where?: InputMaybe<VehicleWhereUniqueInput>;
 };
 
@@ -1536,10 +1554,14 @@ export type VehicleListResponse = {
 
 export type VehicleOrderByInput = {
   bidTimeExpire?: InputMaybe<OrderDirection>;
+  createdAt?: InputMaybe<OrderDirection>;
+  updatedAt?: InputMaybe<OrderDirection>;
 };
 
 export type VehicleWhereUniqueInput = {
+  bidTimeExpire?: InputMaybe<IdFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
+  userVehicleBids?: InputMaybe<BidWhereUniqueInput>;
 };
 
 export type VerfiyOtpDto = {
@@ -1740,6 +1762,20 @@ export type UpdateUserMutationVariables = Exact<{
 
 export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', email: string, username: string, role: string, firstName: string, lastName: string, businessName: string, mobile: string, BalanceEMDAmount?: number | null, pancardNo: string, idProofNo: string, country: string, city: string, userCategory: string, tempToken?: number | null, status: string, id: string } };
 
+export type DeleteUserMutationVariables = Exact<{
+  where: UserWhereUniqueInput;
+}>;
+
+
+export type DeleteUserMutation = { __typename?: 'Mutation', deleteUser: { __typename?: 'User', id: string, role: string, firstName: string } };
+
+export type RestoreUserMutationVariables = Exact<{
+  where: UserWhereUniqueInput;
+}>;
+
+
+export type RestoreUserMutation = { __typename?: 'Mutation', restoreUser: { __typename?: 'User', id: string, email: string, firstName: string } };
+
 export type EmdUpdatesPerPaymentQueryVariables = Exact<{
   where: PaymentWhereUniqueInput;
 }>;
@@ -1835,6 +1871,16 @@ export type UserPaymentsQueryVariables = Exact<{
 
 
 export type UserPaymentsQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, firstName: string, lastName: string, payments?: Array<{ __typename?: 'Payment', refNo?: number | null, amount?: number | null, description?: string | null, id: string, status?: string | null, userId?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null, registrationExpire?: any | null, paymentFor?: string | null }> | null } | null };
+
+export type DeletedVehiclesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DeletedVehiclesQuery = { __typename?: 'Query', deletedVehicles: Array<{ __typename?: 'Vehicle', id: string, lotNumber?: number | null, registrationNumber: string, bidStatus?: string | null, bidTimeExpire: any, loanAgreementNo: string, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, type?: string | null, rcStatus?: string | null, yardLocation?: string | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation?: string | null, vehicleRemarks?: string | null, auctionManager?: string | null, parkingCharges?: string | null, insuranceValidTill?: string | null, tax?: string | null, engineNo?: string | null, color?: string | null, city?: string | null, area?: string | null, state?: string | null, dateOfRegistration?: string | null }> };
+
+export type DeletedUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DeletedUsersQuery = { __typename?: 'Query', deletedUsers: Array<{ __typename?: 'User', id: string, email: string, username: string, role: string, firstName: string, lastName: string, mobile: string, city: string, state: string, paymentsCount?: number | null } | null> };
 
 export type SellersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1949,6 +1995,20 @@ export type UpdateDateMutationVariables = Exact<{
 
 
 export type UpdateDateMutation = { __typename?: 'Mutation', updateVehicle: { __typename?: 'Vehicle', id: string } };
+
+export type DeleteVehicleMutationVariables = Exact<{
+  where: VehicleWhereUniqueInput;
+}>;
+
+
+export type DeleteVehicleMutation = { __typename?: 'Mutation', deleteVehicle: { __typename?: 'Vehicle', id: string, registrationNumber: string, vehicleIndexNo: number } };
+
+export type RestorevehicleMutationVariables = Exact<{
+  where: VehicleWhereUniqueInput;
+}>;
+
+
+export type RestorevehicleMutation = { __typename?: 'Mutation', restorevehicle: { __typename?: 'Vehicle', id: string, vehicleIndexNo: number, registrationNumber: string } };
 
 
 export const ActiveBidsPerUserDocument = gql`
@@ -3058,6 +3118,76 @@ export function useUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
 export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
 export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
+export const DeleteUserDocument = gql`
+    mutation DeleteUser($where: UserWhereUniqueInput!) {
+  deleteUser(where: $where) {
+    id
+    role
+    firstName
+  }
+}
+    `;
+export type DeleteUserMutationFn = Apollo.MutationFunction<DeleteUserMutation, DeleteUserMutationVariables>;
+
+/**
+ * __useDeleteUserMutation__
+ *
+ * To run a mutation, you first call `useDeleteUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteUserMutation, { data, loading, error }] = useDeleteUserMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useDeleteUserMutation(baseOptions?: Apollo.MutationHookOptions<DeleteUserMutation, DeleteUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteUserMutation, DeleteUserMutationVariables>(DeleteUserDocument, options);
+      }
+export type DeleteUserMutationHookResult = ReturnType<typeof useDeleteUserMutation>;
+export type DeleteUserMutationResult = Apollo.MutationResult<DeleteUserMutation>;
+export type DeleteUserMutationOptions = Apollo.BaseMutationOptions<DeleteUserMutation, DeleteUserMutationVariables>;
+export const RestoreUserDocument = gql`
+    mutation RestoreUser($where: UserWhereUniqueInput!) {
+  restoreUser(where: $where) {
+    id
+    email
+    firstName
+  }
+}
+    `;
+export type RestoreUserMutationFn = Apollo.MutationFunction<RestoreUserMutation, RestoreUserMutationVariables>;
+
+/**
+ * __useRestoreUserMutation__
+ *
+ * To run a mutation, you first call `useRestoreUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRestoreUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [restoreUserMutation, { data, loading, error }] = useRestoreUserMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useRestoreUserMutation(baseOptions?: Apollo.MutationHookOptions<RestoreUserMutation, RestoreUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RestoreUserMutation, RestoreUserMutationVariables>(RestoreUserDocument, options);
+      }
+export type RestoreUserMutationHookResult = ReturnType<typeof useRestoreUserMutation>;
+export type RestoreUserMutationResult = Apollo.MutationResult<RestoreUserMutation>;
+export type RestoreUserMutationOptions = Apollo.BaseMutationOptions<RestoreUserMutation, RestoreUserMutationVariables>;
 export const EmdUpdatesPerPaymentDocument = gql`
     query EmdUpdatesPerPayment($where: PaymentWhereUniqueInput!) {
   payment(where: $where) {
@@ -3759,6 +3889,119 @@ export type UserPaymentsQueryHookResult = ReturnType<typeof useUserPaymentsQuery
 export type UserPaymentsLazyQueryHookResult = ReturnType<typeof useUserPaymentsLazyQuery>;
 export type UserPaymentsSuspenseQueryHookResult = ReturnType<typeof useUserPaymentsSuspenseQuery>;
 export type UserPaymentsQueryResult = Apollo.QueryResult<UserPaymentsQuery, UserPaymentsQueryVariables>;
+export const DeletedVehiclesDocument = gql`
+    query DeletedVehicles {
+  deletedVehicles {
+    id
+    lotNumber
+    registrationNumber
+    bidStatus
+    bidTimeExpire
+    loanAgreementNo
+    quoteIncreament
+    make
+    model
+    varient
+    type
+    rcStatus
+    yardLocation
+    reservePrice
+    repoDt
+    veicleLocation
+    vehicleRemarks
+    auctionManager
+    parkingCharges
+    insuranceValidTill
+    tax
+    engineNo
+    color
+    city
+    area
+    state
+    dateOfRegistration
+  }
+}
+    `;
+
+/**
+ * __useDeletedVehiclesQuery__
+ *
+ * To run a query within a React component, call `useDeletedVehiclesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDeletedVehiclesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDeletedVehiclesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useDeletedVehiclesQuery(baseOptions?: Apollo.QueryHookOptions<DeletedVehiclesQuery, DeletedVehiclesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DeletedVehiclesQuery, DeletedVehiclesQueryVariables>(DeletedVehiclesDocument, options);
+      }
+export function useDeletedVehiclesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DeletedVehiclesQuery, DeletedVehiclesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DeletedVehiclesQuery, DeletedVehiclesQueryVariables>(DeletedVehiclesDocument, options);
+        }
+export function useDeletedVehiclesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<DeletedVehiclesQuery, DeletedVehiclesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<DeletedVehiclesQuery, DeletedVehiclesQueryVariables>(DeletedVehiclesDocument, options);
+        }
+export type DeletedVehiclesQueryHookResult = ReturnType<typeof useDeletedVehiclesQuery>;
+export type DeletedVehiclesLazyQueryHookResult = ReturnType<typeof useDeletedVehiclesLazyQuery>;
+export type DeletedVehiclesSuspenseQueryHookResult = ReturnType<typeof useDeletedVehiclesSuspenseQuery>;
+export type DeletedVehiclesQueryResult = Apollo.QueryResult<DeletedVehiclesQuery, DeletedVehiclesQueryVariables>;
+export const DeletedUsersDocument = gql`
+    query DeletedUsers {
+  deletedUsers {
+    id
+    email
+    username
+    role
+    firstName
+    lastName
+    mobile
+    city
+    state
+    paymentsCount
+  }
+}
+    `;
+
+/**
+ * __useDeletedUsersQuery__
+ *
+ * To run a query within a React component, call `useDeletedUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDeletedUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDeletedUsersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useDeletedUsersQuery(baseOptions?: Apollo.QueryHookOptions<DeletedUsersQuery, DeletedUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DeletedUsersQuery, DeletedUsersQueryVariables>(DeletedUsersDocument, options);
+      }
+export function useDeletedUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DeletedUsersQuery, DeletedUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DeletedUsersQuery, DeletedUsersQueryVariables>(DeletedUsersDocument, options);
+        }
+export function useDeletedUsersSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<DeletedUsersQuery, DeletedUsersQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<DeletedUsersQuery, DeletedUsersQueryVariables>(DeletedUsersDocument, options);
+        }
+export type DeletedUsersQueryHookResult = ReturnType<typeof useDeletedUsersQuery>;
+export type DeletedUsersLazyQueryHookResult = ReturnType<typeof useDeletedUsersLazyQuery>;
+export type DeletedUsersSuspenseQueryHookResult = ReturnType<typeof useDeletedUsersSuspenseQuery>;
+export type DeletedUsersQueryResult = Apollo.QueryResult<DeletedUsersQuery, DeletedUsersQueryVariables>;
 export const SellersDocument = gql`
     query Sellers {
   sellers {
@@ -4598,3 +4841,73 @@ export function useUpdateDateMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UpdateDateMutationHookResult = ReturnType<typeof useUpdateDateMutation>;
 export type UpdateDateMutationResult = Apollo.MutationResult<UpdateDateMutation>;
 export type UpdateDateMutationOptions = Apollo.BaseMutationOptions<UpdateDateMutation, UpdateDateMutationVariables>;
+export const DeleteVehicleDocument = gql`
+    mutation DeleteVehicle($where: VehicleWhereUniqueInput!) {
+  deleteVehicle(where: $where) {
+    id
+    registrationNumber
+    vehicleIndexNo
+  }
+}
+    `;
+export type DeleteVehicleMutationFn = Apollo.MutationFunction<DeleteVehicleMutation, DeleteVehicleMutationVariables>;
+
+/**
+ * __useDeleteVehicleMutation__
+ *
+ * To run a mutation, you first call `useDeleteVehicleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteVehicleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteVehicleMutation, { data, loading, error }] = useDeleteVehicleMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useDeleteVehicleMutation(baseOptions?: Apollo.MutationHookOptions<DeleteVehicleMutation, DeleteVehicleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteVehicleMutation, DeleteVehicleMutationVariables>(DeleteVehicleDocument, options);
+      }
+export type DeleteVehicleMutationHookResult = ReturnType<typeof useDeleteVehicleMutation>;
+export type DeleteVehicleMutationResult = Apollo.MutationResult<DeleteVehicleMutation>;
+export type DeleteVehicleMutationOptions = Apollo.BaseMutationOptions<DeleteVehicleMutation, DeleteVehicleMutationVariables>;
+export const RestorevehicleDocument = gql`
+    mutation Restorevehicle($where: VehicleWhereUniqueInput!) {
+  restorevehicle(where: $where) {
+    id
+    vehicleIndexNo
+    registrationNumber
+  }
+}
+    `;
+export type RestorevehicleMutationFn = Apollo.MutationFunction<RestorevehicleMutation, RestorevehicleMutationVariables>;
+
+/**
+ * __useRestorevehicleMutation__
+ *
+ * To run a mutation, you first call `useRestorevehicleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRestorevehicleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [restorevehicleMutation, { data, loading, error }] = useRestorevehicleMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useRestorevehicleMutation(baseOptions?: Apollo.MutationHookOptions<RestorevehicleMutation, RestorevehicleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RestorevehicleMutation, RestorevehicleMutationVariables>(RestorevehicleDocument, options);
+      }
+export type RestorevehicleMutationHookResult = ReturnType<typeof useRestorevehicleMutation>;
+export type RestorevehicleMutationResult = Apollo.MutationResult<RestorevehicleMutation>;
+export type RestorevehicleMutationOptions = Apollo.BaseMutationOptions<RestorevehicleMutation, RestorevehicleMutationVariables>;

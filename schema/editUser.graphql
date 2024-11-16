@@ -19,3 +19,21 @@ mutation UpdateUser($data: UpdateUserInput!, $where: UserWhereUniqueInput!) {
     id
   }
 }
+
+
+mutation DeleteUser($where: UserWhereUniqueInput!) {
+  deleteUser(where: $where) {
+    id
+    role
+    firstName
+  }
+}
+
+
+mutation RestoreUser($where: UserWhereUniqueInput!) {
+  restoreUser(where: $where) {
+    id
+    email
+    firstName
+  }
+}

@@ -1,9 +1,9 @@
 
 import React, { useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
+import { RiAuctionFill } from "react-icons/ri";
 import {
-  useBidDetailsPerbidVehicleQuery,
+  // useBidDetailsPerbidVehicleQuery,
 useBidDetailsQuery
   // useDeleteBidMutation,
   // useDeletedBiddataMutation,
@@ -18,6 +18,7 @@ import { ShowPopup } from "../alerts/popUps";
 
 import TableComponent from "../utils/table";
 import {  Tablebutton } from "../utils/style";
+import { FaUserAlt } from "react-icons/fa";
 
 
 
@@ -95,13 +96,24 @@ const BidDetailsPerbidVehicleComponent = () => {
       { Header: "Amount", accessor: "amount" },
 
       {
-        Header: "View User",
+        Header: "Bidder",
         Cell: ({ row }) => (
           <button
           className={`${Tablebutton.data} bg-blue-600`}
             onClick={() => handleUserDetails(row.original.userId)}
           >
-            View User
+            <RiAuctionFill size={18}/>
+          </button>
+        ),
+      },
+      {
+        Header: "Created By",
+        Cell: ({ row }) => (
+          <button
+          className={`${Tablebutton.data} bg-blue-600`}
+            onClick={() => handleUserDetails(row.original.userId)}
+          >
+           <FaUserAlt size={18}/>
           </button>
         ),
       },
@@ -170,22 +182,22 @@ const BidDetailsPerbidVehicleComponent = () => {
               </h1> */}
             </div>
            
-            <div className="space-y-2">
+            <div className="space-y-4">
               <h1>
                 Bid Status :
                 <span className="font-bold"> {data?.Bids[0]?.bidVehicle?.bidStatus}</span>
               </h1>
               <a
-                className={`${Tablebutton.data } bg-blue-800 hover:bg-orange-700`}
+                className={`${Tablebutton.data }  bg-blue-500 hover:bg-blue-700  font-bold  rounded `}
                 target="_blank"
                 rel="noopener noreferrer"
-                href={`/edit-bidVehicle/${data?.Bids[0]?.bidVehicle?.id}`}
+                href={`/edit-Vehicle/${data?.Bids[0]?.bidVehicleId}`}
               >
-                {" "}
+                
                 Change Status
               </a>
               <button
-                  className={`${Tablebutton.data } bg-orange-600 hover:bg-blue-900`}
+                  className={`${Tablebutton.data }  bg-green-500 hover:bg-green-700  font-bold  rounded ml-4 `}
                 onClick={(e) => handleReport(data?.Bids[0]?.bidVehicle)}
               >
                 Bid Sheet

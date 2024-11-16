@@ -196,7 +196,38 @@ const EventsTableComponent = () => {
             );
           },
       },
-
+      {
+        Header: " Deleted Vehicles",
+        Cell: ({ row }) =>
+          {
+            const vehicleCount = row.original.vehiclesCount
+        
+          
+            const isDisabled = vehicleCount === 0;
+            const buttonClass = isDisabled
+              ? `${Tablebutton.data} bg-gray-400   `
+              : `${Tablebutton.data} bg-[#43a5a0]`;
+        
+            return isDisabled ? (
+              <button
+                className={`${buttonClass} cursor-not-allowed `}
+                disabled
+               
+              >
+                {vehicleCount}
+              </button>
+            ) : (
+              <a
+                className={buttonClass}
+                href={`/Deleted-vehicles/${row.original.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                 {vehicleCount}
+              </a>
+            );
+          },
+      },
       {
         Header: "Upload Excel File",
         Cell: ({ row }) => (

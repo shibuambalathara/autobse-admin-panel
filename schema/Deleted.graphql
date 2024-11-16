@@ -1,0 +1,56 @@
+query DeletedVehicles {
+  deletedVehicles {
+    id 
+  lotNumber 
+  registrationNumber
+   bidStatus
+   bidTimeExpire
+   loanAgreementNo
+  
+   quoteIncreament
+   make
+   model
+   varient
+  
+   
+   type
+   rcStatus
+ 
+  
+  
+   yardLocation
+   reservePrice
+   repoDt
+   veicleLocation
+   vehicleRemarks
+   auctionManager
+   parkingCharges
+   insuranceValidTill
+   tax
+   totalBids
+   engineNo
+   color
+    city
+    area
+    state
+  
+    dateOfRegistration
+   
+  }
+}
+
+query DeletedUsers {
+  deletedUsers {
+    id
+      idNo
+    email
+    username
+    role
+    firstName
+    lastName
+    mobile
+    city
+    state
+    paymentsCount
+  }
+}

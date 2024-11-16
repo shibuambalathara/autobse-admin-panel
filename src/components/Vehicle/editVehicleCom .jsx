@@ -1,198 +1,24 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import {
-  useVehicleQuery,
-  useUpdateVehicleMutation,
-  useVehicleCategoriesQuery,
-} from "../../utils/graphql";
+
 import { ShowPopup } from "../alerts/popUps";
-import CheckboxInput, { CatInput, FormFieldInput, ImageMaping, StateInput } from "../utils/formField";
+import  { FormFieldInput, ImageMaping, StateInput } from "../utils/formField";
 import ImageUpload from "../upload/imageUpload";
 import { DateConvert } from "../utils/dateFormat";
 import { indianStates } from "../../utils/data";
 import { formStyle, h2Style, headerStyle, pageStyle, submit } from "../utils/style";
 
-const EditVehicleComponent = () => {
-  const [viewImageUpload, setViewImageUpload] = useState(false);
-  const [repoDate, setRepoDate] = useState("");
-  const [insuranceValidTill, setInsuranceValidTill] = useState("");
-  const [taxValidTill, setTaxValidTill] = useState("");
-  const [registrationValidTill, setRegistrationValidTill] = useState("");
-  const [images, setImages] = useState([]);
-  const { id } = useParams();
+const EditVehicleComponent = ({data,loading,error,handleSubmit,onSubmit,register,errors,images}) => {
+  
 
-  const [downloadUrls, setDownloadUrls] = useState([]);
-  const [editVehicle] = useUpdateVehicleMutation({
-    variables: { where: { id } },
-  });
-  const { data, loading, error } = useVehicleQuery({
-    variables: { where: { id: id } },
-  });
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm();
-  const { data: categoryData } = useVehicleCategoriesQuery();
- console.log(data);
+  // const [downloadUrls, setDownloadUrls] = useState([]);
  
-  useEffect(() => {
-    if (data?.vehicle?.repoDt) {
-      setRepoDate(DateConvert(data?.vehicle?.repoDt));
-    }
-    if (data?.vehicle?.insuranceValidTill) {
-      setInsuranceValidTill(DateConvert(data?.vehicle?.insuranceValidTill));
-    }
-    if (data?.vehicle?.taxValidityDate) {
-      setTaxValidTill(DateConvert(data?.vehicle?.taxValidityDate));
-    }
-    if (data?.vehicle?.dateOfRegistration) {
-      setRegistrationValidTill(DateConvert(data?.vehicle?.dateOfRegistration));
-    }
-    if (data?.vehicle?.image) {
-      setImages(data?.vehicle?.image.split(","));
-    }
+ 
 
-    if (data?.vehicle) {
-      const vehicle = data.vehicle;
-      setValue("regNo", vehicle?.registrationNumber);
-      setValue("loanANum", vehicle?.loanAgreementNo);
-      setValue("regOwnerName", vehicle?.registeredOwnerName);
-      setValue("fuel", vehicle?.fuel);
-      setValue("type", vehicle?.type);
-      setValue("rcStatus", vehicle?.rcStatus);
-      setValue("yearOfManuFacture", vehicle?.YOM);
-      setValue("Ownership", vehicle?.ownership);
-      setValue("mileage", vehicle?.mileage);
-      setValue("kmReading", vehicle?.kmReading);
-      setValue("yardLocation", vehicle?.yardLocation);
-      setValue("startPrice", vehicle?.startPrice);
-      setValue("reservePrice", vehicle?.reservePrice);
-      setValue("repoDate", DateConvert(vehicle?.repoDt));
-      setValue("insuranceValidDate", DateConvert(vehicle?.insuranceValidTill));
-      setValue("taxValidityDate", DateConvert(vehicle?.taxValidityDate));
-      setValue("dateOfRegistration", DateConvert(vehicle?.dateOfRegistration));
-      setValue("powerSteering", vehicle?.powerSteering);
-      setValue("climateControl", vehicle?.climateControl);
-      setValue("insuranceStatus", vehicle?.insuranceStatus);
-      setValue("vehicleCompanyName", vehicle?.make);
-      setValue("model", vehicle?.model);
-      setValue("varient", vehicle?.varient);
-      setValue("category", vehicle?.category);
-      setValue("quoteInc", vehicle?.quoteIncreament);
-      setValue("vehicleLocation", vehicle?.veicleLocation);
-      setValue("vehicleRemarks", vehicle?.vehicleRemarks);
-      setValue("autionManager", vehicle?.auctionManager);
-      setValue("approxParkingCharges", vehicle?.parkingCharges);
-      setValue("insurance", vehicle?.insurance);
-      setValue("tax", vehicle?.tax);
-      setValue("fitness", vehicle?.fitness);
-      setValue("permit", vehicle?.permit);
-      setValue("engineNumber", vehicle?.engineNo);
-      setValue("chassisNo", vehicle?.chassisNo);
-      setValue("inspectionLink", vehicle?.inspectionLink);
-      setValue("autobseContact", vehicle?.autobseContact);
-      setValue("autoBseContactPerson", vehicle?.autobse_contact_person);
-      setValue("vehicleCondition", vehicle?.vehicleCondition);
-      setValue("shape", vehicle?.shape);
-      setValue("color", vehicle?.color);
-      setValue("state", vehicle?.state);
-      setValue("city", vehicle?.city);
-      setValue("area", vehicle?.area);
-      setValue("paymentTerms", vehicle?.paymentTerms);
-      setValue("hypothication", vehicle?.hypothication);
-      setValue("doorCount", vehicle?.doorCount);
-      setValue("gearBox", vehicle?.gearBox);
-      setValue("buyerFees", vehicle?.buyerFees);
-      setValue("clientContactNo", vehicle?.clientContactNo);
-      setValue("clientContactPerson", vehicle?.clientContactPerson);
-      setValue("approxParkingCharges", vehicle?.approxParkingCharges);
-      setValue("rtoFine", vehicle?.rtoFine);
-      setValue("AdditionalRemarks", vehicle?.additionalRemarks);
-      setValue("lotNumber", vehicle?.lotNumber);
-    
-      
-    }
-  }, [data, setValue]);
-
-
-  const onSubmit = async (formData) => {
-    const cleanedRightImage = formData?.images.replace(/,\n/g, ',');
-
-    const vehicleData = {
-      
-      registrationNumber: formData?.regNo,
-      loanAgreementNo: formData?.loanANum,
-      registeredOwnerName: formData?.regOwnerName,
-      quoteIncreament: +formData?.quoteInc || null,
-      make: formData?.vehicleCompanyName,
-      model: formData?.model,
-      varient: formData?.varient,
-      category: formData?.category,
-      fuel: formData?.fuel,
-      type: formData?.type,
-      rcStatus: formData?.rcStatus,
-      YOM: +formData?.yearOfManuFacture || null,
-      ownership: +formData?.Ownership || null,
-      mileage: +formData?.mileage || null,
-      kmReading: +formData?.kmReading || null,
-      insuranceStatus: formData?.insuranceStatus,
-      yardLocation: formData?.yardLocation,
-      startPrice: +formData?.startPrice || 0,
-      reservePrice: +formData?.reservePrice || 0,
-      repoDt: formData?.repoDate,
-      veicleLocation: formData?.vehicleLocation,
-      vehicleRemarks: formData?.vehicleRemarks,
-      auctionManager: formData?.autionManager,
-      parkingCharges: formData?.approxParkingCharges,
-      insurance: formData?.insurance,
-      insuranceValidTill: formData?.insuranceValidDate || null,
-      tax: formData?.tax,
-      taxValidityDate: formData?.insuranceValidDate || null,
-      fitness: formData?.fitness,
-      permit: formData?.permit,
-      engineNo: formData?.engineNumber,
-      chassisNo: formData?.chassisNo,
-      inspectionLink: formData?.inspectionLink,
-      autobseContact: formData?.autobseContact,
-      autobse_contact_person: formData?.autoBseContactPerson,
-      vehicleCondition: formData?.vehicleCondition,
-      powerSteering: formData?.powerSteering||"",
-      shape: formData?.shape,
-      color: formData?.color,
-      state: formData?.state,
-      city: formData?.city,
-      area: formData?.area,
-      paymentTerms: formData?.paymentTerms,
-      dateOfRegistration: formData?.dateOfRegistration,
-      hypothication: formData?.hypothication,
-      climateControl: formData?.climateControl||"",
-      doorCount: +formData?.doorCount || null,
-      gearBox: formData?.gearBox,
-      buyerFees: formData?.buyerFees,
-      clientContactNo: formData?.clientContactNo,
-      clientContactPerson: formData?.clientContactPerson,
-      approxParkingCharges: formData?.approxParkingCharges,
-      rtoFine: formData?.rtoFine,
-      additionalRemarks: formData?.AdditionalRemarks,
-      lotNumber: +formData?.lotNumber,
-      image:cleanedRightImage
-    };
-
-    try {
-      const result = await editVehicle({ variables: { updateVehicleInput: vehicleData } });
-      if (result) {
-        ShowPopup("Success!", `Vehicle ${formData?.regNo} Updated Successfully!`, "success", 5000, true);
-      }
-    } catch (err) {
-      ShowPopup("Failed!", `${err.message}`, "error", 5000, true);
-    }
-  };
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
+  if (error) return <p>Error :</p>;
 
   return (
     <div className={pageStyle.data}>

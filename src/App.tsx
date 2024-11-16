@@ -34,6 +34,8 @@ import VehicleBuyingLimit from './pages/vehicleBuyingLimit';
 import EmdDetailsPage from './pages/emdDetailsPage';
 import ViewUsersByState from './pages/viewUsersByState';
 import BidsPerUser from './pages/bidsPerUser';
+import VehicleDeletedPerEvent from './pages/deletedVehicles';
+import TabbleOfDeletedUser from './pages/deletedUsers';
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -50,16 +52,14 @@ const App: React.FC = () => {
         <Route path="login" element={<LoginPage />} />
           <Route element={<ProtectedRoutes />}>
               <Route path="/" element={<Home />} />
-              <Route path="users" element={<Users />} />
+              <Route path="users" element={<Users />}/>
+              <Route path="deleted-users" element={<TabbleOfDeletedUser />}/>
               <Route path="bids-user/:id" element={<BidsPerUser />} />
               <Route path="add-user" element={<AddUser />} />
-              
               <Route path="view-user/:id" element={<UserDetails />} />
-
               <Route path="sellers" element={<Sellers />} />
               <Route path="edit-seller/:id" element={<SellerEdit />} />
               <Route path="add-seller" element={<AddSeller />} />
-
               <Route path="viewlocation" element={<ViewLocations />} />
               <Route path="states" element={<States />} />
               <Route path="payment" element={<Payments />} />
@@ -70,11 +70,10 @@ const App: React.FC = () => {
               <Route path="emd-payment/:id" element={<EmdPerPayment/>} /> 
               <Route path="addevent" element={<AddEventForm/>} />
               <Route path="edit-event/:id" element={<EditEvent />} />
-              {/* <Route path="addeventtype" element={<AddEventType />} />
-              <Route path="edit-event/:id" element={<EditEvent />} /> */}
                <Route path="event-types" element={<EventTypes/>} />
               <Route path="events" element={<AddEvents/>} />
                <Route path="add-vehicle/:id" element={<AddVehicle/>} />
+               <Route path="Deleted-vehicles/:id" element={<VehicleDeletedPerEvent/>} />
                <Route path="view-vehicls/:id" element={<VehicleDetailsPerEvent/>} />
                <Route path="buying-limit/:userId" element={<VehicleBuyingLimit />} />
                <Route path="emdDetails/:id" element={<EmdDetailsPage/>} />
@@ -84,7 +83,6 @@ const App: React.FC = () => {
                <Route path="ViewUsersByState/:id" element={<ViewUsersByState/>}/>
               </Route>
               </Routes>
-          {/* Your routes and other components go here */}
         </div>
      
     </>

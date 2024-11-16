@@ -1,18 +1,17 @@
+
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
-  useEventVehiclesQuery,
+  useDeletedVehiclesQuery,
   useSubscriptionVehicleUpdatesSubscription,
-  useUpdateEventMutation,
   useSubscriptionBidCreationSubscription,
-  useUpdateDateMutation,
-  useDeleteVehicleMutation
+  useRestorevehicleMutation
 } from "../../utils/graphql";
 import format from "date-fns/format";
 import Swal from "sweetalert2";
 
 import TableComponent from "../utils/table";
-import { UpdateBidTime, UpdateEventEndTime } from "./updateBidTime";
+
 import { ConfirmationAlert, SweetalertSuccess} from "../utils/sweetalert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCar } from "@fortawesome/free-solid-svg-icons";
@@ -22,23 +21,18 @@ import { DownloadBidSheetsBeforeAuction } from "../bids/bidsheetfolder";
 import { FaSpinner } from "react-icons/fa";
 import BidModal from "../bids/bidModal";
 
-const VehicleDetailsPerEventComponent = () => {
+const DeletedVehicleTable = () => {
   const { id } = useParams();
   const vehicleSub = useSubscriptionVehicleUpdatesSubscription();
   const bidSub = useSubscriptionBidCreationSubscription();
   console.log(vehicleSub, "subs");
-  const [DeleteVehicle] = useDeleteVehicleMutation()
+  const [restoreVehicle] =  useRestorevehicleMutation()
  
   
   const [rowData, setRowData] = useState(null);
   const [bidOpen,  setBidOpen] = useState(false);
   const [downlod, setDownlod] = useState(true);
   const [userId, setUserId] = useState("0");
-  const [updateDate, setUpdateDate] = useState({
-    date: null,
-    id: null,
-    updateItem: null,
-  });
   const variables = {
     orderBy: [
       {
@@ -49,92 +43,27 @@ const VehicleDetailsPerEventComponent = () => {
       id: id,
     },
   };
-  const { data, loading,  refetch } = useEventVehiclesQuery({
+  const { data, loading,  refetch } = useDeletedVehiclesQuery({
     variables,
   });
   console.log("data per event", data);
-  const [updateEventEndTime] = useUpdateEventMutation();
-  const [updateBidTime] = useUpdateDateMutation();
+ 
 
   const [enable, setEnable] = useState(false);
 
-  const handleChangeStartTime = async (update) => {
-    const isodate = new Date(update).toISOString();
-    const result = await ConfirmationAlert();
-    if (updateDate?.updateItem === "startTime" && result?.isConfirmed) {
-      updateBidTime({
-        variables: {
-          where: { id: updateDate?.id },
-          updateVehicleInput: { bidStartTime: isodate },
-        },
-      });
-    }
-    if (updateDate?.updateItem === "endtime" && result?.isConfirmed) {
-      updateBidTime({
-        variables: {
-          where: { id: updateDate?.id },
-          updateVehicleInput: { bidTimeExpire: isodate },
-        },
-      });
-    }
-    refetch();
-    setUpdateDate({ data: null, id: null, updateItem: null });
-  };
-  const handleChangeEndTime = async (extendTime) => {
-    if (data?.event?.vehicles) {
-      const splitted = extendTime.split(":");
-      const hour = splitted[0] * 60 * 60 * 1000;
-      const minute = splitted[1] * 60 * 1000;
-      const clock = hour + minute;
-      const result = await ConfirmationAlert();
-
-      if (result?.isConfirmed) {
-        const response = await Swal.fire({
-          input: "select",
-          inputOptions: {
-            increase: "Increase",
-            decrease: "Decrease",
-          },
-          title: "Time Inrease / Decrease",
-        });
-        let updated;
-
-        
-        const updatedVehicles = data?.event?.vehicles.map((vehicle) => {
-          updated =
-            response?.value === "increase"
-              ? new Date(new Date(vehicle?.bidTimeExpire).getTime() + clock)
-              : new Date(new Date(vehicle?.bidTimeExpire).getTime() - clock);
-
-          updateBidTime({
-            variables: {
-              updateVehicleInput: { bidTimeExpire: updated.toISOString() },
-              where: { id: vehicle?.id },
-            },
-          });
-        });
-        updateEventEndTime({
-          variables: { updateEventInput: { endDate: updated }, where: { id } },
-        });
-      }
-    }
-  };
-
+  
   const handleDelete = async (deleteVehicleId, bidCount) => {
     const result = await ConfirmationAlert();
     if (result.isConfirmed) {
-      if(bidCount!==0){
-    alert("this vehicle have bid record ")
-      }
-      else{
+    
 
-        const deleteResult = await DeleteVehicle({variables:{where:{id:deleteVehicleId}}})
+        const deleteResult = await restoreVehicle({variables:{where:{id:deleteVehicleId}}})
         if (deleteResult?.data?.deleteVehicle?.id) {
 
           SweetalertSuccess()
         }
         refetch()
-      }
+      
     }
   };
   const handleAboutBid = async (bidDetails) => {
@@ -154,7 +83,9 @@ const VehicleDetailsPerEventComponent = () => {
     DownloadBidSheetBeforeAuction(vehicle);
   };
   const handleBidSheets = async (vehicles) => {
-    setDownlod(false);
+    setDownlod(false); // Immediately set to downloading state to show loading spinner
+  
+    // Add a small delay to ensure the button visually updates before the download begins
     setTimeout(async () => {
       try {
         const res = await DownloadBidSheetsBeforeAuction(vehicles);
@@ -219,45 +150,7 @@ const VehicleDetailsPerEventComponent = () => {
       { Header: "Vehicle Status", accessor: "vehicleEventStatus" },
 
       { Header: "Bid Status", accessor: "bidStatus" },
-      {
-        Header: "Bid Start Time",
-        accessor: ({ bidStartTime, id }) => {
-          return (
-            <button
-              onClick={() =>
-                setUpdateDate({
-                  date: bidStartTime,
-                  id,
-                  updateItem: "startTime",
-                })
-              }
-              className={`${Tablebutton.data} bg-red-600`}
-            >
-              {format(new Date(bidStartTime), `dd/MM/yy,  HH:mm:ss`)}
-            </button>
-          );
-        },
-      },
-
-      {
-        Header: "Bid Time Expire",
-        accessor: ({ bidTimeExpire, id }) => {
-          return (
-            <button
-              onClick={() =>
-                setUpdateDate({
-                  date: bidTimeExpire,
-                  id,
-                  updateItem: "endtime",
-                })
-              }
-              className={`${Tablebutton.data} bg-red-600`}
-            >
-              {format(new Date(bidTimeExpire), `dd/MM/yy,  HH:mm:ss`)}
-            </button>
-          );
-        },
-      },
+    
       { Header: "Bid Now",  Cell: ({ row }) => (
         <>
         <button
@@ -329,7 +222,7 @@ const VehicleDetailsPerEventComponent = () => {
       {
         Header: "Vehicle",
         Cell: ({ row }) => (
-          <button className="btn btn-error" onClick={() => handleDelete(row.original.id,row.original.totalBids)}>Remove</button>
+          <button className="btn btn-error" onClick={() => handleDelete(row.original.id,row.original.totalBids)}>Restore</button>
         )
       }
     ],
@@ -410,22 +303,12 @@ const VehicleDetailsPerEventComponent = () => {
             )}
             
           </div>
-          <div className="px-28">
-          {updateDate?.date && (
-        <UpdateBidTime
-          currentDate={updateDate?.date}
-          handleChangeStartTime={handleChangeStartTime}
-        />
-      )}
-      {enable && (
-        <UpdateEventEndTime handleChangeEndTime={handleChangeEndTime} />
-      )}
-          </div>
+        
       </div>
 
      
       <TableComponent
-        data={data?.event?.vehiclesLive}
+        data={data?.deletedVehicles||[]}
         columns={columns}
         sortBy="lotNumber"
         order={true}
@@ -435,4 +318,4 @@ const VehicleDetailsPerEventComponent = () => {
   );
 };
 
-export default VehicleDetailsPerEventComponent;
+export default DeletedVehicleTable;
