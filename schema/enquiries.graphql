@@ -1,0 +1,12 @@
+query Enquiries {
+  Enquiries {
+    mobile
+    message
+    lastName
+    firstName
+    createdAt
+    status
+    state
+    updatedAt
+  }
+}

@@ -44,11 +44,11 @@ const Sidebar_items: SidebarItem[] = [
     path: "states",
     iconType: faEarthAsia
   },
-  // {
-  //   name: "Enquiries",
-  //   path: "enquiry",
-  //   iconType: faComment
-  // },
+  {
+    name: "Enquiries",
+    path: "enquiries",
+    iconType: faComment
+  },
   {
     name: "Vehicle Category",
     path: "event-types",

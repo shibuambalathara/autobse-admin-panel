@@ -1747,6 +1747,11 @@ export type EmdUpdatesPerPaymentQueryVariables = Exact<{
 
 export type EmdUpdatesPerPaymentQuery = { __typename?: 'Query', payment: { __typename?: 'Payment', emdUpdate?: Array<{ __typename?: 'Emdupdate', emdNo: number, id: string, vehicleBuyingLimitIncrement?: number | null, payment?: { __typename?: 'Payment', id: string, amount?: number | null } | null, user?: { __typename?: 'User', mobile: string, firstName: string, lastName: string } | null, createdBy?: { __typename?: 'User', id: string, firstName: string } | null }> | null } };
 
+export type EnquiriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type EnquiriesQuery = { __typename?: 'Query', Enquiries: Array<{ __typename?: 'Enquiry', mobile: string, message: string, lastName: string, firstName: string, createdAt?: any | null, status: string, state: string, updatedAt?: any | null }> };
+
 export type EventsQueryVariables = Exact<{
   where?: InputMaybe<EventWhereUniqueInput>;
   orderBy?: InputMaybe<Array<EventOrderByInput> | EventOrderByInput>;
@@ -3115,6 +3120,52 @@ export type EmdUpdatesPerPaymentQueryHookResult = ReturnType<typeof useEmdUpdate
 export type EmdUpdatesPerPaymentLazyQueryHookResult = ReturnType<typeof useEmdUpdatesPerPaymentLazyQuery>;
 export type EmdUpdatesPerPaymentSuspenseQueryHookResult = ReturnType<typeof useEmdUpdatesPerPaymentSuspenseQuery>;
 export type EmdUpdatesPerPaymentQueryResult = Apollo.QueryResult<EmdUpdatesPerPaymentQuery, EmdUpdatesPerPaymentQueryVariables>;
+export const EnquiriesDocument = gql`
+    query Enquiries {
+  Enquiries {
+    mobile
+    message
+    lastName
+    firstName
+    createdAt
+    status
+    state
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useEnquiriesQuery__
+ *
+ * To run a query within a React component, call `useEnquiriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEnquiriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEnquiriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useEnquiriesQuery(baseOptions?: Apollo.QueryHookOptions<EnquiriesQuery, EnquiriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<EnquiriesQuery, EnquiriesQueryVariables>(EnquiriesDocument, options);
+      }
+export function useEnquiriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EnquiriesQuery, EnquiriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<EnquiriesQuery, EnquiriesQueryVariables>(EnquiriesDocument, options);
+        }
+export function useEnquiriesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<EnquiriesQuery, EnquiriesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<EnquiriesQuery, EnquiriesQueryVariables>(EnquiriesDocument, options);
+        }
+export type EnquiriesQueryHookResult = ReturnType<typeof useEnquiriesQuery>;
+export type EnquiriesLazyQueryHookResult = ReturnType<typeof useEnquiriesLazyQuery>;
+export type EnquiriesSuspenseQueryHookResult = ReturnType<typeof useEnquiriesSuspenseQuery>;
+export type EnquiriesQueryResult = Apollo.QueryResult<EnquiriesQuery, EnquiriesQueryVariables>;
 export const EventsDocument = gql`
     query Events($where: EventWhereUniqueInput, $orderBy: [EventOrderByInput!], $take: Int, $skip: Int) {
   events(where: $where, orderBy: $orderBy, take: $take, skip: $skip) {

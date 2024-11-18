@@ -34,6 +34,8 @@ import VehicleBuyingLimit from './pages/vehicleBuyingLimit';
 import EmdDetailsPage from './pages/emdDetailsPage';
 import ViewUsersByState from './pages/viewUsersByState';
 import BidsPerUser from './pages/bidsPerUser';
+import Enquiry from './pages/enquiry';
+import Enquiries from './pages/enquiries';
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -55,6 +57,7 @@ const App: React.FC = () => {
               <Route path="add-user" element={<AddUser />} />
               
               <Route path="view-user/:id" element={<UserDetails />} />
+              <Route path="enquiries" element={<Enquiries/>} />
 
               <Route path="sellers" element={<Sellers />} />
               <Route path="edit-seller/:id" element={<SellerEdit />} />
@@ -92,3 +95,4 @@ const App: React.FC = () => {
 };
 
 export default App;
+
