@@ -6,64 +6,8 @@ import { useVehicleQuery, useUpdateVehicleMutation, useVehicleCategoriesQuery, U
 import { DateConvert } from "../components/utils/dateFormat";
 import EditVehicleComponent from "../components/Vehicle/editVehicleCom ";
 import { ShowPopup } from "../components/alerts/popUps";
-interface VehicleInput {
-  registrationNumber: string;
-  loanAgreementNo?: string;
-  registeredOwnerName?: string;
-  quoteIncreament?: number | null;
-  make?: string;
-  model?: string;
-  varient?: string;
-  category?: string;
-  fuel?: string;
-  type?: string;
-  rcStatus?: string;
-  YOM?: number | null;
-  ownership?: number | null;
-  mileage?: number | null;
-  kmReading?: number | null;
-  insuranceStatus?: string;
-  yardLocation?: string;
-  startPrice?: number;
-  reservePrice?: number;
-  repoDt?: string;
-  veicleLocation?: string;
-  vehicleRemarks?: string;
-  auctionManager?: string;
-  parkingCharges?: number;
-  insurance?: string;
-  insuranceValidTill?: string | null;
-  tax?: string;
-  taxValidityDate?: string | null;
-  fitness?: string;
-  permit?: string;
-  engineNo?: string;
-  chassisNo?: string;
-  inspectionLink?: string;
-  autobseContact?: string;
-  autobse_contact_person?: string;
-  vehicleCondition?: string;
-  powerSteering?: string;
-  shape?: string;
-  color?: string;
-  state?: string;
-  city?: string;
-  area?: string;
-  paymentTerms?: string;
-  dateOfRegistration?: string;
-  hypothication?: string;
-  climateControl?: string;
-  doorCount?: number | null;
-  gearBox?: string;
-  buyerFees?: string;
-  clientContactNo?: string;
-  clientContactPerson?: string;
-  approxParkingCharges?: number;
-  rtoFine?: string;
-  additionalRemarks?: string;
-  lotNumber?: number;
-  image?: string;
-}
+import { VehicleInput } from "../components/Vehicle/vehicleInterface";
+
 
 const EditVehicle: React.FC = () => {
   const [viewImageUpload, setViewImageUpload] = useState(false);
@@ -92,10 +36,7 @@ const EditVehicle: React.FC = () => {
     }
   }, [data, setValue]);
   const onSubmit = async (formData: any) => {
-    // Clean the images field
     const cleanedRightImage = formData?.images?.replace(/,\n/g, ",") || "";
-  
-    // Prepare vehicle data object with only the required fields
     const vehicleData: any = {
       registrationNumber: formData?.regNo || null,
       loanAgreementNo: formData?.loanANum || null,
@@ -154,8 +95,6 @@ const EditVehicle: React.FC = () => {
       lotNumber: formData?.lotNumber ? +formData.lotNumber : null,
       image: cleanedRightImage,
     };
-  
-    // Remove undefined or null fields from vehicleData
     Object.keys(vehicleData).forEach(
       (key) => vehicleData[key] === null && delete vehicleData[key]
     );
@@ -178,6 +117,7 @@ const EditVehicle: React.FC = () => {
         error={error}
         handleSubmit={handleSubmit}
         onSubmit={onSubmit}
+        button={'Update'}
         register={register}
         errors={errors}
         images={images}

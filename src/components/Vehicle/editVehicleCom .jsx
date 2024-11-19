@@ -9,7 +9,7 @@ import { DateConvert } from "../utils/dateFormat";
 import { indianStates } from "../../utils/data";
 import { formStyle, h2Style, headerStyle, pageStyle, submit } from "../utils/style";
 
-const EditVehicleComponent = ({data,loading,error,handleSubmit,onSubmit,register,errors,images}) => {
+const EditVehicleComponent = ({data,loading,error,handleSubmit,onSubmit,register,errors,images,button}) => {
   
 
   // const [downloadUrls, setDownloadUrls] = useState([]);
@@ -27,20 +27,9 @@ const EditVehicleComponent = ({data,loading,error,handleSubmit,onSubmit,register
     </div>
     <form onSubmit={handleSubmit(onSubmit)} className={formStyle.data}>
         <FormFieldInput defaultValue={data?.vehicle?.registrationNumber} label="Registration" type="text" name="regNo" register={register} error={errors.regNo} required />
-        {/* <div className="flex flex-col">
-          <label htmlFor="">Bid Status</label>
-          <select {...register("bidStatus", {})} className="w-full bg-slate-200 border border-gray-300 rounded mt-2 py-1 px-4 outline-none shadow text-gray-700 hover:bg-white">
-            <option value={data?.vehicle?.bidStatus}>{data?.vehicle?.bidStatus}</option>
-            <option value="pending">pending</option>
-            <option value="approved">approved</option>
-            <option value="fulfilled">fulfilled</option>
-            <option value="declined">declined</option>
-          </select>
-        </div> */}
+       
         <FormFieldInput defaultValue={data?.vehicle?.loanAgreementNo} label="Loan Agreement Number" type="text" name="loanANum" register={register} error={errors.loanANum} required />
         <FormFieldInput defaultValue={data?.vehicle?.registeredOwnerName} label="Registered Owner Name" type="text" name="regOwnerName" register={register} error={errors.regOwnerName} />
-        {/* Add additional FormFieldInputs here for other fields */}
-        {/* <CatInput options={category?.data?.vehicleCategories} label="Category" type="text" name="category" register={register} error={errors.category} /> */}
 
           <FormFieldInput defaultValue={data?.vehicle?.fuel} label="Fuel" type="text" name="fuel" register={register} error={errors.fuel} />
           <FormFieldInput defaultValue={data?.vehicle?.type}label="Type" type="text" name="type" register={register} error={errors.type} />
@@ -104,10 +93,7 @@ const EditVehicleComponent = ({data,loading,error,handleSubmit,onSubmit,register
           <FormFieldInput label="Lot Number" type="number" name="lotNumber" register={register} error={errors.lotNumber} />
           <FormFieldInput label="Climate Control"  type="text" name="climateControl" register={register} error={errors.climateControl} />
           <FormFieldInput label="Power Steering"  type="text" name="powerSteering" register={register} error={errors.powerSteering} />
-          {/* <button type="submit" className="mt-5 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 col-span-3 w-36  justify-self-center">
-          Submit
-        </button> */}
-
+       
 <ImageMaping images={images}/>
 <div className="col-span-3">
   <p className="text-lg font-semibold mb-2">Image URLs:</p>
@@ -126,7 +112,7 @@ const EditVehicleComponent = ({data,loading,error,handleSubmit,onSubmit,register
 
 
  <div className="text-center my-5 col-span-3">
-              <button className={submit?.data}> Save Changes</button>
+              <button className={submit?.data}>{button}</button>
             </div>
         </form>
        

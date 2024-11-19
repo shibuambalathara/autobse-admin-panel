@@ -10,7 +10,7 @@ import {
 } from "../../utils/graphql";
 import format from "date-fns/format";
 import Swal from "sweetalert2";
-
+import { ImBin2 } from "react-icons/im";
 import TableComponent from "../utils/table";
 import { UpdateBidTime, UpdateEventEndTime } from "./updateBidTime";
 import { ConfirmationAlert, SweetalertSuccess} from "../utils/sweetalert";
@@ -329,7 +329,9 @@ const VehicleDetailsPerEventComponent = () => {
       {
         Header: "Vehicle",
         Cell: ({ row }) => (
-          <button className="btn btn-error" onClick={() => handleDelete(row.original.id,row.original.totalBids)}>Remove</button>
+          <button  className={`${Tablebutton.data} bg-red-600`} onClick={() => handleDelete(row.original.id,row.original.totalBids)}>
+            <ImBin2/>
+          </button>
         )
       }
     ],

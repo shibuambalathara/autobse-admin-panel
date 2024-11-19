@@ -17,7 +17,7 @@ import { ConvertToExcel } from "../utils/excelFormat";
 import { FormatDate } from "../utils/dateFormat";
 import CustomButton from "../utils/buttons";
 import { pageHead, Tablebutton } from "../utils/style";
-import { FaCar, FaTruck } from "react-icons/fa";
+
 
 const EventsTableComponent = () => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -168,7 +168,7 @@ const EventsTableComponent = () => {
         Header: "View Vehicles",
         Cell: ({ row }) =>
           {
-            const vehicleCount = row.original.vehiclesCount
+            const vehicleCount = row.original?.vehiclesCount
         
           
             const isDisabled = vehicleCount === 0;
@@ -200,13 +200,13 @@ const EventsTableComponent = () => {
         Header: " Deleted Vehicles",
         Cell: ({ row }) =>
           {
-            const vehicleCount = row.original.vehiclesCount
+            const vehicleCount = row.original?.deletedVehiclesCount
         
           
             const isDisabled = vehicleCount === 0;
             const buttonClass = isDisabled
               ? `${Tablebutton.data} bg-gray-400   `
-              : `${Tablebutton.data} bg-[#43a5a0]`;
+              : `${Tablebutton.data} bg-red-600`;
         
             return isDisabled ? (
               <button

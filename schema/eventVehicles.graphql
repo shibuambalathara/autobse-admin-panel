@@ -13,6 +13,7 @@ query EventVehicles($where: EventWhereUniqueInput!, $orderBy: [VehicleOrderByInp
     }
     
     event {
+    deletedVehiclesCount
       seller {
         name
       }
