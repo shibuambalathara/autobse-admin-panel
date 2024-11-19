@@ -1,40 +1,59 @@
 query DeletedVehicles {
   deletedVehicles {
-    id 
-  lotNumber 
-  registrationNumber
-   bidStatus
-   bidTimeExpire
-   loanAgreementNo
-  
-   quoteIncreament
-   make
-   model
-   varient
-  
-   
-   type
-   rcStatus
- 
-  
-  
-   yardLocation
-   reservePrice
-   repoDt
-   veicleLocation
-   vehicleRemarks
-   auctionManager
-   parkingCharges
-   insuranceValidTill
-   tax
-   totalBids
-   engineNo
-   color
-    city
-    area
+      vehicleEventStatus
+    userVehicleBids {
+      amount
+      
+    }
+    
+    event {
+    deletedVehiclesCount
+      seller {
+        name
+      }
+    }
+    currentBidUser {
+      firstName
+      lastName
+    }
+    lotNumber
     state
-  
-    dateOfRegistration
+      id
+      bidStatus
+      vehicleIndexNo
+      registrationNumber
+      bidTimeExpire
+      bidStartTime
+      bidAmountUpdate
+      currentBidAmount
+      startBidAmount
+      loanAgreementNo
+      registeredOwnerName
+      quoteIncreament
+      make
+      model
+      varient
+      category
+      createdById
+      ownership
+      insuranceStatus
+      yardLocation
+      startPrice
+      reservePrice
+      veicleLocation
+      parkingCharges
+      insuranceValidTill
+      tax
+      taxValidityDate
+      city
+      area
+      paymentTerms
+      dateOfRegistration
+      hypothication
+       totalBids
+      createdAt
+      updatedAt
+      createdById
    
   }
 }

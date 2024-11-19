@@ -134,20 +134,19 @@ const DeletedVehicleTable = () => {
         Header: "Vehicle Details",
         accessor: "registrationNumber",
         Cell: ({ row }) => (
-          <a
-            className={`${Tablebutton.data} bg-sky-500`}
-            href={`/edit-vehicle/${row.original.id}`}
+          <p
+           
             target="_blank"
             rel="noopener noreferrer"
           >
             {row.original.registrationNumber}
-          </a>
+          </p>
         ),
       },
       // { Header: "State", accessor: "state" },
       //  { Header: "City", accessor: "city" },
       
-      { Header: "Vehicle Status", accessor: "vehicleEventStatus" },
+      // { Header: "Vehicle Status", accessor: "vehicleEventStatus" },
 
       { Header: "Bid Status", accessor: "bidStatus" },
     
@@ -167,24 +166,24 @@ const DeletedVehicleTable = () => {
         </>
       ), },
 
-      {
-        Header: "Bid Details",
-        Cell: ({ row }) =>
-          // <button className="btn btn-accent" onClick={()=>handleBidDetails(row.original.id) }>Bid Details</button>
+      // {
+      //   Header: "Bid Details",
+      //   Cell: ({ row }) =>
+      //     // <button className="btn btn-accent" onClick={()=>handleBidDetails(row.original.id) }>Bid Details</button>
 
-          row.original.totalBids !== 0 ? (
-            <a
-              className={`${Tablebutton.data} bg-blue-500`}
-              href={`/bid-details/${row.original.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {row.original.totalBids}
-            </a>
-          ) : (
-            "0"
-          ),
-      },
+      //     row.original.totalBids !== 0 ? (
+      //       <a
+      //         className={`${Tablebutton.data} bg-blue-500`}
+      //         href={`/bid-details/${row.original.id}`}
+      //         target="_blank"
+      //         rel="noopener noreferrer"
+      //       >
+      //         {row.original.totalBids}
+      //       </a>
+      //     ) : (
+      //       "0"
+      //     ),
+      // },
       {
         Header: "About Bid",
         Cell: ({ row }) =>
