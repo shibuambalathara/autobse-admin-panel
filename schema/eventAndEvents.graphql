@@ -2,6 +2,7 @@ query Events($where: EventWhereUniqueInput, $orderBy: [EventOrderByInput!], $tak
   events(where: $where, orderBy: $orderBy, take: $take, skip: $skip) {
      events {
     bidLock
+      deletedVehiclesCount
     id
     eventNo
     Report

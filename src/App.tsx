@@ -70,9 +70,9 @@ const App: React.FC = () => {
               <Route path="emd-payment/:id" element={<EmdPerPayment/>} /> 
               <Route path="addevent" element={<AddEventForm/>} />
               <Route path="edit-event/:id" element={<EditEvent />} />
-               <Route path="event-types" element={<EventTypes/>} />
+              <Route path="event-types" element={<EventTypes/>} />
               <Route path="events" element={<AddEvents/>} />
-               <Route path="add-vehicle/:id" element={<AddVehicle/>} />
+              <Route path="add-vehicle/:id" element={<AddVehicle/>} />
                <Route path="Deleted-vehicles/:id" element={<VehicleDeletedPerEvent/>} />
                <Route path="view-vehicls/:id" element={<VehicleDetailsPerEvent/>} />
                <Route path="buying-limit/:userId" element={<VehicleBuyingLimit />} />

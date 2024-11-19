@@ -9,6 +9,7 @@ import { Tablebutton } from "../utils/style";
 // import { FormatDate } from "../utils/dateFormat";
 import { useDeleteUserMutation } from "../../utils/graphql";
 import { SweetalertSuccess } from "../utils/sweetalert";
+import { ImBin2 } from "react-icons/im";
 
 const TabbleOfUsersOrUser = ({ users, refetch }) => {
   console.log("users", users);
@@ -197,7 +198,9 @@ const  [deleteUser]= useDeleteUserMutation()
       {
         Header: "User",
         Cell: ({ row }) => (
-          <button className="btn btn-error" onClick={() => handleDelete(row.original.id,row.original.totalBids)}>Remove</button>
+          <button  className={`${Tablebutton.data} bg-red-600`} onClick={() => handleDelete(row.original.id,row.original.totalBids)}>
+          <ImBin2/>
+        </button>
         )
       },
     ],

@@ -261,6 +261,7 @@ export type Event = {
   bidLock?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   createdById?: Maybe<Scalars['String']['output']>;
+  deletedVehiclesCount?: Maybe<Scalars['Int']['output']>;
   downloadableFile_filename?: Maybe<Scalars['String']['output']>;
   endDate: Scalars['DateTime']['output'];
   eventCategory: Scalars['String']['output'];
@@ -317,6 +318,7 @@ export type EventVehiclesTempArgs = {
 export type EventListResponse = {
   __typename?: 'EventListResponse';
   completedEventCount?: Maybe<Scalars['Int']['output']>;
+  deletedVehiclesCount?: Maybe<Scalars['Int']['output']>;
   events?: Maybe<Array<Event>>;
   liveEventCount?: Maybe<Scalars['Int']['output']>;
   totalBids?: Maybe<Scalars['Int']['output']>;
@@ -844,6 +846,7 @@ export type Query = {
   deletedStatus: Status;
   deletedStatuses: Array<Status>;
   deletedUser?: Maybe<User>;
+  deletedUserCount: Scalars['Int']['output'];
   deletedUsers: Array<Maybe<User>>;
   deletedVehicle: Vehicle;
   deletedVehicleCategories: Array<VehicleCategory>;
@@ -1606,6 +1609,16 @@ export enum VehicleEventStatus {
   Upcoming = 'upcoming'
 }
 
+export type DeletedVehiclesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DeletedVehiclesQuery = { __typename?: 'Query', deletedVehicles: Array<{ __typename?: 'Vehicle', vehicleEventStatus?: VehicleEventStatus | null, lotNumber?: number | null, state?: string | null, id: string, bidStatus?: string | null, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, createdById?: string | null, ownership?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, veicleLocation?: string | null, parkingCharges?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, totalBids?: number | null, createdAt?: any | null, updatedAt?: any | null, userVehicleBids?: Array<{ __typename?: 'Bid', amount: number }> | null, event?: { __typename?: 'Event', deletedVehiclesCount?: number | null, seller?: { __typename?: 'Seller', name: string } | null } | null, currentBidUser?: { __typename?: 'User', firstName: string, lastName: string } | null }> };
+
+export type DeletedUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DeletedUsersQuery = { __typename?: 'Query', deletedUsers: Array<{ __typename?: 'User', id: string, idNo: number, email: string, username: string, role: string, firstName: string, lastName: string, mobile: string, city: string, state: string, paymentsCount?: number | null } | null> };
+
 export type ActiveBidsPerUserQueryVariables = Exact<{
   where: UserWhereUniqueInput;
 }>;
@@ -1791,7 +1804,7 @@ export type EventsQueryVariables = Exact<{
 }>;
 
 
-export type EventsQuery = { __typename?: 'Query', events?: { __typename?: 'EventListResponse', events?: Array<{ __typename?: 'Event', bidLock?: string | null, id: string, eventNo: number, Report?: any | null, eventCategory: string, startDate: any, endDate: any, pauseDate?: any | null, pausedTotalTime?: number | null, sellerId: string, vehicleCategoryId: string, noOfBids: number, downloadableFile_filename?: string | null, termsAndConditions: string, createdAt?: any | null, updatedAt?: any | null, extraTimeTrigerIn?: number | null, extraTime?: number | null, vehicleLiveTimeIn?: number | null, gapInBetweenVehicles?: number | null, status?: string | null, vehiclesCount?: number | null, seller?: { __typename?: 'Seller', name: string } | null, location?: { __typename?: 'Location', name: string } | null }> | null } | null };
+export type EventsQuery = { __typename?: 'Query', events?: { __typename?: 'EventListResponse', events?: Array<{ __typename?: 'Event', bidLock?: string | null, deletedVehiclesCount?: number | null, id: string, eventNo: number, Report?: any | null, eventCategory: string, startDate: any, endDate: any, pauseDate?: any | null, pausedTotalTime?: number | null, sellerId: string, vehicleCategoryId: string, noOfBids: number, downloadableFile_filename?: string | null, termsAndConditions: string, createdAt?: any | null, updatedAt?: any | null, extraTimeTrigerIn?: number | null, extraTime?: number | null, vehicleLiveTimeIn?: number | null, gapInBetweenVehicles?: number | null, status?: string | null, vehiclesCount?: number | null, seller?: { __typename?: 'Seller', name: string } | null, location?: { __typename?: 'Location', name: string } | null }> | null } | null };
 
 export type EventQueryVariables = Exact<{
   where: EventWhereUniqueInput;
@@ -1806,7 +1819,7 @@ export type EventVehiclesQueryVariables = Exact<{
 }>;
 
 
-export type EventVehiclesQuery = { __typename?: 'Query', event: { __typename?: 'Event', eventNo: number, seller?: { __typename?: 'Seller', name: string } | null, vehiclesLive: Array<{ __typename?: 'Vehicle', lotNumber?: number | null, state?: string | null, id: string, bidStatus?: string | null, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, createdById?: string | null, ownership?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, veicleLocation?: string | null, parkingCharges?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, totalBids?: number | null, createdAt?: any | null, updatedAt?: any | null, userVehicleBids?: Array<{ __typename?: 'Bid', amount: number }> | null, event?: { __typename?: 'Event', seller?: { __typename?: 'Seller', name: string } | null } | null, currentBidUser?: { __typename?: 'User', firstName: string, lastName: string } | null }> } };
+export type EventVehiclesQuery = { __typename?: 'Query', event: { __typename?: 'Event', eventNo: number, seller?: { __typename?: 'Seller', name: string } | null, vehiclesLive: Array<{ __typename?: 'Vehicle', vehicleEventStatus?: VehicleEventStatus | null, lotNumber?: number | null, state?: string | null, id: string, bidStatus?: string | null, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, createdById?: string | null, ownership?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, veicleLocation?: string | null, parkingCharges?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, totalBids?: number | null, createdAt?: any | null, updatedAt?: any | null, userVehicleBids?: Array<{ __typename?: 'Bid', amount: number }> | null, event?: { __typename?: 'Event', deletedVehiclesCount?: number | null, seller?: { __typename?: 'Seller', name: string } | null } | null, currentBidUser?: { __typename?: 'User', firstName: string, lastName: string } | null }> } };
 
 export type CreateExceluploadMutationVariables = Exact<{
   eventId: Scalars['String']['input'];
@@ -1871,16 +1884,6 @@ export type UserPaymentsQueryVariables = Exact<{
 
 
 export type UserPaymentsQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, firstName: string, lastName: string, payments?: Array<{ __typename?: 'Payment', refNo?: number | null, amount?: number | null, description?: string | null, id: string, status?: string | null, userId?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null, registrationExpire?: any | null, paymentFor?: string | null }> | null } | null };
-
-export type DeletedVehiclesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type DeletedVehiclesQuery = { __typename?: 'Query', deletedVehicles: Array<{ __typename?: 'Vehicle', id: string, lotNumber?: number | null, registrationNumber: string, bidStatus?: string | null, bidTimeExpire: any, loanAgreementNo: string, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, type?: string | null, rcStatus?: string | null, yardLocation?: string | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation?: string | null, vehicleRemarks?: string | null, auctionManager?: string | null, parkingCharges?: string | null, insuranceValidTill?: string | null, tax?: string | null, engineNo?: string | null, color?: string | null, city?: string | null, area?: string | null, state?: string | null, dateOfRegistration?: string | null }> };
-
-export type DeletedUsersQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type DeletedUsersQuery = { __typename?: 'Query', deletedUsers: Array<{ __typename?: 'User', id: string, email: string, username: string, role: string, firstName: string, lastName: string, mobile: string, city: string, state: string, paymentsCount?: number | null } | null> };
 
 export type SellersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2011,6 +2014,145 @@ export type RestorevehicleMutationVariables = Exact<{
 export type RestorevehicleMutation = { __typename?: 'Mutation', restorevehicle: { __typename?: 'Vehicle', id: string, vehicleIndexNo: number, registrationNumber: string } };
 
 
+export const DeletedVehiclesDocument = gql`
+    query DeletedVehicles {
+  deletedVehicles {
+    vehicleEventStatus
+    userVehicleBids {
+      amount
+    }
+    event {
+      deletedVehiclesCount
+      seller {
+        name
+      }
+    }
+    currentBidUser {
+      firstName
+      lastName
+    }
+    lotNumber
+    state
+    id
+    bidStatus
+    vehicleIndexNo
+    registrationNumber
+    bidTimeExpire
+    bidStartTime
+    bidAmountUpdate
+    currentBidAmount
+    startBidAmount
+    loanAgreementNo
+    registeredOwnerName
+    quoteIncreament
+    make
+    model
+    varient
+    category
+    createdById
+    ownership
+    insuranceStatus
+    yardLocation
+    startPrice
+    reservePrice
+    veicleLocation
+    parkingCharges
+    insuranceValidTill
+    tax
+    taxValidityDate
+    city
+    area
+    paymentTerms
+    dateOfRegistration
+    hypothication
+    totalBids
+    createdAt
+    updatedAt
+    createdById
+  }
+}
+    `;
+
+/**
+ * __useDeletedVehiclesQuery__
+ *
+ * To run a query within a React component, call `useDeletedVehiclesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDeletedVehiclesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDeletedVehiclesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useDeletedVehiclesQuery(baseOptions?: Apollo.QueryHookOptions<DeletedVehiclesQuery, DeletedVehiclesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DeletedVehiclesQuery, DeletedVehiclesQueryVariables>(DeletedVehiclesDocument, options);
+      }
+export function useDeletedVehiclesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DeletedVehiclesQuery, DeletedVehiclesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DeletedVehiclesQuery, DeletedVehiclesQueryVariables>(DeletedVehiclesDocument, options);
+        }
+export function useDeletedVehiclesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<DeletedVehiclesQuery, DeletedVehiclesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<DeletedVehiclesQuery, DeletedVehiclesQueryVariables>(DeletedVehiclesDocument, options);
+        }
+export type DeletedVehiclesQueryHookResult = ReturnType<typeof useDeletedVehiclesQuery>;
+export type DeletedVehiclesLazyQueryHookResult = ReturnType<typeof useDeletedVehiclesLazyQuery>;
+export type DeletedVehiclesSuspenseQueryHookResult = ReturnType<typeof useDeletedVehiclesSuspenseQuery>;
+export type DeletedVehiclesQueryResult = Apollo.QueryResult<DeletedVehiclesQuery, DeletedVehiclesQueryVariables>;
+export const DeletedUsersDocument = gql`
+    query DeletedUsers {
+  deletedUsers {
+    id
+    idNo
+    email
+    username
+    role
+    firstName
+    lastName
+    mobile
+    city
+    state
+    paymentsCount
+  }
+}
+    `;
+
+/**
+ * __useDeletedUsersQuery__
+ *
+ * To run a query within a React component, call `useDeletedUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDeletedUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDeletedUsersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useDeletedUsersQuery(baseOptions?: Apollo.QueryHookOptions<DeletedUsersQuery, DeletedUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DeletedUsersQuery, DeletedUsersQueryVariables>(DeletedUsersDocument, options);
+      }
+export function useDeletedUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DeletedUsersQuery, DeletedUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DeletedUsersQuery, DeletedUsersQueryVariables>(DeletedUsersDocument, options);
+        }
+export function useDeletedUsersSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<DeletedUsersQuery, DeletedUsersQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<DeletedUsersQuery, DeletedUsersQueryVariables>(DeletedUsersDocument, options);
+        }
+export type DeletedUsersQueryHookResult = ReturnType<typeof useDeletedUsersQuery>;
+export type DeletedUsersLazyQueryHookResult = ReturnType<typeof useDeletedUsersLazyQuery>;
+export type DeletedUsersSuspenseQueryHookResult = ReturnType<typeof useDeletedUsersSuspenseQuery>;
+export type DeletedUsersQueryResult = Apollo.QueryResult<DeletedUsersQuery, DeletedUsersQueryVariables>;
 export const ActiveBidsPerUserDocument = gql`
     query ActiveBidsPerUser($where: UserWhereUniqueInput!) {
   user(where: $where) {
@@ -3250,6 +3392,7 @@ export const EventsDocument = gql`
   events(where: $where, orderBy: $orderBy, take: $take, skip: $skip) {
     events {
       bidLock
+      deletedVehiclesCount
       id
       eventNo
       Report
@@ -3386,10 +3529,12 @@ export const EventVehiclesDocument = gql`
       name
     }
     vehiclesLive(orderBy: $orderBy) {
+      vehicleEventStatus
       userVehicleBids {
         amount
       }
       event {
+        deletedVehiclesCount
         seller {
           name
         }
@@ -3889,119 +4034,6 @@ export type UserPaymentsQueryHookResult = ReturnType<typeof useUserPaymentsQuery
 export type UserPaymentsLazyQueryHookResult = ReturnType<typeof useUserPaymentsLazyQuery>;
 export type UserPaymentsSuspenseQueryHookResult = ReturnType<typeof useUserPaymentsSuspenseQuery>;
 export type UserPaymentsQueryResult = Apollo.QueryResult<UserPaymentsQuery, UserPaymentsQueryVariables>;
-export const DeletedVehiclesDocument = gql`
-    query DeletedVehicles {
-  deletedVehicles {
-    id
-    lotNumber
-    registrationNumber
-    bidStatus
-    bidTimeExpire
-    loanAgreementNo
-    quoteIncreament
-    make
-    model
-    varient
-    type
-    rcStatus
-    yardLocation
-    reservePrice
-    repoDt
-    veicleLocation
-    vehicleRemarks
-    auctionManager
-    parkingCharges
-    insuranceValidTill
-    tax
-    engineNo
-    color
-    city
-    area
-    state
-    dateOfRegistration
-  }
-}
-    `;
-
-/**
- * __useDeletedVehiclesQuery__
- *
- * To run a query within a React component, call `useDeletedVehiclesQuery` and pass it any options that fit your needs.
- * When your component renders, `useDeletedVehiclesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useDeletedVehiclesQuery({
- *   variables: {
- *   },
- * });
- */
-export function useDeletedVehiclesQuery(baseOptions?: Apollo.QueryHookOptions<DeletedVehiclesQuery, DeletedVehiclesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<DeletedVehiclesQuery, DeletedVehiclesQueryVariables>(DeletedVehiclesDocument, options);
-      }
-export function useDeletedVehiclesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DeletedVehiclesQuery, DeletedVehiclesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<DeletedVehiclesQuery, DeletedVehiclesQueryVariables>(DeletedVehiclesDocument, options);
-        }
-export function useDeletedVehiclesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<DeletedVehiclesQuery, DeletedVehiclesQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<DeletedVehiclesQuery, DeletedVehiclesQueryVariables>(DeletedVehiclesDocument, options);
-        }
-export type DeletedVehiclesQueryHookResult = ReturnType<typeof useDeletedVehiclesQuery>;
-export type DeletedVehiclesLazyQueryHookResult = ReturnType<typeof useDeletedVehiclesLazyQuery>;
-export type DeletedVehiclesSuspenseQueryHookResult = ReturnType<typeof useDeletedVehiclesSuspenseQuery>;
-export type DeletedVehiclesQueryResult = Apollo.QueryResult<DeletedVehiclesQuery, DeletedVehiclesQueryVariables>;
-export const DeletedUsersDocument = gql`
-    query DeletedUsers {
-  deletedUsers {
-    id
-    email
-    username
-    role
-    firstName
-    lastName
-    mobile
-    city
-    state
-    paymentsCount
-  }
-}
-    `;
-
-/**
- * __useDeletedUsersQuery__
- *
- * To run a query within a React component, call `useDeletedUsersQuery` and pass it any options that fit your needs.
- * When your component renders, `useDeletedUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useDeletedUsersQuery({
- *   variables: {
- *   },
- * });
- */
-export function useDeletedUsersQuery(baseOptions?: Apollo.QueryHookOptions<DeletedUsersQuery, DeletedUsersQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<DeletedUsersQuery, DeletedUsersQueryVariables>(DeletedUsersDocument, options);
-      }
-export function useDeletedUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DeletedUsersQuery, DeletedUsersQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<DeletedUsersQuery, DeletedUsersQueryVariables>(DeletedUsersDocument, options);
-        }
-export function useDeletedUsersSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<DeletedUsersQuery, DeletedUsersQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<DeletedUsersQuery, DeletedUsersQueryVariables>(DeletedUsersDocument, options);
-        }
-export type DeletedUsersQueryHookResult = ReturnType<typeof useDeletedUsersQuery>;
-export type DeletedUsersLazyQueryHookResult = ReturnType<typeof useDeletedUsersLazyQuery>;
-export type DeletedUsersSuspenseQueryHookResult = ReturnType<typeof useDeletedUsersSuspenseQuery>;
-export type DeletedUsersQueryResult = Apollo.QueryResult<DeletedUsersQuery, DeletedUsersQueryVariables>;
 export const SellersDocument = gql`
     query Sellers {
   sellers {

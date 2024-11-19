@@ -7,12 +7,14 @@ query EventVehicles($where: EventWhereUniqueInput!, $orderBy: [VehicleOrderByInp
         name
       }
    vehiclesLive(orderBy: $orderBy)  {
+    vehicleEventStatus
     userVehicleBids {
       amount
       
     }
     
     event {
+    deletedVehiclesCount
       seller {
         name
       }
