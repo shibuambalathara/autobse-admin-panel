@@ -38,19 +38,19 @@ const ViewStates = () => {
           </button>
         ),
       },
-      {
-        Header: "View Users",
-        Cell: ({ row }) => (
-          <a
-            className={`${Tablebutton.data} bg-blue-500`}
-            href={`/ViewUsersByState/${row.original.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            View Users
-          </a>
-        ),
-      },
+      // {
+      //   Header: "View Users",
+      //   Cell: ({ row }) => (
+      //     <a
+      //       className={`${Tablebutton.data} bg-blue-500`}
+      //       href={`/ViewUsersByState/${row.original.id}`}
+      //       target="_blank"
+      //       rel="noopener noreferrer"
+      //     >
+      //       View Users
+      //     </a>
+      //   ),
+      // },
     ],
     []
   );

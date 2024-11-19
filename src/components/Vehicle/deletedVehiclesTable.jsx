@@ -150,21 +150,21 @@ const DeletedVehicleTable = () => {
 
       { Header: "Bid Status", accessor: "bidStatus" },
     
-      { Header: "Bid Now",  Cell: ({ row }) => (
-        <>
-        <button
-        className={`${Tablebutton?.data} bg-blue-500`}
-        onClick={() => {
-          setBidOpen(true);
-          setRowData(row.original);
-        }}
-      >
-        Bid Now
-      </button>
+      // { Header: "Bid Now",  Cell: ({ row }) => (
+      //   <>
+      //   <button
+      //   className={`${Tablebutton?.data} bg-blue-500`}
+      //   onClick={() => {
+      //     setBidOpen(true);
+      //     setRowData(row.original);
+      //   }}
+      // >
+      //   Bid Now
+      // </button>
       
        
-        </>
-      ), },
+      //   </>
+      // ), },
 
       // {
       //   Header: "Bid Details",

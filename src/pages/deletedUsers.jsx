@@ -6,6 +6,7 @@ import { useDeletedUsersQuery, useRestoreUserMutation } from "../utils/graphql";
 import { pageHead, Tablebutton } from "../components/utils/style";
 import TableComponent from "../components/utils/table";
 import { SweetalertSuccess } from "../components/utils/sweetalert";
+import { MdOutlineSettingsBackupRestore } from "react-icons/md";
 
 const TabbleOfDeletedUser = () => {
     const { data: users, refetch, loading } = useDeletedUsersQuery();
@@ -43,28 +44,23 @@ const TabbleOfDeletedUser = () => {
         { Header: "Mobile", accessor: "mobile" },
         { Header: "Role", accessor: "role" },
         { Header: "State", accessor: "state" },
+        // {
+        //     Header: "User Details",
+        //     Cell: ({ row }) => (
+        //         <a
+        //             className={`${Tablebutton.data} bg-blue-500`}
+        //             href={`/view-user/${row.original.id}`}
+        //             target="_blank"
+        //             rel="noopener noreferrer"
+        //         >
+        //             <FontAwesomeIcon icon={faUserPen} />
+        //         </a>
+        //     ),
+        // },
         {
-            Header: "User Details",
+            Header: "Restore",
             Cell: ({ row }) => (
-                <a
-                    className={`${Tablebutton.data} bg-blue-500`}
-                    href={`/view-user/${row.original.id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <FontAwesomeIcon icon={faUserPen} />
-                </a>
-            ),
-        },
-        {
-            Header: "User",
-            Cell: ({ row }) => (
-                <button
-                    className="btn btn-error"
-                    onClick={() => handleRestor(row.original.id)}
-                >
-                    Restore
-                </button>
+                <button  className={`${Tablebutton?.data} bg-green-700 text-lg`} onClick={() => handleRestor(row.original.id)}><MdOutlineSettingsBackupRestore/></button>
             ),
         },
     ], []);
@@ -72,9 +68,11 @@ const TabbleOfDeletedUser = () => {
     return (
         <>
      
-           <div className="w-full px-24 ">
+           <div className=" ">
            <div className={pageHead.data}> Deleted Users Table</div>
+           <div className="pl-10">
             <TableComponent columns={columns} data={users?.deletedUsers || []} />
+            </div>
             </div>
         </>
     );
