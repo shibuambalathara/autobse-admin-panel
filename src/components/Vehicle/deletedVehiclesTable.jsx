@@ -9,7 +9,7 @@ import {
 } from "../../utils/graphql";
 import format from "date-fns/format";
 import Swal from "sweetalert2";
-
+import { MdOutlineSettingsBackupRestore } from "react-icons/md";
 import TableComponent from "../utils/table";
 
 import { ConfirmationAlert, SweetalertSuccess} from "../utils/sweetalert";
@@ -221,7 +221,7 @@ const DeletedVehicleTable = () => {
       {
         Header: "Vehicle",
         Cell: ({ row }) => (
-          <button className="btn btn-error" onClick={() => handleDelete(row.original.id,row.original.totalBids)}>Restore</button>
+          <button  className={`${Tablebutton?.data} bg-green-700 text-lg`} onClick={() => handleDelete(row.original.id,row.original.totalBids)}><MdOutlineSettingsBackupRestore/></button>
         )
       }
     ],
