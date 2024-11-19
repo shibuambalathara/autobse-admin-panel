@@ -163,7 +163,7 @@ console.log(subscribeUser ,"usersub");
         <div className="place-self-end flex gap-5">
         
         <CustomButton navigateTo={"/add-user"} buttonText={"Add User"} />
-        <CustomButton navigateTo={"/deleted-users"} buttonText={"Restore User"} />
+        <CustomButton navigateTo={"/deleted-users"} buttonText={"Restore Users"} />
         </div>
         
       </div>

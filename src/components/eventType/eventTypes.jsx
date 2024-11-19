@@ -9,7 +9,7 @@
 
   import TableComponent from '../utils/table';
   import AddEventType from './eventTypeAdd';
-  import { Tablebutton } from '../utils/style';
+  import { pageHead, Tablebutton } from '../utils/style';
 
   const EventTypesTable = () => {
     const [updateCat] = useUpdateVehicleCategoryMutation();
@@ -77,7 +77,7 @@
       () => [
         { Header: "Name", accessor: "name" },
         {
-          Header: "Edit State",
+          Header: "Edit Category",
           Cell: ({ row }) => (
             <button
               className={`${Tablebutton.data} bg-red-500`}
@@ -99,7 +99,7 @@
         <div className='flex justify-end'>
           <AddEventType />
         </div>
-        <div className="text-center font-extrabold my-5 text-lg min-w-full">Vehicle Category Table</div>
+        <div className={pageHead.data}>Vehicle Category Table</div>
         <TableComponent data={categories} columns={columns} />
       </div>
     );
