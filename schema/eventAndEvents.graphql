@@ -5,7 +5,7 @@ query Events($where: EventWhereUniqueInput, $orderBy: [EventOrderByInput!], $tak
       deletedVehiclesCount
     id
     eventNo
-    Report
+  
     eventCategory
     startDate
     endDate

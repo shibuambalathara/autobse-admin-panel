@@ -18,6 +18,7 @@ import SeachByRole from "../components/utils/seachByRole";
 import NoResults from "../components/utils/emptyComponent";
 import NotFoundPage from "../components/utils/emptyComponent";
 import { h2Style, pageHead } from "../components/utils/style";
+import AutobseLoading from "../components/utils/autobseLoading";
 
 type UserQueryVariables = {
   where?: {
@@ -143,9 +144,10 @@ console.log(subscribeUser ,"usersub");
   };
 
   if(loading) return (
-    <div>
-      loading...
-    </div>
+    
+      
+    <AutobseLoading/>
+    
   )
 
   return (

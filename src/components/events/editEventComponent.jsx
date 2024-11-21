@@ -145,6 +145,7 @@ const navigate =useNavigate()
         <form onSubmit={handleSubmit(onSubmit)} className={`${formStyle.data}`}>
           <InputFields
             label="Event Category"
+            disabled={true}
             register={register("eventCategory")}
             defaultValue={data?.event?.eventCategory}
             component="select"
@@ -153,6 +154,7 @@ const navigate =useNavigate()
           />
 
           <InputFields
+          disabled={true}
             label="Start Date and Time"
             type="datetime-local"
             register={register("startDate")}
@@ -168,6 +170,7 @@ const navigate =useNavigate()
             defaultValue={endDatedata}
             onChange={(e) => handleEndDateToIso(e.target.value)}
             error={errors.endDate}
+            disabled={true}
           />
 
 
@@ -249,6 +252,7 @@ const navigate =useNavigate()
 
           <InputFields
             label="Time Trigger (in minutes)"
+            disabled={true}
             type="number"
             register={register("timeTriger")}
             defaultValue={data?.event?.extraTimeTrigerIn}
@@ -261,6 +265,7 @@ const navigate =useNavigate()
             register={register("extraTime")}
             defaultValue={data?.event?.extraTime}
             error={errors.extraTime}
+            disabled={true}
           />
 
           {/* <InputFields
@@ -277,6 +282,7 @@ const navigate =useNavigate()
             register={register("gap")}
             defaultValue={data?.event?.gapInBetweenVehicles}
             error={errors.gap}
+            disabled={true}
           />
           <div className="col-span-3">
           <InputFields

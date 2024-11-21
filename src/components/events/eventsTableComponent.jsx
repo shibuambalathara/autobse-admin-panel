@@ -17,6 +17,7 @@ import { ConvertToExcel } from "../utils/excelFormat";
 import { FormatDate } from "../utils/dateFormat";
 import CustomButton from "../utils/buttons";
 import { pageHead, Tablebutton } from "../utils/style";
+import AutobseLoading from "../utils/autobseLoading";
 
 
 const EventsTableComponent = () => {
@@ -290,14 +291,12 @@ const EventsTableComponent = () => {
 
   // }, []);
 
-  if (loading) {
-    return (
-      <div>
-        {/* <AutobseLoading /> */}
-        {/* <LoadingAnimation/> */}
-      </div>
-    );
-  }
+  if(loading) return (
+    
+      
+    <AutobseLoading/>
+    
+  )
 
   return (
     <div className="flex  flex-col w-full justify-around overflow-hidden">
