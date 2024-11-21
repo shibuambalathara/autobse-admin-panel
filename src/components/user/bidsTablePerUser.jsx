@@ -137,7 +137,7 @@ const BidsTablePerUser = () => {
     <div className="flex flex-col w-full justify-around">
       <div className="flex flex-col w-full justify-center m-auto">
         <div className="text-center font-extrabold my-5 text-lg min-w-full">
-          Bids Data Table Of {data?.user?.firstName} {data?.user?.lastName}
+          Bids  Of {data?.user?.firstName} {data?.user?.lastName}
         </div>
         <TableComponent data={data?.user?.activeBids} columns={columns} sortBy="Bid End Time" />
       </div>

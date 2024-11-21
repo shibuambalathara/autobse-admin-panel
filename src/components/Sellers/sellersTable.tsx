@@ -28,7 +28,7 @@ const Table: React.FC = () => {
     refetch();
    
   }, [refetch]);
- console.log(data ,'data');
+ 
   // Memoize columns with appropriate typing
   const columns = useMemo(
     () => [
@@ -68,6 +68,7 @@ const Table: React.FC = () => {
     </div>
    
   );
+  console.log(data ,'data');
   if (error) return <p>Error: {error.message}</p>;
 
   return (

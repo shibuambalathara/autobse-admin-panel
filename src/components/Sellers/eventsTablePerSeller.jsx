@@ -77,7 +77,7 @@ const EventsTablePerSeller = () => {
     
 
  
-  <div className="text-center font-extrabold my-5 text-lg min-w-full">  Events Data Table of {data?.seller?.name} Seller</div>
+  <div className="text-center font-extrabold my-5 text-lg min-w-full">  Events  of {data?.seller?.name} Seller</div>
 
   <TableComponent  tableData={data.seller?.events} columns={columns}/>
 

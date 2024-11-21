@@ -203,7 +203,9 @@ export const InputFields = ({
         defaultValue={defaultValue}
         {...register}
         className={`${inputStyle.data}`}
+        disabled={disabled}
       >
+        
         {options.map((option, index) => (
           <option key={index} value={option.value}>
             {option.label}

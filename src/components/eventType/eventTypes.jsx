@@ -10,6 +10,7 @@
   import TableComponent from '../utils/table';
   import AddEventType from './eventTypeAdd';
   import { pageHead, Tablebutton } from '../utils/style';
+import AutobseLoading from '../utils/autobseLoading';
 
   const EventTypesTable = () => {
     const [updateCat] = useUpdateVehicleCategoryMutation();
@@ -91,7 +92,12 @@
       []
     );
 
-    if (loading) return <p>Loading...</p>;
+    if(loading) return (
+    
+      
+      <AutobseLoading/>
+      
+    )
     if (error) return <p>Error loading data: {error.message}</p>;
 
     return (

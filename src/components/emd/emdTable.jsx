@@ -105,7 +105,7 @@ navigate(`/view-user/${userId}`)
     
     <div className=" flex flex-col w-full justify-center m-auto ">
     <div className="mb-2">
-  <div className="text-center font-extrabold my-5 text-lg min-w-full">  Emd Data Table </div>
+  <div className="text-center font-extrabold my-5 text-lg min-w-full">  Emd  </div>
     <SearchUser filter={globalFilter} className="  text-white " setFilter={setGlobalFilter}/>
   </div>
       <table

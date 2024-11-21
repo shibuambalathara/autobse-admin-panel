@@ -93,21 +93,12 @@ const AddUser = () => {
           <FormFieldInput label="First Name" type="text" name="first_Name" register={register} error={errors.first_Name} required />
           <FormFieldInput label="Last Name" type="text" name="last_Name" register={register} error={errors.last_Name} />
           <FormFieldInput label="Email" type="email" name="email" register={register} error={errors.email} />
-          <FormFieldInput label="Mobile" type="number" name="mobile" register={register} error={errors.mobile} required minLength={10} maxLength={10} />
-          <FormFieldInput label="Business Name" type="text" name="bussiness" register={register} error={errors.bussiness} />
-          {/* <div className="flex flex-col w-1/3">
-            <label>ID Proof Type</label>
-            <select className="p-3 input input-bordered input-secondary w-full" {...register("idType", {})}>
-              <option value="aadhar">Aadhar</option>
-              <option value="drivingLicense">Driving Licence</option>
-            </select>
-            <p className="text-red-500">
-              {errors.idType && <span>Please select Id proof type</span>}
-            </p>
-          </div> */}
+          <FormFieldInput label="Mobile Number" type="number" name="mobile" register={register} error={errors.mobile} required minLength={10} maxLength={10} />
+         
+        
           <FormFieldInput label="ID Proof Number" type="text" name="IdNumber" register={register} error={errors.IdNumber} minLength={8} />
-          {/* <FormFieldInput label="Image" type="file" name="user_image" register={register} error={errors.user_image} /> */}
-          <FormFieldInput label="Pancard" type="file" name="pancardImage" register={register} error={errors.pancardImage} required/>
+          
+          <FormFieldInput label="Pancard Image" type="file" name="pancardImage" register={register} error={errors.pancardImage} required/>
           <FormFieldInput label="Pancard Number" type="text" name="pancardNumber" register={register} error={errors.pancardNumber} required />
           <FormFieldInput label="ID Proof (Front)" type="file" name="idProof" register={register} error={errors.idProof} />
           <FormFieldInput label="ID Proof (Back)" type="file" name="idBack" register={register} error={errors.idBack} />
@@ -116,7 +107,7 @@ const AddUser = () => {
         
           <FormFieldInput label="City" type="text" name="city" register={register} error={errors.city} />
 
-          < StateInput options={indianStates} label="State" type="text" name="state" register={register} error={errors.state} />
+          < StateInput options={indianStates} label="State" type="text" name="state" register={register} error={errors.state} required />
 
         
 
