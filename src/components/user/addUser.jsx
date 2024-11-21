@@ -107,7 +107,7 @@ const AddUser = () => {
         
           <FormFieldInput label="City" type="text" name="city" register={register} error={errors.city} />
 
-          < StateInput options={indianStates} label="State" type="text" name="state" register={register} error={errors.state} required />
+          < StateInput options={indianStates} label="State" type="text" name="state" register={register} error={errors.state}  />
 
         
 

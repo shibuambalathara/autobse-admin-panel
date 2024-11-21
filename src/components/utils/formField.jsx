@@ -122,10 +122,12 @@ export const StateInput = ({ label, name, options,defaultValue,error, register, 
     <div className="flex flex-col">
       <label className={`${labelStyle.data}`} htmlFor={name}>{label}</label>
       <select
-        {...register(name,)}
+        {...register(name, {required:true})}
         className={`${inputStyle.data}`}
         {...rest}
         defaultValue={defaultValue}
+
+        
       >
         <option value={defaultValue}>{defaultValue}</option>
         {options.map((option) => (
@@ -140,7 +142,7 @@ export const StateInput = ({ label, name, options,defaultValue,error, register, 
   );
 };
 // Input type is select with dynamic value maping
-export const SelectWithDynamic  = ({   options,defaultValue,error, register,mappingValue,mappingLabel,defaultLabel, ...rest }) => {
+export const SelectWithDynamic  = ({   options,defaultValue,error, register,mappingValue,mappingLabel,defaultLabel , ...rest }) => {
     
   return (
     
