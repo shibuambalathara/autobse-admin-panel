@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from 'react-router-dom';
-import { useViewUserQuery, useUpdatePaymentMutation, usePaymentQuery } from '../../utils/graphql'
+import {  useParams } from 'react-router-dom';
+import {  useUpdatePaymentMutation, usePaymentQuery } from '../../utils/graphql'
 import { ShowPopup } from '../alerts/popUps';
 import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyle, submit } from '../utils/style';
 import { SelectInput } from '../utils/formField';
@@ -11,10 +11,10 @@ import { getS3ObjectUrl } from '../utils/aws-config';
 const UpdatePayment = () => {
   const [paymentUrl, setPaymentUrl] = useState('');
   const { id } = useParams();
-  const { data, loading, error } = useViewUserQuery({ variables: { where: { id: id } } });
+  // const { data, loading, error } = useViewUserQuery({ variables: { where: { id: id } } });
   const payment = usePaymentQuery({ variables: { where: { id: id } } });
   const [addAmount] = useUpdatePaymentMutation();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const fetchImage = async () => {
     if (payment?.data?.payment?.image) {
@@ -27,9 +27,10 @@ const UpdatePayment = () => {
   }, [payment]);
 
   const uploadFile = async (dataOnSubmit) => {
-    if (dataOnSubmit?.imgForPaymentProof?.[0]) {
+    const file = dataOnSubmit?.imgForPaymentProof?.[0];
+    if (!file) return;
       const formDataPayload = new FormData();
-      formDataPayload.append("image", dataOnSubmit.imgForPaymentProof[0]);
+      formDataPayload.append("image", dataOnSubmit?.imgForPaymentProof[0]);
       try {
         const response = await fetch(`https://api-dev.autobse.com/api/v1/fileupload/paymentImg/${id}`, {
           method: "PUT",
@@ -45,7 +46,7 @@ const UpdatePayment = () => {
         console.error("Error during document upload:", error);
         ShowPopup("Error!", "Error during document upload", "error", 5000, true);
       }
-    }
+    
   };
 
   const {
@@ -63,10 +64,10 @@ const UpdatePayment = () => {
       setValue('paymentFor', paymentFor);
       setValue('description', description);
       setValue('paymentStatus', status);
-
-      if (payment?.data?.payment?.image?.url) {
-        getS3ObjectUrl(payment.data.payment.image.url).then(setPaymentUrl);
-      }
+      if (payment.data.payment.image?.url) {
+        getS3ObjectUrl(payment.data.payment.image.url)
+          .then(setPaymentUrl)
+          .catch((error) => console.error("Error fetching S3 image URL:", error));}
     }
   }, [payment, setValue]);
 
@@ -83,6 +84,7 @@ const UpdatePayment = () => {
         ShowPopup("Success!", `${dataOnSubmit?.paymentFor} updated successfully!`, "success", 5000, true);
         await uploadFile(dataOnSubmit); // Call uploadFile after successful mutation
       }
+      await payment.refetch()
     } catch (error) {
       ShowPopup("Error!", `${error.message} `, "error", 5000, true);
     }

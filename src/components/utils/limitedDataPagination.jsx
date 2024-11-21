@@ -48,7 +48,7 @@ const LimitedDataPaginationComponents = ({ currentPage, totalItems, itemsPerPage
           </button>
         ))}
 
-        {/* Ellipsis and Last Page */}
+       
         {totalPages > 5 && currentPage < totalPages - 2 && (
           <>
             <span className="px-4 py-2">...</span>

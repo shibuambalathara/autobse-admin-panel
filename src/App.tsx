@@ -43,9 +43,9 @@ const App: React.FC = () => {
   const isLoginPage = location.pathname.startsWith('/login');
 
   return (
-    <>
+    <div>
       {!isProjectorView  && !isLoginPage &&  <Header />}
-      <div className="flex w-full ">
+      <div className="flex  ">
         {!isProjectorView && !isLoginPage && <Sidebar />}
        
         <Routes>
@@ -85,7 +85,7 @@ const App: React.FC = () => {
               </Routes>
         </div>
      
-    </>
+    </div>
   );
 };
 

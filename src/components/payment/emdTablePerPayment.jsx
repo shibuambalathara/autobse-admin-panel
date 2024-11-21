@@ -68,7 +68,7 @@ const{id}=useParams()
     
     <div className=" flex flex-col w-full justify-center m-auto ">
     <div className="mb-2">
-  <div className="text-center font-extrabold my-5 text-lg min-w-full">  Emd Data Table Of Payment Ref No <span className='text-red-500'>{data?.payment?.refNo}</span>  </div>
+  <div className="text-center font-extrabold my-5 text-lg min-w-full">  Emd  Of Payment Ref No <span className='text-red-500'>{data?.payment?.refNo}</span>  </div>
   </div>
    
       <TableComponent data={data.payment?.emdUpdate} columns={columns}/>

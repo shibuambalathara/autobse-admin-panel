@@ -242,7 +242,7 @@ const DeletedVehicleTable = () => {
       <div className="mb-2">
         <div className="flex flex-col items-center">
           <div className="text-center font-extrabold my-5 text-lg min-w-full">
-            Vehicle Data Table of Event No {data?.event?.eventNo}
+            Vehicles  of Event No {data?.event?.eventNo}
           </div>
           <div className=" font-bold ">
             Seller Name: {data?.event?.seller?.name}

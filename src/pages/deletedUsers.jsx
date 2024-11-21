@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPen } from "@fortawesome/free-solid-svg-icons";
@@ -9,9 +9,11 @@ import { SweetalertSuccess } from "../components/utils/sweetalert";
 import { MdOutlineSettingsBackupRestore } from "react-icons/md";
 
 const TabbleOfDeletedUser = () => {
+    
     const { data: users, refetch, loading } = useDeletedUsersQuery();
     const [RestorUser] = useRestoreUserMutation();
-
+   
+    refetch()
     const handleRestor = async (id) => {
         const response = await Swal.fire({
             title: "Are you sure?",

@@ -22,7 +22,7 @@ setResponseData(res)
      <div className=' w-full'>
         <div className="text-center font-extrabold my-5 text-lg">
          {" "}
-         Payment Data Table{" "}
+         Payments {" "}
        </div>
     {/* 
    

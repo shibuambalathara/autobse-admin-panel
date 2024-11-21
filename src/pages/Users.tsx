@@ -142,10 +142,16 @@ console.log(subscribeUser ,"usersub");
     refetchAllData();
   };
 
+  if(loading) return (
+    <div>
+      loading...
+    </div>
+  )
+
   return (
     <div className="w-full">
       <div className="w-full px-24 ">
-      <div className={pageHead.data}>Users Data Table</div>
+      <div className={pageHead.data}>Users </div>
         
         
       </div>
