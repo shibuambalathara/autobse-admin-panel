@@ -4,7 +4,7 @@ import {  useParams } from 'react-router-dom';
 import {  useUpdatePaymentMutation, usePaymentQuery } from '../../utils/graphql'
 import { ShowPopup } from '../alerts/popUps';
 import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyle, submit } from '../utils/style';
-import { SelectInput } from '../utils/formField';
+import { InputFields, SelectInput } from '../utils/formField';
 import { paymentsFor } from '../utils/constantValues';
 import { getS3ObjectUrl } from '../utils/aws-config';
 
@@ -98,55 +98,84 @@ const UpdatePayment = () => {
         </h2>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={`${formStyle.data}`}>
-          <div className={`${labelAndInputDiv.data}`}>
-            <label>First Name</label>
-            <input value={payment?.data?.payment?.user?.firstName} disabled type="text" className={`${inputStyle.data}`} />
-          </div>
-          <div className={`${labelAndInputDiv.data}`}>
-            <label>User Name</label>
-            <input value={payment?.data?.payment?.user?.username} disabled type="text" className={`${inputStyle.data}`} />
-          </div>
-          <div className={`${labelAndInputDiv.data}`}>
-            <label>Amount</label>
-            <input defaultValue={payment?.data?.payment?.amount} type="number" className={`${inputStyle.data}`} {...register("amount")} />
-            <p className="text-red-500">{errors.amount && <span>Amount Required</span>}</p>
-          </div>
-          <div className={`${labelAndInputDiv.data}`}>
-            <SelectInput
-              label="Payment For"
-              name="paymentFor"
-              defaultValue={payment?.data?.payment?.paymentFor}
-              options={paymentsFor}
-              register={register}
-            />
-            <p className="text-red-500">{errors.paymentFor && <span>This field cannot be empty</span>}</p>
-          </div>
-          <div className={`${labelAndInputDiv.data}`}>
-            <label>Description</label>
-            <input defaultValue={payment?.data?.payment?.description} type="text" className={`${inputStyle.data}`} {...register("description")} />
-          </div>
-          <div className={`${labelAndInputDiv.data}`}>
-            <label htmlFor="paymentStatus">Payment Status</label>
-            <select className={`${inputStyle.data}`} {...register("paymentStatus", { required: "Please select payment status" })}>
-              <option value="pending">Pending</option>
-              <option value="approved">Approved</option>
-              <option value="rejected">Rejected</option>
-            </select>
-            <p className="text-red-500">{errors.paymentStatus && <span>{errors.paymentStatus.message}</span>}</p>
-          </div>
-          <div className={`${labelAndInputDiv.data}`}>
-            <label>Payment Proof Image</label>
-            <div>
-              <img className={`${inputStyle.data} h-40`} src={paymentUrl} alt="Payment Proof" />
-              <input type="file" className={`${inputStyle.data}`} {...register("imgForPaymentProof")} />
-            </div>
-          </div>
+      <div className={`${formStyle.data}`}>
+        {/* First Name */}
+        <InputFields
+          label="First Name"
+          defaultValue={payment?.data?.payment?.user?.firstName}
+          type="text"
+          disabled
+        />
+
+        {/* User Name */}
+        <InputFields
+          label="User Name"
+          defaultValue={payment?.data?.payment?.user?.username}
+          type="text"
+          disabled
+        />
+
+        {/* Amount */}
+        <InputFields
+          label="Amount"
+          defaultValue={payment?.data?.payment?.amount}
+          type="number"
+          register={register("amount", { required: "Amount is required" })}
+          error={errors.amount}
+        />
+
+        {/* Payment For */}
+        <InputFields
+          label="Payment For"
+          defaultValue={payment?.data?.payment?.paymentFor}
+          component="select"
+          options={paymentsFor}
+          register={register("paymentFor", { required: "This field cannot be empty" })}
+          error={errors.paymentFor}
+        />
+
+        {/* Description */}
+        <InputFields
+          label="Description"
+          defaultValue={payment?.data?.payment?.description}
+          type="text"
+          register={register("description")}
+        />
+
+        {/* Payment Status */}
+        <InputFields
+          label="Payment Status"
+          component="select"
+          defaultValue={payment?.data?.payment?.paymentStatus || "pending"}
+          options={[
+            { value: "pending", label: "Pending" },
+            { value: "approved", label: "Approved" },
+            { value: "rejected", label: "Rejected" },
+          ]}
+          register={register("paymentStatus", {
+            required: "Please select payment status",
+          })}
+          error={errors.paymentStatus}
+        />
+
+        {/* Payment Proof Image */}
+        <div className="flex flex-col">
+          <label className="font-bold">Payment Proof Image</label>
+          <img className={`${inputStyle.data} h-40`} src={paymentUrl} alt="Payment Proof" />
+          <InputFields
+            type="file"
+            register={register("imgForPaymentProof")}
+          />
         </div>
-        <div className="flex justify-center my-5">
-          <button type="submit" className={`${submit.data}`}>Save Changes</button>
-        </div>
-      </form>
+      </div>
+
+      {/* Submit Button */}
+      <div className="flex justify-center my-5">
+        <button type="submit" className={`${submit.data}`}>
+          Save Changes
+        </button>
+      </div>
+    </form>
     </div>
   )
 }

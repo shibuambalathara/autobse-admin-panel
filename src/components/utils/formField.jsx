@@ -68,29 +68,45 @@ export const TextAreaInput = ({ label, type, name, register,defaultValue, error,
 
 // Input type is select with constant value maping
 
-export const SelectInput = ({ label, name, options,defaultValue,error, register, ...rest }) => {
-  
+export const SelectInput = ({
+  label,
+  name,
+  options,
+  defaultValue,
+  error,
+  register,
+  ...rest
+}) => {
   return (
     <div className="flex flex-col">
-      <label htmlFor={name}>{label}</label>
+      <label htmlFor={name} className="">
+        {label}
+      </label>
       <select
-        {...register(name,{required:true})}
-        className={`${inputStyle.data}`}
+        id={name}
+        {...register(name, { required: `${label} is required` })}
+        className={`${inputStyle.data} `}
+        defaultValue=""
         {...rest}
-        defaultValue={defaultValue}
       >
-        <option value={defaultValue}>{defaultValue}</option>
+        <option value="" disabled>
+          {defaultValue}
+        </option>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
           </option>
         ))}
       </select>
-      {error && <p className="text-red-500">{`${label} Required`}</p>}
-    
+      {error && (
+        <p className="text-red-500 text-sm mt-1">
+          {error.message || `${label} is required`}
+        </p>
+      )}
     </div>
   );
 };
+
 
 
 export const CatInput = ({ label, name, options,defaultValue,error, register, ...rest }) => {
@@ -117,10 +133,10 @@ export const CatInput = ({ label, name, options,defaultValue,error, register, ..
   );
 };
 export const StateInput = ({ label, name, options,defaultValue,error, register, ...rest }) => {
-  
+  const {required}= rest
   return (
     <div className="flex flex-col">
-      <label className={`${labelStyle.data}`} htmlFor={name}>{label}</label>
+      <label className={`${labelStyle.data}`} htmlFor={name}> {label}{<span className="text-red-500 text-lg pl-1">*</span>}</label>
       <select
         {...register(name, {required:true})}
         className={`${inputStyle.data}`}
@@ -175,10 +191,11 @@ export const InputFields = ({
   error,
   defaultValue,
   component = "input",
-  options = [],
+  options,
   type = "text",
   control,
   isMulti = false,
+ 
   name,
   disabled = false,
 }) => (
@@ -186,6 +203,7 @@ export const InputFields = ({
     {label && <label className="font-bold">{label}</label>}
     {component === "input" && (
       <input
+      min={0}
         type={type}
         defaultValue={defaultValue}
         {...register}
@@ -193,6 +211,16 @@ export const InputFields = ({
         disabled={disabled}
       />
     )}
+    {/* {component === "number" && (
+      <input
+       min={0}
+        type={type}
+        defaultValue={defaultValue}
+        {...register}
+        className={`${inputStyle.data}`}
+        disabled={disabled}
+      />
+    )} */}
     {component === "textarea" && (
       <textarea
         defaultValue={defaultValue}
@@ -236,7 +264,7 @@ export const InputFields = ({
 // imaged maping
 export const InputField = ({ label, type = "text", register, error, defaultValue, component, options ,disabled=false}) => (
   <div className={labelAndInputDiv.data}>
-    <label>{label}</label>
+    <label className={`${labelStyle.data}`} >{label}</label>
     {component === "select" ? (
       <select {...register} defaultValue={defaultValue} className={inputStyle.data}>
         {options?.map((option, index) => <option key={index} value={option}>{option}</option>)}
