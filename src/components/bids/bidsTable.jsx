@@ -8,6 +8,7 @@ import { useTable,usePagination,useGlobalFilter } from "react-table"
 import {useBidsTableQuery} from '../../utils/graphql'
 import SearchUser from '../utils/search'
 import format from 'date-fns/format'
+import AutobseLoading from '../utils/autobseLoading'
 
 
 const BidsTable = () => {
@@ -75,7 +76,7 @@ navigate(`/view-user/${userId}`)
     
         const {globalFilter}=state
     
-      if (loading) return <p>Loading...</p>;
+      if (loading) return <AutobseLoading/>
       
 
   return (

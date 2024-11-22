@@ -19,6 +19,7 @@ import { ShowPopup } from "../alerts/popUps";
 import TableComponent from "../utils/table";
 import {  Tablebutton } from "../utils/style";
 import { FaUserAlt } from "react-icons/fa";
+import AutobseLoading from "../utils/autobseLoading";
 
 
 
@@ -144,7 +145,7 @@ const BidDetailsPerbidVehicleComponent = () => {
   // }, []);
  
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <AutobseLoading/>
 
  
 

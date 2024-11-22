@@ -11,6 +11,7 @@ import { Tablebutton } from '../utils/style';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import AutobseLoading from '../utils/autobseLoading';
 
 const PaymentPerUser = () => {
     const {id}=useParams()
@@ -157,7 +158,7 @@ navigate(`/update-payment/${paymentId}`)
     
      
     
-      if (loading) return <p>Loading...</p>;
+      if (loading) return <AutobseLoading/>
       
 
   return (

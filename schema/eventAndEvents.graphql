@@ -62,3 +62,13 @@ query Event($where: EventWhereUniqueInput!) {
     bidLock
   }
 }
+
+
+query ACR($where: EventWhereUniqueInput) {
+  events(where: $where) {
+     events {
+      Report
+        eventNo
+        id 
+     }
+  }}

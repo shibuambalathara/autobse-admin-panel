@@ -2,6 +2,7 @@ import React,{useMemo} from "react";
 import { useParams } from "react-router-dom";
 import { useCoupensperUserQuery } from "../../utils/graphql";
 import TableComponent from "../utils/table";
+import AutobseLoading from "../utils/autobseLoading";
 
 
 const CoupensperUser = () => {
@@ -27,7 +28,7 @@ const CoupensperUser = () => {
   );
 
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <AutobseLoading/>
   if (error) return <p>Error: {error}</p>;
 
   return (

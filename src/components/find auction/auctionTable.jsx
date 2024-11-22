@@ -5,6 +5,7 @@ import { FormatDate } from '../utils/dateFormat';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFile, faPenToSquare } from '@fortawesome/free-regular-svg-icons';
+import AutobseLoading from '../utils/autobseLoading';
 
 
 
@@ -56,7 +57,7 @@ const AuctionTable = () => {
       },
     ], [])
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <AutobseLoading/>
 
 
   return (

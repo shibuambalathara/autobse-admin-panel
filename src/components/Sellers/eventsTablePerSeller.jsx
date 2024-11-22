@@ -3,6 +3,7 @@ import {useNavigate, useParams} from 'react-router-dom'
 import { useEventsPerSellerQuery} from '../../utils/graphql'
 import format from 'date-fns/format'
 import TableComponent from '../utils/table'
+import AutobseLoading from '../utils/autobseLoading'
 
 const EventsTablePerSeller = () => {
   const {id}=useParams()
@@ -68,7 +69,7 @@ const EventsTablePerSeller = () => {
       );
 
   
-      if (loading) return <p>Loading...</p>;
+      if (loading) return <AutobseLoading/>
       
 
   return (

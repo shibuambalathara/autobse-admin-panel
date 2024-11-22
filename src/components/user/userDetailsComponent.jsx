@@ -9,6 +9,7 @@ import { InputField } from "../utils/formField";
 import imageCompression from "browser-image-compression";
 import Select from "react-select";
 import { FaEdit, FaUpload } from "react-icons/fa";
+import AutobseLoading from "../utils/autobseLoading";
 
 
 const UserDetailsComponent = () => {
@@ -123,7 +124,7 @@ const UserDetailsComponent = () => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <AutobseLoading/>
   if (error) return <p>Error loading user details</p>;
 
   return (
@@ -137,7 +138,7 @@ const UserDetailsComponent = () => {
         <div className={formStyle.data}>
           <InputField label="First Name" register={register("first_Name", { required: "First Name is required" })} defaultValue={data.user.firstName} error={errors.first_Name} />
           <InputField label="Last Name" register={register("last_Name", { required: "Last Name is required" })} defaultValue={data.user.lastName} error={errors.last_Name} />
-          <InputField label="Email" type="email" register={register("email", { required: "Email is required" })} defaultValue={data.user.email} error={errors.email} />
+          <InputField label="Email" type="email" register={register("email")} defaultValue={data.user.email} error={errors.email} />
           <InputField label="Username" register={register("user_Name")} defaultValue={data.user.username} error={errors.user_Name} disabled={true} />
           <InputField label="Mobile" register={register("mobile")} defaultValue={data.user.mobile} error={errors.mobile} disabled={true} />
           {/* <InputField label="Mobile" type="number" register={register("mobile", { required: "Mobile number is required", minLength: { value: 10, message: "Mobile number must be 10 digits" }, maxLength: { value: 10, message: "Mobile number must be 10 digits" } })} defaultValue={data.user.mobile} error={errors.mobile} /> */}

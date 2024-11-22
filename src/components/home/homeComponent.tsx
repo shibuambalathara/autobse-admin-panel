@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCountsQuery } from "../../utils/graphql";
+import AutobseLoading from "../utils/autobseLoading";
 
 const HomeComponent: React.FC = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const HomeComponent: React.FC = () => {
   today.setHours(0, 0, 0, 0); 
   const todayISOString = today.toISOString();
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <AutobseLoading/>
   if (error) return <p>Error: {error.message}</p>;
 
   const cardClass = "flex flex-col items-center text-black border border-gray-300 shadow-lg rounded-lg bg-white p-5 transition transform hover:scale-105 hover:shadow-2xl cursor-pointer";

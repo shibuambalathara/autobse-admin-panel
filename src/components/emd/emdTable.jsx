@@ -11,6 +11,7 @@ import format from 'date-fns/format'
 import { Tablebutton } from '../utils/style'
 import { faUser } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import AutobseLoading from '../utils/autobseLoading'
 
 
 const EmdTable = () => {
@@ -91,7 +92,7 @@ navigate(`/view-user/${userId}`)
     
         const {globalFilter}=state
     
-      if (loading) return <p>Loading...</p>;
+      if (loading) return <AutobseLoading/>
       
 
   return (

@@ -5,6 +5,7 @@ import {
   useDeletePaymentMutation,
   usePaymentsQuery,
 } from "../../utils/graphql";
+import AutobseLoading from "../utils/autobseLoading";
 
 import LimitedDataPaginationComponents from "../utils/limitedDataPagination";
 import PaymentTable from "./paymentTable";
@@ -29,7 +30,7 @@ useEffect(() => {
     setCurrentPage(newPage);
    }
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <AutobseLoading/>
   return (
     <div className="">
       

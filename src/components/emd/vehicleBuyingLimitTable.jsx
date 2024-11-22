@@ -10,6 +10,7 @@ import format from 'date-fns/format'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { Tablebutton } from "../utils/style";
+import AutobseLoading from "../utils/autobseLoading";
 
 const VehicleBuyingLimitComponent = () => {
   const{userId}=useParams()
@@ -80,7 +81,7 @@ console.log(data,"data");
 
 
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <AutobseLoading/>
   if (error) return <p>Error :{error}</p>;
   
 

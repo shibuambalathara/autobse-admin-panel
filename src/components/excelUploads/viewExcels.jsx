@@ -7,6 +7,7 @@ import { useTable, usePagination, useGlobalFilter } from "react-table";
 import { useEventTableQuery } from "../../utils/graphql";
 import SearchUser from "../utils/search";
 import { useExcelUploadsQuery } from "../../utils/graphql";
+import AutobseLoading from "../utils/autobseLoading";
 const ViewExcels = () => {
     const [userData, setUserData] = useState([]);
     const navigate = useNavigate();
@@ -74,7 +75,7 @@ const ViewExcels = () => {
   
       const {globalFilter}=state
   
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <AutobseLoading/>
     if (error) return <p>Error :{error}</p>;
 
 

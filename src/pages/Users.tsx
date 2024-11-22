@@ -143,7 +143,7 @@ console.log(subscribeUser ,"usersub");
     refetchAllData();
   };
 
-  if(loading) return (
+  if(loading||data===undefined) return (
     
       
     <AutobseLoading/>
@@ -189,12 +189,12 @@ console.log(subscribeUser ,"usersub");
         ) : (
           <>
             <NotFoundPage />
-            <LimitedDataPaginationComponents
+            {/* <LimitedDataPaginationComponents
               totalItems={userCount}
               itemsPerPage={pageSize}
               currentPage={currentPage}
               onPageChange={handlePageChange}
-            />
+            /> */}
           </>
         )}
       </div>
