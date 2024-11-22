@@ -8,6 +8,7 @@ import ImageUpload from "../upload/imageUpload";
 import { DateConvert } from "../utils/dateFormat";
 import { indianStates } from "../../utils/data";
 import { formStyle, h2Style, headerStyle, pageStyle, submit } from "../utils/style";
+import AutobseLoading from "../utils/autobseLoading";
 
 const EditVehicleComponent = ({data,loading,error,handleSubmit,onSubmit,register,errors,images,button}) => {
   
@@ -17,7 +18,7 @@ const EditVehicleComponent = ({data,loading,error,handleSubmit,onSubmit,register
  
 
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <AutobseLoading/>
   if (error) return <p>Error :</p>;
 
   return (

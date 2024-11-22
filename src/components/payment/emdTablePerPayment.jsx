@@ -10,6 +10,7 @@ import { Tablebutton } from '../utils/style'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserPen } from '@fortawesome/free-solid-svg-icons'
 import { faUser } from '@fortawesome/free-regular-svg-icons'
+import AutobseLoading from '../utils/autobseLoading'
 
 
 const EmdTablePerPayment = () => {
@@ -59,7 +60,7 @@ const{id}=useParams()
     
    
     
-      if (loading) return <p>Loading...</p>;
+      if (loading) return <AutobseLoading/>
       
 
   return (

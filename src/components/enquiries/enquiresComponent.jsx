@@ -21,6 +21,7 @@ import TableComponent from "../utils/table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { FormatDate } from "../utils/dateFormat";
+import AutobseLoading from "../utils/autobseLoading";
 
 const ViewQueries = () => {
   const navigate = useNavigate();
@@ -169,7 +170,7 @@ const ViewQueries = () => {
 
   const { globalFilter } = state;
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <AutobseLoading/>
   if (error) return <p>Error :{error}</p>;
 
   return (

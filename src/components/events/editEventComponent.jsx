@@ -22,6 +22,7 @@ import {
 import { InputFields } from "../utils/formField";
 import { auctionStatuses, eventCategories, eventLock } from "../utils/constantValues";
 import { fileUploadService } from "../utils/restApi";
+import AutobseLoading from "../utils/autobseLoading";
 
 const EditEventComponent = () => {
   const [startDatedata, setStartDate] = useState("");
@@ -129,7 +130,7 @@ const navigate =useNavigate()
   };
 
   if (loading || location.loading || sellersItem.loading || eventType.loading) {
-    return <p>Loading...</p>;
+    return <AutobseLoading/>
   }
 
   if (error) {

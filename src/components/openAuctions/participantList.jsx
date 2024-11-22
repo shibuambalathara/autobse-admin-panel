@@ -10,6 +10,7 @@ import { ShowPopup } from '../alerts/popUps';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import TableComponent from '../utils/table'
+import AutobseLoading from '../utils/autobseLoading';
 
 
 
@@ -219,7 +220,7 @@ Swal.fire({icon:'success',
     
        
     
-      if (loading) return <p>Loading...</p>;
+      if (loading) return <AutobseLoading/>
       
       refetch()
    

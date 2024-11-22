@@ -1814,6 +1814,13 @@ export type EventQueryVariables = Exact<{
 
 export type EventQuery = { __typename?: 'Query', event: { __typename?: 'Event', id: string, eventNo: number, eventCategory: string, startDate: any, endDate: any, pauseDate?: any | null, pausedTotalTime?: number | null, sellerId: string, vehicleCategoryId: string, locationId: string, noOfBids: number, downloadableFile_filename?: string | null, termsAndConditions: string, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null, extraTimeTrigerIn?: number | null, extraTime?: number | null, vehicleLiveTimeIn?: number | null, gapInBetweenVehicles?: number | null, status?: string | null, bidLock?: string | null } };
 
+export type AcrQueryVariables = Exact<{
+  where?: InputMaybe<EventWhereUniqueInput>;
+}>;
+
+
+export type AcrQuery = { __typename?: 'Query', events?: { __typename?: 'EventListResponse', events?: Array<{ __typename?: 'Event', Report?: any | null, eventNo: number, id: string }> | null } | null };
+
 export type EventVehiclesQueryVariables = Exact<{
   where: EventWhereUniqueInput;
   orderBy?: InputMaybe<Array<VehicleOrderByInput> | VehicleOrderByInput>;
@@ -3521,6 +3528,50 @@ export type EventQueryHookResult = ReturnType<typeof useEventQuery>;
 export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
 export type EventSuspenseQueryHookResult = ReturnType<typeof useEventSuspenseQuery>;
 export type EventQueryResult = Apollo.QueryResult<EventQuery, EventQueryVariables>;
+export const AcrDocument = gql`
+    query ACR($where: EventWhereUniqueInput) {
+  events(where: $where) {
+    events {
+      Report
+      eventNo
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useAcrQuery__
+ *
+ * To run a query within a React component, call `useAcrQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAcrQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAcrQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useAcrQuery(baseOptions?: Apollo.QueryHookOptions<AcrQuery, AcrQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AcrQuery, AcrQueryVariables>(AcrDocument, options);
+      }
+export function useAcrLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AcrQuery, AcrQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AcrQuery, AcrQueryVariables>(AcrDocument, options);
+        }
+export function useAcrSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<AcrQuery, AcrQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<AcrQuery, AcrQueryVariables>(AcrDocument, options);
+        }
+export type AcrQueryHookResult = ReturnType<typeof useAcrQuery>;
+export type AcrLazyQueryHookResult = ReturnType<typeof useAcrLazyQuery>;
+export type AcrSuspenseQueryHookResult = ReturnType<typeof useAcrSuspenseQuery>;
+export type AcrQueryResult = Apollo.QueryResult<AcrQuery, AcrQueryVariables>;
 export const EventVehiclesDocument = gql`
     query EventVehicles($where: EventWhereUniqueInput!, $orderBy: [VehicleOrderByInput!]) {
   event(where: $where) {

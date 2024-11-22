@@ -13,14 +13,16 @@ import {
   faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
-import { ConvertToExcel } from "../utils/excelFormat";
+
 import { FormatDate } from "../utils/dateFormat";
 import CustomButton from "../utils/buttons";
 import { pageHead, Tablebutton } from "../utils/style";
 import AutobseLoading from "../utils/autobseLoading";
+import { ConvertToExcelButton, useExcelDownload } from "../utils/excelFormat";
 
 
 const EventsTableComponent = () => {
+  const handleExcelDownload = useExcelDownload();
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [eventCount, setEventCount] = useState(0);
@@ -258,11 +260,11 @@ const EventsTableComponent = () => {
         ),
       },
       {
-        Header: "ACR (excel)",
+        Header: 'ACR (Excel)',
         Cell: ({ row }) => (
           <button
-            className={`${Tablebutton.data} bg-red-500 text-xl `}
-            onClick={() => ConvertToExcel(row.original.Report)}
+            className={`${Tablebutton.data} bg-red-500 text-xl`}
+            onClick={() => handleExcelDownload(row.original.id)}
           >
             <FontAwesomeIcon icon={faFileArrowDown} />
           </button>

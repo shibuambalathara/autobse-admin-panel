@@ -7,6 +7,7 @@ import {  useBannedUsersQuery } from "../../utils/graphql";
 import { useTable,useSortBy, usePagination, useGlobalFilter } from "react-table";
 import SearchUser from "../utils/search";
 import TableComponent from "../utils/table";
+import AutobseLoading from "../utils/autobseLoading";
 
 const BannedUsersComponent = () => {
  const {id}=useParams()
@@ -83,7 +84,7 @@ const BannedUsersComponent = () => {
 
   const { globalFilter } = state;
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <AutobseLoading/>
   if (error) return <p>Error :{error}</p>;
   
 

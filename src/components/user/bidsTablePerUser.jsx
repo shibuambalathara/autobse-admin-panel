@@ -6,6 +6,7 @@ import jsPDF from 'jspdf';
 import { ShowPopup } from '../alerts/popUps';
 import TableComponent from '../utils/table';
 import { Tablebutton } from '../utils/style';
+import AutobseLoading from '../utils/autobseLoading';
 
 const BidsTablePerUser = () => {
   const { id } = useParams();
@@ -131,7 +132,7 @@ const BidsTablePerUser = () => {
     },
   ], []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <AutobseLoading/>
 
   return (
     <div className="flex flex-col w-full justify-around">

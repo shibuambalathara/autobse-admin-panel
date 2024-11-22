@@ -20,6 +20,7 @@ import { DownloadBidSheetBeforeAuction } from "../bids/bidsheetBeforeAuction";
 import { DownloadBidSheetsBeforeAuction } from "../bids/bidsheetfolder";
 import { FaSpinner } from "react-icons/fa";
 import BidModal from "../bids/bidModal";
+import AutobseLoading from "../utils/autobseLoading";
 
 const DeletedVehicleTable = () => {
   const { id } = useParams();
@@ -232,7 +233,7 @@ const DeletedVehicleTable = () => {
     refetch();
   }, [vehicleSub, bidSub]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <AutobseLoading/>
 
   return (
     <>

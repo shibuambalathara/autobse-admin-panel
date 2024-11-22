@@ -21,6 +21,7 @@ import { DownloadBidSheetBeforeAuction } from "../bids/bidsheetBeforeAuction";
 import { DownloadBidSheetsBeforeAuction } from "../bids/bidsheetfolder";
 import { FaSpinner } from "react-icons/fa";
 import BidModal from "../bids/bidModal";
+import AutobseLoading from "../utils/autobseLoading";
 
 const VehicleDetailsPerEventComponent = () => {
   const { id } = useParams();
@@ -342,7 +343,7 @@ const VehicleDetailsPerEventComponent = () => {
     refetch();
   }, [vehicleSub, bidSub]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <AutobseLoading/>
 
   return (
     <>

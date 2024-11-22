@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useCoupenPerPaymentQuery } from "../../utils/graphql";
 import TableComponent from "../utils/table";
+import AutobseLoading from "../utils/autobseLoading";
 
 
 const CoupensPerPaymentComponent = () => {
@@ -27,7 +28,7 @@ const CoupensPerPaymentComponent = () => {
   );
 
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <AutobseLoading/>
   if (error) return <p>Error: {error}</p>;
 
   return (

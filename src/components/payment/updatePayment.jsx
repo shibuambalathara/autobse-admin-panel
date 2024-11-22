@@ -84,7 +84,7 @@ const UpdatePayment = () => {
         ShowPopup("Success!", `${dataOnSubmit?.paymentFor} updated successfully!`, "success", 5000, true);
         await uploadFile(dataOnSubmit); // Call uploadFile after successful mutation
       }
-      await payment.refetch()
+      payment.refetch()
     } catch (error) {
       ShowPopup("Error!", `${error.message} `, "error", 5000, true);
     }

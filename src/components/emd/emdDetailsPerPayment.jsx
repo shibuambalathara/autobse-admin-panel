@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import {   useEmdUpdatesPerPaymentQuery } from "../../utils/graphql";
 import TableComponent from "../utils/table";
 import { Tablebutton } from "../utils/style";
+import AutobseLoading from "../utils/autobseLoading";
 
 
 const EmdDetails = () => {
@@ -76,7 +77,7 @@ const handleMessage=(emdUpdates)=>{
 
 
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <AutobseLoading/>
   if (error) return <p>Error :{error}</p>;
   
 

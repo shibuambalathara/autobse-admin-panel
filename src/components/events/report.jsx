@@ -2,7 +2,7 @@ import React, { useState } from "react";
 // import { useEventsReportQuery } from "../../utils/graphql";
 import { useForm } from "react-hook-form";
 import format from "date-fns/format";
-import { ConvertToExcel } from "../utils/excelFormat";
+
 
 const Report = () => {
   const [isoDateTimeFrom, setIsoDateTimeFrom] = useState(0);
@@ -46,16 +46,16 @@ const Report = () => {
       seller: event?.seller?.name,
     }));
 
-    let result = await Promise.all(
-      reportData.map(async (event) => event.Report)
-    );
+    // let result = await Promise.all(
+    //   reportData.map(async (event) => event.Report)
+    // );
 
-    result = result.flat();
+    // result = result.flat();
 
-     ConvertToExcel(result);
+    //  ConvertToExcel(result);
   };
 
-  // if (loading) return <p>Loading...</p>;
+  // if (loading) return <AutobseLoading/>
   return (
     <div className="flex flex-col  justify-center w-full  ">
       <form onSubmit={handleSubmit(onSubmit)}>

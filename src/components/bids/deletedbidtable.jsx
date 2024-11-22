@@ -3,6 +3,7 @@ import React, { useMemo } from 'react'
 import { useDeletedBidsperVehicleQuery } from '../../utils/graphql';
 import TableComponent from '../utils/table';
 import { useNavigate } from 'react-router-dom';
+import AutobseLoading from '../utils/autobseLoading';
 const Deletedbidtable = (props) => {
     const{data:deletedBids,refetch,loading}=useDeletedBidsperVehicleQuery({variables:{where:{deletedbidVehicle:{id:{equals:props?.vehicleId}}}}})
   
@@ -64,7 +65,7 @@ const Deletedbidtable = (props) => {
     
        
     
-      if (loading) return <p>Loading...</p>;
+      if (loading) return <AutobseLoading/>
       
       refetch()
   return (
