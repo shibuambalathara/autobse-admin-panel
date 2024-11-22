@@ -99,12 +99,13 @@ const CreatePayment: React.FC = () => {
 
           <div className={`${labelAndInputDiv.data}`}>
             <SelectInput
+            
               label="Payment For"
               name="paymentFor"
               options={paymentsFor}
               register={register}
               defaultValue="Select Payment For"
-              error={errors.paymentFor ? "This field cannot be empty" : null}
+              error={errors.paymentFor }
             />
 
           </div>

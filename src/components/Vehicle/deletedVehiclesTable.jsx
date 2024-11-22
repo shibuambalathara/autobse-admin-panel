@@ -4,10 +4,9 @@ import { useParams } from "react-router-dom";
 import {
   useDeletedVehiclesQuery,
   useSubscriptionVehicleUpdatesSubscription,
-  useSubscriptionBidCreationSubscription,
   useRestorevehicleMutation
 } from "../../utils/graphql";
-import format from "date-fns/format";
+
 import Swal from "sweetalert2";
 import { MdOutlineSettingsBackupRestore } from "react-icons/md";
 import TableComponent from "../utils/table";
@@ -16,23 +15,17 @@ import { ConfirmationAlert, SweetalertSuccess} from "../utils/sweetalert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCar } from "@fortawesome/free-solid-svg-icons";
 import { Tablebutton } from "../utils/style";
-import { DownloadBidSheetBeforeAuction } from "../bids/bidsheetBeforeAuction";
-import { DownloadBidSheetsBeforeAuction } from "../bids/bidsheetfolder";
-import { FaSpinner } from "react-icons/fa";
-import BidModal from "../bids/bidModal";
+
 import AutobseLoading from "../utils/autobseLoading";
 
 const DeletedVehicleTable = () => {
   const { id } = useParams();
   const vehicleSub = useSubscriptionVehicleUpdatesSubscription();
-  const bidSub = useSubscriptionBidCreationSubscription();
   console.log(vehicleSub, "subs");
   const [restoreVehicle] =  useRestorevehicleMutation()
  
   
-  const [rowData, setRowData] = useState(null);
-  const [bidOpen,  setBidOpen] = useState(false);
-  const [downlod, setDownlod] = useState(true);
+ 
   const [userId, setUserId] = useState("0");
   const variables = {
     orderBy: [
@@ -80,30 +73,8 @@ const DeletedVehicleTable = () => {
           </div>`,
     });
   };
-  const handleBidSheet = (vehicle) => {
-    DownloadBidSheetBeforeAuction(vehicle);
-  };
-  const handleBidSheets = async (vehicles) => {
-    setDownlod(false); // Immediately set to downloading state to show loading spinner
-  
-    // Add a small delay to ensure the button visually updates before the download begins
-    setTimeout(async () => {
-      try {
-        const res = await DownloadBidSheetsBeforeAuction(vehicles);
-  
-        if (res) {
-          console.log("Download successful", res);
-          // Additional success actions if needed
-        } else {
-          console.error("Download failed");
-        }
-      } catch (error) {
-        console.error("Error downloading bid sheets:", error);
-      } finally {
-        setDownlod(true); // Reset to default state after download
-      }
-    }, 100); // Adjust the delay if needed, e.g., 100ms
-  };
+ 
+ 
   
 
   const handleMessage = (vehicleDetails) => {
@@ -185,32 +156,32 @@ const DeletedVehicleTable = () => {
       //       "0"
       //     ),
       // },
-      {
-        Header: "About Bid",
-        Cell: ({ row }) =>
-          row.original.totalBids !== 0 ? (
-            <button
-              className={`${Tablebutton.data} bg-teal-500`}
-              onClick={() => handleAboutBid(row.original)}
-            >
-              About Bid
-            </button>
-          ) : (
-            "No Bids"
-          ),
-      },
-      {
-        Header: `Bid sheet  (Before auction)`,
-        Cell: ({ row }) => (
-          <button
-            className={`${Tablebutton?.data} bg-blue-500`}
-            onClick={() => handleBidSheet(row.original)}
-          >
-            BidSheet
-          </button>
-        ),
-        
-      },
+      // {
+      //   Header: "About Bid",
+      //   Cell: ({ row }) =>
+      //     row.original.totalBids !== 0 ? (
+      //       <button
+      //         className={`${Tablebutton.data} bg-teal-500`}
+      //         onClick={() => handleAboutBid(row.original)}
+      //       >
+      //         About Bid
+      //       </button>
+      //     ) : (
+      //       "No Bids"
+      //     ),
+      // },
+        // {
+        //   Header: `Bid sheet  (Before auction)`,
+        //   Cell: ({ row }) => (
+        //     <button
+        //       className={`${Tablebutton?.data} bg-blue-500`}
+        //       onClick={() => handleBidSheet(row.original)}
+        //     >
+        //       BidSheet
+        //     </button>
+        //   ),
+          
+        // },
 
       // {
       //     Header:"Have Image?",
@@ -220,7 +191,7 @@ const DeletedVehicleTable = () => {
       // },
 
       {
-        Header: "Vehicle",
+        Header: "Restore",
         Cell: ({ row }) => (
           <button  className={`${Tablebutton?.data} bg-green-700 text-lg`} onClick={() => handleDelete(row.original.id,row.original.totalBids)}><MdOutlineSettingsBackupRestore/></button>
         )
@@ -231,14 +202,13 @@ const DeletedVehicleTable = () => {
 
   useEffect(() => {
     refetch();
-  }, [vehicleSub, bidSub]);
+  }, [vehicleSub]);
 
   if (loading) return <AutobseLoading/>
 
   return (
     <>
-          {bidOpen
-      && <BidModal item={rowData} event={data?.event} IsCompleted={true} bidOpen={setBidOpen} bidSubs={bidSub}/>}
+          
     <div className="flex flex-col">
       <div className="mb-2">
         <div className="flex flex-col items-center">
@@ -262,20 +232,7 @@ const DeletedVehicleTable = () => {
                 <FontAwesomeIcon icon={faCar} className="ml-2" />
               </a>
             )}
-           <button
-  className={`bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors duration-300 ml-2 flex items-center gap-2 ${!downlod ? 'cursor-not-allowed opacity-50' : ''}`}
-  onClick={() => handleBidSheets(data?.event?.vehiclesLive)}
-  disabled={!downlod} // Disable button when downloading
->
-  {downlod ? (
-    <span>Download All Bid Sheets</span>
-  ) : (
-    <>
-      <FaSpinner className="animate-spin" /> {/* Show spinner icon */}
-      <span>Downloading...</span>
-    </>
-  )}
-</button>
+         
           </div>
 
         </div>

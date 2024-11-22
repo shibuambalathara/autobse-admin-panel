@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   useUsersLazyQuery,
   OrderDirection,
+  
   StateNames,
   UserRoleType,
   useCountsQuery,
@@ -30,7 +31,7 @@ type UserQueryVariables = {
   } | null;
   take?: number;
   skip?: number;
-  orderBy?: Array<{ idNo: OrderDirection }>;
+  orderBy?: Array<{ createdAt:OrderDirection}>;
 };
 
 type User = {
@@ -85,7 +86,7 @@ console.log(subscribeUser ,"usersub");
       where: Object.keys(whereClause).length > 0 ? whereClause : null,
       take: pageSize,
       skip: currentPage * pageSize,
-      orderBy: [{ idNo: OrderDirection.Desc }]
+      orderBy: [{ createdAt: OrderDirection.Desc }]
     };
   };
 

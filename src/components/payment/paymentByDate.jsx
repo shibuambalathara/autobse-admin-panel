@@ -5,6 +5,7 @@ import TableComponent from '../utils/table';
 import PaymentInputForm from './paymentInputForm';
 import PaymentTable from './paymentTable';
 import PaginationComponents from '../utils/pagination';
+import AutobseLoading from '../utils/autobseLoading';
 const PaymentByDate = ({Response}) => {
   const [startDate,setDate]=useState('0')
     const{data,loading}=usePaymentsSearchQuery({variables:{where:{createdAt:{gte:startDate}}}})
@@ -15,7 +16,7 @@ const PaymentByDate = ({Response}) => {
 setDate(dateOnSubmit)
 
     }
-    if(loading)return<div>Loading.......</div>
+    if(loading)return <AutobseLoading/>
     if(data){
    
       Response(data?.payments)
