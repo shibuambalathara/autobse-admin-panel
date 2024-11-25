@@ -14,9 +14,9 @@ import TabbleOfUsersOrUser from "../components/users/tableData";
 import SearchByNumber from "../components/utils/searchByNumber";
 import CustomButton from "../components/utils/buttons";
 import SearchByState from "../components/utils/searchByState";
-import SearchByDate from "../components/utils/SearchByDate";
+
 import SeachByRole from "../components/utils/seachByRole";
-import NoResults from "../components/utils/emptyComponent";
+
 import NotFoundPage from "../components/utils/emptyComponent";
 import { h2Style, pageHead } from "../components/utils/style";
 import AutobseLoading from "../components/utils/autobseLoading";
@@ -84,9 +84,12 @@ console.log(subscribeUser ,"usersub");
 
     return {
       where: Object.keys(whereClause).length > 0 ? whereClause : null,
+     
       take: pageSize,
+      orderBy: [{ createdAt: OrderDirection.Desc }],
+
       skip: currentPage * pageSize,
-      orderBy: [{ createdAt: OrderDirection.Desc }]
+     
     };
   };
 

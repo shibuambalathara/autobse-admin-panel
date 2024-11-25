@@ -35,7 +35,6 @@ function TableComponent(prop) {
   const { globalFilter } = state; // Destructure globalFilter from state
   const totalPages = Math.ceil(data.length / 10);
 
-  
 
   if (!data) {
     return <div>Loading...</div>;
@@ -53,8 +52,11 @@ function TableComponent(prop) {
                   {headerGroups.map((headerGroup) => (
                     <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
                       {headerGroup.headers.map((column) => (
-                        <th {...column.getHeaderProps()} className="px-3 py-4 truncate text-start" key={column.id}>
+                        <th {...column.getHeaderProps(column.getSortByToggleProps())} className="px-3 py-4 truncate text-start" key={column.id}>
                           {column.render("Header")}
+                          <span>
+           {column?.isSortedDesc ? " 🔽" : " 🔼" }
+          </span>
                         </th>
                       ))}
                     </tr>
@@ -80,37 +82,70 @@ function TableComponent(prop) {
             {/* Pagination Controls */}
           </div>
           {!pagination && (
-            <div className="pagination mt-4 flex justify-center items-center space-x-2 text-xs text-gray-600">
-              <button
-                onClick={() => previousPage()}
-                disabled={!canPreviousPage}
-                className={`p-2 rounded ${!canPreviousPage ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-100"}`}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-
-              {[...Array(totalPages)].map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => gotoPage(index)}
-                  className={`px-4 py-2 rounded ${index === state.pageIndex ? "bg-gray-200 text-gray-900 font-medium" : "hover:bg-gray-100"}`}
-                >
-                  {index + 1}
-                </button>
-              ))}
-
-              <button
-                onClick={() => nextPage()}
-                disabled={!canNextPage}
-                className={`p-2 rounded ${!canNextPage ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-100"}`}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </div>
+          <div className="pagination mt-4 flex justify-center items-center space-x-2 text-xs text-gray-600">
+          {/* Previous Page Button */}
+          <button
+            onClick={() => previousPage()}
+            disabled={!canPreviousPage}
+            className={`p-2 rounded ${!canPreviousPage ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-100"}`}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+        
+          {/* Page Numbers with Truncation */}
+          {totalPages > 1 && (
+            <>
+              {state.pageIndex > 2 && (
+                <>
+                  <button onClick={() => gotoPage(0)} className="px-4 py-2 rounded hover:bg-gray-100">
+                    1
+                  </button>
+                  {state.pageIndex > 3 && <span className="px-2">...</span>}
+                </>
+              )}
+              {[...Array(totalPages)]
+                .map((_, index) => index)
+                .filter(
+                  (index) =>
+                    index === state.pageIndex || // Current page
+                    index === state.pageIndex - 1 || // One before current
+                    index === state.pageIndex + 1 // One after current
+                )
+                .map((index) => (
+                  <button
+                    key={index}
+                    onClick={() => gotoPage(index)}
+                    className={`px-4 py-2 rounded ${
+                      index === state.pageIndex ? "bg-gray-200 text-gray-900 font-medium" : "hover:bg-gray-100"
+                    }`}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+              {state.pageIndex < totalPages - 3 && (
+                <>
+                  {state.pageIndex < totalPages - 4 && <span className="px-2">...</span>}
+                  <button onClick={() => gotoPage(totalPages - 1)} className="px-4 py-2 rounded hover:bg-gray-100">
+                    {totalPages}
+                  </button>
+                </>
+              )}
+            </>
+          )}
+        
+          {/* Next Page Button */}
+          <button
+            onClick={() => nextPage()}
+            disabled={!canNextPage}
+            className={`p-2 rounded ${!canNextPage ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-100"}`}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
           )}
         </div>
       </div>

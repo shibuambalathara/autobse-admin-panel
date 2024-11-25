@@ -1,25 +1,36 @@
-import React, { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useMemo, useState, useCallback } from "react";
 import { useTable, usePagination, useGlobalFilter, useSortBy, Column } from "react-table";
-import { useUpdateLocationMutation, useLocationsQuery, Location as GQLLocation } from "../../utils/graphql"; // Alias the Location type
+import { useLocationsQuery, Location as GQLLocation } from "../../utils/graphql"; // Alias Location type
 import TableComponent from "../utils/table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare, faTrashCan } from "@fortawesome/free-regular-svg-icons";
-import { pageHead, Tablebutton } from "../utils/style";
+import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import EditLocation from "./editLocation";
 import AutobseLoading from "../utils/autobseLoading";
- // Import the EditLocation component
+import SearchByGlobal from "../utils/globalSearch";
 
 const ViewLocationComponent: React.FC = () => {
-  const { data, loading, error, refetch } = useLocationsQuery();
-  const [selectedLocation, setSelectedLocation] = useState<GQLLocation | null>(null); // Use GQLLocation to avoid conflict with DOM Location
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false); // State to toggle the Edit modal
+  const [selectedLocation, setSelectedLocation] = useState<GQLLocation | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(""); // Holds the current search input value
+  const [search, setSearch] = useState(""); // Used to trigger the query
+  
+  const { data, loading, error, refetch } = useLocationsQuery({
+    variables: { search },
+  });
 
-  const handleEditLocation = (location: GQLLocation) => {
-    setSelectedLocation(location); // Set the selected location for editing
-    setIsEditModalOpen(true); // Open the edit modal
-  };
+  // Handle edit button click
+  const handleEditLocation = useCallback((location: GQLLocation) => {
+    setSelectedLocation(location);
+    setIsEditModalOpen(true);
+  }, []);
 
+  // Trigger refetch without clearing the input field
+  const handleSearch = useCallback(() => {
+    setSearch(searchQuery); // Trigger search with the current query
+    refetch({ search: searchQuery }); // Explicitly call refetch if needed
+  }, [searchQuery, refetch]);
+
+  // Table columns
   const columns: Column<GQLLocation>[] = useMemo(
     () => [
       { Header: "City", accessor: "name" },
@@ -28,42 +39,49 @@ const ViewLocationComponent: React.FC = () => {
         Header: "Edit",
         Cell: ({ row }: { row: { original: GQLLocation } }) => (
           <button
-            className={`${Tablebutton.data} btn bg-red-500 text-lg`}
-            onClick={() => handleEditLocation(row.original)} // Call handleEditLocation with the selected location
+            className="px-3 py-2 bg-red-500 text-white rounded-md"
+            onClick={() => handleEditLocation(row.original)}
+            title={`Edit ${row.original.name}`}
           >
             <FontAwesomeIcon icon={faPenToSquare} />
           </button>
         ),
       },
     ],
-    []
+    [handleEditLocation]
   );
 
-  if (loading)  return (
-    <div>
-       <AutobseLoading/>
-        {/* <LoadingAnimation/> */}
-    </div>
-   
-  );
-  if (error) return <p>Error: {error.message}</p>;
+  if (loading) return <AutobseLoading />;
+  if (error) return <p className="text-red-500">Error: {error.message}</p>;
 
   return (
-    <div className="w-full ">
-      <div className="h-fit">
-       
-        <TableComponent data={data?.locations || []} columns={columns} />
-
-        {/* Call the EditLocation component and pass the selected location */}
-        {isEditModalOpen && (
-          <EditLocation
-            isModalOpen={isEditModalOpen}
-            setIsModalOpen={setIsEditModalOpen}
-            location={selectedLocation} // Pass the selected location
-            refetch={refetch} // Pass refetch to update the table after editing
-          />
-        )}
+    <div className="w-full space-y-4 px-16">
+      {/* Search Component */}
+      <div className="flex items-center space-x-4 ml-8">
+        <SearchByGlobal
+          value={searchQuery} // Controlled input
+          onChange={(value) => setSearchQuery(value)} // Update the search query
+        />
+        <button
+          onClick={handleSearch}
+          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700"
+        >
+          Search
+        </button>
       </div>
+
+      {/* Table Component */}
+      <TableComponent data={data?.locations || []} columns={columns} />
+
+      {/* Edit Modal */}
+      {isEditModalOpen && selectedLocation && (
+        <EditLocation
+          isModalOpen={isEditModalOpen}
+          setIsModalOpen={setIsEditModalOpen}
+          location={selectedLocation}
+          refetch={refetch}
+        />
+      )}
     </div>
   );
 };
