@@ -47,6 +47,36 @@ export const FormFieldInput = ({ label, type, name, register,defaultValue, error
 };
 
 
+export const PANCardInput = ({ label, name, register, error, ...rest }) => {
+  const panCardRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+  const handleUppercase = (e) => {
+    e.target.value = e.target.value.toUpperCase(); // Convert value to uppercase
+  };
+
+  return (
+    <div className="flex flex-col">
+      <label className="font-medium text-gray-700" htmlFor={name}>
+        {label} {rest.required && <span className="text-red-500">*</span>}
+      </label>
+      <input
+        
+        type="text"
+        {...register(name, {
+          ...rest,
+          pattern: {
+            value: panCardRegex,
+            message: "Invalid PAN Card format",
+          },
+        })}
+        onChange={handleUppercase}
+        className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      {error && <p className="text-red-500">{error.message || `${label} is required`}</p>}
+    </div>
+  );
+};
+
+
 // input type is textarea
 export const TextAreaInput = ({ label, type, name, register,defaultValue, error, ...rest }) => {
   return (

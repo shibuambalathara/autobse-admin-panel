@@ -125,7 +125,12 @@ const VehicleDetailsPerEventComponent = () => {
     const result = await ConfirmationAlert();
     if (result.isConfirmed) {
       if(bidCount!==0){
-    alert("this vehicle have bid record ")
+     Swal.fire({
+        title: "This vehicle have bid record ",
+        confirmButtonText: "OK",
+        icon: "warning",
+        position: "center",
+      });
       }
       else{
 
