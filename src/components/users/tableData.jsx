@@ -196,6 +196,8 @@ const  [deleteUser]= useDeleteUserMutation()
       },
     
       {
+
+        
         Header: "User",
         Cell: ({ row }) => (
           <button  className={`${Tablebutton.data} bg-red-600`} onClick={() => handleDelete(row.original.id,row.original.totalBids)}>

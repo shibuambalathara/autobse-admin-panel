@@ -65,7 +65,7 @@ const VerifyLogin: React.FC<VerifyLoginProps> = ({ number }) => {
         dispatch(setAuthData({ token: access_token, user }));
 
         setMessage({ message: 'Login successful', type: 'success' });
-        navigate('/');
+        navigate('/users');
       }
     } catch (err) {
       console.error(err, 'error');

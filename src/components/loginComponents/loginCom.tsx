@@ -43,7 +43,7 @@ const Login: React.FC = () => {
         dispatch(setAuthData({ token: access_token, user: user ?? null })); // Set user to null if undefined
   
         // Redirect to the homepage
-        navigate('/');
+        navigate('/users');
         window.location.reload();
       }
     } catch (err) {
