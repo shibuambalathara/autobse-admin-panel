@@ -1005,6 +1005,11 @@ export type QueryLocationArgs = {
 };
 
 
+export type QueryLocationsArgs = {
+  search?: InputMaybe<Scalars['String']['input']>;
+};
+
+
 export type QueryPaymentArgs = {
   where: PaymentWhereUniqueInput;
 };
@@ -1641,7 +1646,9 @@ export type AddUserMutationVariables = Exact<{
 
 export type AddUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: string, email: string, username: string, role: string, firstName: string, lastName: string, mobile: string, status: string, city: string, pancardNo: string, BalanceEMDAmount?: number | null } };
 
-export type LocationsQueryVariables = Exact<{ [key: string]: never; }>;
+export type LocationsQueryVariables = Exact<{
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
 
 
 export type LocationsQuery = { __typename?: 'Query', locations: Array<{ __typename?: 'Location', id: string, name: string, createdAt?: any | null, updatedAt?: any | null, country?: string | null, createdById?: string | null, state?: { __typename?: 'State', name: StateNames } | null }> };
@@ -1943,7 +1950,7 @@ export type UsersQueryVariables = Exact<{
 }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', id: string, email: string, role: string, firstName: string, BalanceEMDAmount?: number | null, country: string, state: string, city: string, userCategory: string, status: string, vehicleBuyingLimit?: number | null, paymentsCount?: number | null, idNo: number, mobile: string, lastName: string, activeBids?: Array<{ __typename?: 'Vehicle', id: string }> | null, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null }> | null };
+export type UsersQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', id: string, email: string, role: string, firstName: string, BalanceEMDAmount?: number | null, country: string, state: string, city: string, userCategory: string, status: string, vehicleBuyingLimit?: number | null, paymentsCount?: number | null, createdAt?: any | null, idNo: number, mobile: string, lastName: string, activeBids?: Array<{ __typename?: 'Vehicle', id: string }> | null, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null }> | null };
 
 export type UsersByStateQueryVariables = Exact<{
   where?: InputMaybe<UserWhereUniqueInput>;
@@ -2316,8 +2323,8 @@ export type AddUserMutationHookResult = ReturnType<typeof useAddUserMutation>;
 export type AddUserMutationResult = Apollo.MutationResult<AddUserMutation>;
 export type AddUserMutationOptions = Apollo.BaseMutationOptions<AddUserMutation, AddUserMutationVariables>;
 export const LocationsDocument = gql`
-    query Locations {
-  locations {
+    query Locations($search: String) {
+  locations(search: $search) {
     id
     name
     state {
@@ -2343,6 +2350,7 @@ export const LocationsDocument = gql`
  * @example
  * const { data, loading, error } = useLocationsQuery({
  *   variables: {
+ *      search: // value for 'search'
  *   },
  * });
  */
@@ -4389,6 +4397,7 @@ export const UsersDocument = gql`
     status
     vehicleBuyingLimit
     paymentsCount
+    createdAt
     idNo
     activeBids {
       id
