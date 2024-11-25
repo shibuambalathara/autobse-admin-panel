@@ -35,6 +35,8 @@ function TableComponent(prop) {
   const { globalFilter } = state; // Destructure globalFilter from state
   const totalPages = Math.ceil(data.length / 10);
 
+  
+
   if (!data) {
     return <div>Loading...</div>;
   }

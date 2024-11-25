@@ -4,7 +4,7 @@ import { ShowPopup } from '../alerts/popUps';
 import { useNavigate } from "react-router-dom";
 import { indianStates } from "../../utils/data";
 import { formStyle, h2Style, headerStyle, submit } from "../utils/style";
-import { FormFieldInput, StateInput } from "../utils/formField";
+import { FormFieldInput, PANCardInput, StateInput } from "../utils/formField";
 import { useState } from "react";
 
 const AddUser = () => {
@@ -99,7 +99,7 @@ const AddUser = () => {
           <FormFieldInput label="ID Proof Number" type="text" name="IdNumber" register={register} error={errors.IdNumber} minLength={8} />
           
           <FormFieldInput label="Pancard Image" type="file" name="pancardImage" register={register} error={errors.pancardImage} required/>
-          <FormFieldInput label="Pancard Number" type="text" name="pancardNumber" register={register} error={errors.pancardNumber} required />
+          <PANCardInput label="Pancard Number" type="text" name="pancardNumber" register={register} error={errors.pancardNumber} required />
           <FormFieldInput label="ID Proof (Front)" type="file" name="idProof" register={register} error={errors.idProof} />
           <FormFieldInput label="ID Proof (Back)" type="file" name="idBack" register={register} error={errors.idBack} />
           {/* <FormFieldInput label="Dealership Image" type="file" name="dealership" register={register} error={errors.dealership} /> */}
