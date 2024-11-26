@@ -4,7 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { RiAuctionFill } from "react-icons/ri";
 import {
   // useBidDetailsPerbidVehicleQuery,
-useBidDetailsQuery
+useBidDetailsQuery,
+useDeleteBidMutation
   // useDeleteBidMutation,
   // useDeletedBiddataMutation,
 } from "../../utils/graphql";
@@ -20,6 +21,7 @@ import TableComponent from "../utils/table";
 import {  Tablebutton } from "../utils/style";
 import { FaUserAlt } from "react-icons/fa";
 import AutobseLoading from "../utils/autobseLoading";
+import { ImBin2 } from "react-icons/im";
 
 
 
@@ -32,47 +34,56 @@ const BidDetailsPerbidVehicleComponent = () => {
   console.log(data ,'data');
   
 
-  // const [deleteBid] = useDeleteBidMutation();
+  const [deleteBid] = useDeleteBidMutation();
   // const [deletedbidData]=useDeletedBiddataMutation()
   const navigate = useNavigate();
 
-//   const handleDeleteBid = async (data) => {
+  const handleDeleteBid = async (bidid,data) => {
   
-//     const response = await Swal.fire({
-//       title: "Are you sure?",
-//       icon: "question",
-//       showCancelButton: true,
-//       confirmButtonText: "Yes",
-//       cancelButtonText: "Cancel",
-//     });
-//     if (response.isConfirmed) {
+    const response = await Swal.fire({
+      title: "Are you sure you want to delete this bid?",
+      text: `Bid details:
+        - Bid amount: ${data.amount.toFixed(2)}
+        - Bidder name: ${data.firstName} ${data.lastName || ''}`, // Include optional last name
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: '#DD6B55', // Optional: Set confirm button color to red
+      cancelButtonColor: '#aaa',     // Optional: Set cancel button color to gray
+      confirmButtonText: "Delete Bid",
+      cancelButtonText: "Cancel",
+      customClass: { // Optional: Customize button styles (optional)
+        confirmButton: 'btn btn-danger', // Example: Bootstrap button class for red confirm button
+        cancelButton: 'btn btn-secondary' // Example: Bootstrap button class for gray cancel button
+      }
+    });
+    if (response.isConfirmed) {
 
       
-//       const result = await deleteBid({ variables: { where: { id:data.id } } });
-//       // store deleted bid data details
-//       let store=await deletedbidData({variables:{data:{deletedbidbidVehicle:{connect:{id}},amount:data?.amount,user:{connect:{id:data?.user?.id}}}}})
-//       // ---------------------
+      const result = await deleteBid({ variables: { where: { id:bidid } } });
+      // store deleted bid data details
+      // let store =await deletedbidData({variables:{data:{deletedbidbidVehicle:{connect:{id}},amount:data?.amount,user:{connect:{id:data?.user?.id}}}}})
+      // ---------------------
 
-//       if (result?.data) {
+      if (result?.data) {
        
-//         await Swal.fire({
-//           title: `  deleted Successfully`,
-//           icon: "success",
-//         });
+        await Swal.fire({
+          title: `  deleted Successfully`,
+          icon: "success",
+        });
 
-//         // try {
-//         //   const result = await deleteBid({ variables: { where: { id } } });
+        // try {
+        //   const result = await deleteBid({ variables: { where: { id } } });
        
-//         //   ShowPopup("Success!", `successfully Deleted!`, "success", 5000, true);
-//         // } catch (err) {
+        //   ShowPopup("Success!", `successfully Deleted!`, "success", 5000, true);
+        // } catch (err) {
       
-//         // }
-//       // }
+        // }
+      // }
 
-//       refetch();
-//     }
-//   };
-// }
+      refetch();
+    }
+  };
+}
   const handleUserDetails = (id) => {
     navigate(`/view-user/${id}`);
   };
@@ -118,7 +129,16 @@ const BidDetailsPerbidVehicleComponent = () => {
           </button>
         ),
       },
+      {
 
+        
+        Header: "Delete Bid",
+        Cell: ({ row }) => (
+          <button  className={`${Tablebutton.data} bg-red-600`} onClick={() => handleDeleteBid(row.original.id,row.original)}>
+          <ImBin2/>
+        </button>
+        )
+      },
       // {
       //   Header: "Delete Bid",
       //   Cell: ({ row }) => (

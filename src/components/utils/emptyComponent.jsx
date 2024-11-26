@@ -7,7 +7,7 @@ const NotFoundPage = () => {
     // Set a timer for 5 seconds
     const timer = setTimeout(() => {
       setIsLoading(false); // Stop loading after 5 seconds
-    }, 3000);
+    }, 300);
 
     return () => clearTimeout(timer); // Cleanup timer when the component unmounts
   }, []);

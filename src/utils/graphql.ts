@@ -1670,6 +1670,13 @@ export type BidDetailsQueryVariables = Exact<{
 
 export type BidDetailsQuery = { __typename?: 'Query', Bids: Array<{ __typename?: 'Bid', createdAt?: any | null, id: string, amount: number, bidVehicleId: string, userId: string, bidVehicle?: { __typename?: 'Vehicle', lotNumber?: number | null, yardLocation?: string | null, totalBids?: number | null, registrationNumber: string, bidStatus?: string | null, userVehicleBidsCount?: number | null, currentBidUser?: { __typename?: 'User', firstName: string, lastName: string, mobile: string } | null, event?: { __typename?: 'Event', eventNo: number, seller?: { __typename?: 'Seller', name: string } | null } | null } | null, user?: { __typename?: 'User', firstName: string, mobile: string, lastName: string } | null }> };
 
+export type DeleteBidMutationVariables = Exact<{
+  where: BidWhereUniqueInput;
+}>;
+
+
+export type DeleteBidMutation = { __typename?: 'Mutation', deleteBid: { __typename?: 'Bid', id: string, name: string, user?: { __typename?: 'User', firstName: string, id: string } | null } };
+
 export type BuyingLimitQueryVariables = Exact<{
   where: UserWhereUniqueInput;
 }>;
@@ -2473,6 +2480,44 @@ export type BidDetailsQueryHookResult = ReturnType<typeof useBidDetailsQuery>;
 export type BidDetailsLazyQueryHookResult = ReturnType<typeof useBidDetailsLazyQuery>;
 export type BidDetailsSuspenseQueryHookResult = ReturnType<typeof useBidDetailsSuspenseQuery>;
 export type BidDetailsQueryResult = Apollo.QueryResult<BidDetailsQuery, BidDetailsQueryVariables>;
+export const DeleteBidDocument = gql`
+    mutation DeleteBid($where: BidWhereUniqueInput!) {
+  deleteBid(where: $where) {
+    id
+    name
+    user {
+      firstName
+      id
+    }
+  }
+}
+    `;
+export type DeleteBidMutationFn = Apollo.MutationFunction<DeleteBidMutation, DeleteBidMutationVariables>;
+
+/**
+ * __useDeleteBidMutation__
+ *
+ * To run a mutation, you first call `useDeleteBidMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteBidMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteBidMutation, { data, loading, error }] = useDeleteBidMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useDeleteBidMutation(baseOptions?: Apollo.MutationHookOptions<DeleteBidMutation, DeleteBidMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteBidMutation, DeleteBidMutationVariables>(DeleteBidDocument, options);
+      }
+export type DeleteBidMutationHookResult = ReturnType<typeof useDeleteBidMutation>;
+export type DeleteBidMutationResult = Apollo.MutationResult<DeleteBidMutation>;
+export type DeleteBidMutationOptions = Apollo.BaseMutationOptions<DeleteBidMutation, DeleteBidMutationVariables>;
 export const BuyingLimitDocument = gql`
     query buyingLimit($where: UserWhereUniqueInput!) {
   user(where: $where) {

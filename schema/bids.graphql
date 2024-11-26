@@ -37,3 +37,15 @@ query BidDetails($where: BidWhereUniqueInput!) {
       
  }
  }
+
+
+ mutation DeleteBid($where: BidWhereUniqueInput!) {
+  deleteBid(where: $where) {
+    id
+    name
+    user {
+      firstName
+      id
+    }
+  }
+}
