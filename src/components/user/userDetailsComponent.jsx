@@ -5,7 +5,7 @@ import { useStatesQuery, useUpdateUserMutation, useViewUserQuery ,} from "../../
 import { ShowPopup } from "../alerts/popUps";
 import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyle, submit } from "../utils/style";
 import { indianStates } from "../../utils/data";
-import { InputField } from "../utils/formField";
+import { InputField, InputFields, PANCardInput } from "../utils/formField";
 import imageCompression from "browser-image-compression";
 import Select from "react-select";
 import { FaEdit, FaUpload } from "react-icons/fa";
@@ -146,30 +146,37 @@ const UserDetailsComponent = () => {
           <InputField label="ID Proof Number" register={register("IdNumber", )} defaultValue={data.user.idProofNo} error={errors.IdNumber} />
           <InputField label="State" register={register("state", { required: "State is required" })} defaultValue={data.user.state} component="select" options={indianStates} />
           <InputField label="City" register={register("city")} defaultValue={data.user.city} error={errors.city} />
-          <InputField label="Pancard" register={register("pancardNumber")} defaultValue={data.user.pancardNo} error={errors.pancardNumber} />
-          <div className={labelAndInputDiv.data}>
-            <label>Role</label>
-            <select className={inputStyle.data} {...register("role", { required: "Role is required" })}>
-              <option value={data.user.role}>{data.user.role}</option>
-              <option value="admin">Admin</option>
-              <option value="staff">Staff</option>
-              <option value="seller">Seller</option>
-              <option value="dealer">Dealer</option>
-            </select>
-            <p className="text-red-500">{errors.role && <span>{errors.role.message}</span>}</p>
-          </div>
+          <PANCardInput label="Pancard No"  name="pancardNumber" register={register} defaultValue={data.user.pancardNo} error={errors.pancardNumber}  required/>
+          <InputFields
+  label="Role"
+  name="role"
+  component="select"
+  defaultValue={data.user.role}
+  register={register("role", { required: "Role is required" })}
+  error={errors.role}
+  options={[
+    { value: "admin", label: "Admin" },
+    { value: "staff", label: "Staff" },
+    { value: "seller", label: "Seller" },
+    { value: "dealer", label: "Dealer" },
+  ]}
+/>
 
-          <div className={labelAndInputDiv.data}>
-            <label>Status</label>
-            <select defaultValue={data.user.status} className={inputStyle.data} {...register("status", { required: "Status is required" })}>
-              <option value="">Select Status</option>
-              <option value="pending">Pending</option>
-              <option value="blocked">Blocked</option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
-            <p className="text-red-500">{errors.status && <span>{errors.status.message}</span>}</p>
-          </div>
+<InputFields
+  label="Status"
+  name="status"
+  component="select"
+  defaultValue={data.user.status}
+  register={register("status", { required: "Status is required" })}
+  error={errors.status}
+  options={[
+    
+    { value: "pending", label: "Pending" },
+    { value: "blocked", label: "Blocked" },
+    { value: "active", label: "Active" },
+    { value: "inactive", label: "Inactive" },
+  ]}
+/>
           <div className="flex flex-col  w-full">
                 <label htmlFor="">Auction Allowed states</label>
 
