@@ -155,7 +155,7 @@ const BidDetailsPerbidVehicleComponent = () => {
         <div className="mb-2 px-20">
           <div className="text-center font-extrabold my-5 text-lg min-w-full">
             {" "}
-            Bidders Details of Lot No:
+            Bidder  Details of Lot No:
             <span className="text-red-500">
               {" "}
               {data?.Bids[0]?.bidVehicle?.lotNumber}

@@ -358,7 +358,7 @@ const VehicleDetailsPerEventComponent = () => {
       <div className="mb-2">
         <div className="flex flex-col items-center">
           <div className="text-center font-extrabold my-5 text-lg min-w-full">
-            Vehicle  of Event No {data?.event?.eventNo}
+            Vehicle Event No {data?.event?.eventNo}
           </div>
           <div className=" font-bold ">
             Seller Name: {data?.event?.seller?.name}

@@ -119,7 +119,7 @@ const AddVehicleComponent = () => {
           <div className={`${formStyle.data}`}>
             <FormFieldInput label="Registration Number" type="text" name="registrationNumber" register={register} error={errors.registrationNumber} required />
             <FormFieldInput label="Loan Agreement No" type="text" name="loanAgreementNo" register={register} error={errors.loanAgreementNo} required />
-            <FormFieldInput label="Make" type="text" name="make" register={register} error={errors.make} required />
+            <FormFieldInput label="Make" type="text" name="make" register={register} error={errors.make} />
             <FormFieldInput label="Model" type="text" name="model" register={register} error={errors.model} />
             <FormFieldInput label="Varient" type="text" name="varient" register={register} error={errors.varient} />
             {/* <CatInput options={category?.data?.vehicleCategories} label="Category" type="text" name="category" register={register} error={errors.category} /> */}
