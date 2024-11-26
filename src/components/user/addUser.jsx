@@ -94,20 +94,20 @@ const AddUser = () => {
           <FormFieldInput label="Last Name" type="text" name="last_Name" register={register} error={errors.last_Name} />
           <FormFieldInput label="Email" type="email" name="email" register={register} error={errors.email} />
           <FormFieldInput label="Mobile Number" type="number" name="mobile" register={register} error={errors.mobile} required minLength={10} maxLength={10} />
-         
-        
+          <PANCardInput label="Pancard Number" type="text" name="pancardNumber" register={register} error={errors.pancardNumber} required />
+          <FormFieldInput label="Pancard Image" type="file" name="pancardImage" register={register} error={errors.pancardImage} required/>
           <FormFieldInput label="ID Proof Number" type="text" name="IdNumber" register={register} error={errors.IdNumber} minLength={8} />
           
-          <FormFieldInput label="Pancard Image" type="file" name="pancardImage" register={register} error={errors.pancardImage} required/>
-          <PANCardInput label="Pancard Number" type="text" name="pancardNumber" register={register} error={errors.pancardNumber} required />
+         
+         
           <FormFieldInput label="ID Proof (Front)" type="file" name="idProof" register={register} error={errors.idProof} />
           <FormFieldInput label="ID Proof (Back)" type="file" name="idBack" register={register} error={errors.idBack} />
           {/* <FormFieldInput label="Dealership Image" type="file" name="dealership" register={register} error={errors.dealership} /> */}
 
-        
+          < StateInput options={indianStates} label="State" type="text" name="state" register={register} error={errors.state}  />
           <FormFieldInput label="City" type="text" name="city" register={register} error={errors.city} />
 
-          < StateInput options={indianStates} label="State" type="text" name="state" register={register} error={errors.state}  />
+          
 
         
 

@@ -47,7 +47,7 @@ export const FormFieldInput = ({ label, type, name, register,defaultValue, error
 };
 
 
-export const PANCardInput = ({ label, name, register, error, ...rest }) => {
+export const PANCardInput = ({ label, name, register, error,defaultValue = "", ...rest }) => {
   const panCardRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
   const handleUppercase = (e) => {
     e.target.value = e.target.value.toUpperCase(); // Convert value to uppercase
@@ -55,11 +55,11 @@ export const PANCardInput = ({ label, name, register, error, ...rest }) => {
 
   return (
     <div className="flex flex-col">
-      <label className="font-medium text-gray-700" htmlFor={name}>
+     <label  className={`${labelStyle.data}`} htmlFor={name}>
         {label} {rest.required && <span className="text-red-500">*</span>}
       </label>
       <input
-        
+        defaultValue={defaultValue}
         type="text"
         {...register(name, {
           ...rest,
@@ -69,9 +69,9 @@ export const PANCardInput = ({ label, name, register, error, ...rest }) => {
           },
         })}
         onChange={handleUppercase}
-        className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className={`${inputStyle.data}`}
       />
-      {error && <p className="text-red-500">{error.message || `${label} is required`}</p>}
+      {error && <p className="text-red-500">{error.message || `${label} required`}</p>}
     </div>
   );
 };
@@ -225,12 +225,12 @@ export const InputFields = ({
   type = "text",
   control,
   isMulti = false,
- 
+ required=false,
   name,
   disabled = false,
 }) => (
   <div className={`${labelAndInputDiv.data}`}>
-    {label && <label className="font-bold">{label}</label>}
+    {label && <label className="font-bold">{label}{required&&<span className="text-red-500 text-lg pl-1">*</span>}</label>}
     {component === "input" && (
       <input
       min={0}

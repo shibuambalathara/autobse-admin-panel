@@ -54,8 +54,8 @@ const  [deleteUser]= useDeleteUserMutation()
   // Define the table columns with only required fields
   const columns = useMemo(
     () => [
-      { Header: "User No",  Cell: ({ row }) =>
-        row.original?.idNo },
+      { Header: "User No",accessor: "idNo" },
+      
   // { Header: "Email", accessor: "email", },
  
   { Header: "First Name", accessor: "firstName", },
