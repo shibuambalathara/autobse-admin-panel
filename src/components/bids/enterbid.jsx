@@ -96,6 +96,7 @@ console.log(bidAmount);
         placeholder="Enter amount"
         value={bidAmount}
         onChange={(e) => {
+          
           setBidAmount(e.target.value.replace(/\D/g, ""));
         }}
       />
