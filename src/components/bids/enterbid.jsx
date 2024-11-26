@@ -99,6 +99,8 @@ console.log(bidAmount);
           setBidAmount(e.target.value.replace(/\D/g, ""));
         }}
       />
+       {errors.mobile && <p className="text-red-500 text-sm">Please enter an amount</p>}
+
 
       <button
         type="button"
