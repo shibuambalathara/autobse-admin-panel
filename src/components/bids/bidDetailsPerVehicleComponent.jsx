@@ -42,20 +42,24 @@ const BidDetailsPerbidVehicleComponent = () => {
   
     const response = await Swal.fire({
       title: "Are you sure you want to delete this bid?",
-      text: `Bid details:
-        - Bid amount: ${data.amount.toFixed(2)}
-        - Bidder name: ${data.firstName} ${data.lastName || ''}`, // Include optional last name
+      html: `
+        Bid details:<br>
+        Bid amount: ${data.amount.toFixed(2)}<br>
+        Bidder name: ${data?.user?.firstName} ${data?.user?.lastName || ''}<br>`,
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: '#DD6B55', // Optional: Set confirm button color to red
       cancelButtonColor: '#aaa',     // Optional: Set cancel button color to gray
       confirmButtonText: "Delete Bid",
       cancelButtonText: "Cancel",
-      customClass: { // Optional: Customize button styles (optional)
-        confirmButton: 'btn btn-danger', // Example: Bootstrap button class for red confirm button
-        cancelButton: 'btn btn-secondary' // Example: Bootstrap button class for gray cancel button
+      customClass: {
+        title: 'text-xl font-semibold',  // Tailwind classes for smaller title size
+        confirmButton: 'btn btn-danger',
+        cancelButton: 'btn btn-secondary'
       }
     });
+    
+    
     if (response.isConfirmed) {
 
       

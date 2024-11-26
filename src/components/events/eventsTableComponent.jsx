@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCountsQuery, useEventsQuery, useUpdateEventMutation } from "../../utils/graphql";
-import Report from "./report";
+
 import Swal from "sweetalert2";
 import TableComponent from "../utils/table";
 import LimitedDataPaginationComponents from "../utils/limitedDataPagination";
@@ -10,7 +10,7 @@ import {
   faCar,
   faFileArrowDown,
   faFileArrowUp,
-  faUserPlus,
+
 } from "@fortawesome/free-solid-svg-icons";
 import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
 
@@ -18,7 +18,7 @@ import { FormatDate } from "../utils/dateFormat";
 import CustomButton from "../utils/buttons";
 import { pageHead, Tablebutton } from "../utils/style";
 import AutobseLoading from "../utils/autobseLoading";
-import { ConvertToExcelButton, useExcelDownload } from "../utils/excelFormat";
+import {  useExcelDownload } from "../utils/excelFormat";
 
 
 const EventsTableComponent = () => {
@@ -37,7 +37,7 @@ const EventsTableComponent = () => {
       ],
     },
   });
-  const { data: countData, loading: countLoading, error: countError } = useCountsQuery();
+  const { data: countData } = useCountsQuery();
   useEffect(() => {
     if (countData && countData.eventsCount !== undefined) {
       setEventCount(countData.eventsCount);
@@ -304,7 +304,7 @@ const EventsTableComponent = () => {
     <div className="flex  flex-col w-full justify-around overflow-hidden">
         <div className={pageHead.data}>
             
-            Events Data Table
+            Events
           </div>
       <div className="flex justify-end   m-2 px-20">
         

@@ -121,8 +121,26 @@ const VehicleDetailsPerEventComponent = () => {
     }
   };
 
-  const handleDelete = async (deleteVehicleId, bidCount) => {
-    const result = await ConfirmationAlert();
+  const handleDelete = async (deleteVehicleId, bidCount,data) => {
+    console.log(data,"data2");
+    
+    const result = await Swal.fire({
+      title: "Are you sure you want to delete this vehicle?",
+      html: `
+        Registration no: ${data?.registrationNumber|| ''}<br>
+      `,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: '#DD6B55', // Optional: Set confirm button color to red
+      cancelButtonColor: '#aaa',     // Optional: Set cancel button color to gray
+      confirmButtonText: "Delete Bid",
+      cancelButtonText: "Cancel",
+      customClass: {
+        title: 'text-xl font-semibold',  // Tailwind classes for smaller title size
+        confirmButton: 'btn btn-danger',
+        cancelButton: 'btn btn-secondary'
+      }
+    });
     if (result.isConfirmed) {
       if(bidCount!==0){
      Swal.fire({
@@ -335,7 +353,7 @@ const VehicleDetailsPerEventComponent = () => {
       {
         Header: "Vehicle",
         Cell: ({ row }) => (
-          <button  className={`${Tablebutton.data} bg-red-600`} onClick={() => handleDelete(row.original.id,row.original.totalBids)}>
+          <button  className={`${Tablebutton.data} bg-red-600`} onClick={() => handleDelete(row.original.id,row.original.totalBids,row.original)}>
             <ImBin2/>
           </button>
         )
