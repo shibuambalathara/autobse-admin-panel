@@ -67,7 +67,7 @@ if (newToken) {
 
 const handleDelete=async(id)=>{
   const response = await Swal.fire({
-    title: "Are you sure?",
+    title: "Are you sure  ss  ?",
     icon: "question",
     showCancelButton: true,
     confirmButtonText: "Yes",
