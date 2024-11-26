@@ -8,7 +8,7 @@ import EditLocation from "./editLocation";
 import AutobseLoading from "../utils/autobseLoading";
 import { filterStyle } from "../utils/style";
 
-const DEBOUNCE_DELAY = 300; // Debounce time in milliseconds
+const DEBOUNCE_DELAY = 1000; // Debounce time in milliseconds
 
 const ViewLocationComponent: React.FC = () => {
   const [selectedLocation, setSelectedLocation] = useState<GQLLocation | null>(null);
