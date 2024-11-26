@@ -963,6 +963,11 @@ export type QueryDeletedVehicleCategoryArgs = {
 };
 
 
+export type QueryDeletedVehiclesArgs = {
+  eventId: Scalars['String']['input'];
+};
+
+
 export type QueryEmdUpdateArgs = {
   where: EmdUpdateWhereUniqueInput;
 };
@@ -995,6 +1000,7 @@ export type QueryGetAcrArgs = {
 
 export type QueryLiveEventsArgs = {
   orderBy?: InputMaybe<Array<EventOrderByInput>>;
+  search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   take?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<EventWhereUniqueInput>;
@@ -1038,6 +1044,7 @@ export type QueryStatusArgs = {
 
 export type QueryUpcomingEventsArgs = {
   orderBy?: InputMaybe<Array<EventOrderByInput>>;
+  search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   take?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<EventWhereUniqueInput>;
@@ -1618,10 +1625,12 @@ export enum VehicleEventStatus {
   Upcoming = 'upcoming'
 }
 
-export type DeletedVehiclesQueryVariables = Exact<{ [key: string]: never; }>;
+export type DeletedVehiclesQueryVariables = Exact<{
+  eventId: Scalars['String']['input'];
+}>;
 
 
-export type DeletedVehiclesQuery = { __typename?: 'Query', deletedVehicles: Array<{ __typename?: 'Vehicle', vehicleEventStatus?: VehicleEventStatus | null, lotNumber?: number | null, state?: string | null, id: string, bidStatus?: string | null, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, createdById?: string | null, ownership?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, veicleLocation?: string | null, parkingCharges?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, totalBids?: number | null, createdAt?: any | null, updatedAt?: any | null, userVehicleBids?: Array<{ __typename?: 'Bid', amount: number }> | null, event?: { __typename?: 'Event', deletedVehiclesCount?: number | null, seller?: { __typename?: 'Seller', name: string } | null } | null, currentBidUser?: { __typename?: 'User', firstName: string, lastName: string } | null }> };
+export type DeletedVehiclesQuery = { __typename?: 'Query', deletedVehicles: Array<{ __typename?: 'Vehicle', vehicleEventStatus?: VehicleEventStatus | null, lotNumber?: number | null, state?: string | null, id: string, bidStatus?: string | null, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, createdById?: string | null, ownership?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, veicleLocation?: string | null, parkingCharges?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, totalBids?: number | null, createdAt?: any | null, updatedAt?: any | null, userVehicleBids?: Array<{ __typename?: 'Bid', amount: number }> | null, event?: { __typename?: 'Event', eventNo: number, seller?: { __typename?: 'Seller', name: string } | null } | null, currentBidUser?: { __typename?: 'User', firstName: string, lastName: string } | null }> };
 
 export type DeletedUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2033,14 +2042,14 @@ export type RestorevehicleMutation = { __typename?: 'Mutation', restorevehicle: 
 
 
 export const DeletedVehiclesDocument = gql`
-    query DeletedVehicles {
-  deletedVehicles {
+    query DeletedVehicles($eventId: String!) {
+  deletedVehicles(eventId: $eventId) {
     vehicleEventStatus
     userVehicleBids {
       amount
     }
     event {
-      deletedVehiclesCount
+      eventNo
       seller {
         name
       }
@@ -2103,10 +2112,11 @@ export const DeletedVehiclesDocument = gql`
  * @example
  * const { data, loading, error } = useDeletedVehiclesQuery({
  *   variables: {
+ *      eventId: // value for 'eventId'
  *   },
  * });
  */
-export function useDeletedVehiclesQuery(baseOptions?: Apollo.QueryHookOptions<DeletedVehiclesQuery, DeletedVehiclesQueryVariables>) {
+export function useDeletedVehiclesQuery(baseOptions: Apollo.QueryHookOptions<DeletedVehiclesQuery, DeletedVehiclesQueryVariables> & ({ variables: DeletedVehiclesQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<DeletedVehiclesQuery, DeletedVehiclesQueryVariables>(DeletedVehiclesDocument, options);
       }

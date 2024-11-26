@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   useDeletedVehiclesQuery,
-  useSubscriptionVehicleUpdatesSubscription,
+
   useRestorevehicleMutation
 } from "../../utils/graphql";
 
@@ -20,25 +20,17 @@ import AutobseLoading from "../utils/autobseLoading";
 
 const DeletedVehicleTable = () => {
   const { id } = useParams();
-  const vehicleSub = useSubscriptionVehicleUpdatesSubscription();
-  console.log(vehicleSub, "subs");
+
   const [restoreVehicle] =  useRestorevehicleMutation()
  
   
  
   const [userId, setUserId] = useState("0");
-  const variables = {
-    orderBy: [
-      {
-        bidTimeExpire: "ASC",
-      },
-    ],
-    where: {
-      id: id,
-    },
-  };
+  
   const { data, loading,  refetch } = useDeletedVehiclesQuery({
-    variables,
+    variables:{
+      eventId: id
+    }
   });
   console.log("data per event", data);
  
@@ -202,7 +194,7 @@ const DeletedVehicleTable = () => {
 
   useEffect(() => {
     refetch();
-  }, [vehicleSub]);
+  }, []);
 
   if (loading) return <AutobseLoading/>
 
@@ -215,9 +207,9 @@ const DeletedVehicleTable = () => {
           <div className="text-center font-extrabold my-5 text-lg min-w-full">
             Vehicles  of Event No {data?.event?.eventNo}
           </div>
-          <div className=" font-bold ">
+          {/* <div className=" font-bold ">
             Seller Name: {data?.event?.seller?.name}
-          </div>
+          </div> */}
         </div>
         <div className="flex justify-end px-28">
           <div className="min-w-fit">
