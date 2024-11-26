@@ -1,34 +1,41 @@
-import React, { useMemo, useState, useCallback } from "react";
+import React, { useMemo, useState, useCallback, useEffect } from "react";
 import { useTable, usePagination, useGlobalFilter, useSortBy, Column } from "react-table";
-import { useLocationsQuery, Location as GQLLocation } from "../../utils/graphql"; // Alias Location type
+import { useLocationsQuery, Location as GQLLocation } from "../../utils/graphql";
 import TableComponent from "../utils/table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import EditLocation from "./editLocation";
 import AutobseLoading from "../utils/autobseLoading";
-import SearchByGlobal from "../utils/globalSearch";
+import { filterStyle } from "../utils/style";
+
+const DEBOUNCE_DELAY = 300; // Debounce time in milliseconds
 
 const ViewLocationComponent: React.FC = () => {
   const [selectedLocation, setSelectedLocation] = useState<GQLLocation | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(""); // Holds the current search input value
-  const [search, setSearch] = useState(""); // Used to trigger the query
-  
+  const [searchQuery, setSearchQuery] = useState(""); // User input value
+  const [debouncedSearch, setDebouncedSearch] = useState(""); // Debounced search query
+
   const { data, loading, error, refetch } = useLocationsQuery({
-    variables: { search },
+    variables: { search: debouncedSearch }, // Use the debounced search query
   });
+
+  // Debounce logic for the search
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchQuery); // Update debounced search query after delay
+    }, DEBOUNCE_DELAY);
+
+    return () => {
+      clearTimeout(handler); // Clear timeout if user types again
+    };
+  }, [searchQuery]); // Runs when searchQuery changes
 
   // Handle edit button click
   const handleEditLocation = useCallback((location: GQLLocation) => {
     setSelectedLocation(location);
     setIsEditModalOpen(true);
   }, []);
-
-  // Trigger refetch without clearing the input field
-  const handleSearch = useCallback(() => {
-    setSearch(searchQuery); // Trigger search with the current query
-    refetch({ search: searchQuery }); // Explicitly call refetch if needed
-  }, [searchQuery, refetch]);
 
   // Table columns
   const columns: Column<GQLLocation>[] = useMemo(
@@ -55,19 +62,24 @@ const ViewLocationComponent: React.FC = () => {
   if (error) return <p className="text-red-500">Error: {error.message}</p>;
 
   return (
-    <div className="w-full space-y-4 px-16">
-      {/* Search Component */}
-      <div className="flex items-center space-x-4 ml-8">
-        <SearchByGlobal
+    <div className="w-full space-y-4 px-10">
+      {/* Search Input */}
+      <div className="flex items-center w-72 ml-14  gap-2">
+        <input
+          type="text"
           value={searchQuery} // Controlled input
-          onChange={(value) => setSearchQuery(value)} // Update the search query
+          placeholder="Search by city or state..."
+          onChange={(e) => setSearchQuery(e.target.value)} // Update search query
+          className={`${filterStyle.data} w-52`}
         />
-        <button
-          onClick={handleSearch}
-          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700"
-        >
-          Search
-        </button>
+        {searchQuery && (
+          <button
+            onClick={() => setSearchQuery("")} // Clear the search query
+            className=" px-3 py-1 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+          >
+            Clear
+          </button>
+        )}
       </div>
 
       {/* Table Component */}

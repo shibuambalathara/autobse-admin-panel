@@ -6,7 +6,8 @@ import {
   StateNames,
   UserRoleType,
   useCountsQuery,
-  useSubscriptionUserUpdatesSubscription
+  useSubscriptionUserUpdatesSubscription,
+  useUsersQuery
 } from "../utils/graphql";
 import { useNavigate } from "react-router-dom";
 import LimitedDataPaginationComponents from "../components/utils/limitedDataPagination";
@@ -64,7 +65,7 @@ const Users = () => {
 const  subscribeUser= useSubscriptionUserUpdatesSubscription()
   const [users, setUsers] = useState<User[]>([]);
   const { data: countData, loading: countLoading, error: countError } = useCountsQuery();
-  const [fetchUsers, { data, refetch, loading }] = useUsersLazyQuery();
+  const { data, refetch, loading } = useUsersQuery();
 console.log(subscribeUser ,"usersub");
 
   useEffect(() => {
