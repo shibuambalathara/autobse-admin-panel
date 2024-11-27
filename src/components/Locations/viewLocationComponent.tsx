@@ -1,85 +1,60 @@
-import React, { useMemo, useState, useCallback, useEffect } from "react";
-import { useTable, usePagination, useGlobalFilter, useSortBy, Column } from "react-table";
+import React, { useState } from "react";
+import { useTable, Column } from "react-table";
 import { useLocationsQuery, Location as GQLLocation } from "../../utils/graphql";
 import TableComponent from "../utils/table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import EditLocation from "./editLocation";
 import AutobseLoading from "../utils/autobseLoading";
-import { filterStyle } from "../utils/style";
+import DebounceSearchInput from "../utils/globalSearch";
 
-const DEBOUNCE_DELAY = 1000; // Debounce time in milliseconds
 
 const ViewLocationComponent: React.FC = () => {
   const [selectedLocation, setSelectedLocation] = useState<GQLLocation | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(""); // User input value
-  const [debouncedSearch, setDebouncedSearch] = useState(""); // Debounced search query
+  const [searchInput, setSearchInput] = useState(""); // Immediate input value
+  const [searchQuery, setSearchQuery] = useState(""); // Stabilized query for search
 
   const { data, loading, error, refetch } = useLocationsQuery({
-    variables: { search: debouncedSearch }, // Use the debounced search query
+    variables: { search: searchQuery },
   });
 
-  // Debounce logic for the search
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedSearch(searchQuery); // Update debounced search query after delay
-    }, DEBOUNCE_DELAY);
-
-    return () => {
-      clearTimeout(handler); // Clear timeout if user types again
-    };
-  }, [searchQuery]); // Runs when searchQuery changes
-
-  // Handle edit button click
-  const handleEditLocation = useCallback((location: GQLLocation) => {
+  const handleEditLocation = (location: GQLLocation) => {
     setSelectedLocation(location);
     setIsEditModalOpen(true);
-  }, []);
+  };
 
-  // Table columns
-  const columns: Column<GQLLocation>[] = useMemo(
-    () => [
-      { Header: "City", accessor: "name" },
-      { Header: "State", accessor: (row: GQLLocation) => row?.state?.name },
-      {
-        Header: "Edit",
-        Cell: ({ row }: { row: { original: GQLLocation } }) => (
-          <button
-            className="px-3 py-2 bg-red-500 text-white rounded-md"
-            onClick={() => handleEditLocation(row.original)}
-            title={`Edit ${row.original.name}`}
-          >
-            <FontAwesomeIcon icon={faPenToSquare} />
-          </button>
-        ),
-      },
-    ],
-    [handleEditLocation]
-  );
+  const columns: Column<GQLLocation>[] = [
+    { Header: "City", accessor: "name" },
+    { Header: "State", accessor: (row: GQLLocation) => row?.state?.name },
+    {
+      Header: "Edit",
+      Cell: ({ row }: { row: { original: GQLLocation } }) => (
+        <button
+          className="px-3 py-2 bg-red-500 text-white rounded-md"
+          onClick={() => handleEditLocation(row.original)}
+          title={`Edit ${row.original.name}`}
+        >
+          <FontAwesomeIcon icon={faPenToSquare} />
+        </button>
+      ),
+    },
+  ];
 
   if (loading) return <AutobseLoading />;
   if (error) return <p className="text-red-500">Error: {error.message}</p>;
 
   return (
-    <div className="w-full space-y-4 px-10">
-      {/* Search Input */}
-      <div className="flex items-center w-72 ml-14  gap-2">
-        <input
-          type="text"
-          value={searchQuery} // Controlled input
+    <div className="w-full space-y-1 px-10">
+      {/* Debounce Search Input */}
+      <div className="w-72 ml-14">
+        <DebounceSearchInput
           placeholder="Search by city or state..."
-          onChange={(e) => setSearchQuery(e.target.value)} // Update search query
-          className={`${filterStyle.data} w-52`}
+          value={searchInput}
+          onChange={setSearchInput} // Update input immediately
+          onSearch={setSearchQuery} // Trigger search after debounce
+          className="px-3 py-2 border rounded-md w-full"
         />
-        {searchQuery && (
-          <button
-            onClick={() => setSearchQuery("")} // Clear the search query
-            className=" px-3 py-1 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-          >
-            Clear
-          </button>
-        )}
       </div>
 
       {/* Table Component */}
