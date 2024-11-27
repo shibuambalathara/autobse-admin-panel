@@ -37,13 +37,13 @@ const Table: React.FC = () => {
       // { Header: "Mobile", accessor: "mobile" as const },
       // { Header: "Billing Contact", accessor: "billingContactPerson" as const },
       { Header: "National Head", accessor: "nationalHead" as const },
-      {
-        Header: "Logo",
-        accessor: "logo" as const,
-        Cell: ({ row }: { row: { original: Seller } }) => (
-          <img src={row.original.logo} alt="Seller Logo" className="h-10 w-10" />
-        ),
-      },
+      // {
+      //   Header: "Logo",
+      //   accessor: "logo" as const,
+      //   Cell: ({ row }: { row: { original: Seller } }) => (
+      //     <img src={row.original.logo} alt="Seller Logo" className="h-10 w-10" />
+      //   ),
+      // },
       {
         Header: "View/Edit Seller",
         Cell: ({ row }: { row: { original: Seller } }) => (

@@ -105,7 +105,7 @@ import AutobseLoading from '../utils/autobseLoading';
         <div className='flex justify-end'>
           <AddEventType />
         </div>
-        <div className={pageHead.data}>Vehicle Category Table</div>
+        <div className={pageHead.data}>Vehicle Category </div>
         <TableComponent data={categories} columns={columns} />
       </div>
     );

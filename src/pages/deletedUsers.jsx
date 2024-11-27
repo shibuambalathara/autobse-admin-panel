@@ -70,7 +70,7 @@ const TabbleOfDeletedUser = () => {
        
        
         <div className="pl-10">
-        <div className={pageHead.data}>Deleted Users Table</div>
+        <div className={pageHead.data}>Deleted Users </div>
           <TableComponent columns={columns} data={users?.deletedUsers || []} />
           <div className="flex items-center p-4">
           <button
