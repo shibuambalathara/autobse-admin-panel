@@ -27,17 +27,17 @@ const ViewStates = () => {
   const columns = useMemo(
     () => [
       { Header: "Name", accessor: "name" },
-      {
-        Header: "Edit State",
-        Cell: ({ row }) => (
-          <button
-            className={`${Tablebutton.data} bg-red-500`}
-            onClick={() => handleEditState(row.original?.id,row.original?.name)}
-          >
-            <FontAwesomeIcon icon={faPenToSquare} />
-          </button>
-        ),
-      },
+      // {
+      //   Header: "Edit State",
+      //   Cell: ({ row }) => (
+      //     <button
+      //       className={`${Tablebutton.data} bg-red-500`}
+      //       onClick={() => handleEditState(row.original?.id,row.original?.name)}
+      //     >
+      //       <FontAwesomeIcon icon={faPenToSquare} />
+      //     </button>
+      //   ),
+      // },
       // {
       //   Header: "View Users",
       //   Cell: ({ row }) => (

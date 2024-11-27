@@ -912,6 +912,7 @@ export type QueryStateArgs = {
 
 export type QueryCompletedEventsArgs = {
   orderBy?: InputMaybe<Array<EventOrderByInput>>;
+  search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   take?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<EventWhereUniqueInput>;
@@ -1034,6 +1035,11 @@ export type QueryRestoreStateArgs = {
 
 export type QuerySellerArgs = {
   where: SellerWhereUniqueInput;
+};
+
+
+export type QuerySellersArgs = {
+  search?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -1959,6 +1965,7 @@ export type UsersQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<UserOrderByInput> | UserOrderByInput>;
+  search?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -4367,8 +4374,14 @@ export type ViewUserLazyQueryHookResult = ReturnType<typeof useViewUserLazyQuery
 export type ViewUserSuspenseQueryHookResult = ReturnType<typeof useViewUserSuspenseQuery>;
 export type ViewUserQueryResult = Apollo.QueryResult<ViewUserQuery, ViewUserQueryVariables>;
 export const UsersDocument = gql`
-    query Users($where: UserWhereUniqueInput, $take: Int, $skip: Int, $orderBy: [UserOrderByInput!]) {
-  users(where: $where, take: $take, skip: $skip, orderBy: $orderBy) {
+    query Users($where: UserWhereUniqueInput, $take: Int, $skip: Int, $orderBy: [UserOrderByInput!], $search: String) {
+  users(
+    where: $where
+    take: $take
+    skip: $skip
+    orderBy: $orderBy
+    search: $search
+  ) {
     id
     email
     role
@@ -4412,6 +4425,7 @@ export const UsersDocument = gql`
  *      take: // value for 'take'
  *      skip: // value for 'skip'
  *      orderBy: // value for 'orderBy'
+ *      search: // value for 'search'
  *   },
  * });
  */
