@@ -12,11 +12,17 @@ interface DebounceSearchInputProps {
 const DebounceSearchInput: React.FC<DebounceSearchInputProps> = ({
   placeholder = "Search...",
   onSearch,
-  debounceDelay = 1000,
+  debounceDelay = 800,
   className,
   value,
   onChange,
 }) => {
+
+
+  const handleClear = () => {
+    onChange(""); // Clear the input value
+    onSearch(""); // Immediately trigger search for an empty query
+  };
   useEffect(() => {
     const handler = setTimeout(() => {
       onSearch(value); // Trigger search when debounce completes
@@ -38,7 +44,7 @@ const DebounceSearchInput: React.FC<DebounceSearchInputProps> = ({
       />
       {value && (
         <button
-          onClick={() => onChange("")} // Clear the input
+          onClick={() =>{ handleClear() } }// Clear the input
           className="px-3 py-1 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
         >
           Clear

@@ -224,7 +224,7 @@ const  [deleteUser]= useDeleteUserMutation()
       {/* <div className=" h-fit">
         <div className="flex flex-col justify-center w-full"> */}
           {/* Optional Header or any additional component */}
-          <TableComponent columns={columns} data={users} pagination='false'   global={true}/>
+          <TableComponent columns={columns} data={users} pagination='false'   global={true} limit={false}/>
         {/* </div>
       </div> */}
     </>

@@ -54,8 +54,7 @@ type User = {
 };
 
 const Users = () => {
-  const [searchInput, setSearchInput] = useState(""); // Immediate input value
-  const [searchQuery, setSearchQuery] = useState(""); 
+  
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
@@ -71,11 +70,8 @@ const  subscribeUser= useSubscriptionUserUpdatesSubscription()
   const { data: countData, loading: countLoading, error: countError } = useCountsQuery();
   const { data, refetch, loading } = useUsersQuery();
 console.log(subscribeUser ,"usersub");
-let querySearch = searchQuery?  {search: searchQuery}: {take: pageSize,
-orderBy: [{ createdAt: OrderDirection.Desc }],
-
-skip: currentPage * pageSize,}
-     
+const [searchInput, setSearchInput] = useState(""); // Immediate input value
+  const [searchQuery, setSearchQuery] = useState(""); 
   useEffect(() => {
     if (countData && countData.usersCount !== undefined) {
       setUserCount(countData.usersCount);
@@ -90,7 +86,7 @@ skip: currentPage * pageSize,}
   
     // If a search query is present, only include the search parameter
     if (searchQuery) {
-      return { search: searchQuery,take: undefined }
+      return { search: searchQuery,take: undefined,skip:undefined }
       
     }
   
@@ -100,6 +96,7 @@ skip: currentPage * pageSize,}
       take: pageSize,
       skip: currentPage * pageSize,
       orderBy: [{ createdAt: OrderDirection.Desc }],
+      search:undefined
     };
   };
 
@@ -174,7 +171,7 @@ skip: currentPage * pageSize,}
         {/* <SearchByNumber inputData={handleInputData} value={inputData} /> */}
         <div className="w-72 pt-5">
         <DebounceSearchInput
-          placeholder="Search by city or state..."
+          placeholder="Search by name or mobile..."
           value={searchInput}
           onChange={setSearchInput} // Update input immediately
           onSearch={setSearchQuery} // Trigger search after debounce
@@ -204,12 +201,12 @@ skip: currentPage * pageSize,}
           <>
           
             <TabbleOfUsersOrUser users={users} refetch={refetchAllData} />
-            <LimitedDataPaginationComponents
+            {!searchQuery&&  <LimitedDataPaginationComponents
               totalItems={userCount}
               itemsPerPage={pageSize}
               currentPage={currentPage}
               onPageChange={handlePageChange}
-            />
+            />}
           </>
         ) : (
           <>

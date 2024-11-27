@@ -19,6 +19,7 @@ import CustomButton from "../utils/buttons";
 import { pageHead, Tablebutton } from "../utils/style";
 import AutobseLoading from "../utils/autobseLoading";
 import {  useExcelDownload } from "../utils/excelFormat";
+import DebounceSearchInput from "../utils/globalSearch";
 
 
 const EventsTableComponent = () => {
@@ -26,16 +27,29 @@ const EventsTableComponent = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [eventCount, setEventCount] = useState(0);
+  const [searchInput, setSearchInput] = useState(""); // Immediate input value
+  const [searchQuery, setSearchQuery] = useState(""); 
+
+  const variables =searchQuery ?{
+    
+
+   
+    search: searchQuery ,
+   
+  }: {
+    
+
+    skip: currentPage * pageSize,
+    take: pageSize,
+    
+    orderBy: [
+      {
+        eventNo: "DESC",
+      },
+    ],
+  }
   const { data, loading, error, refetch } = useEventsQuery({
-    variables: {
-      skip: currentPage * pageSize,
-      take: pageSize,
-      orderBy: [
-        {
-          eventNo: "DESC",
-        },
-      ],
-    },
+    variables
   });
   const { data: countData } = useCountsQuery();
   useEffect(() => {
@@ -317,20 +331,30 @@ const EventsTableComponent = () => {
        
         
        
-
+      <div className="w-72 pt-5 ml-24">
+        <DebounceSearchInput
+          placeholder="Search by location or seller name..."
+          value={searchInput}
+          onChange={setSearchInput} // Update input immediately
+          onSearch={setSearchQuery} // Trigger search after debounce
+          className="px-3 py-2 border rounded-md w-full"
+        />
+      </div>
         <TableComponent
           data={data?.events.events || []}
           columns={columns}
           sortBy="start Date"
           pagination="false"
+          global={true}
+          limit={false}
         />
-
-        <LimitedDataPaginationComponents
+{!searchQuery&&<LimitedDataPaginationComponents
           totalItems={eventCount}
           itemsPerPage={pageSize}
           currentPage={currentPage}
           onPageChange={handlePageChange}
-        />
+        />}
+        
       </div>
     </div>
   );
