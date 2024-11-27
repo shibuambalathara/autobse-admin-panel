@@ -1,8 +1,7 @@
 
 
-query Users($where: UserWhereUniqueInput, $take: Int, $skip: Int, $orderBy: [UserOrderByInput!]) {
-  users(where: $where, take: $take, skip: $skip, orderBy: $orderBy) {
-    
+query Users($where: UserWhereUniqueInput, $take: Int, $skip: Int, $orderBy: [UserOrderByInput!], $search: String) {
+  users(where: $where, take: $take, skip: $skip, orderBy: $orderBy, search: $search) {
 
     id
     email

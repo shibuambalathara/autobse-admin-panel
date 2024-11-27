@@ -21,6 +21,7 @@ import SeachByRole from "../components/utils/seachByRole";
 import NotFoundPage from "../components/utils/emptyComponent";
 import { h2Style, pageHead } from "../components/utils/style";
 import AutobseLoading from "../components/utils/autobseLoading";
+import DebounceSearchInput from "../components/utils/globalSearch";
 
 type UserQueryVariables = {
   where?: {
@@ -33,6 +34,7 @@ type UserQueryVariables = {
   take?: number;
   skip?: number;
   orderBy?: Array<{ createdAt:OrderDirection}>;
+  search?:string;
 };
 
 type User = {
@@ -52,6 +54,8 @@ type User = {
 };
 
 const Users = () => {
+  const [searchInput, setSearchInput] = useState(""); // Immediate input value
+  const [searchQuery, setSearchQuery] = useState(""); 
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
@@ -67,39 +71,43 @@ const  subscribeUser= useSubscriptionUserUpdatesSubscription()
   const { data: countData, loading: countLoading, error: countError } = useCountsQuery();
   const { data, refetch, loading } = useUsersQuery();
 console.log(subscribeUser ,"usersub");
+let querySearch = searchQuery?  {search: searchQuery}: {take: pageSize,
+orderBy: [{ createdAt: OrderDirection.Desc }],
 
+skip: currentPage * pageSize,}
+     
   useEffect(() => {
     if (countData && countData.usersCount !== undefined) {
       setUserCount(countData.usersCount);
     }
   }, [countData]);
-
   const buildQueryVariables = (): UserQueryVariables => {
     const whereClause: UserQueryVariables["where"] = {};
-
+  
     if (inputData) whereClause.mobile = String(inputData);
     if (state) whereClause.state = state;
-    if (startDate) whereClause.createdAt = { gte: startDate };
     if (dealerRole) whereClause.role = dealerRole;
-    if (token) whereClause.tempToken = token;
-
+  
+    // If a search query is present, only include the search parameter
+    if (searchQuery) {
+      return { search: searchQuery,take: undefined }
+      
+    }
+  
+    // Otherwise, include pagination and sorting
     return {
       where: Object.keys(whereClause).length > 0 ? whereClause : null,
-     
       take: pageSize,
-      orderBy: [{ createdAt: OrderDirection.Desc }],
-
       skip: currentPage * pageSize,
-     
+      orderBy: [{ createdAt: OrderDirection.Desc }],
     };
   };
 
   const refetchAllData = () => refetch(buildQueryVariables());
 
   useEffect(() => {
-    refetchAllData();
-  }, [currentPage, pageSize, inputData, dealerRole, state,subscribeUser]);
-
+    refetch(buildQueryVariables());
+  }, [currentPage, pageSize, inputData, dealerRole, state, searchQuery, subscribeUser]);
   useEffect(() => {
     if (data && data.users) {
       const fetchedUsers = data.users.filter((user): user is User => user !== null);
@@ -163,7 +171,16 @@ console.log(subscribeUser ,"usersub");
         
       </div>
       <div className="pl-24 mt-4 flex gap-5 h-fit">
-        <SearchByNumber inputData={handleInputData} value={inputData} />
+        {/* <SearchByNumber inputData={handleInputData} value={inputData} /> */}
+        <div className="w-72 pt-5">
+        <DebounceSearchInput
+          placeholder="Search by city or state..."
+          value={searchInput}
+          onChange={setSearchInput} // Update input immediately
+          onSearch={setSearchQuery} // Trigger search after debounce
+          className="px-3 py-2 border rounded-md w-full"
+        />
+      </div>
         <SearchByState setState={handleInputState} value={state} />
         {/* <SearchByDate setDate={handleInputDate} value={startDate} /> */}
         <SeachByRole setRole={handleInputRole} value={dealerRole} />
@@ -177,12 +194,15 @@ console.log(subscribeUser ,"usersub");
         
         <CustomButton navigateTo={"/add-user"} buttonText={"Add User"} />
         <CustomButton navigateTo={"/deleted-users"} buttonText={"Restore Users"} />
+        
         </div>
         
       </div>
       <div>
+     
         {users.length > 0 ? (
           <>
+          
             <TabbleOfUsersOrUser users={users} refetch={refetchAllData} />
             <LimitedDataPaginationComponents
               totalItems={userCount}
