@@ -58,7 +58,7 @@ const ViewLocationComponent: React.FC = () => {
       </div>
 
       {/* Table Component */}
-      <TableComponent data={data?.locations || []} columns={columns} />
+      <TableComponent data={data?.locations || []} columns={columns} global={true} />
 
       {/* Edit Modal */}
       {isEditModalOpen && selectedLocation && (
