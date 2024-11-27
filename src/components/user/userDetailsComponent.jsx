@@ -182,7 +182,7 @@ const UserDetailsComponent = () => {
 
                 <Controller
                   name="states"
-                  rules={{ required: "Please select at least one state" }} 
+                  // rules={{ required: "Please select at least one state" }} 
                   control={control}
                   defaultValue={data?.user?.states.map((state) => ({
                     label: state.name,
