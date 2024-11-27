@@ -1,5 +1,5 @@
-query Events($where: EventWhereUniqueInput, $orderBy: [EventOrderByInput!], $take: Int, $skip: Int) {
-  events(where: $where, orderBy: $orderBy, take: $take, skip: $skip) {
+query Events($where: EventWhereUniqueInput, $orderBy: [EventOrderByInput!], $take: Int, $skip: Int, $search: String) {
+  events(where: $where, orderBy: $orderBy, take: $take, skip: $skip, search: $search) {
      events {
     bidLock
       deletedVehiclesCount

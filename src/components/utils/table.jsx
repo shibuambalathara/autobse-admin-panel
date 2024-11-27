@@ -4,7 +4,7 @@ import Search from "./search";
 import LimitedDataPaginationComponents from "./limitedDataPagination";
 
 function TableComponent(prop) {
-  const { columns, data, pagination ,global=false} = prop;
+  const { columns, data, pagination ,global=false ,limit=true} = prop;
   const [pageIndex, setPageIndex] = useState(0);
 
   const {
@@ -25,7 +25,8 @@ function TableComponent(prop) {
       columns,
       data,
       initialState: { pageIndex },
-      pageSize: 10, // Set page size to 10 rows per page
+      manualPagination: !limit,
+      pageSize: limit ? 10 : data.length,
     },
     useGlobalFilter,
     useSortBy,

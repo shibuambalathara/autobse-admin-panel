@@ -1827,6 +1827,7 @@ export type EventsQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<EventOrderByInput> | EventOrderByInput>;
   take?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -3395,8 +3396,14 @@ export type EmdUpdatesPerPaymentLazyQueryHookResult = ReturnType<typeof useEmdUp
 export type EmdUpdatesPerPaymentSuspenseQueryHookResult = ReturnType<typeof useEmdUpdatesPerPaymentSuspenseQuery>;
 export type EmdUpdatesPerPaymentQueryResult = Apollo.QueryResult<EmdUpdatesPerPaymentQuery, EmdUpdatesPerPaymentQueryVariables>;
 export const EventsDocument = gql`
-    query Events($where: EventWhereUniqueInput, $orderBy: [EventOrderByInput!], $take: Int, $skip: Int) {
-  events(where: $where, orderBy: $orderBy, take: $take, skip: $skip) {
+    query Events($where: EventWhereUniqueInput, $orderBy: [EventOrderByInput!], $take: Int, $skip: Int, $search: String) {
+  events(
+    where: $where
+    orderBy: $orderBy
+    take: $take
+    skip: $skip
+    search: $search
+  ) {
     events {
       bidLock
       deletedVehiclesCount
@@ -3447,6 +3454,7 @@ export const EventsDocument = gql`
  *      orderBy: // value for 'orderBy'
  *      take: // value for 'take'
  *      skip: // value for 'skip'
+ *      search: // value for 'search'
  *   },
  * });
  */
