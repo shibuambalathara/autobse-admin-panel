@@ -96,6 +96,12 @@ const UserDetailsComponent = () => {
   };
 
   const onSubmit = async (dataOnSubmit) => {
+   
+    const states = dataOnSubmit?.states?.length > 0 
+    ? dataOnSubmit.states.map((state) => state?.label) 
+    : undefined;
+  
+    // Creating the user object with conditional states inclusion
     const user = {
       firstName: dataOnSubmit?.first_Name,
       lastName: dataOnSubmit?.last_Name,
@@ -106,13 +112,12 @@ const UserDetailsComponent = () => {
       idProofNo: dataOnSubmit?.IdNumber,
       country: dataOnSubmit?.country,
       state: dataOnSubmit?.state,
-      city: dataOnSubmit?.city,
+      // city: dataOnSubmit?.city,
       status: dataOnSubmit?.status,
       role: dataOnSubmit?.role,
-      states: 
-          dataOnSubmit.states.map((state) => (state?.label )),
-      
+      ...(states && { states }), // Only add `states` if it has valid data
     };
+  
 
     try {
       await updateUser({ variables: { where: { id }, data: user } });
@@ -145,7 +150,7 @@ const UserDetailsComponent = () => {
           <InputField label="Business Name" register={register("bussiness")} defaultValue={data.user.businessName} error={errors.bussiness} />
           <InputField label="ID Proof Number" register={register("IdNumber", )} defaultValue={data.user.idProofNo} error={errors.IdNumber} />
           <InputField label="State" register={register("state", { required: "State is required" })} defaultValue={data.user.state} component="select" options={indianStates} />
-          <InputField label="City" register={register("city")} defaultValue={data.user.city} error={errors.city} />
+          {/* <InputField label="City" register={register("city")} defaultValue={data.user.city} error={errors.city} /> */}
           <PANCardInput label="Pancard No"  name="pancardNumber" register={register} defaultValue={data.user.pancardNo} error={errors.pancardNumber}  required/>
           <InputFields
   label="Role"

@@ -23,7 +23,8 @@ const OtpLogin: React.FC = () => {
     try {
       const result = await loginData({
         variables: {
-          sendOtpDto: { mobile: dataOnSubmit.userName }
+
+          sendOtpDto: { mobile: dataOnSubmit.userName,forSignin:true }
         },
       });
       console.log(result);
