@@ -105,8 +105,7 @@ const  [deleteUser]= useDeleteUserMutation()
         Header: "Current Buying Limit",
         Cell: ({ row }) => {
           const buyingLimit = row.original?.vehicleBuyingLimit;
-      
-          // Determine styles based on the buyingLimit value
+         // Determine styles based on the buyingLimit value
           const isDisabled = buyingLimit === 0;
           const buttonClass = isDisabled
             ? `${Tablebutton.data} bg-gray-400   `

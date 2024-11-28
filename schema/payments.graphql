@@ -37,13 +37,19 @@ mutation CreatePayment($createPaymentInput: CreatePaymentInput!, $userId: String
   }
 }
 
+query UserPayments($where: PaymentWhereUniqueInput){
+  payments(where: $where) {
+   
+     user {
+     id
+      firstName
+      lastName
+     }
+        emdUpdate {
+      vehicleBuyingLimitIncrement
 
-query UserPayments($where: UserWhereUniqueInput!) {
-  user(where: $where) {
-    id
-    firstName
-    lastName
-    payments {
+
+    }  
       refNo
       amount
       description
@@ -56,7 +62,7 @@ query UserPayments($where: UserWhereUniqueInput!) {
       createdById
       registrationExpire
       paymentFor
+      
      
     }
-  }
 }

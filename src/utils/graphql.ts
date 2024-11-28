@@ -802,6 +802,12 @@ export type Payment = {
   userId?: Maybe<Scalars['String']['output']>;
 };
 
+export type PaymentOrderByInput = {
+  createdAt?: InputMaybe<OrderDirection>;
+  refNo?: InputMaybe<OrderDirection>;
+  updatedAt?: InputMaybe<OrderDirection>;
+};
+
 export enum PaymentStatusType {
   Approved = 'approved',
   Pending = 'pending',
@@ -822,6 +828,7 @@ export enum PaymentType {
 
 export type PaymentWhereUniqueInput = {
   id?: InputMaybe<Scalars['String']['input']>;
+  userId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Query = {
@@ -866,7 +873,7 @@ export type Query = {
   locations: Array<Location>;
   locationsCount: Scalars['Int']['output'];
   payment: Payment;
-  payments: Array<Payment>;
+  payments?: Maybe<Array<Payment>>;
   paymentsCount: Scalars['Int']['output'];
   recentSold: Recentsold;
   recentSolds: Array<Recentsold>;
@@ -907,6 +914,11 @@ export type QueryEnquiryArgs = {
 
 export type QueryStateArgs = {
   where: StateWhereUniqueInput;
+};
+
+
+export type QueryStatesArgs = {
+  search?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -980,7 +992,6 @@ export type QueryEventArgs = {
 
 
 export type QueryEventsArgs = {
-  options?: InputMaybe<QueryOptionsType>;
   orderBy?: InputMaybe<Array<EventOrderByInput>>;
   search?: InputMaybe<Scalars['String']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
@@ -1020,6 +1031,13 @@ export type QueryLocationsArgs = {
 
 export type QueryPaymentArgs = {
   where: PaymentWhereUniqueInput;
+};
+
+
+export type QueryPaymentsArgs = {
+  orderBy?: InputMaybe<Array<PaymentOrderByInput>>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  where?: InputMaybe<PaymentWhereUniqueInput>;
 };
 
 
@@ -1077,6 +1095,11 @@ export type QueryVehicleArgs = {
 };
 
 
+export type QueryVehicleCategoriesArgs = {
+  search?: InputMaybe<Scalars['String']['input']>;
+};
+
+
 export type QueryVehicleCategoryArgs = {
   where: VehicleCategoryWhereUniqueInput;
 };
@@ -1089,10 +1112,6 @@ export type QueryVehiclesArgs = {
   take?: InputMaybe<Scalars['Int']['input']>;
   vehiclesOrderBy?: InputMaybe<Array<VehicleOrderByInput>>;
   where?: InputMaybe<VehicleWhereUniqueInput>;
-};
-
-export type QueryOptionsType = {
-  enabled?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type Recentsold = {
@@ -1132,6 +1151,7 @@ export type SellerWhereUniqueInput = {
 
 export type SendOtpDto = {
   firstName?: InputMaybe<Scalars['String']['input']>;
+  forSignin: Scalars['Boolean']['input'];
   lastName?: InputMaybe<Scalars['String']['input']>;
   mobile: Scalars['String']['input'];
   pancardNo?: InputMaybe<Scalars['String']['input']>;
@@ -1902,7 +1922,7 @@ export type VerifyOtpMutation = { __typename?: 'Mutation', verifyOtp: { __typena
 export type PaymentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PaymentsQuery = { __typename?: 'Query', payments: Array<{ __typename?: 'Payment', id: string, refNo?: number | null, amount?: number | null, description?: string | null, status?: string | null, userId?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null, registrationExpire?: any | null, paymentFor?: string | null, user?: { __typename?: 'User', firstName: string, mobile: string } | null }> };
+export type PaymentsQuery = { __typename?: 'Query', payments?: Array<{ __typename?: 'Payment', id: string, refNo?: number | null, amount?: number | null, description?: string | null, status?: string | null, userId?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null, registrationExpire?: any | null, paymentFor?: string | null, user?: { __typename?: 'User', firstName: string, mobile: string } | null }> | null };
 
 export type CreatePaymentMutationVariables = Exact<{
   createPaymentInput: CreatePaymentInput;
@@ -1913,11 +1933,11 @@ export type CreatePaymentMutationVariables = Exact<{
 export type CreatePaymentMutation = { __typename?: 'Mutation', createPayment: { __typename?: 'Payment', id: string, refNo?: number | null, amount?: number | null, description?: string | null, status?: string | null, userId?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null, registrationExpire?: any | null, paymentFor?: string | null } };
 
 export type UserPaymentsQueryVariables = Exact<{
-  where: UserWhereUniqueInput;
+  where?: InputMaybe<PaymentWhereUniqueInput>;
 }>;
 
 
-export type UserPaymentsQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, firstName: string, lastName: string, payments?: Array<{ __typename?: 'Payment', refNo?: number | null, amount?: number | null, description?: string | null, id: string, status?: string | null, userId?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null, registrationExpire?: any | null, paymentFor?: string | null }> | null } | null };
+export type UserPaymentsQuery = { __typename?: 'Query', payments?: Array<{ __typename?: 'Payment', refNo?: number | null, amount?: number | null, description?: string | null, id: string, status?: string | null, userId?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null, registrationExpire?: any | null, paymentFor?: string | null, user?: { __typename?: 'User', id: string, firstName: string, lastName: string } | null, emdUpdate?: Array<{ __typename?: 'Emdupdate', vehicleBuyingLimitIncrement?: number | null }> | null }> | null };
 
 export type SellersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4037,25 +4057,28 @@ export type CreatePaymentMutationHookResult = ReturnType<typeof useCreatePayment
 export type CreatePaymentMutationResult = Apollo.MutationResult<CreatePaymentMutation>;
 export type CreatePaymentMutationOptions = Apollo.BaseMutationOptions<CreatePaymentMutation, CreatePaymentMutationVariables>;
 export const UserPaymentsDocument = gql`
-    query UserPayments($where: UserWhereUniqueInput!) {
-  user(where: $where) {
-    id
-    firstName
-    lastName
-    payments {
-      refNo
-      amount
-      description
+    query UserPayments($where: PaymentWhereUniqueInput) {
+  payments(where: $where) {
+    user {
       id
-      status
-      userId
-      image
-      createdAt
-      updatedAt
-      createdById
-      registrationExpire
-      paymentFor
+      firstName
+      lastName
     }
+    emdUpdate {
+      vehicleBuyingLimitIncrement
+    }
+    refNo
+    amount
+    description
+    id
+    status
+    userId
+    image
+    createdAt
+    updatedAt
+    createdById
+    registrationExpire
+    paymentFor
   }
 }
     `;
@@ -4076,7 +4099,7 @@ export const UserPaymentsDocument = gql`
  *   },
  * });
  */
-export function useUserPaymentsQuery(baseOptions: Apollo.QueryHookOptions<UserPaymentsQuery, UserPaymentsQueryVariables> & ({ variables: UserPaymentsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useUserPaymentsQuery(baseOptions?: Apollo.QueryHookOptions<UserPaymentsQuery, UserPaymentsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<UserPaymentsQuery, UserPaymentsQueryVariables>(UserPaymentsDocument, options);
       }

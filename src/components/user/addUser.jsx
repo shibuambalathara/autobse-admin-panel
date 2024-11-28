@@ -105,7 +105,7 @@ const AddUser = () => {
           {/* <FormFieldInput label="Dealership Image" type="file" name="dealership" register={register} error={errors.dealership} /> */}
 
           < StateInput options={indianStates} label="State" type="text" name="state" register={register} error={errors.state}  />
-          <FormFieldInput label="City" type="text" name="city" register={register} error={errors.city} />
+          {/* <FormFieldInput label="City" type="text" name="city" register={register} error={errors.city} /> */}
 
           
 

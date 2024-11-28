@@ -15,7 +15,7 @@ import AutobseLoading from '../utils/autobseLoading';
 
 const PaymentPerUser = () => {
     const {id}=useParams()
-    const {data,loading}=useUserPaymentsQuery({variables:{where:{id:id}}})
+    const {data,loading}=useUserPaymentsQuery({variables:{where:{userId:id}}})
     
     console.log(data, "payment dta");
     
@@ -97,33 +97,35 @@ navigate(`/update-payment/${paymentId}`)
           {
             Header: "Create Buying Limit",
             Cell: ({ row }) => {
-              if (
-                // row.original.emdUpdateCount === 0
-                // &&
-                row.original.paymentFor === 'emd'
-                 &&
-                row.original.status === 'approved'
-              ) {
+              const { emdUpdate, paymentFor, status, id } = row.original;
+          
+              // Check conditions for showing "Increment by" or the button
+              if (emdUpdate?.[0]?.vehicleBuyingLimitIncrement) {
+                // Render increment details
+                return (
+                  <>
+                    Increment by: {emdUpdate[0].vehicleBuyingLimitIncrement}
+                  </>
+                );
+              } else if (paymentFor === 'emd' && status === 'approved') {
+                // Render button if increment is not available
                 return (
                   <a
-                    className="  text-2xl"
-                    href={`/add-emd/${row.original.id}`}
+                    className="text-2xl "
+                    href={`/add-emd/${id}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                   <FontAwesomeIcon icon={faCirclePlus} />
+                    <FontAwesomeIcon icon={faCirclePlus} />
                   </a>
                 );
+              } else {
+                // Optional: Return null or a default fallback
+                return <p>Registration</p>;
               }
-               else {
-                return(
-                  <>
-                  {/* Increment by:{ row.original?.emdUpdate[0]?.vehicleBuyingLimitIncrement ??'0'}, */}
-                 
-                   {row.original.status}
-                  </>
-                  );
-              }}},
+            },
+          },
+              
           {
             Header: "Payment Message",
             Cell: ({ row }) => {
@@ -167,12 +169,12 @@ navigate(`/update-payment/${paymentId}`)
     
     <div className=" flex flex-col w-full justify-center m-auto ">
     <div className="mb-2">
-  <div className="text-center  font-extrabold my-5 text-lg min-w-full">  PAYMENTS  OF {data?.user?.firstName?.toUpperCase()} {data?.user?.lastName?.toUpperCase()} </div>
+  <div className="text-center  font-extrabold my-5 text-lg min-w-full uppercase  ">  PAYMENTS  OF {data?.payments[0]?.firstName} {data?.payments[0]?.user?.lastName} </div>
 
   </div>
  
 
-          <TableComponent data={data?.user?.payments} columns={columns} sortBy='Created At'/>
+          <TableComponent data={data?.payments} columns={columns} sortBy='Created At'/>
 
   
   </div>

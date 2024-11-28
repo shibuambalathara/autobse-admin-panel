@@ -85,14 +85,17 @@ const [searchInput, setSearchInput] = useState(""); // Immediate input value
     if (dealerRole) whereClause.role = dealerRole;
   
     // If a search query is present, only include the search parameter
-    if (searchQuery) {
-      return { search: searchQuery,take: undefined,skip:undefined }
+    if (searchQuery||dealerRole||state) {
+      return {
+        where: Object.keys(whereClause).length > 0 ? whereClause : null,
+        search: searchQuery,take: undefined,skip:undefined }
       
     }
   
     // Otherwise, include pagination and sorting
     return {
-      where: Object.keys(whereClause).length > 0 ? whereClause : null,
+      where:undefined,
+      // where: Object.keys(whereClause).length > 0 ? whereClause : null,
       take: pageSize,
       skip: currentPage * pageSize,
       orderBy: [{ createdAt: OrderDirection.Desc }],
@@ -116,6 +119,7 @@ const [searchInput, setSearchInput] = useState(""); // Immediate input value
     }
   }, [data, countData, inputData, state, dealerRole]);
 
+  const showPagination = !searchQuery && !dealerRole && !state && users.length > 0;
   const handleInputData = (data: string) => {
     const parsedData = parseInt(data, 10);
     if (!isNaN(parsedData)) {
@@ -201,7 +205,8 @@ const [searchInput, setSearchInput] = useState(""); // Immediate input value
           <>
           
             <TabbleOfUsersOrUser users={users} refetch={refetchAllData} />
-            {!searchQuery&&  <LimitedDataPaginationComponents
+           
+           {showPagination &&  <LimitedDataPaginationComponents
               totalItems={userCount}
               itemsPerPage={pageSize}
               currentPage={currentPage}
