@@ -1,6 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCountsQuery, useEventsQuery, useUpdateEventMutation } from "../../utils/graphql";
+import {
+  useCountsQuery,
+  useEventsQuery,
+  useLocationsfilterQuery,
+  useSellersFilterQuery,
+  useUpdateEventMutation,
+} from "../../utils/graphql";
 
 import Swal from "sweetalert2";
 import TableComponent from "../utils/table";
@@ -10,17 +16,16 @@ import {
   faCar,
   faFileArrowDown,
   faFileArrowUp,
-
 } from "@fortawesome/free-solid-svg-icons";
 import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
 
 import { FormatDate } from "../utils/dateFormat";
-import CustomButton from "../utils/buttons";
+import CustomButton, { ClearButton } from "../utils/buttons";
 import { pageHead, Tablebutton } from "../utils/style";
 import AutobseLoading from "../utils/autobseLoading";
-import {  useExcelDownload } from "../utils/excelFormat";
+import { useExcelDownload } from "../utils/excelFormat";
 import DebounceSearchInput from "../utils/globalSearch";
-
+import CustomFilter from "../utils/costomFilter";
 
 const EventsTableComponent = () => {
   const handleExcelDownload = useExcelDownload();
@@ -28,29 +33,47 @@ const EventsTableComponent = () => {
   const [pageSize, setPageSize] = useState(10);
   const [eventCount, setEventCount] = useState(0);
   const [searchInput, setSearchInput] = useState(""); // Immediate input value
-  const [searchQuery, setSearchQuery] = useState(""); 
-
-  const variables =searchQuery ?{
-    
-
-   
-    search: searchQuery ,
-   
-  }: {
-    
-
-    skip: currentPage * pageSize,
-    take: pageSize,
-    
-    orderBy: [
-      {
-        eventNo: "DESC",
-      },
-    ],
-  }
-  const { data, loading, error, refetch } = useEventsQuery({
-    variables
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterValues, setFilterValues] = useState({
+    startDate: undefined,
+    endDate: undefined,
+    status: undefined,
+    evenNO: undefined,
   });
+  const [filters, setFilters] = useState({
+    startDate: undefined,
+    endDate: undefined,
+    status: undefined,
+    locationId: undefined,
+    eventNo: undefined,
+    eventCategory: undefined,
+    sellerId: undefined,
+  });
+
+  const variables = useMemo(() => {
+    if (searchQuery || filterValues) {
+      return {
+        search: searchQuery,
+        where: filterValues ||undefined, // Use selected filters
+      };
+    } else {
+      return {
+        skip: currentPage * pageSize,
+        take: pageSize,
+        orderBy: [{ eventNo: "DESC" }],
+        // where: filterValues, // Ensure filters are applied here
+      };
+    }
+  }, [searchQuery, currentPage, pageSize, filterValues]);
+
+  const { data: locations } = useLocationsfilterQuery();
+  const { data: sellers } = useSellersFilterQuery();
+
+  const { data, loading, error, refetch } = useEventsQuery({
+    variables,
+    fetchPolicy: "network-only",
+  });
+
   const { data: countData } = useCountsQuery();
   useEffect(() => {
     if (countData && countData.eventsCount !== undefined) {
@@ -63,8 +86,30 @@ const EventsTableComponent = () => {
 
   useEffect(() => {
     refetch();
-  }, [data]);
+  }, [data, filterValues]);
 
+ 
+
+  const handleClearFilters = () => {
+    setFilterValues({
+      startDate: undefined,
+      endDate: undefined,
+      status: undefined,
+      eventNo: undefined,
+      locationId: undefined,
+      eventCategory: undefined,
+      sellerId: undefined,
+    });
+    setCurrentPage(0); // Reset to the first page
+    refetch(); // Refetch data with cleared filters
+  };
+
+  const handleFilterChange = (key, value) => {
+    setFilters((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
   const navigate = useNavigate();
   //  const [deleteEvent]=useDeleteEventMutation()
 
@@ -104,6 +149,67 @@ const EventsTableComponent = () => {
     // deleteEvent({variables:{where:{id}}})
     // refetch()
   };
+  const handleFiltersChange = (name, value) => {
+    setFilterValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const filterConfig = [
+    {
+      type: 'date',
+      label: 'Start Date',
+      name: 'startDate',
+    },
+    {
+      type: 'date',
+      label: 'End Date',
+      name: 'endDate',
+    },
+    // {
+    //   type: "number",
+    //   label: "Event No",
+    //   name: "eventNo",
+    // },
+    {
+      type: "select",
+      label: "Status",
+      name: "status",
+      options: [
+        { value: "Active", label: "Active" },
+        { value: "Inactive", label: "Inactive" },
+        { value: "Completed", label: "Completed" },
+      ],
+    },
+    {
+      type: "select",
+      label: "Event Category",
+      name: "eventCategory",
+      options: [
+        { value: "open", label: "Open" },
+        { value: "online", label: "Online" },
+      ],
+    },
+    {
+      type: "select",
+      label: "Locations",
+      name: "locationId",
+      options: locations?.locations.map((loc) => ({
+        value: loc.id,
+        label: loc.name,
+      })),
+    },
+    {
+      type: "select",
+      label: "Sellers",
+      name: "sellerId",
+      options: sellers?.sellers.map((loc) => ({
+        value: loc.id,
+        label: loc.name,
+      })),
+    },
+  ];
 
   const columns = useMemo(
     () => [
@@ -183,67 +289,55 @@ const EventsTableComponent = () => {
 
       {
         Header: "View Vehicles",
-        Cell: ({ row }) =>
-          {
-            const vehicleCount = row.original?.vehiclesCount
-        
-          
-            const isDisabled = vehicleCount === 0;
-            const buttonClass = isDisabled
-              ? `${Tablebutton.data} bg-gray-400   `
-              : `${Tablebutton.data} bg-[#43a5a0]`;
-        
-            return isDisabled ? (
-              <button
-                className={`${buttonClass} cursor-not-allowed `}
-                disabled
-               
-              >
-                {vehicleCount}
-              </button>
-            ) : (
-              <a
-                className={buttonClass}
-                href={`/view-vehicls/${row.original.id}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                 {vehicleCount}
-              </a>
-            );
-          },
+        Cell: ({ row }) => {
+          const vehicleCount = row.original?.vehiclesCount;
+
+          const isDisabled = vehicleCount === 0;
+          const buttonClass = isDisabled
+            ? `${Tablebutton.data} bg-gray-400   `
+            : `${Tablebutton.data} bg-[#43a5a0]`;
+
+          return isDisabled ? (
+            <button className={`${buttonClass} cursor-not-allowed `} disabled>
+              {vehicleCount}
+            </button>
+          ) : (
+            <a
+              className={buttonClass}
+              href={`/view-vehicls/${row.original.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {vehicleCount}
+            </a>
+          );
+        },
       },
       {
         Header: " Deleted Vehicles",
-        Cell: ({ row }) =>
-          {
-            const vehicleCount = row.original?.deletedVehiclesCount
-        
-          
-            const isDisabled = vehicleCount === 0;
-            const buttonClass = isDisabled
-              ? `${Tablebutton.data} bg-gray-400   `
-              : `${Tablebutton.data} bg-red-600`;
-        
-            return isDisabled ? (
-              <button
-                className={`${buttonClass} cursor-not-allowed `}
-                disabled
-               
-              >
-                {vehicleCount}
-              </button>
-            ) : (
-              <a
-                className={buttonClass}
-                href={`/Deleted-vehicles/${row.original.id}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                 {vehicleCount}
-              </a>
-            );
-          },
+        Cell: ({ row }) => {
+          const vehicleCount = row.original?.deletedVehiclesCount;
+
+          const isDisabled = vehicleCount === 0;
+          const buttonClass = isDisabled
+            ? `${Tablebutton.data} bg-gray-400   `
+            : `${Tablebutton.data} bg-red-600`;
+
+          return isDisabled ? (
+            <button className={`${buttonClass} cursor-not-allowed `} disabled>
+              {vehicleCount}
+            </button>
+          ) : (
+            <a
+              className={buttonClass}
+              href={`/Deleted-vehicles/${row.original.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {vehicleCount}
+            </a>
+          );
+        },
       },
       {
         Header: "Upload Excel File",
@@ -274,7 +368,7 @@ const EventsTableComponent = () => {
         ),
       },
       {
-        Header: 'ACR (Excel)',
+        Header: "ACR (Excel)",
         Cell: ({ row }) => (
           <button
             className={`${Tablebutton.data} bg-red-500 text-xl`}
@@ -307,39 +401,59 @@ const EventsTableComponent = () => {
 
   // }, []);
 
-  if(loading) return (
-    
-      
-    <AutobseLoading/>
-    
-  )
+  if (loading) return <AutobseLoading />;
 
   return (
     <div className="flex  flex-col w-full justify-around overflow-hidden">
-        <div className={pageHead.data}>
-            
-            Events
-          </div>
+      <div className={pageHead.data}>Events</div>
       <div className="flex justify-end   m-2 px-20">
-        
         <CustomButton navigateTo={"/addevent"} buttonText={" Add Event"} />
         {/* <div>
         <Report/>
         </div> */}
       </div>
-      <div className=" flex flex-col w-full justify-center m-auto ">
-       
-        
-       
-      <div className="w-72 pt-5 ml-24">
-        <DebounceSearchInput
-          placeholder="Search by location or seller name..."
-          value={searchInput}
-          onChange={setSearchInput} // Update input immediately
-          onSearch={setSearchQuery} // Trigger search after debounce
-          className="px-3 py-2 border rounded-md w-full"
+      <div className=" m-auto ">
+      <div className="px-10 flex flex-wrap gap-5 items-center justify-start">
+  {/* Search Input */}
+ 
+
+  {/* Custom Filters */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 w-full place-items-end">
+  <div className="w-full sm:w-72 ">
+    <DebounceSearchInput
+      placeholder="Search by location or seller name..."
+      value={searchInput}
+      onChange={setSearchInput} // Update input immediately
+      onSearch={setSearchQuery} // Trigger search after debounce
+      className="px-3 py-2 border rounded-md w-full text-sm"
+    />
+  </div>
+    {filterConfig.map((filter) => (
+      <div key={filter.name} className="w-full pt-1">
+        <CustomFilter
+          filters={[filter]} // Render one filter at a time
+          values={filterValues}
+          onChange={handleFiltersChange}
         />
       </div>
+    ))}
+
+    {/* Clear Button */}
+    <div className="w-full pt-1">
+      <button
+        className="bg-red-600 text-white h-10 px-6 font-semibold rounded-lg shadow-md transform hover:scale-105 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-400 p-2 text-sm w-full sm:w-fit"
+        onClick={handleClearFilters}
+      >
+        Clear Filters
+      </button>
+    </div>
+  </div>
+</div>
+
+
+       
+        {/* <CustomFilter /> */}
+
         <TableComponent
           data={data?.events.events || []}
           columns={columns}
@@ -348,13 +462,14 @@ const EventsTableComponent = () => {
           global={true}
           limit={false}
         />
-{!searchQuery&&<LimitedDataPaginationComponents
-          totalItems={eventCount}
-          itemsPerPage={pageSize}
-          currentPage={currentPage}
-          onPageChange={handlePageChange}
-        />}
-        
+        {!searchQuery && (
+          <LimitedDataPaginationComponents
+            totalItems={eventCount}
+            itemsPerPage={pageSize}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+          />
+        )}
       </div>
     </div>
   );

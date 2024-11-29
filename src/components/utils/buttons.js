@@ -17,3 +17,21 @@ const CustomButton = ({ navigateTo, buttonText }) => {
 };
 
 export default CustomButton
+
+
+export  const ClearButton = ({funct}) => {
+  
+  const handleClearFilters = () => {
+   funct()
+  };
+
+return<>
+<button
+className="bg-red-600 text-white h-10 place-self-end px-6 font-semibold rounded-lg shadow-md transform hover:scale-105 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-400 p-2 border text-sm w-fit"
+onClick={handleClearFilters}
+>
+Clear
+</button>
+</>
+
+}
