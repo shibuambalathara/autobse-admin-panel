@@ -1,0 +1,13 @@
+query Locationsfilter {
+  locations {
+    id
+    name
+  }
+}
+
+query SellersFilter {
+  sellers {
+    id
+    name
+  }
+}

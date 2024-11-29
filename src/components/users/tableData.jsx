@@ -209,7 +209,7 @@ const  [deleteUser]= useDeleteUserMutation()
         
         Header: "User",
         Cell: ({ row }) => (
-          <button  className={`${Tablebutton.data} bg-red-600`} onClick={() => handleDelete(row.original.id,row.original)}>
+          <button  className={`${Tablebutton.data} bg-red-600 text-lg`} onClick={() => handleDelete(row.original.id,row.original)}>
           <ImBin2/>
         </button>
         )

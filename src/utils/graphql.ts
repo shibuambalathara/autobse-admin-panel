@@ -351,7 +351,14 @@ export type EventOrderByInput = {
 };
 
 export type EventWhereUniqueInput = {
+  endDate?: InputMaybe<Scalars['DateTime']['input']>;
+  eventCategory?: InputMaybe<EventCategory>;
+  eventNo?: InputMaybe<Scalars['Float']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
+  locationId?: InputMaybe<Scalars['String']['input']>;
+  sellerId?: InputMaybe<Scalars['String']['input']>;
+  startDate?: InputMaybe<Scalars['DateTime']['input']>;
+  status?: InputMaybe<EventStatusType>;
 };
 
 export type ExcelWhereUniqueInput = {
@@ -440,6 +447,7 @@ export type Mutation = {
   deleteVehicle: Vehicle;
   deleteVehiclecategory: VehicleCategory;
   login: LoginResponse;
+  resetUserPassword: User;
   restoreEnquiry: Enquiry;
   restoreEvent: Event;
   restoreExcelUpload: Excelupload;
@@ -631,6 +639,11 @@ export type MutationDeleteVehiclecategoryArgs = {
 
 export type MutationLoginArgs = {
   loginInput: LoginUserInput;
+};
+
+
+export type MutationResetUserPasswordArgs = {
+  pass: Scalars['String']['input'];
 };
 
 
@@ -1882,6 +1895,16 @@ export type CreateExceluploadMutationVariables = Exact<{
 
 
 export type CreateExceluploadMutation = { __typename?: 'Mutation', createExcelupload: { __typename?: 'Excelupload', id: string, name?: string | null, file_filename: string, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null } };
+
+export type LocationsfilterQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LocationsfilterQuery = { __typename?: 'Query', locations: Array<{ __typename?: 'Location', id: string, name: string }> };
+
+export type SellersFilterQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SellersFilterQuery = { __typename?: 'Query', sellers: Array<{ __typename?: 'Seller', id: string, name: string }> };
 
 export type SellerQueryVariables = Exact<{
   where: SellerWhereUniqueInput;
@@ -3739,6 +3762,86 @@ export function useCreateExceluploadMutation(baseOptions?: Apollo.MutationHookOp
 export type CreateExceluploadMutationHookResult = ReturnType<typeof useCreateExceluploadMutation>;
 export type CreateExceluploadMutationResult = Apollo.MutationResult<CreateExceluploadMutation>;
 export type CreateExceluploadMutationOptions = Apollo.BaseMutationOptions<CreateExceluploadMutation, CreateExceluploadMutationVariables>;
+export const LocationsfilterDocument = gql`
+    query Locationsfilter {
+  locations {
+    id
+    name
+  }
+}
+    `;
+
+/**
+ * __useLocationsfilterQuery__
+ *
+ * To run a query within a React component, call `useLocationsfilterQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLocationsfilterQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLocationsfilterQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLocationsfilterQuery(baseOptions?: Apollo.QueryHookOptions<LocationsfilterQuery, LocationsfilterQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LocationsfilterQuery, LocationsfilterQueryVariables>(LocationsfilterDocument, options);
+      }
+export function useLocationsfilterLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LocationsfilterQuery, LocationsfilterQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LocationsfilterQuery, LocationsfilterQueryVariables>(LocationsfilterDocument, options);
+        }
+export function useLocationsfilterSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<LocationsfilterQuery, LocationsfilterQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<LocationsfilterQuery, LocationsfilterQueryVariables>(LocationsfilterDocument, options);
+        }
+export type LocationsfilterQueryHookResult = ReturnType<typeof useLocationsfilterQuery>;
+export type LocationsfilterLazyQueryHookResult = ReturnType<typeof useLocationsfilterLazyQuery>;
+export type LocationsfilterSuspenseQueryHookResult = ReturnType<typeof useLocationsfilterSuspenseQuery>;
+export type LocationsfilterQueryResult = Apollo.QueryResult<LocationsfilterQuery, LocationsfilterQueryVariables>;
+export const SellersFilterDocument = gql`
+    query SellersFilter {
+  sellers {
+    id
+    name
+  }
+}
+    `;
+
+/**
+ * __useSellersFilterQuery__
+ *
+ * To run a query within a React component, call `useSellersFilterQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSellersFilterQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSellersFilterQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useSellersFilterQuery(baseOptions?: Apollo.QueryHookOptions<SellersFilterQuery, SellersFilterQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SellersFilterQuery, SellersFilterQueryVariables>(SellersFilterDocument, options);
+      }
+export function useSellersFilterLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SellersFilterQuery, SellersFilterQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SellersFilterQuery, SellersFilterQueryVariables>(SellersFilterDocument, options);
+        }
+export function useSellersFilterSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<SellersFilterQuery, SellersFilterQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<SellersFilterQuery, SellersFilterQueryVariables>(SellersFilterDocument, options);
+        }
+export type SellersFilterQueryHookResult = ReturnType<typeof useSellersFilterQuery>;
+export type SellersFilterLazyQueryHookResult = ReturnType<typeof useSellersFilterLazyQuery>;
+export type SellersFilterSuspenseQueryHookResult = ReturnType<typeof useSellersFilterSuspenseQuery>;
+export type SellersFilterQueryResult = Apollo.QueryResult<SellersFilterQuery, SellersFilterQueryVariables>;
 export const SellerDocument = gql`
     query Seller($where: SellerWhereUniqueInput!) {
   seller(where: $where) {

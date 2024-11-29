@@ -32,7 +32,8 @@ navigate(`/update-payment/${paymentId}`)
     const handleMessage=(payment)=>{
       const {amount,paymentFor,createdAt}=payment
       const formatedDate=format(new Date( createdAt),`dd/MM/yy, HH:mm`)
-     const  {firstName,lastName}=data.user
+      
+     const  {firstName,lastName}=data.payments[0]?.user
      
       Swal.fire({
         html: `<div>
@@ -130,7 +131,7 @@ navigate(`/update-payment/${paymentId}`)
             Header: "Payment Message",
             Cell: ({ row }) => {
               
-    if(row.original.status==='approved' ){return(   <button className={`${Tablebutton.data} bg-teal-500`}  onClick={() => handleMessage(row.original)}>Message To:{data?.user?.mobile}</button>)}
+    if(row.original.status==='approved' ){return(   <button className={`${Tablebutton.data} bg-teal-500`}  onClick={() => handleMessage(row.original)}>Message To:{data?.payments?.user?.mobile}</button>)}
     else {
       
       return row.original.status;}

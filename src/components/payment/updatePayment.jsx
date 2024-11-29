@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form";
-import {  useParams } from 'react-router-dom';
+import {  useNavigate, useParams } from 'react-router-dom';
 import {  useUpdatePaymentMutation, usePaymentQuery } from '../../utils/graphql'
 import { ShowPopup } from '../alerts/popUps';
 import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyle, submit } from '../utils/style';
@@ -9,6 +9,7 @@ import { paymentsFor } from '../utils/constantValues';
 import { getS3ObjectUrl } from '../utils/aws-config';
 
 const UpdatePayment = () => {
+  const navigate =useNavigate()
   const [paymentUrl, setPaymentUrl] = useState('');
   const { id } = useParams();
   // const { data, loading, error } = useViewUserQuery({ variables: { where: { id: id } } });
@@ -42,6 +43,7 @@ const UpdatePayment = () => {
           setPaymentUrl(result?.res?.image); // Update with new image URL after successful upload
           // ShowPopup("Success!", "Document upload successful", "success", 5000, true);
         }
+       
       } catch (error) {
         console.error("Error during document upload:", error);
         ShowPopup("Error!", "Error during document upload", "error", 5000, true);
@@ -84,7 +86,8 @@ const UpdatePayment = () => {
         ShowPopup("Success!", `${dataOnSubmit?.paymentFor} updated successfully!`, "success", 5000, true);
         await uploadFile(dataOnSubmit); // Call uploadFile after successful mutation
       }
-      payment.refetch()
+      // payment.refetch()
+      navigate('/users')
     } catch (error) {
       ShowPopup("Error!", `${error.message} `, "error", 5000, true);
     }

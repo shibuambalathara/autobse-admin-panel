@@ -42,7 +42,7 @@ const AddUser = () => {
       // Call uploadDocuments with the new user ID
       await uploadDocuments(formData, newUserId);
 
-    
+      navigate('/users')
     } catch (error) {
       ShowPopup("Failed!", `${error.message}`, "error", 5000, true);
     }
@@ -96,7 +96,7 @@ const AddUser = () => {
           <FormFieldInput label="Mobile Number" type="number" name="mobile" register={register} error={errors.mobile} required minLength={10} maxLength={10} />
           <PANCardInput label="Pancard Number" type="text" name="pancardNumber" register={register} error={errors.pancardNumber} required />
           <FormFieldInput label="Pancard Image" type="file" name="pancardImage" register={register} error={errors.pancardImage} required/>
-          <FormFieldInput label="ID Proof Number" type="text" name="IdNumber" register={register} error={errors.IdNumber} minLength={8} />
+          <FormFieldInput label="ID Proof Number" type="text" name="IdNumber" register={register} error={errors.IdNumber} minLength={12}  />
           
          
          

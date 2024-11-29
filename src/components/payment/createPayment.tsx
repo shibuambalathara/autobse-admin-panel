@@ -72,6 +72,7 @@ const CreatePayment: React.FC = () => {
       if (newUserId) {
         await uploadDocuments(dataOnSubmit, newUserId);
       }
+      navigate('/users')
         ShowPopup("Success!", `Payment created successfully!`, "success", 5000, true);
       }
     } catch (error: any) {
