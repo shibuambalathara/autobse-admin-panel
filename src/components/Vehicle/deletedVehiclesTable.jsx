@@ -38,8 +38,25 @@ const DeletedVehicleTable = () => {
   const [enable, setEnable] = useState(false);
 
   
-  const handleDelete = async (deleteVehicleId, bidCount) => {
-    const result = await ConfirmationAlert();
+  const handleDelete = async (deleteVehicleId, bidCount,data) => {
+    const result = await Swal.fire({
+      title: "Are you sure you want to restore this vehicle?",
+      html: `
+        Registration no: ${data?.registrationNumber|| ''}<br>
+      `,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: '#DD6B55', // Optional: Set confirm button color to red
+      cancelButtonColor: '#aaa',     // Optional: Set cancel button color to gray
+      confirmButtonText: "Delete Bid",
+      cancelButtonText: "Cancel",
+      customClass: {
+        title: 'text-xl font-semibold',  // Tailwind classes for smaller title size
+        confirmButton: 'btn btn-danger',
+        cancelButton: 'btn btn-secondary'
+      }
+    });
+  
     if (result.isConfirmed) {
     
 
@@ -185,7 +202,7 @@ const DeletedVehicleTable = () => {
       {
         Header: "Restore",
         Cell: ({ row }) => (
-          <button  className={`${Tablebutton?.data} bg-green-700 text-lg`} onClick={() => handleDelete(row.original.id,row.original.totalBids)}><MdOutlineSettingsBackupRestore/></button>
+          <button  className={`${Tablebutton?.data} bg-green-700 text-lg`} onClick={() => handleDelete(row.original.id,row.original.totalBids,row.original)}><MdOutlineSettingsBackupRestore/></button>
         )
       }
     ],

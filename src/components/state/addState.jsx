@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useCreateStateMutation, useStatesQuery } from "../../utils/graphql";
 import { ShowPopup } from "../alerts/popUps";
 import { indianStates } from "../../utils/data";
-import { InputField } from "../utils/formField";
+import { InputField, InputFields } from "../utils/formField";
 
 const AddState = () => {
   const [createState] = useCreateStateMutation();
@@ -69,7 +69,7 @@ const AddState = () => {
         <div className="space-y-5">
           <div className="flex flex-col">
             {/* <label className="font-medium text-gray-700 mb-2">State Name</label> */}
-            <InputField
+            <InputFields
               label="State Name"
               register={register("name", { required: "State is required" })}
               component="select"

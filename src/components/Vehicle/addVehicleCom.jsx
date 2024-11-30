@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { StateNames, useCreateVehicleMutation ,useVehicleCategoriesQuery} from "../../utils/graphql";
 import { ShowPopup } from '../alerts/popUps';
-import { CatInput, FormFieldInput, SelectInput, StateInput, TextAreaInput } from "../utils/formField";
+import { CatInput, FormFieldInput, InputFields, SelectInput, StateInput, TextAreaInput } from "../utils/formField";
 import { bidStatusOptions } from "../utils/constantValues";
 import { formStyle, h2Style, headerStyle, inputStyle, pageStyle } from "../utils/style";
 import { indianStates } from "../../utils/data";
@@ -154,7 +154,13 @@ const AddVehicleComponent = () => {
             <FormFieldInput label="Area" type="text" name="area" register={register} error={errors.area} />
             <FormFieldInput label="City" type="text" name="city" register={register} error={errors.city} />
             {/* <FormFieldInput label="State" type="text" name="state" register={register} error={errors.state} /> */}
-           < StateInput options={indianStates} label="State" type="text" name="state" register={register} error={errors.state} />
+           <InputFields
+              label="State"
+              register={register("state",)}
+              component="select"
+              options={indianStates}
+              className="p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            />
             <FormFieldInput label="Color" type="text" name="color" register={register} error={errors.color} />
             <FormFieldInput label="Shape" type="text" name="shape" register={register} error={errors.shape} />
             <FormFieldInput label="Power Steering" type="text" name="powerSteering" register={register} error={errors.powerSteering} />

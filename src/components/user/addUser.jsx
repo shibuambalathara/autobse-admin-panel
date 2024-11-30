@@ -4,7 +4,7 @@ import { ShowPopup } from '../alerts/popUps';
 import { useNavigate } from "react-router-dom";
 import { indianStates } from "../../utils/data";
 import { formStyle, h2Style, headerStyle, submit } from "../utils/style";
-import { FormFieldInput, PANCardInput, StateInput } from "../utils/formField";
+import { FormFieldInput, InputFields, PANCardInput, StateInput } from "../utils/formField";
 import { useState } from "react";
 
 const AddUser = () => {
@@ -104,8 +104,13 @@ const AddUser = () => {
           <FormFieldInput label="ID Proof (Back)" type="file" name="idBack" register={register} error={errors.idBack} />
           {/* <FormFieldInput label="Dealership Image" type="file" name="dealership" register={register} error={errors.dealership} /> */}
 
-          < StateInput options={indianStates} label="State" type="text" name="state" register={register} error={errors.state}  />
-          {/* <FormFieldInput label="City" type="text" name="city" register={register} error={errors.city} /> */}
+          <InputFields
+              label="State"
+              register={register("state",)}
+              component="select"
+              options={indianStates}
+              className="p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            />          {/* <FormFieldInput label="City" type="text" name="city" register={register} error={errors.city} /> */}
 
           
 

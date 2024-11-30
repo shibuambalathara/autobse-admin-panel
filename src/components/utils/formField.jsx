@@ -221,7 +221,7 @@ export const InputFields = ({
   error,
   defaultValue,
   component = "input",
-  options,
+  options=[],
   type = "text",
   control,
   isMulti = false,
@@ -229,7 +229,11 @@ export const InputFields = ({
   name,
   disabled = false,
 }) => (
+
+  
   <div className={`${labelAndInputDiv.data}`}>
+    {console.log(options)
+  }
     {label && <label className="font-bold">{label}{required&&<span className="text-red-500 text-lg pl-1">*</span>}</label>}
     {component === "input" && (
       <input
@@ -259,20 +263,22 @@ export const InputFields = ({
       />
     )}
     {component === "select" && (
-      <select
-        defaultValue={defaultValue}
-        {...register}
-        className={`${inputStyle.data}`}
-        disabled={disabled}
-      >
-        
-        {options.map((option, index) => (
-          <option key={index} value={option.value}>
-            {option.label}
+        <select
+          defaultValue={defaultValue}
+          {...register}
+          className={`${inputStyle.data}`}
+          disabled={disabled}
+        >
+          <option value="" >
+            Select {label}
           </option>
-        ))}
-      </select>
-    )}
+          {options.map((option) => (
+  <option key={option.value} value={option.value}>
+    {option.label}
+  </option>
+))}
+        </select>
+      )}
     {component === "controller" && control && (
       <Controller
         name={name}
