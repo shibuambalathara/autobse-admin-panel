@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 
 import { ShowPopup } from "../alerts/popUps";
-import  { FormFieldInput, ImageMaping, StateInput } from "../utils/formField";
+import  { FormFieldInput, ImageMaping, InputFields, StateInput } from "../utils/formField";
 import ImageUpload from "../upload/imageUpload";
 import { DateConvert } from "../utils/dateFormat";
 import { indianStates } from "../../utils/data";
@@ -73,7 +73,11 @@ const EditVehicleComponent = ({data,loading,error,handleSubmit,onSubmit,register
           
           <FormFieldInput label="Color" type="text" name="color" register={register} error={errors.color} />
           <FormFieldInput label="City" type="text" name="city" register={register} error={errors.city} />
-          < StateInput options={indianStates} label="State" type="text" name="state" register={register} error={errors.state} />
+          <InputFields    error={errors.state} label="State Name"
+             defaultValue={data?.vehicle?.state}
+              register={register("state", { required: "State is required" })}
+              component="select"
+              options={indianStates} />
           
           <FormFieldInput label="Area" type="text" name="area" register={register} error={errors.area} />
           <FormFieldInput label="Payment Terms" type="text" name="paymentTerms" register={register} error={errors.paymentTerms} />

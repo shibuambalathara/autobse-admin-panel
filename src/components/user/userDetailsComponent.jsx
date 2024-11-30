@@ -1,16 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
-import { useStatesQuery, useUpdateUserMutation, useViewUserQuery ,} from "../../utils/graphql";
+import {
+  useStatesQuery,
+  useUpdateUserMutation,
+  useViewUserQuery,
+} from "../../utils/graphql";
 import { ShowPopup } from "../alerts/popUps";
-import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyle, submit } from "../utils/style";
+import {
+  formStyle,
+  h2Style,
+  headerStyle,
+  inputStyle,
+  labelAndInputDiv,
+  pageStyle,
+  submit,
+} from "../utils/style";
 import { indianStates } from "../../utils/data";
 import { InputField, InputFields, PANCardInput } from "../utils/formField";
 import imageCompression from "browser-image-compression";
 import Select from "react-select";
 import { FaEdit, FaUpload } from "react-icons/fa";
 import AutobseLoading from "../utils/autobseLoading";
-
 
 const UserDetailsComponent = () => {
   const navigate = useNavigate();
@@ -29,7 +40,13 @@ const UserDetailsComponent = () => {
   };
   const allStates = useStatesQuery();
   const [updateUser] = useUpdateUserMutation();
-  const { register, handleSubmit, formState: { errors }, reset,control } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    control,
+  } = useForm();
   const [isUpload, setIsUpload] = useState(false);
   const [fileData, setFileData] = useState({
     pancard_image: { file: null, preview: null },
@@ -44,10 +61,22 @@ const UserDetailsComponent = () => {
     if (data) {
       setFileData({
         pancard_image: { file: null, preview: data.user.pancard_image || null },
-        aadharcard_front_image: { file: null, preview: data.user.aadharcard_front_image || null },
-        aadharcard_back_image: { file: null, preview: data.user.aadharcard_back_image || null },
-        driving_license_front_image: { file: null, preview: data.user.driving_license_front_image || null },
-        driving_license_back_image: { file: null, preview: data.user.driving_license_back_image || null },
+        aadharcard_front_image: {
+          file: null,
+          preview: data.user.aadharcard_front_image || null,
+        },
+        aadharcard_back_image: {
+          file: null,
+          preview: data.user.aadharcard_back_image || null,
+        },
+        driving_license_front_image: {
+          file: null,
+          preview: data.user.driving_license_front_image || null,
+        },
+        driving_license_back_image: {
+          file: null,
+          preview: data.user.driving_license_back_image || null,
+        },
       });
     }
   }, [data]);
@@ -85,22 +114,26 @@ const UserDetailsComponent = () => {
     });
 
     try {
-      const response = await fetch(`https://api-dev.autobse.com/api/v1/fileupload/userprofile/${id}`, {
-        method: "PUT",
-        body: formDataPayload,
-      });
-      if (!response.ok) throw new Error(`Image upload failed: ${response.status}`);
+      const response = await fetch(
+        `https://api-dev.autobse.com/api/v1/fileupload/userprofile/${id}`,
+        {
+          method: "PUT",
+          body: formDataPayload,
+        }
+      );
+      if (!response.ok)
+        throw new Error(`Image upload failed: ${response.status}`);
     } catch (error) {
       console.error("Error during document upload:", error);
     }
   };
 
   const onSubmit = async (dataOnSubmit) => {
-   
-    const states = dataOnSubmit?.states?.length > 0 
-    ? dataOnSubmit.states.map((state) => state?.label) 
-    : undefined;
-  
+    const states =
+      dataOnSubmit?.states?.length > 0
+        ? dataOnSubmit.states.map((state) => state?.label)
+        : undefined;
+
     // Creating the user object with conditional states inclusion
     const user = {
       firstName: dataOnSubmit?.first_Name,
@@ -117,19 +150,24 @@ const UserDetailsComponent = () => {
       role: dataOnSubmit?.role,
       ...(states && { states }), // Only add `states` if it has valid data
     };
-  
 
     try {
       await updateUser({ variables: { where: { id }, data: user } });
-       await uploadFile();
-      ShowPopup("Success!", `${dataOnSubmit.first_Name} updated successfully!`, "success", 5000, true);
-      navigate('/users') // Reset form after success
+      await uploadFile();
+      ShowPopup(
+        "Success!",
+        `${dataOnSubmit.first_Name} updated successfully!`,
+        "success",
+        5000,
+        true
+      );
+      navigate("/users"); // Reset form after success
     } catch (err) {
       ShowPopup("User Update Failed!", err.message, "error", 5000, true);
     }
   };
 
-  if (loading) return <AutobseLoading/>
+  if (loading) return <AutobseLoading />;
   if (error) return <p>Error loading user details</p>;
 
   return (
@@ -141,130 +179,192 @@ const UserDetailsComponent = () => {
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={formStyle.data}>
-          <InputField label="First Name" register={register("first_Name", { required: "First Name is required" })} defaultValue={data.user.firstName} error={errors.first_Name} />
-          <InputField label="Last Name" register={register("last_Name", { required: "Last Name is required" })} defaultValue={data.user.lastName} error={errors.last_Name} />
-          <InputField label="Email" type="email" register={register("email")} defaultValue={data.user.email} error={errors.email} />
-          <InputField label="Username" register={register("user_Name")} defaultValue={data.user.username} error={errors.user_Name} disabled={true} />
-          <InputField label="Mobile" register={register("mobile")} defaultValue={data.user.mobile} error={errors.mobile} disabled={true} />
+          <InputField
+            label="First Name"
+            register={register("first_Name", {
+              required: "First Name is required",
+            })}
+            defaultValue={data.user.firstName}
+            error={errors.first_Name}
+          />
+          <InputField
+            label="Last Name"
+            register={register("last_Name", {
+              required: "Last Name is required",
+            })}
+            defaultValue={data.user.lastName}
+            error={errors.last_Name}
+          />
+          <InputField
+            label="Email"
+            type="email"
+            register={register("email")}
+            defaultValue={data.user.email}
+            error={errors.email}
+          />
+          <InputField
+            label="Username"
+            register={register("user_Name")}
+            defaultValue={data.user.username}
+            error={errors.user_Name}
+            disabled={true}
+          />
+          <InputField
+            label="Mobile"
+            register={register("mobile")}
+            defaultValue={data.user.mobile}
+            error={errors.mobile}
+            disabled={true}
+          />
           {/* <InputField label="Mobile" type="number" register={register("mobile", { required: "Mobile number is required", minLength: { value: 10, message: "Mobile number must be 10 digits" }, maxLength: { value: 10, message: "Mobile number must be 10 digits" } })} defaultValue={data.user.mobile} error={errors.mobile} /> */}
-          <InputField label="Business Name" register={register("bussiness")} defaultValue={data.user.businessName} error={errors.bussiness} />
-          <InputField label="ID Proof Number" register={register("IdNumber", )} defaultValue={data.user.idProofNo} error={errors.IdNumber} />
-          <InputField label="State" register={register("state", { required: "State is required" })} defaultValue={data.user.state} component="select" options={indianStates} />
-          {/* <InputField label="City" register={register("city")} defaultValue={data.user.city} error={errors.city} /> */}
-          <PANCardInput label="Pancard No"  name="pancardNumber" register={register} defaultValue={data.user.pancardNo} error={errors.pancardNumber}  required/>
+          <InputField
+            label="Business Name"
+            register={register("bussiness")}
+            defaultValue={data.user.businessName}
+            error={errors.bussiness}
+          />
+          <InputField
+            label="ID Proof Number"
+            register={register("IdNumber")}
+            defaultValue={data.user.idProofNo}
+            error={errors.IdNumber}
+          />
           <InputFields
-  label="Role"
-  name="role"
-  component="select"
-  defaultValue={data.user.role}
-  register={register("role", { required: "Role is required" })}
-  error={errors.role}
-  options={[
-    { value: "admin", label: "Admin" },
-    { value: "staff", label: "Staff" },
-    { value: "seller", label: "Seller" },
-    { value: "dealer", label: "Dealer" },
-  ]}
-/>
+            error={errors.state}
+            label="State Name"
+            defaultValue={data?.vehicle?.state}
+            register={register("state", { required: "State is required" })}
+            component="select"
+            options={indianStates}
+          />
+          {/* <InputField label="City" register={register("city")} defaultValue={data.user.city} error={errors.city} /> */}
+          <PANCardInput
+            label="Pancard No"
+            name="pancardNumber"
+            register={register}
+            defaultValue={data.user.pancardNo}
+            error={errors.pancardNumber}
+            required
+          />
+          <InputFields
+            label="Role"
+            name="role"
+            component="select"
+            defaultValue={data.user.role}
+            register={register("role", { required: "Role is required" })}
+            error={errors.role}
+            options={[
+              { value: "admin", label: "Admin" },
+              { value: "staff", label: "Staff" },
+              { value: "seller", label: "Seller" },
+              { value: "dealer", label: "Dealer" },
+            ]}
+          />
 
-<InputFields
-  label="Status"
-  name="status"
-  component="select"
-  defaultValue={data.user.status}
-  register={register("status", { required: "Status is required" })}
-  error={errors.status}
-  options={[
-    
-    { value: "pending", label: "Pending" },
-    { value: "blocked", label: "Blocked" },
-    { value: "active", label: "Active" },
-    { value: "inactive", label: "Inactive" },
-  ]}
-/>
+          <InputFields
+            label="Status"
+            name="status"
+            component="select"
+            defaultValue={data.user.status}
+            register={register("status", { required: "Status is required" })}
+            error={errors.status}
+            options={[
+              { value: "pending", label: "Pending" },
+              { value: "blocked", label: "Blocked" },
+              { value: "active", label: "Active" },
+              { value: "inactive", label: "Inactive" },
+            ]}
+          />
           <div className="flex flex-col  w-full">
-                <label htmlFor="">Auction Allowed states</label>
+            <label htmlFor="">Auction Allowed states</label>
 
-                <Controller
-                  name="states"
-                  // rules={{ required: "Please select at least one state" }} 
-                  control={control}
-                  defaultValue={data?.user?.states.map((state) => ({
+            <Controller
+              name="states"
+              // rules={{ required: "Please select at least one state" }}
+              control={control}
+              defaultValue={data?.user?.states.map((state) => ({
+                label: state.name,
+                value: state.id,
+              }))}
+              render={({ field }) => (
+                <Select
+                  className={`${inputStyle.data}`}
+                  option=""
+                  options={allStates?.data?.States?.map((state) => ({
                     label: state.name,
                     value: state.id,
                   }))}
-                  render={({ field }) => (
-                    <Select
-                    
-               className={`${inputStyle.data}`}
-                      option=""
-                      options={allStates?.data?.States?.map((state) => ({
-                        label: state.name,
-                        value: state.id,
-                      }))}
-                      {...field}
-                      isMulti
-                      getOptionValue={(option) => option.value}
-                    />
-                  )}
+                  {...field}
+                  isMulti
+                  getOptionValue={(option) => option.value}
                 />
-                 <p className="text-red-500">{errors.states && <span>{errors.states.message}</span>}</p>
-              </div>
-          <div className="col-span-3  mt-4">
-           
-           
-          <div className="col-span-3 gap-10 gap-y-6 grid grid-cols-3 mt-4">
-      {Object.keys(imageLabels).map((key, index) => (
-        <div key={index} className="flex flex-col items-center  h-72 w-88 relative group">
-          <label className="text-gray-700 text-sm font-bold mb-2">
-            {imageLabels[key]} Image
-          </label>
-
-          {/* Image Preview or Gray Background */}
-          {fileData[key]?.preview ? (
-            <div className="relative w-full h-full flex items-center justify-center">
-              <img
-                src={fileData[key].preview}
-                alt={`${key} preview`}
-                className="object-cover w-full h-64 mt-2 rounded-lg"
-              />
-              <button
-               type="button"
-                className="absolute inset-0 h-64 mt-2  bg-black bg-opacity-50 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity rounded-lg"
-                onClick={() => document.getElementById(`file-input-${index}`).click()}
-              >
-                <FaEdit className="text-2xl" />
-              </button>
-            </div>
-          ) : (
-            <div className="flex items-center justify-center w-full h-64 mt-2 bg-gray-100 rounded-lg group-hover:bg-gray-200 transition-colors">
-              <button
-              type="button"
-                className="flex items-center justify-center text-gray-500"
-                onClick={() => document.getElementById(`file-input-${index}`).click()}
-              >
-                <FaUpload className="text-2xl" />
-              </button>
-            </div>
-          )}
-
-          {/* Hidden Input */}
-          <input
-            type="file"
-            id={`file-input-${index}`}
-            name={key}
-            onChange={handleFileChange}
-            className="hidden"
-          />
-        </div>
-      ))}
-    </div>
+              )}
+            />
+            <p className="text-red-500">
+              {errors.states && <span>{errors.states.message}</span>}
+            </p>
           </div>
+          <div className="col-span-3  mt-4">
+            <div className="col-span-3 gap-10 gap-y-6 grid grid-cols-3 mt-4">
+              {Object.keys(imageLabels).map((key, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col items-center  h-72 w-88 relative group"
+                >
+                  <label className="text-gray-700 text-sm font-bold mb-2">
+                    {imageLabels[key]} Image
+                  </label>
 
+                  {/* Image Preview or Gray Background */}
+                  {fileData[key]?.preview ? (
+                    <div className="relative w-full h-full flex items-center justify-center">
+                      <img
+                        src={fileData[key].preview}
+                        alt={`${key} preview`}
+                        className="object-cover w-full h-64 mt-2 rounded-lg"
+                      />
+                      <button
+                        type="button"
+                        className="absolute inset-0 h-64 mt-2  bg-black bg-opacity-50 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity rounded-lg"
+                        onClick={() =>
+                          document.getElementById(`file-input-${index}`).click()
+                        }
+                      >
+                        <FaEdit className="text-2xl" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center w-full h-64 mt-2 bg-gray-100 rounded-lg group-hover:bg-gray-200 transition-colors">
+                      <button
+                        type="button"
+                        className="flex items-center justify-center text-gray-500"
+                        onClick={() =>
+                          document.getElementById(`file-input-${index}`).click()
+                        }
+                      >
+                        <FaUpload className="text-2xl" />
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Hidden Input */}
+                  <input
+                    type="file"
+                    id={`file-input-${index}`}
+                    name={key}
+                    onChange={handleFileChange}
+                    className="hidden"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
         <div className="flex justify-center my-5 col-span-3">
-            <button type="submit"  className={`${submit.data}`} >UPDATE </button>
-          </div>
+          <button type="submit" className={`${submit.data}`}>
+            UPDATE{" "}
+          </button>
+        </div>
       </form>
     </div>
   );

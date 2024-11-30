@@ -38,7 +38,11 @@ const EventsTableComponent = () => {
     startDate: undefined,
     endDate: undefined,
     status: undefined,
-    evenNO: undefined,
+    locationId: undefined,
+    eventNo: undefined,
+    eventCategory: undefined,
+    sellerId: undefined,
+    
   });
   const [filters, setFilters] = useState({
     startDate: undefined,
@@ -49,22 +53,26 @@ const EventsTableComponent = () => {
     eventCategory: undefined,
     sellerId: undefined,
   });
-
+  const hasFilterValues = Object.values(filterValues).some(value => value !== undefined); 
+  
+  const showPagination = !searchQuery && !hasFilterValues
   const variables = useMemo(() => {
-    if (searchQuery || filterValues) {
+    // Check if any filter value is not undefined
+  
+    if (searchQuery || hasFilterValues) {
       return {
-        search: searchQuery,
-        where: filterValues ||undefined, // Use selected filters
+        search: searchQuery || undefined, // Include searchQuery if it exists
+        where: hasFilterValues ? filterValues : undefined, // Include filters only if they exist
       };
     } else {
+      // Default pagination logic
       return {
         skip: currentPage * pageSize,
         take: pageSize,
         orderBy: [{ eventNo: "DESC" }],
-        // where: filterValues, // Ensure filters are applied here
       };
     }
-  }, [searchQuery, currentPage, pageSize, filterValues]);
+  }, [searchQuery, filterValues, currentPage, pageSize]);
 
   const { data: locations } = useLocationsfilterQuery();
   const { data: sellers } = useSellersFilterQuery();
@@ -103,6 +111,8 @@ const EventsTableComponent = () => {
     setCurrentPage(0); // Reset to the first page
     refetch(); // Refetch data with cleared filters
   };
+
+
 
   const handleFilterChange = (key, value) => {
     setFilters((prev) => ({
@@ -210,6 +220,7 @@ const EventsTableComponent = () => {
       })),
     },
   ];
+  
 
   const columns = useMemo(
     () => [
@@ -413,21 +424,13 @@ const EventsTableComponent = () => {
         </div> */}
       </div>
       <div className=" m-auto ">
-      <div className="px-10 flex flex-wrap gap-5 items-center justify-start">
+      <div className="px-5  flex flex-wrap gap-5 items-center justify-start pb-8">
   {/* Search Input */}
  
 
   {/* Custom Filters */}
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 w-full place-items-end">
-  <div className="w-full sm:w-72 ">
-    <DebounceSearchInput
-      placeholder="Search by location or seller name..."
-      value={searchInput}
-      onChange={setSearchInput} // Update input immediately
-      onSearch={setSearchQuery} // Trigger search after debounce
-      className="px-3 py-2 border rounded-md w-full text-sm"
-    />
-  </div>
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 w-full place-items-end">
+  
     {filterConfig.map((filter) => (
       <div key={filter.name} className="w-full pt-1">
         <CustomFilter
@@ -453,7 +456,15 @@ const EventsTableComponent = () => {
 
        
         {/* <CustomFilter /> */}
-
+        <div className="w-full sm:w-72 px-4 ">
+    <DebounceSearchInput
+      placeholder="Search by location or seller name..."
+      value={searchInput}
+      onChange={setSearchInput} // Update input immediately
+      onSearch={setSearchQuery} // Trigger search after debounce
+      className="px-3 py-2 border rounded-md w-full text-sm"
+    />
+  </div>
         <TableComponent
           data={data?.events.events || []}
           columns={columns}
@@ -462,7 +473,7 @@ const EventsTableComponent = () => {
           global={true}
           limit={false}
         />
-        {!searchQuery && (
+        { showPagination  && (
           <LimitedDataPaginationComponents
             totalItems={eventCount}
             itemsPerPage={pageSize}

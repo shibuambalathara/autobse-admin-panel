@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useTable, usePagination, useGlobalFilter, useSortBy } from "react-table";
 import Search from "./search";
 import LimitedDataPaginationComponents from "./limitedDataPagination";
+import NotFoundPage from "./emptyComponent";
 
 function TableComponent(prop) {
   const { columns, data, pagination ,global=false ,limit=true} = prop;
@@ -40,7 +41,9 @@ function TableComponent(prop) {
   if (!data) {
     return <div>Loading...</div>;
   }
-
+if(data.length<=0){
+  return <NotFoundPage />
+}
   return (
     <div className="flex flex-col items-center">
       <div>

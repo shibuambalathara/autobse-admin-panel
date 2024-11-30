@@ -1,9 +1,10 @@
+import { indianStates } from "../../utils/data";
 
 
-import { useStatesQuery } from '../../utils/graphql';
+
 
 const SearchByState = ({setState,value}) => {
-    const {data:states}=useStatesQuery()
+    
 
   return (
     
@@ -22,9 +23,9 @@ const SearchByState = ({setState,value}) => {
       }}
   >
     <option value="">Select State </option>
-    {states?.States.map((item) => (
-      <option key={item.name} value={item.name}>
-        {item.name}
+    {indianStates.map((item) => (
+      <option key={item.value} value={item.value}>
+        {item.label}
       </option>
     ))}
  

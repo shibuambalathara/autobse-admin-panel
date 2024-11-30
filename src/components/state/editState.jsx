@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useUpdateStateMutation } from "../../utils/graphql";
 import { ShowPopup } from "../alerts/popUps";
 import { indianStates } from "../../utils/data";
-import { InputField } from "../utils/formField";
+import { InputField, InputFields } from "../utils/formField";
 
 const EditState = ({ id, isModalOpen, setIsModalOpen, refetch ,name}) => {
   const [updateState] = useUpdateStateMutation();
@@ -52,8 +52,8 @@ const EditState = ({ id, isModalOpen, setIsModalOpen, refetch ,name}) => {
             <label className="text-lg font-medium text-gray-700 mb-2" htmlFor="state-name">
               State Name
             </label>
-            <InputField
-              // label="State Name"
+            <InputFields
+              label="State Name"
               defaultValue={name}
               register={register("name", { required: "State is required" })}
               component="select"

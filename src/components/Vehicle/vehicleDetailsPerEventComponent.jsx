@@ -122,7 +122,7 @@ const VehicleDetailsPerEventComponent = () => {
   };
 
   const handleDelete = async (deleteVehicleId, bidCount,data) => {
-    console.log(data,"data2");
+    
     
     const result = await Swal.fire({
       title: "Are you sure you want to delete this vehicle?",
