@@ -364,7 +364,7 @@ const AddEventComponent = () => {
             {category === "online" && (
               <div className="flex flex-col  relative ">
                 <label className="font-bold" htmlFor="">
-                  Bids Amount Smaller than the Winning bid amount is
+               Bid Lock
                 </label>
 
                 <select
