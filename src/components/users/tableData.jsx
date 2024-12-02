@@ -24,13 +24,13 @@ const  [deleteUser]= useDeleteUserMutation()
     const response = await Swal.fire({
       title: "Are you sure you want to delete this user?",
       html: `
-        User name: ${data?.firstName} ${data?.lastName || ''}<br>
-        Role :${data?.role}`,
+        User N ame: ${data?.firstName} ${data?.lastName || ''}<br>
+        Role: ${data?.role}`,
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: '#DD6B55', // Optional: Set confirm button color to red
       cancelButtonColor: '#aaa',     // Optional: Set cancel button color to gray
-      confirmButtonText: "Delete Bid",
+      confirmButtonText: "Delete User",
       cancelButtonText: "Cancel",
       customClass: {
         title: 'text-xl font-semibold',  // Tailwind classes for smaller title size

@@ -187,9 +187,9 @@ const EventsTableComponent = () => {
       label: "Status",
       name: "status",
       options: [
-        { value: "Active", label: "Active" },
-        { value: "Inactive", label: "Inactive" },
-        { value: "Completed", label: "Completed" },
+        { value: "active", label: "Active" },
+        { value: "inactive", label: "Inactive" },
+        { value: "completed", label: "Completed" },
       ],
     },
     {
