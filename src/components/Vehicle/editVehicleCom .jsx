@@ -75,7 +75,7 @@ const EditVehicleComponent = ({data,loading,error,handleSubmit,onSubmit,register
           <FormFieldInput label="City" type="text" name="city" register={register} error={errors.city} />
           <InputFields    error={errors.state} label="State Name"
              defaultValue={data?.vehicle?.state}
-              register={register("state", { required: "State is required" })}
+              register={register("state")}
               component="select"
               options={indianStates} />
           

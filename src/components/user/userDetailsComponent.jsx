@@ -225,15 +225,18 @@ const UserDetailsComponent = () => {
           />
           <InputField
             label="ID Proof Number"
-            register={register("IdNumber")}
+            register={register("IdNumber", { pattern: {
+              value: /^[0-9]{16}$/, // 10 digit phone number pattern
+              message: "Please enter a valid 16-digit  number"
+            } })}
             defaultValue={data.user.idProofNo}
             error={errors.IdNumber}
           />
           <InputFields
             error={errors.state}
-            label="State Name"
-            defaultValue={data?.vehicle?.state}
-            register={register("state", { required: "State is required" })}
+            label="State"
+            defaultValue={data?.user?.state}
+            register={register("state",{required:"State is required"})}
             component="select"
             options={indianStates}
           />

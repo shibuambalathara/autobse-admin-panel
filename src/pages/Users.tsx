@@ -72,11 +72,7 @@ const  subscribeUser= useSubscriptionUserUpdatesSubscription()
 console.log(subscribeUser ,"usersub");
 const [searchInput, setSearchInput] = useState(""); // Immediate input value
   const [searchQuery, setSearchQuery] = useState(""); 
-  useEffect(() => {
-    if (countData && countData.usersCount !== undefined) {
-      setUserCount(countData.usersCount);
-    }
-  }, [countData]);
+ 
   const buildQueryVariables = (): UserQueryVariables => {
     const whereClause: UserQueryVariables["where"] = {};
   
@@ -106,8 +102,11 @@ const [searchInput, setSearchInput] = useState(""); // Immediate input value
   const refetchAllData = () => refetch(buildQueryVariables());
 
   useEffect(() => {
+    if (countData && countData.usersCount !== undefined) {
+      setUserCount(countData.usersCount);
+    }
     refetch(buildQueryVariables());
-  }, [currentPage, pageSize, inputData, dealerRole, state, searchQuery, subscribeUser]);
+  }, [currentPage, pageSize, inputData, dealerRole, state, searchQuery, subscribeUser,countData]);
   useEffect(() => {
     if (data && data.users) {
       const fetchedUsers = data.users.filter((user): user is User => user !== null);
