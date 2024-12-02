@@ -10,16 +10,16 @@ export const bidStatusOptions = [
   ];
   
   export const auctionStatuses = [
-    { value: "active", label: "Active" },
-    { value: "pending", label: "Pending" },
-    { value: "blocked", label: "Blocked" },
-    { value: "inactive", label: "Inactive" },
-    { value: "stop", label: "Stop" },
+    { value: "Active", label: "Active" },
+    { value: "Pending", label: "Pending" },
+    { value: "Blocked", label: "Blocked" },
+    { value: "Inactive", label: "Inactive" },
+    { value: "Stop", label: "Stop" },
   ];
   
   export const eventLock = [
-    { value: "locked", label: "Locked" },
-    { value: "unlocked", label: "Unlocked" },
+    { value: "Locked", label: "Locked" },
+    { value: "Unlocked", label: "Unlocked" },
   ];
  
   export const paymentsFor=[
