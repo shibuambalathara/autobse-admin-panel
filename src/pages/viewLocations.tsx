@@ -12,7 +12,7 @@ const ViewLocations = () => {
         </div>
         <div className='flex justify-end px-5'>
 
-      <AddLocation/>
+      <AddLocation />
         </div>
       <ViewLocationComponent/>
       </div>

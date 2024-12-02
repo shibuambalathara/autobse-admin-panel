@@ -179,7 +179,7 @@ const navigate =useNavigate()
           <InputFields
             label="Seller"
             register={register("sellerName", { required: true })}
-            defaultValue={data?.event?.seller?.id}
+            defaultValue={data?.event?.sellerId}
             component="select"
             options={sellersItem?.data?.sellers?.map((seller) => ({
               label: seller.name,

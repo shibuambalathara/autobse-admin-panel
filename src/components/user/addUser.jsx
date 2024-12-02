@@ -106,7 +106,7 @@ const AddUser = () => {
 
           <InputFields
               label="State"
-              register={register("state",)}
+              register={register("state",{required:"State is required"})}
               component="select"
               options={indianStates}
               className="p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition"

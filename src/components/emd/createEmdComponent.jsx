@@ -128,7 +128,7 @@ try {
          
           <img
                 className="w-full h-36 border py-1"
-                 src={`https://api.autobse.com${data?.payment?.image?.url}`}
+                 src={data?.payment?.image?.url}
                 alt="No ID proof_Image"
               />
           </div>
