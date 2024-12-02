@@ -339,11 +339,11 @@ const AddEventComponent = () => {
 
 
 
-                <option value="Active">Active</option>
-                <option value="Pending">Pending </option>
-                <option value="Blocked">Blocked</option>
-                <option value="Inactive">Inactive</option>
-                <option value="Stop">Stop</option>
+                <option value="active">Active</option>
+                <option value="pending">Pending </option>
+                <option value="blocked">Blocked</option>
+                <option value="inactive">Inactive</option>
+                <option value="stop">Stop</option>
                 Pause
               </select>
             </div>
@@ -373,8 +373,8 @@ const AddEventComponent = () => {
                   className={`${inputStyle.data}`}
                 >
                   {/* <option value="" selected placeholder="select">select </option> */}
-                  <option value="Locked">Locked </option>
-                  <option value="Unlocked">Unlocked</option>
+                  <option value="locked">Locked </option>
+                  <option value="unlocked">Unlocked</option>
                 </select>
               </div>
             )}
