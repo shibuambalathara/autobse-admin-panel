@@ -415,7 +415,7 @@ const EventsTableComponent = () => {
   if (loading) return <AutobseLoading />;
 
   return (
-    <div className="flex  flex-col w-full justify-around overflow-hidden">
+    <div className="flex  flex-col w-full  overflow-hidden">
       <div className={pageHead.data}>Events</div>
       <div className="flex justify-end   m-2 px-20">
         <CustomButton navigateTo={"/addevent"} buttonText={" Add Event"} />
@@ -423,7 +423,7 @@ const EventsTableComponent = () => {
         <Report/>
         </div> */}
       </div>
-      <div className=" m-auto ">
+      <div className=" px-20 ">
       <div className="px-5  flex flex-wrap gap-5 items-center justify-start pb-8">
   {/* Search Input */}
  

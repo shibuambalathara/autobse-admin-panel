@@ -21,13 +21,13 @@ const TabbleOfDeletedUser = () => {
       const response = await Swal.fire({
         title: "Are you sure you want to restore this user?",
         html: `
-          User name: ${data?.firstName} ${data?.lastName || ''}<br>
-          Role :${data?.role}`,
+          User Name: ${data?.firstName} ${data?.lastName || ''}<br>
+          Role: ${data?.role}`,
         icon: "question",
         showCancelButton: true,
         confirmButtonColor: '#DD6B55', // Optional: Set confirm button color to red
         cancelButtonColor: '#aaa',     // Optional: Set cancel button color to gray
-        confirmButtonText: "Delete User",
+        confirmButtonText: "Restore User",
         cancelButtonText: "Cancel",
         customClass: {
           title: 'text-xl font-semibold',  // Tailwind classes for smaller title size
@@ -79,7 +79,7 @@ const TabbleOfDeletedUser = () => {
       <>
        
        
-        <div className="pl-10">
+        <div className="pl-10 mx-auto">
         <div className={pageHead.data}>Deleted Users </div>
           <TableComponent columns={columns} data={users?.deletedUsers || []} />
           <div className="flex items-center p-4">

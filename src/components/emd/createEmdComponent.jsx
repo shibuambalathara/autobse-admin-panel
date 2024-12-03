@@ -1,24 +1,25 @@
 
-import { useForm } from "react-hook-form";
 
-import { useParams } from 'react-router-dom';
+
+import {  useNavigate, useParams } from 'react-router-dom';
 import{   useCreateEmdupdateMutation,  usePaymentQuery} from '../../utils/graphql'
 import { ShowPopup } from '../alerts/popUps';
 import Swal from "sweetalert2";
 import { h2Style, headerStyle, inputStyle, pageStyle, submit } from "../utils/style";
+import { useForm } from 'react-hook-form';
 const CreateEmdComponent = () => {
   const {id}=useParams()
   const { data, loading } =usePaymentQuery({variables:{where:{id}}});
 
  console.log(data);
  
+const navigate =useNavigate()
 
 
 
-
-if(data){
+// if(data){
   
-}
+// }
         
   const [addEmd]=useCreateEmdupdateMutation()
 
@@ -44,15 +45,13 @@ try {
   
 
   if(res){
-    
-   
-
 
      Swal.fire({
        icon: "success",
       title:'Buying limit Updated Successfully',
  
     });
+    navigate('/users')
 
   }
 } catch (error) {
@@ -120,17 +119,22 @@ try {
           
           <div className="w-1/3">
             <label htmlFor="">Increment Vehicle Buying Limit</label>
-            <input   type="number" className={`${inputStyle.data}`} {...register("buyingLimit", {required:true })}></input>
+            <input   type="number" className={`${inputStyle.data}`} {...register("buyingLimit", {
+    required: { value: true, message: "Buying limit is required" },
+    valueAsNumber: true, // Ensures the input is treated as a number
+    validate: (value) => value > 0 || "Only positive integers are allowed",
+  })}
+></input>
             <p className="text-red-500"> {errors.buyingLimit && <span>Buying Limit Required</span>}</p>
           </div>
           <div className="min-w-[300px] w-1/3">
           <label  htmlFor="">Payment proof Image</label>
-         
-          <img
-                className="w-full h-36 border py-1"
-                 src={data?.payment?.image?.url}
+          {data?.payment?.image&& <img
+                className="w-full h-44 border py-1"
+                 src={data?.payment?.image}
                 alt="No ID proof_Image"
-              />
+              />}
+         
           </div>
 
 

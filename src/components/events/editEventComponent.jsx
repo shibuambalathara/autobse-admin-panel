@@ -232,6 +232,7 @@ const navigate =useNavigate()
               <label className="font-bold">Downloadable File</label>
               <input
                 type="file"
+                 accept=".xlsx,.xls,.pdf"
                 {...register("downloadable", {})}
                 className={`${inputStyle.data}`}
               ></input>
