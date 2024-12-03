@@ -15,7 +15,7 @@ import format from "date-fns/format";
 
 import Swal from "sweetalert2";
 
-import { ShowPopup } from "../alerts/popUps";
+import { pup } from "../alerts/popUps";
 
 import TableComponent from "../utils/table";
 import {  Tablebutton } from "../utils/style";

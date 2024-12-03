@@ -6,6 +6,7 @@ import { indianStates } from "../../utils/data";
 import { formStyle, h2Style, headerStyle, submit } from "../utils/style";
 import { FormFieldInput, InputFields, PANCardInput, StateInput } from "../utils/formField";
 import { useState } from "react";
+import FileInput from "../utils/fileInputs";
 
 const AddUser = () => {
   const navigate = useNavigate();
@@ -15,6 +16,8 @@ const AddUser = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  console.log(errors ,"err");
+  
   const [createUser, { error }] = useAddUserMutation();
   const onSubmit = async (formData) => {
     const userPayload = {
@@ -53,7 +56,7 @@ const AddUser = () => {
 
     const appendIfExists = (field, file) => {
       if (file) formDataPayload.append(field, file);
-      console.log(file);
+      
       
     }
     appendIfExists("pancard_image", formData.pancardImage?.[0]);
@@ -95,13 +98,30 @@ const AddUser = () => {
           <FormFieldInput label="Email" type="email" name="email" register={register} error={errors.email} />
           <FormFieldInput label="Mobile Number" type="number" name="mobile" register={register} error={errors.mobile} required minLength={10} maxLength={10} />
           <PANCardInput label="Pancard Number" type="text" name="pancardNumber" register={register} error={errors.pancardNumber} required />
-          <FormFieldInput label="Pancard Image" type="file" name="pancardImage" register={register} error={errors.pancardImage} required/>
+          <FileInput label="Pancard Image" accept="image/*" 
+          maxSizeMB={1} register={register("pancardImage", {
+            required: "Pancard Image is required",
+            validate: (files) => {
+              if (!files?.[0]) {
+                return "Pancard Image is required";
+              }
+              if (files[0].size > 1 * 1024 * 1024) { // Convert MB to bytes
+                return "File size must not exceed 1 MB";
+              }
+              return true;
+            },
+          })} fieldName="pancardImage"  required={true} error={errors.pancardImage}/>
+         
+          {/* <FormFieldInput label="Pancard Image" type="file" name="pancardImage" register={register} error={errors.pancardImage} required/> */}
           <FormFieldInput label="ID Proof Number" type="text" name="IdNumber" register={register} error={errors.IdNumber} minLength={12}  />
           
+          <FileInput label="ID Proof (Front)" accept="image/*" 
+          maxSizeMB={1} register={register('idProof')} fieldName="idProof"  required={false} error={errors.idProof}/>
+           <FileInput label="ID Proof (Back)" accept="image/*" 
+          maxSizeMB={1} register={register("idBack")} fieldName="idBack"  required={false} error={errors.idBack}/>
          
-         
-          <FormFieldInput label="ID Proof (Front)" type="file" name="idProof" register={register} error={errors.idProof} />
-          <FormFieldInput label="ID Proof (Back)" type="file" name="idBack" register={register} error={errors.idBack} />
+          {/* <FormFieldInput label="ID Proof (Front)" type="file" name="idProof" register={register} error={errors.idProof} /> */}
+          {/* <FormFieldInput label="ID Proof (Back)" type="file" name="idBack" register={register} error={errors.idBack} /> */}
           {/* <FormFieldInput label="Dealership Image" type="file" name="dealership" register={register} error={errors.dealership} /> */}
 
           <InputFields
@@ -109,6 +129,8 @@ const AddUser = () => {
               register={register("state",{required:"State is required"})}
               component="select"
               options={indianStates}
+            error={errors.state}
+            required
               className="p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             />          {/* <FormFieldInput label="City" type="text" name="city" register={register} error={errors.city} /> */}
 

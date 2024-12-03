@@ -24,7 +24,7 @@ const  [deleteUser]= useDeleteUserMutation()
     const response = await Swal.fire({
       title: "Are you sure you want to delete this user?",
       html: `
-        User N ame: ${data?.firstName} ${data?.lastName || ''}<br>
+        User Name: ${data?.firstName} ${data?.lastName || ''}<br>
         Role: ${data?.role}`,
       icon: "question",
       showCancelButton: true,

@@ -111,14 +111,16 @@ navigate(`/update-payment/${paymentId}`)
               } else if (paymentFor === 'emd' && status === 'approved') {
                 // Render button if increment is not available
                 return (
-                  <a
+                  <button
                     className="text-2xl "
-                    href={`/add-emd/${id}`}
+                    onClick={()=>{
+                      navigate(`/add-emd/${id}`)
+                    }}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     <FontAwesomeIcon icon={faCirclePlus} />
-                  </a>
+                  </button>
                 );
               } else {
                 // Optional: Return null or a default fallback

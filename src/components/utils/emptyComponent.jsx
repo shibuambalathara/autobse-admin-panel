@@ -16,10 +16,10 @@ const NotFoundPage = () => {
     return <></>
   }
   return (
-    <div className=" w-1/2 flex items-center mx-auto h-fit mt-20">
-      <div className="container flex flex-col md:flex-row items-center justify-between px-5 text-gray-700">
+    <div className=" max-sm:w-1/2  mx-auto h-fit mt-20 w-full ">
+      <div className=" flex flex-col md:flex-row items-center justify-between px-5 text-gray-700">
         {/* Text Section */}
-        <div className="w-full  mx-8">
+        <div className="w-full  px-8">
          
           <p className="text-2xl md:text-3xl font-light leading-normal mb-8 text-center">
             Sorry, we couldn't find any data you're looking for.

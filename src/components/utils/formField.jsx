@@ -245,16 +245,16 @@ export const InputFields = ({
         disabled={disabled}
       />
     )}
-    {/* {component === "number" && (
+    {component === "number" && (
       <input
-       min={0}
-        type={type}
+       
+        type='number'
         defaultValue={defaultValue}
         {...register}
         className={`${inputStyle.data}`}
         disabled={disabled}
       />
-    )} */}
+    )}
     {component === "textarea" && (
       <textarea
         defaultValue={defaultValue}

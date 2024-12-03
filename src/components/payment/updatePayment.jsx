@@ -7,6 +7,7 @@ import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyl
 import { InputFields, SelectInput } from '../utils/formField';
 import { paymentsFor } from '../utils/constantValues';
 import { getS3ObjectUrl } from '../utils/aws-config';
+import FileInput from '../utils/fileInputs';
 
 const UpdatePayment = () => {
   const navigate =useNavigate()
@@ -28,6 +29,8 @@ const UpdatePayment = () => {
   }, [payment]);
 
   const uploadFile = async (dataOnSubmit) => {
+    console.log("image",dataOnSubmit?.imgForPaymentProof?.[0]);
+    
     const file = dataOnSubmit?.imgForPaymentProof?.[0];
     if (!file) return;
       const formDataPayload = new FormData();
@@ -39,6 +42,8 @@ const UpdatePayment = () => {
         });
         if (!response.ok) throw new Error(`Image upload failed: ${response.status}`);
         const result = await response.json();
+        console.log(result, 'res');
+        
         if (result?.success) {
           setPaymentUrl(result?.res?.image); // Update with new image URL after successful upload
           // ShowPopup("Success!", "Document upload successful", "success", 5000, true);
@@ -83,11 +88,17 @@ const UpdatePayment = () => {
     try {
       const result = await addAmount({ variables: { updatePaymentInput: updateInput, where:{id: id}  } });
       if (result) {
+
+
         ShowPopup("Success!", `${dataOnSubmit?.paymentFor} updated successfully!`, "success", 5000, true);
-        await uploadFile(dataOnSubmit); // Call uploadFile after successful mutation
+        await uploadFile(dataOnSubmit);
+        payment.refetch() 
+      
+        // navigate('/users') 
+      // Call uploadFile after successful mutation
       }
-      // payment.refetch()
-      navigate('/users')
+      
+   
     } catch (error) {
       ShowPopup("Error!", `${error.message} `, "error", 5000, true);
     }
@@ -164,11 +175,15 @@ const UpdatePayment = () => {
         {/* Payment Proof Image */}
         <div className="flex flex-col">
           <label className="font-bold">Payment Proof Image</label>
-          <img className={`${inputStyle.data} h-40`} src={paymentUrl} alt="Payment Proof" />
-          <InputFields
+          {paymentUrl&&
+          <img className={`${inputStyle.data} h-40`} src={paymentUrl} alt="Payment Proof" />}
+            <FileInput label="Update Payment Proof Image" accept="image/*"  
+          maxSizeMB={1} register={register("imgForPaymentProof")} fieldName="imgForPaymentProof" required={false}   />
+          
+          {/* <InputFields
             type="file"
             register={register("imgForPaymentProof")}
-          />
+          /> */}
         </div>
       </div>
 

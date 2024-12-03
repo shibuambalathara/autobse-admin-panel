@@ -134,7 +134,7 @@ const CreatePayment: React.FC = () => {
           </div>
 
           <FileInput label="Payment Proof Image" accept="image/*" 
-          maxSizeMB={1} register={register} fieldName="imgForPaymentProof" />
+          maxSizeMB={1} register={register("imgForPaymentProof")} fieldName="imgForPaymentProof"  required={false}/>
         </div>
 
         <div className="flex justify-center my-5">
