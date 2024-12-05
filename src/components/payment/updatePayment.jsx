@@ -94,7 +94,7 @@ const UpdatePayment = () => {
         await uploadFile(dataOnSubmit);
         payment.refetch() 
       
-        // navigate('/users') 
+        navigate('/users') 
       // Call uploadFile after successful mutation
       }
       
@@ -174,9 +174,11 @@ const UpdatePayment = () => {
 
         {/* Payment Proof Image */}
         <div className="flex flex-col">
-          <label className="font-bold">Payment Proof Image</label>
+          
           {paymentUrl&&
-          <img className={`${inputStyle.data} h-40`} src={paymentUrl} alt="Payment Proof" />}
+          <><label className="font-bold">Payment Proof Image</label>      
+              <img className={`${inputStyle.data} h-40`} src={paymentUrl} alt="Payment Proof" />
+</>}
             <FileInput label="Update Payment Proof Image" accept="image/*"  
           maxSizeMB={1} register={register("imgForPaymentProof")} fieldName="imgForPaymentProof" required={false}   />
           

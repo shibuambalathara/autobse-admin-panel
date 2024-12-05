@@ -55,7 +55,7 @@ const EventsTableComponent = () => {
   });
   const hasFilterValues = Object.values(filterValues).some(value => value !== undefined); 
   
-  const showPagination = !searchQuery && !hasFilterValues
+
   const variables = useMemo(() => {
     // Check if any filter value is not undefined
   
@@ -96,7 +96,7 @@ const EventsTableComponent = () => {
     refetch();
   }, [data, filterValues]);
 
- 
+  const showPagination = !searchQuery && !hasFilterValues &&data?.events.events
 
   const handleClearFilters = () => {
     setFilterValues({
@@ -432,7 +432,10 @@ const EventsTableComponent = () => {
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 w-full place-items-end">
   
     {filterConfig.map((filter) => (
+    
       <div key={filter.name} className="w-full pt-1">
+          {console.log(filter,"filter value config" )
+      }
         <CustomFilter
           filters={[filter]} // Render one filter at a time
           values={filterValues}

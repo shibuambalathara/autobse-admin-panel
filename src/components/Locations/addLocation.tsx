@@ -3,15 +3,18 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { StateNames, useCreateLocationMutation, useStatesQuery } from "../../utils/graphql";
 import { ShowPopup } from "../alerts/popUps";
 
-import { modalStyle } from "../utils/style"; // Updated import
 
-// Define the data structure for the form input
+import { InputFields } from "../utils/formField";
+
+
 type FormInputs = {
   name: string;
   state: StateNames;
 };
-
-const AddLocation: React.FC = () => {
+type addLocationProps = {
+  refetch: () => void; 
+}
+const AddLocation: React.FC<addLocationProps> = ({refetch}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const allStates = useStatesQuery();
   const {
@@ -28,9 +31,11 @@ const AddLocation: React.FC = () => {
        // Assuming the state is a relationship field
     };
     try {
-      await createLocation({ variables: { createLocationInput: data,stateId:dataOnSubmit.state } }); // Pass the correct input key
+      await createLocation({ variables: { createLocationInput: data,stateId:dataOnSubmit.state } });
+      refetch() // Pass the correct input key
       ShowPopup("Success!", `Location added successfully!`, "success", 5000, true);
-      setIsModalOpen(false); // Close the modal after successful submission
+      setIsModalOpen(false); 
+      // Close the modal after successful submission
       reset(); // Reset the form after submission
     } catch (error: any) {
       ShowPopup("Failed!", `${error.message}`, "error", 5000, true);
@@ -60,8 +65,32 @@ const AddLocation: React.FC = () => {
         ✕
       </button>
       <h2 className="text-xl font-semibold text-gray-800 mb-6 text-center">Add Location</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="space-y-5">
+      <form onSubmit={handleSubmit(onSubmit)} className="gap-4 flex flex-col">
+      <InputFields
+     
+            label="City"
+            type="text"
+            register={register("name", { required: "City required" })}
+            
+            error={errors.name}
+            required
+            {...(undefined as any)}
+          />
+
+          <InputFields
+            label="State"
+            register={register("state", { required: "State required" })}
+          required
+          defaultValue={"active"}
+            component="select"
+            options={allStates?.data?.States?.map((item) => ({
+              label: item.name,
+              value: item.id,
+            }))}
+            error={errors.state}
+            {...(undefined as any)}
+          />
+        {/* <div className="space-y-5">
           <div className="flex flex-col">
             <label htmlFor="name" className="font-medium text-gray-700 mb-2">City</label>
             <input
@@ -88,7 +117,7 @@ const AddLocation: React.FC = () => {
               <p className="text-red-500 text-sm mt-2">State is required</p>
             )}
           </div>
-        </div>
+        </div> */}
         <div className="mt-8 flex justify-center">
           <button
             type="submit"
