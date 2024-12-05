@@ -226,7 +226,7 @@ const UserDetailsComponent = () => {
           <InputField
             label="ID Proof Number"
             register={register("IdNumber", { pattern: {
-              value: /^[0-9]{16}$/, // 10 digit phone number pattern
+              value: /^[0-9]{12}$/, // 10 digit phone number pattern
               message: "Please enter a valid 16-digit  number"
             } })}
             defaultValue={data.user.idProofNo}
