@@ -15,7 +15,7 @@ const Header = () => {
   };
 
   return (
-    <div className="flex bg-blue-900 shadow-lg px-5 py-3">
+    <div className="flex bg-blue-900 shadow-lg px-5 py-3 w-full">
       <div className="flex-1 flex items-center pl-5 font-bold">
         <Link to={''} className="text-blue-50 text-xl">
           AUTO<span className="text-orange-500">BSE</span>
