@@ -3,6 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { StateNames, useUpdateLocationMutation, useStatesQuery, Location as GQLLocation } from "../../utils/graphql"; // Alias the Location type
 import { ShowPopup } from "../alerts/popUps";
 import { modalStyle } from "../utils/style";
+import { InputFields } from "../utils/formField";
 
 // Define the data structure for the form input
 type FormInputs = {
@@ -18,6 +19,9 @@ interface EditLocationProps {
 }
 
 const EditLocation: React.FC<EditLocationProps> = ({ isModalOpen, setIsModalOpen, location, refetch }) => {
+
+  console.log(location,"loc");
+  
   const allStates = useStatesQuery();
   const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm<FormInputs>();
   const [updateLocation, { loading }] = useUpdateLocationMutation();
@@ -26,7 +30,7 @@ const EditLocation: React.FC<EditLocationProps> = ({ isModalOpen, setIsModalOpen
   useEffect(() => {
     if (location) {
       setValue("name", location.name); // Use location.name from the GraphQL type
-      setValue("state", location.state?.name as StateNames); // Ensure that the state is passed correctly as StateNames
+      setValue("state", location.state?.id as StateNames); // Ensure that the state is passed correctly as StateNames
     }
   }, [location, setValue]);
 
@@ -63,31 +67,30 @@ const EditLocation: React.FC<EditLocationProps> = ({ isModalOpen, setIsModalOpen
       <h2 className="text-center font-extrabold my-5 text-lg w-full">Update Location</h2>
   
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div className={modalStyle.inputContainer}>
-          <label htmlFor="name" className={`${modalStyle.label} text-lg`}>City</label>
-          <input
-            {...register("name", { required: true })}
-            className={`${modalStyle.input} text-base p-3`}
-            placeholder="Enter City Name"
-          />
-          {errors.name && <p className={`${modalStyle.errorText} text-sm`}>City name is required</p>}
-        </div>
-  
-        <div className={modalStyle.inputContainer}>
-          <label htmlFor="state" className={`${modalStyle.label} text-lg`}>State</label>
-          <select
-            {...register("state", { required: true })}
-            className={`${modalStyle.select} text-base p-3`}
-          >
-            <option value="">Select State</option>
-            {allStates?.data?.States?.map((item) => (
-              <option key={item.id} value={item.id as StateNames}>
-                {item.name}
-              </option>
-            ))}
-          </select>
-          {errors.state && <p className={`${modalStyle.errorText} text-sm`}>State is required</p>}
-        </div>
+      <InputFields
+     
+     label="City"
+     type="text"
+     register={register("name", { required: "City required" })}
+     defaultValue={location?.name}
+     error={errors.name}
+     required
+     {...(undefined as any)}
+   />
+
+   <InputFields
+     label="State"
+     register={register("state", { required: "State required" })}
+   required
+   defaultValue={location?.state?.id}
+     component="select"
+     options={allStates?.data?.States?.map((item) => ({
+       label: item.name,
+       value: item.id,
+     }))}
+     error={errors.state}
+     {...(undefined as any)}
+   />
   
         <div className={`${modalStyle.buttonContainer} mt-4`}>
           <button type="submit" className={`${modalStyle.button} text-lg p-3`} disabled={loading}>

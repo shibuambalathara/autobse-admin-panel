@@ -460,7 +460,6 @@ export type Mutation = {
   restorevehicle: Vehicle;
   sendOtp: SendOtpResponse;
   updateBid: Bid;
-  updateEmdupdate: Emdupdate;
   updateEnquiry: Enquiry;
   updateEvent: Event;
   updateLocation: Location;
@@ -643,7 +642,7 @@ export type MutationLoginArgs = {
 
 
 export type MutationResetUserPasswordArgs = {
-  pass: Scalars['String']['input'];
+  data: ResetPasswordInput;
 };
 
 
@@ -705,12 +704,6 @@ export type MutationSendOtpArgs = {
 export type MutationUpdateBidArgs = {
   updateBidInput: UpdateBidInput;
   where: BidWhereUniqueInput;
-};
-
-
-export type MutationUpdateEmdupdateArgs = {
-  updateEmdupdateInput: UpdateEmdupdateInput;
-  where: EmdUpdateWhereUniqueInput;
 };
 
 
@@ -1142,6 +1135,10 @@ export type RecentsoldWhereUniqueInput = {
   id?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type ResetPasswordInput = {
+  password: Scalars['String']['input'];
+};
+
 export type Seller = {
   __typename?: 'Seller';
   GSTNumber: Scalars['String']['output'];
@@ -1252,12 +1249,6 @@ export type UpdateBidInput = {
   amount: Scalars['Float']['input'];
 };
 
-export type UpdateEmdupdateInput = {
-  paymentId?: InputMaybe<Scalars['String']['input']>;
-  userId?: InputMaybe<Scalars['String']['input']>;
-  vehicleBuyingLimitIncrement?: InputMaybe<Scalars['Float']['input']>;
-};
-
 export type UpdateEnquiryInput = {
   firstName?: InputMaybe<Scalars['String']['input']>;
   lastName?: InputMaybe<Scalars['String']['input']>;
@@ -1268,12 +1259,12 @@ export type UpdateEnquiryInput = {
 };
 
 export type UpdateEventInput = {
-  bidLock: EventBidLockType;
+  bidLock?: InputMaybe<EventBidLockType>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   downloadableFile_filename?: InputMaybe<Scalars['String']['input']>;
   downloadableFile_filesize?: InputMaybe<Scalars['Float']['input']>;
   endDate?: InputMaybe<Scalars['DateTime']['input']>;
-  eventCategory: EventCategory;
+  eventCategory?: InputMaybe<EventCategory>;
   extraTime?: InputMaybe<Scalars['Float']['input']>;
   extraTimeTrigerIn?: InputMaybe<Scalars['Float']['input']>;
   firstVehicleEndDate?: InputMaybe<Scalars['DateTime']['input']>;
@@ -1284,7 +1275,7 @@ export type UpdateEventInput = {
   pausedTotalTime?: InputMaybe<Scalars['Float']['input']>;
   sellerId?: InputMaybe<Scalars['String']['input']>;
   startDate?: InputMaybe<Scalars['DateTime']['input']>;
-  status: EventStatusType;
+  status?: InputMaybe<EventStatusType>;
   termsAndConditions?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   vehicleCategoryId?: InputMaybe<Scalars['String']['input']>;
@@ -1617,8 +1608,11 @@ export type VehicleOrderByInput = {
 };
 
 export type VehicleWhereUniqueInput = {
+  bidStatus?: InputMaybe<VehicleBidStatusType>;
   bidTimeExpire?: InputMaybe<IdFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
+  loanAgreementNo?: InputMaybe<Scalars['String']['input']>;
+  registrationNumber?: InputMaybe<Scalars['String']['input']>;
   userVehicleBids?: InputMaybe<BidWhereUniqueInput>;
 };
 
@@ -1639,8 +1633,8 @@ export type WatchListUpdateInput = {
 };
 
 export enum EventBidLockType {
-  Locked = 'Locked',
-  Unlocked = 'Unlocked'
+  Locked = 'locked',
+  Unlocked = 'unlocked'
 }
 
 export enum EventCategory {
@@ -1649,12 +1643,12 @@ export enum EventCategory {
 }
 
 export enum EventStatusType {
-  Active = 'Active',
-  Blocked = 'Blocked',
-  Inactive = 'Inactive',
-  Pause = 'Pause',
-  Pending = 'Pending',
-  Stop = 'Stop'
+  Active = 'active',
+  Blocked = 'blocked',
+  Inactive = 'inactive',
+  Pause = 'pause',
+  Pending = 'pending',
+  Stop = 'stop'
 }
 
 export enum VehicleEventStatus {
@@ -1702,7 +1696,7 @@ export type LocationsQueryVariables = Exact<{
 }>;
 
 
-export type LocationsQuery = { __typename?: 'Query', locations: Array<{ __typename?: 'Location', id: string, name: string, createdAt?: any | null, updatedAt?: any | null, country?: string | null, createdById?: string | null, state?: { __typename?: 'State', name: StateNames } | null }> };
+export type LocationsQuery = { __typename?: 'Query', locations: Array<{ __typename?: 'Location', id: string, name: string, createdAt?: any | null, updatedAt?: any | null, country?: string | null, createdById?: string | null, state?: { __typename?: 'State', id: string, name: StateNames } | null }> };
 
 export type LoginMutationVariables = Exact<{
   loginInput: LoginUserInput;
@@ -1853,7 +1847,7 @@ export type EmdUpdatesPerPaymentQueryVariables = Exact<{
 }>;
 
 
-export type EmdUpdatesPerPaymentQuery = { __typename?: 'Query', payment: { __typename?: 'Payment', emdUpdate?: Array<{ __typename?: 'Emdupdate', emdNo: number, id: string, vehicleBuyingLimitIncrement?: number | null, payment?: { __typename?: 'Payment', id: string, amount?: number | null } | null, user?: { __typename?: 'User', mobile: string, firstName: string, lastName: string } | null, createdBy?: { __typename?: 'User', id: string, firstName: string } | null }> | null } };
+export type EmdUpdatesPerPaymentQuery = { __typename?: 'Query', payment: { __typename?: 'Payment', id: string, amount?: number | null, emdUpdate?: Array<{ __typename?: 'Emdupdate', emdNo: number, id: string, vehicleBuyingLimitIncrement?: number | null, user?: { __typename?: 'User', mobile: string, firstName: string, lastName: string } | null, createdBy?: { __typename?: 'User', id: string, firstName: string } | null }> | null } };
 
 export type EventsQueryVariables = Exact<{
   where?: InputMaybe<EventWhereUniqueInput>;
@@ -2392,6 +2386,7 @@ export const LocationsDocument = gql`
     id
     name
     state {
+      id
       name
     }
     createdAt
@@ -3384,13 +3379,11 @@ export type RestoreUserMutationOptions = Apollo.BaseMutationOptions<RestoreUserM
 export const EmdUpdatesPerPaymentDocument = gql`
     query EmdUpdatesPerPayment($where: PaymentWhereUniqueInput!) {
   payment(where: $where) {
+    id
+    amount
     emdUpdate {
       emdNo
       id
-      payment {
-        id
-        amount
-      }
       user {
         mobile
         firstName
