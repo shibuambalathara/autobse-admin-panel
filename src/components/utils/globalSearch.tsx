@@ -42,14 +42,14 @@ const DebounceSearchInput: React.FC<DebounceSearchInputProps> = ({
         onChange={(e) => onChange(e.target.value)} // Update parent-controlled value
         className={className || "px-3 py-2 border rounded-md w-full"}
       />
-      {value && (
+      {/* {value && (
         <button
           onClick={() =>{ handleClear() } }// Clear the input
           className="px-3 py-1 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
         >
           Clear
         </button>
-      )}
+      )} */}
     </div>
   );
 };

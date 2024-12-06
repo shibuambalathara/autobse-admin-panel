@@ -47,10 +47,13 @@ export const FormFieldInput = ({ label, type, name, register,defaultValue, error
 };
 
 
-export const PANCardInput = ({ label, name, register, error,defaultValue = "", ...rest }) => {
+export const PANCardInput = ({ label, name, register, error, clearErrors, defaultValue = "", ...rest }) => {
   const panCardRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
   const handleUppercase = (e) => {
     e.target.value = e.target.value.toUpperCase(); // Convert value to uppercase
+    if (panCardRegex.test(e.target.value)) {
+      clearErrors(name);
+    }
   };
 
   return (
