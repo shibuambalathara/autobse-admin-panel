@@ -15,6 +15,7 @@ const AddUser = () => {
     register,
     handleSubmit,
     formState: { errors },
+    clearErrors,
   } = useForm();
   console.log(errors ,"err");
   
@@ -97,7 +98,7 @@ const AddUser = () => {
           <FormFieldInput label="Last Name" type="text" name="last_Name" register={register} error={errors.last_Name} />
           <FormFieldInput label="Email" type="email" name="email" register={register} error={errors.email} />
           <FormFieldInput label="Mobile Number" type="number" name="mobile" register={register} error={errors.mobile} required minLength={10} maxLength={10} />
-          <PANCardInput label="Pancard Number" type="text" name="pancardNumber" register={register} error={errors.pancardNumber} required />
+          <PANCardInput label="Pancard Number" type="text" name="pancardNumber" register={register} error={errors.pancardNumber} clearErrors= {clearErrors} required />
           <FileInput label="Pancard Image" accept="image/*" 
           maxSizeMB={1} register={register("pancardImage", {
             required: "Pancard Image is required",
