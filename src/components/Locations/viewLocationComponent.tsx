@@ -7,6 +7,7 @@ import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import EditLocation from "./editLocation";
 import AutobseLoading from "../utils/autobseLoading";
 import DebounceSearchInput from "../utils/globalSearch";
+import AddLocation from "./addLocation";
 
 
 const ViewLocationComponent: React.FC = () => {
@@ -14,12 +15,13 @@ const ViewLocationComponent: React.FC = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [searchInput, setSearchInput] = useState(""); // Immediate input value
   const [searchQuery, setSearchQuery] = useState(""); // Stabilized query for search
-
+// const [locationData, setLocationData]= useState(undefined)
   const { data, loading, error, refetch } = useLocationsQuery({
     variables: { search: searchQuery },
   });
 
   const handleEditLocation = (location: GQLLocation) => {
+   
     setSelectedLocation(location);
     setIsEditModalOpen(true);
   };
@@ -46,6 +48,10 @@ const ViewLocationComponent: React.FC = () => {
 
   return (
     <div className="w-full space-y-1 px-10">
+       <div className='flex justify-end px-5'>
+
+<AddLocation refetch={refetch} />
+  </div>
       {/* Debounce Search Input */}
       <div className="w-72 ml-14">
         <DebounceSearchInput
@@ -58,7 +64,7 @@ const ViewLocationComponent: React.FC = () => {
       </div>
 
       {/* Table Component */}
-      <TableComponent data={data?.locations || []} columns={columns} global={true} />
+      <TableComponent data={data?.locations || []} columns={columns} global={true}  />
 
       {/* Edit Modal */}
       {isEditModalOpen && selectedLocation && (

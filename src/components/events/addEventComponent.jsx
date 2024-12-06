@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 import { terms } from "./terms&conditions";
 import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyle, submit } from "../utils/style";
 import { fileUploadService } from "../utils/restApi";
+import { InputFields } from "../utils/formField";
+import { auctionStatuses, eventCategories, eventLock } from "../utils/constantValues";
 
 const AddEventComponent = () => {
   
@@ -150,208 +152,101 @@ const AddEventComponent = () => {
           </h2>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} >
         <div className={`${formStyle.data}`}>
-            <div className={`${labelAndInputDiv.data}`}>
-              <label className="font-bold" htmlFor="">
-                Event Category
-              </label>
-              <div></div>
-              <select
-                onChange={(e) => {
-                  setCategory(e.target.value);
-                }}
-                placeholder="select"
-                //  {...register("eventCategory",{required:true})}
-                className={`${inputStyle.data}`}
-              >
-                <option value="online">Online Auction </option>
-                <option value="open">Open Auction</option>
-              </select>
-              <p className="text-red-500">
-                {" "}
-                {errors.eventCategory && <span>Event type required</span>}
-              </p>
-            </div>
-            <div className=" xl:flex space-x-2">
-              <div className={`${labelAndInputDiv.data}`}>
-                <label htmlFor="" className="font-bold">
-                  Start Date and Time
-                </label>
-                <div className={`${labelAndInputDiv.data}`}>
-                  <input
-                    type="datetime-local"
-                    className={`${inputStyle.data}`}
-                    {...register("startDate", { required: true })}
-                  />
-                  <p className="text-red-500">
-                    {" "}
-                    {errors.startDate && (
-                      <span>Start date and time required</span>
-                    )}
-                  </p>
-                </div>
-              </div>
-              <div className={`${labelAndInputDiv.data}`}>
-                <label htmlFor="" className="font-bold">
-                  End Date and Time
-                </label>
-                <div className={`${labelAndInputDiv.data}`}>
-                  <input
-                    type="datetime-local"
-                    className={`${inputStyle.data}`}
-                    placeholder="mm//dd/yy"
-                    {...register("endDate", { required: true })}
-                  />
+        <InputFields
+            label="Event Category"
+            required
+            register={register("eventCategory", { required: "Event Category  required"})}
+            defaultValue={"online"}
+            component="select"
+            options={eventCategories}
+            error={errors.eventCategory}
+          />
 
-                  <p className="text-red-500">
-                    {" "}
-                    {errors.endDate && <span>End date and time required</span>}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className={`${labelAndInputDiv.data}`}>
-              <label className="font-bold" htmlFor="">
-                Seller
-              </label>
+          <InputFields
+          required
+            label="Start Date and Time"
+            type="datetime-local"
+            register={register("startDate", { required: "Start date  required"})}
+           
+            error={errors.startDate}
+          />
 
-              <select
-                placeholder="select"
-                {...register("sellerName", { required: true })}
-                className={`${inputStyle.data}`}
-              >
-                <option value="">Select</option>
-                {sellersItem?.data?.sellers.map((seller) => (
-                  <option key={seller.id} value={seller.id}>
-                    {seller.name}
-                  </option>
-                ))}
-              </select>
-              <p className="text-red-500">
-                {" "}
-                {errors.sellerName && <span>Seller Name required</span>}
-              </p>
-            </div>
-            <div className={`${labelAndInputDiv.data}`}>
-              <label className="font-bold" htmlFor="">
-              Event Type
-              </label>
-
-              <select
-                placeholder="select"
-                {...register("eventId", { required: true })}
-                className={`${inputStyle.data}`}
-              >
-                <option value="">Select</option>
-                {eventType?.data?.vehicleCategories?.map((event) => (
-                  <option key={event.name} value={event.id}>
-                    {event.name}
-                  </option>
-                ))}
-              </select>
-              <p className="text-red-500">
-                {" "}
-                {errors.sellerName && <span>vehicleCategorie Name required</span>}
-              </p>
-            </div>
-            {/* <div className={`${labelAndInputDiv.data}`}>
-              <label className="font-bold" htmlFor="">
-                Event Type
-              </label>
-
-              <Controller
-                name="eventId"
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    className={`${inputStyle.data}`}
-                    options={eventType?.data?.vehicleCategories?.map((event) => ({
-                      label: event.name,
-                      value: event.id,
-                    }))}
-                    {...field}
-                    isMulti
-                    getOptionValue={(option) => option.value}
-                  />
-                )}
-              />
-
-              <p className="text-red-500">
-                {" "}
-                {errors.event && <span>Event Name required</span>}
-              </p>
-            </div> */}
-            <div className={`${labelAndInputDiv.data}`}>
-              <label className="font-bold" htmlFor="">
-                Location
-              </label>
-
-              <select
-                placeholder="select"
-                {...register("location", { required: true })}
-                className={`${inputStyle.data}`}
-              >
-                <option value="">Select</option>
-                {location?.data?.locations?.map((location) => (
-                  <option key={location.name} value={location.id}>
-                    {location.name}
-                  </option>
-                ))}
-              </select>
-              <p className="text-red-500">
-                {" "}
-                {errors.location && <span>location required</span>}
-              </p>
-            </div>
-
-            <div className="w-full ">
-              <div>
-                <label htmlFor="" className="font-bold">
-                  Number of Bids(per User)
-                </label>
-              </div>
-              <input
-                type="number"
-                defaultValue={10}
-                {...register("noOfBids", { required: true })}
-                className={`${inputStyle.data}`}             
-                 />
-
-              <p className="text-red-500">
-                {" "}
-                {errors.noOfBids && <span>No of bids Required</span>}
-              </p>
-            </div>
-            <div className={`${labelAndInputDiv.data}`}>
-              <label className="font-bold" htmlFor="">
-                Auction status
-              </label>
-
-              <select
-                placeholder="select"
-                {...register("status", {})}
-                className={`${inputStyle.data}`}
-              >
-                
+          <InputFields
+          required
+            label="End Date and Time"
+            type="datetime-local"
+            register={register("endDate", { required: "End date  required"}) }
+           
+           
+            error={errors.endDate}
+            
+          />
 
 
 
+          <InputFields
+          required
+            label="Seller"
+            register={register("sellerName", { required: "Seller  required"})}
+            defaultValue={data?.event?.sellerId}
+            component="select"
+            options={sellersItem?.data?.sellers?.map((seller) => ({
+              label: seller.name,
+              value: seller.id,
+            }))}
+            error={errors.sellerName}
+          />
 
+          <InputFields
+            label="Vehicle category"
+            required
+            register={register("eventId", { required: "Vehicle category required" })}
+            defaultValue={data?.event?.vehicleCategoryId}
+            component="select"
+            options={eventType?.data?.vehicleCategories?.map((event) => ({
+              label: event.name,
+              value: event.id,
+            }))}
+            error={errors.eventId}
+          />
 
-                <option value="active">Active</option>
-                <option value="pending">Pending </option>
-                <option value="blocked">Blocked</option>
-                <option value="inactive">Inactive</option>
-                <option value="stop">Stop</option>
-                Pause
-              </select>
-            </div>
+          <InputFields
+            label="Location"
+            register={register("location", { required: "Location required" })}
+           required
+            component="select"
+            options={location?.data?.locations?.map((loc) => ({
+              label: loc.name,
+              value: loc.id,
+            }))}
+            error={errors.location}
+          />
 
-            <div className={`${labelAndInputDiv.data}`}>
+          <InputFields
+            label="Number of Bids (per User)"
+            type="number"
+            register={register("noOfBids", { required: "Number of Bids (per User) required" })}
+            defaultValue={10}
+            error={errors.noOfBids}
+            required
+          />
+
+          <InputFields
+            label="Auction Status"
+            register={register("status", { required: "Auction status required" })}
+          required
+          defaultValue={"active"}
+            component="select"
+            options={auctionStatuses}
+            error={errors.status}
+          />
+           <div className={`${labelAndInputDiv.data}`}>
               <label className="font-bold">Downloadable File</label>
               <input
                 type="file"
+                 accept=".xlsx,.xls,.pdf"
                 {...register("downloadable", {})}
                 className={`${inputStyle.data}`}
               ></input>
@@ -361,90 +256,58 @@ const AddEventComponent = () => {
               </p>
             </div>
 
-            {category === "online" && (
-              <div className="flex flex-col  relative ">
-                <label className="font-bold" htmlFor="">
-               Bid Lock
-                </label>
+         
+          <InputFields
+            label="Bid Lock"
+            register={register("lockedOrNot", { required: "Bid Lock is Required"})}
+            defaultValue={"locked"}
+            component="select"
+            options={eventLock}
+            error={errors.lockedOrNot}
+          />
 
-                <select
-                  placeholder="select"
-                  {...register("lockedOrNot", {})}
-                  className={`${inputStyle.data}`}
-                >
-                  {/* <option value="" selected placeholder="select">select </option> */}
-                  <option value="locked">Locked </option>
-                  <option value="unlocked">Unlocked</option>
-                </select>
-              </div>
-            )}
-            <div className={`${labelAndInputDiv.data}`}>
-              <label htmlFor="" className="font-bold">
-                Extra Time Trigger in Minutes
-              </label>
-              <input
-                type="number"
-                defaultValue={2}
-                {...register("timeTriger", {})}
-                className={`${inputStyle.data}`}
-              />
-            </div>
-            <div className={`${labelAndInputDiv.data}`}>
-              <div>
-                <label htmlFor="" className="font-bold">
-                  Extra Time in minutes
-                </label>
-              </div>
-              <input
-                type="number"
-                defaultValue={2}
-                {...register("extraTime", {})}
-                className={`${inputStyle.data}`}
-              />
-            </div>
+          <InputFields
+            label="Time Trigger (in minutes)"
+            
+            type="number"
+            register={register("timeTriger") }
+            defaultValue={2}
+            error={errors.timeTriger}
+          />
 
-            {/* <div className="flex space-x-6">
-                <input type="checkbox"   {...register("special",{})}
-                 className="checkbox checkbox-success hover:bg-white" />
-                <label htmlFor="">Is this a special event ?</label>
-              </div> */}
+          <InputFields
+            label="Extra Time (in minutes)"
+            type="number"
+            register={register("extraTime")}
+            defaultValue={2}
+            error={errors.extraTime}
+            
+          />
 
-            {category === "open" && (
-              <div className="w-full max-w-xl">
-                <label htmlFor="" className="font-bold">
-                  Open Auction Vehicle Live Time in minutes
-                </label>
-                <input
-                  type="number"
-                  defaultValue={3}
-                  {...register("liveTime", {})}
-                  className={`${inputStyle.data}`}
-                />
-              </div>
-            )}
-            <div className={`${labelAndInputDiv.data}`}>
-              <label htmlFor="" className="font-bold">
-                {category === "open"
-                  ? "Open Auction Gap in between vehicles in seconds"
-                  : "Online End Time Gap in Minuts"}
-              </label>
-              <input
-                type="number"
-                defaultValue={2}
-                {...register("gap", {})}
-                className={`${inputStyle.data}`}
-              />
-            </div>
-          </div>
-          <div className={`${labelAndInputDiv.data}`}>
-            <label htmlFor="" className="font-bold">
-              Terms & Condition
-            </label>
-            <textarea
-              type="text"
-              defaultValue={terms.data}
-              {...register("conditions", {})}
-              className={`${inputStyle.data} h-40`}            />
+          {/* <InputFields
+            label="Live Time (in minutes)"
+            type="number"
+            register={register("liveTime")}
+            defaultValue={data?.event?.vehicleLiveTimeIn}
+            error={errors.liveTime}
+          /> */}
+
+          <InputFields
+            label="Gap Between Vehicles (in minutes)"
+            type="number"
+            register={register("gap")}
+            defaultValue={2}
+            error={errors.gap}
+            
+          />
+          <div className="col-span-3">
+          <InputFields
+            label="Terms and Conditions"
+            register={register("conditions")}
+            defaultValue={terms.data}
+            component="textarea"
+            error={errors.conditions}
+          /> </div>
           </div>
           <div className="text-center m-5 ">
             {!data && <button className={submit.data}> Save </button>}

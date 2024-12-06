@@ -50,7 +50,7 @@ navigate(`/update-payment/${paymentId}`)
     const handleDownload=(paymentData)=>{
       console.log(paymentData,"ata download");
       
-      convertToPDF(paymentData,data.user)
+      convertToPDF(paymentData)
     }
 
 
@@ -144,7 +144,7 @@ navigate(`/update-payment/${paymentId}`)
             Header: "Download",
             Cell: ({ row }) => {
               
-    if(row.original.status==='approved' ){return(   <button className={`${Tablebutton.data} bg-blue-500`} onClick={() => handleDownload(row.original)}>PDF</button>)}
+    if(row.original.status==='approved' ){return(   <button className={`${Tablebutton.data} bg-blue-500`} onClick={() => handleDownload(row.original,data?.payments[0]?.user)}>PDF</button>)}
     else {
       
       return row.original.status;}
@@ -172,7 +172,7 @@ navigate(`/update-payment/${paymentId}`)
     
     <div className=" flex flex-col w-full justify-center m-auto ">
     <div className="mb-2">
-  <div className="text-center  font-extrabold my-5 text-lg min-w-full uppercase  ">  PAYMENTS  OF {data?.payments[0]?.firstName} {data?.payments[0]?.user?.lastName} </div>
+  <div className="text-center  font-extrabold my-5 text-lg min-w-full uppercase  ">  PAYMENTS  OF {data?.payments[0]?.user?.firstName} {data?.payments[0]?.user?.lastName} </div>
 
   </div>
  
@@ -197,7 +197,7 @@ function convertToPDF(paymentDetails,user){
 
 const createdPayment=new Date(paymentDetails.createdAt).toLocaleDateString(undefined,options)
 const UpdatedPayment=new Date(paymentDetails.createdAt).toLocaleDateString(undefined,options)
-const createdBy=paymentDetails?.createdBy ? paymentDetails?.createdBy.firstName : user.firstName
+const createdBy= paymentDetails?.user?.firstName
 
   pdf.addImage(logoImg, 'JPEG', 10, 10, 30, 30);
   pdf.setFontSize(12);
@@ -208,19 +208,19 @@ const createdBy=paymentDetails?.createdBy ? paymentDetails?.createdBy.firstName 
        
     
         pdf.setFontSize(12);
-        pdf.text(`Amount              : ${paymentDetails.amount}`, 10, 80);
-        pdf.text(`Created At          : ${createdPayment}`, 10, 90);
-        pdf.text(`Updated At          : ${UpdatedPayment}`, 10, 100);
-        pdf.text(`payment For         : ${paymentDetails.paymentFor}`, 10, 110);
-        pdf.text(`Payment Created By  : ${createdBy}`, 10, 120);
+        pdf.text(`Amount              : ${paymentDetails.amount||""}`, 10, 80);
+        pdf.text(`Created At          : ${createdPayment||""}`, 10, 90);
+        pdf.text(`Updated At          : ${UpdatedPayment||""}`, 10, 100);
+        pdf.text(`payment For         : ${paymentDetails.paymentFor||""}`, 10, 110);
+        pdf.text(`Payment Created By  : ${createdBy||""}`, 10, 120);
       
         pdf.setFontSize(10);
   pdf.text('User registration details on AUTOBSe are as follows:',10,138)
   pdf.setFontSize(12);
 
-  pdf.text(`First Name  : ${user.firstName}`, 10, 148) 
-  pdf.text(`Last Name   : ${user.lastName}`, 10, 158)
+  pdf.text(`First Name  : ${paymentDetails?.user.firstName ||""}`, 10, 148) 
+  pdf.text(`Last Name   : ${paymentDetails?.user.lastName ||''}`, 10, 158)
 
-  pdf.text(`Mobile      : ${user.mobile}`, 10, 168)
-  pdf.save(`payment of ${user.firstName}`.pdf)
+  pdf.text(`Mobile      : ${paymentDetails?.user.mobile ||''}`, 10, 168)
+  pdf.save(`payment of ${paymentDetails?.user.firstName ||''}`.pdf)
 }

@@ -24,9 +24,10 @@ console.log(data);
 
 
 
-const handleMessage=(emdUpdates)=>{
+const handleMessage=(emdUpdates ,payment)=>{
+ console.log(payment);
  
-  const {user,payment,vehicleBuyingLimitIncrement,}=emdUpdates
+  const {user,vehicleBuyingLimitIncrement,}=emdUpdates
   
   
   Swal.fire({
@@ -34,7 +35,7 @@ const handleMessage=(emdUpdates)=>{
         <h1>Message From Team AutoBse</h1>
         
         <p>Dear: ${user?.firstName} ${user?.lastName},</p>
-        <p>You have ${vehicleBuyingLimitIncrement} Buying Limit against the payment of Rs.${payment?.amount}</p>
+        <p>You have ${vehicleBuyingLimitIncrement} Buying Limit against the payment of Rs.${payment?.amount ||""}</p>
        
         
         <p>For more details, please contact Team AutoBse.</p>
@@ -52,14 +53,14 @@ const handleMessage=(emdUpdates)=>{
     () => [
       
       { Header: "Emd No", accessor: "emdNo",  className: 'w-1/3', },
-       { Header: "vehicle BuyingLimit", accessor: "vehicleBuyingLimitIncrement" ,  className: 'w-1/3', },
+       { Header: "Vehicle BuyingLimit", accessor: "vehicleBuyingLimitIncrement" ,  className: 'w-1/3', },
   
       {
         Header: "Message",
         Cell: ({ row }) => (
            
              
-               <button className={`${Tablebutton.data} bg-teal-500`} onClick={()=>handleMessage(row.original) }>Message to:{row.original?.user?.mobile}</button>
+               <button className={`${Tablebutton.data} bg-teal-500`} onClick={()=>handleMessage(row.original,data?.payment) }>Message to:{row.original?.user?.mobile}</button>
     
     
   

@@ -240,7 +240,7 @@ const VehicleDetailsPerEventComponent = () => {
       // { Header: "State", accessor: "state" },
       //  { Header: "City", accessor: "city" },
       
-      { Header: "Vehicle Status", accessor: "vehicleEventStatus" },
+      // { Header: "Vehicle Status", accessor: "vehicleEventStatus" },
 
       { Header: "Bid Status", accessor: "bidStatus" },
       {

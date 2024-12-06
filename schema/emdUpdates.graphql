@@ -1,13 +1,12 @@
 query EmdUpdatesPerPayment($where: PaymentWhereUniqueInput!) {
   payment(where: $where) {
+    id
+    amount
     emdUpdate {
    emdNo
     id
-    payment {
-      id
-      amount
-      
-    }
+   
+    
     user {
       mobile
       firstName
@@ -18,7 +17,6 @@ query EmdUpdatesPerPayment($where: PaymentWhereUniqueInput!) {
       id
       firstName
     }
-
     }
   }
 }

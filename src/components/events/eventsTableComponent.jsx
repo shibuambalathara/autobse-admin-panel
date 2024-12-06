@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+
 import {
   useCountsQuery,
   useEventsQuery,
@@ -8,7 +8,7 @@ import {
   useUpdateEventMutation,
 } from "../../utils/graphql";
 
-import Swal from "sweetalert2";
+
 import TableComponent from "../utils/table";
 import LimitedDataPaginationComponents from "../utils/limitedDataPagination";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,7 +20,7 @@ import {
 import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
 
 import { FormatDate } from "../utils/dateFormat";
-import CustomButton, { ClearButton } from "../utils/buttons";
+import CustomButton from "../utils/buttons";
 import { pageHead, Tablebutton } from "../utils/style";
 import AutobseLoading from "../utils/autobseLoading";
 import { useExcelDownload } from "../utils/excelFormat";
@@ -44,18 +44,10 @@ const EventsTableComponent = () => {
     sellerId: undefined,
     
   });
-  const [filters, setFilters] = useState({
-    startDate: undefined,
-    endDate: undefined,
-    status: undefined,
-    locationId: undefined,
-    eventNo: undefined,
-    eventCategory: undefined,
-    sellerId: undefined,
-  });
+
   const hasFilterValues = Object.values(filterValues).some(value => value !== undefined); 
   
-  const showPagination = !searchQuery && !hasFilterValues
+
   const variables = useMemo(() => {
     // Check if any filter value is not undefined
   
@@ -90,13 +82,13 @@ const EventsTableComponent = () => {
   }, [countData]);
   console.log(data, "data");
 
-  const [addParticipants] = useUpdateEventMutation();
+  // const [addParticipants] = useUpdateEventMutation();
 
   useEffect(() => {
     refetch();
   }, [data, filterValues]);
 
- 
+  const showPagination = !searchQuery && !hasFilterValues &&data?.events.events
 
   const handleClearFilters = () => {
     setFilterValues({
@@ -114,47 +106,47 @@ const EventsTableComponent = () => {
 
 
 
-  const handleFilterChange = (key, value) => {
-    setFilters((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
-  };
-  const navigate = useNavigate();
+  // const handleFilterChange = (key, value) => {
+  //   setFilters((prev) => ({
+  //     ...prev,
+  //     [key]: value,
+  //   }));
+  // };
+  // const navigate = useNavigate();
   //  const [deleteEvent]=useDeleteEventMutation()
 
-  const handleDealer = async (eventId) => {
-    const { value: input } = await Swal.fire({
-      title: "Enter Mobile Number",
-      html: '<input id="mobile" class="swal2-select"></input>',
-      focusConfirm: false,
-      preConfirm: () => {
-        return [document.getElementById("mobile").value];
-      },
-    });
+  // const handleDealer = async (eventId) => {
+  //   const { value: input } = await Swal.fire({
+  //     title: "Enter Mobile Number",
+  //     html: '<input id="mobile" class="swal2-select"></input>',
+  //     focusConfirm: false,
+  //     preConfirm: () => {
+  //       return [document.getElementById("mobile").value];
+  //     },
+  //   });
 
-    const mobileNumber = input[0];
+  //   const mobileNumber = input[0];
 
-    addParticipants({
-      variables: {
-        where: { id: eventId },
-        data: { participants: { connect: { mobile: mobileNumber } } },
-      },
-    })
-      .then(() => {
-        Swal.fire({
-          icon: "success",
-          title: "Dealer Added Successfully",
-        });
-        refetch();
-      })
-      .catch((err) => {
-        Swal.fire({
-          icon: "error",
-          title: "User Does not Exist",
-        });
-      });
-  };
+  //   addParticipants({
+  //     variables: {
+  //       where: { id: eventId },
+  //       data: { participants: { connect: { mobile: mobileNumber } } },
+  //     },
+  //   })
+  //     .then(() => {
+  //       Swal.fire({
+  //         icon: "success",
+  //         title: "Dealer Added Successfully",
+  //       });
+  //       refetch();
+  //     })
+  //     .catch((err) => {
+  //       Swal.fire({
+  //         icon: "error",
+  //         title: "User Does not Exist",
+  //       });
+  //     });
+  // };
   const handleDelete = (id) => {
     // deleteEvent({variables:{where:{id}}})
     // refetch()
@@ -415,24 +407,26 @@ const EventsTableComponent = () => {
   if (loading) return <AutobseLoading />;
 
   return (
-    <div className="flex  flex-col w-full  overflow-hidden">
-      <div className={pageHead.data}>Events</div>
-      <div className="flex justify-end   m-2 px-20">
+  <div className="flex flex-col h-full px-5 ">
+      <h2 className={pageHead.data}>Events</h2>
+      <div className="flex flex-wrap place-self-end items-center mr-24 mb-4">
         <CustomButton navigateTo={"/addevent"} buttonText={" Add Event"} />
         {/* <div>
         <Report/>
         </div> */}
       </div>
-      <div className=" px-20 ">
-      <div className="px-5  flex flex-wrap gap-5 items-center justify-start pb-8">
+   
+      
   {/* Search Input */}
  
 
   {/* Custom Filters */}
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 w-full place-items-end">
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 w-3/4 place-items-end mx-auto">
   
     {filterConfig.map((filter) => (
-      <div key={filter.name} className="w-full pt-1">
+    
+      <div key={filter.name} className="w-fit pt-1">
+       
         <CustomFilter
           filters={[filter]} // Render one filter at a time
           values={filterValues}
@@ -451,12 +445,12 @@ const EventsTableComponent = () => {
       </button>
     </div>
   </div>
-</div>
+
 
 
        
         {/* <CustomFilter /> */}
-        <div className="w-full sm:w-72 px-4 ">
+        <div className="w-full sm:w-72 px-4 mt-4  ml-24">
     <DebounceSearchInput
       placeholder="Search by location or seller name..."
       value={searchInput}
@@ -482,7 +476,7 @@ const EventsTableComponent = () => {
           />
         )}
       </div>
-    </div>
+    
   );
 };
 

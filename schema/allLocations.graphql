@@ -3,6 +3,7 @@ query Locations($search: String) {
     id
     name
     state {
+    id
       name
     }
     createdAt
