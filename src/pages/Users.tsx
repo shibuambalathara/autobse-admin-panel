@@ -175,7 +175,7 @@ const Users = () => {
 
 
       </div>
-      <div className="pl-24 mt-4 flex gap-5 h-fit">
+      <div className="pl-28 ml-3 mt-4 flex gap-5 h-fit">
         {/* <SearchByNumber inputData={handleInputData} value={inputData} /> */}
         <div className="w-72 pt-5">
           <DebounceSearchInput
