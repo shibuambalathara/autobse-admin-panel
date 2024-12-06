@@ -239,6 +239,7 @@ export const InputFields = ({
       <input
       min={0}
         type={type}
+        
         defaultValue={defaultValue}
         {...register}
         className={`${inputStyle.data}`}
