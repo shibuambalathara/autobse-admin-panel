@@ -133,7 +133,7 @@ const VehicleDetailsPerEventComponent = () => {
       showCancelButton: true,
       confirmButtonColor: '#DD6B55', // Optional: Set confirm button color to red
       cancelButtonColor: '#aaa',     // Optional: Set cancel button color to gray
-      confirmButtonText: "Delete Bid",
+      confirmButtonText: "Delete Vehicle",
       cancelButtonText: "Cancel",
       customClass: {
         title: 'text-xl font-semibold',  // Tailwind classes for smaller title size
