@@ -36,7 +36,7 @@ const BidsTablePerUser = () => {
     // Vehicle and User Information
     const sellerName = `Seller Name             :  ${vehicle?.event?.seller?.name}`;
     const auctionId = `Auction Id                 :   ${vehicle?.vehicleIndexNo}`;
-    const vehicleName = `Vehicle                     :   ${vehicle?.make}`;
+    const regNumber = `Reg Number             :   ${vehicle.registrationNumber? vehicle?.registrationNumber: ''}`;
     const startAmount = `Start Price                :   ${vehicle?.startBidAmount.toLocaleString()}/-`;
     const endPrice = `Winning Price           :   ${vehicle?.currentBidAmount.toLocaleString()}/-`;
     const options = { month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
@@ -61,7 +61,7 @@ const BidsTablePerUser = () => {
     pdf.setFontSize(12);
     pdf.text(sellerName, 10, 80);
     pdf.text(auctionId, 10, 88);
-    pdf.text(vehicleName, 10, 96);
+    pdf.text(regNumber, 10, 96);
     pdf.text(startAmount, 10, 104);
     pdf.text(endPrice, 10, 112);
     pdf.text(closeDate, 10, 120);
