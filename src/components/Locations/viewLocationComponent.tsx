@@ -47,13 +47,13 @@ const ViewLocationComponent: React.FC = () => {
   if (error) return <p className="text-red-500">Error: {error.message}</p>;
 
   return (
-    <div className=" space-y-1 px-5">
+    <div className="  ">
        <div className='flex place-self-end w-fit'>
 
 <AddLocation refetch={refetch} />
   </div>
       {/* Debounce Search Input */}
-      <div className="w-72 ml-4">
+      <div className="w-72 ml-28 pl-2">
         <DebounceSearchInput
           placeholder="Search by city or state..."
           value={searchInput}

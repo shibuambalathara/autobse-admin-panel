@@ -101,11 +101,12 @@ import AutobseLoading from '../utils/autobseLoading';
     if (error) return <p>Error loading data: {error.message}</p>;
 
     return (
-      <div className="mx-10">
-        <div className='flex justify-end'>
+      <div className="">
+
+        <div className={pageHead.data}>Vehicle Category </div>
+        <div className=' w-fit place-self-end  mr-16 '>
           <AddEventType />
         </div>
-        <div className={pageHead.data}>Vehicle Category </div>
         <TableComponent data={categories} columns={columns} />
       </div>
     );

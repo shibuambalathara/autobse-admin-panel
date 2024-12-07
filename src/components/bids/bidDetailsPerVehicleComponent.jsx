@@ -207,13 +207,13 @@ const BidDetailsPerbidVehicleComponent = () => {
               </h1> */}
             </div>
            
-            <div className="space-y-4">
+            <div className="flex flex-col ">
               <h1>
                 Bid Status :
                 <span className="font-bold"> {data?.Bids[0]?.bidVehicle?.bidStatus}</span>
               </h1>
               <a
-                className={`${Tablebutton.data }  bg-blue-500 hover:bg-blue-700  font-bold  rounded `}
+                className={`${Tablebutton.data }  bg-blue-500 hover:bg-blue-700  font-bold  rounded mt-2 w-fit `}
                 target="_blank"
                 rel="noopener noreferrer"
                 href={`/edit-Vehicle/${data?.Bids[0]?.bidVehicleId}`}
@@ -221,12 +221,12 @@ const BidDetailsPerbidVehicleComponent = () => {
                 
                 Change Status
               </a>
-              <button
+              {/* <button
                   className={`${Tablebutton.data }  bg-green-500 hover:bg-green-700  font-bold  rounded ml-4 `}
                 onClick={(e) => handleReport(data?.Bids[0]?.bidVehicle)}
               >
                 Bid Sheet
-              </button>
+              </button> */}
             </div>
             <div >Seller :<span className="font-bold">{data?.Bids[0]?.bidVehicle?.event?.seller?.name}</span></div>
           </div>
