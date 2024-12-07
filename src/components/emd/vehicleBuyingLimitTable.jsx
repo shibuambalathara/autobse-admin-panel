@@ -26,7 +26,7 @@ console.log(data,"data");
 
   const handleBuyingLimit=(id)=>{
     
-    navigate(`/update-payment/${id}`)
+    navigate(`/update-payment/${id}-vehicle_buy_limit-${userId}`)
   }
 
   const columns = useMemo(
