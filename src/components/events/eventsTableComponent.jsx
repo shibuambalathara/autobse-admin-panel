@@ -450,7 +450,7 @@ const EventsTableComponent = () => {
 
        
         {/* <CustomFilter /> */}
-        <div className="w-full sm:w-72 px-4 mt-4  ml-24">
+        <div className="w-full sm:w-72 px-5 mt-4  ml-20  ">
     <DebounceSearchInput
       placeholder="Search by location or seller name..."
       value={searchInput}
