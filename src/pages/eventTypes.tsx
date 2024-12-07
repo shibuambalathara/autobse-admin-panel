@@ -4,7 +4,7 @@ import EventTypesTable from '../components/eventType/eventTypes'
 
 const EventTypes = () => {
   return (
-    <div className='flex flex-col w-full'>
+    <div className=' w-full'>
      
      
       <EventTypesTable/>

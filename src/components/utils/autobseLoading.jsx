@@ -27,7 +27,7 @@ function AutobseLoading() {
     //     </h1>
     //   </div>
     // </div>
-    <div className="relative flex items-center h-screen justify-center bg-gray-100 w-full">
+    <div className="relative flex items-center h-screen justify-center  w-full">
         <div className="w-12 h-12 rounded-full absolute border-2 border-solid border-gray-200"></div>
         <div
             className="w-12 h-12 rounded-full animate-spin absolute border-2 border-solid border-indigo-500 border-t-transparent">

@@ -1,13 +1,12 @@
 import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStatesQuery, useUpdateStateMutation } from "../../utils/graphql";
-import Swal from "sweetalert2";
+
 import TableComponent from "../utils/table";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
-import { pageHead, Tablebutton } from "../utils/style";
+
 import EditState from "./editState";
 import AutobseLoading from "../utils/autobseLoading";
+import AddState from "./addState";
 
 
 const ViewStates = () => {
@@ -60,9 +59,13 @@ const ViewStates = () => {
 
   return (
     <div className="w-full ">
-      <div className="max-w-6xl mx-auto h-fit">
+      <div className=" mx-auto h-fit">
+      <div className='w-fit place-self-end  mr-12'>
+
+<AddState />
+</div>
         <div className="flex flex-col justify-center m-auto w-full">
-         
+       
           {isModalOpen && (
             <EditState
               id={selectedStateId}

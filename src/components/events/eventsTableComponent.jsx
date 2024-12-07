@@ -8,7 +8,6 @@ import {
   useUpdateEventMutation,
 } from "../../utils/graphql";
 
-
 import TableComponent from "../utils/table";
 import LimitedDataPaginationComponents from "../utils/limitedDataPagination";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -42,15 +41,15 @@ const EventsTableComponent = () => {
     eventNo: undefined,
     eventCategory: undefined,
     sellerId: undefined,
-    
   });
 
-  const hasFilterValues = Object.values(filterValues).some(value => value !== undefined); 
-  
+  const hasFilterValues = Object.values(filterValues).some(
+    (value) => value !== undefined
+  );
 
   const variables = useMemo(() => {
     // Check if any filter value is not undefined
-  
+
     if (searchQuery || hasFilterValues) {
       return {
         search: searchQuery || undefined, // Include searchQuery if it exists
@@ -88,7 +87,8 @@ const EventsTableComponent = () => {
     refetch();
   }, [data, filterValues]);
 
-  const showPagination = !searchQuery && !hasFilterValues &&data?.events.events
+  const showPagination =
+    !searchQuery && !hasFilterValues && data?.events.events;
 
   const handleClearFilters = () => {
     setFilterValues({
@@ -104,49 +104,6 @@ const EventsTableComponent = () => {
     refetch(); // Refetch data with cleared filters
   };
 
-
-
-  // const handleFilterChange = (key, value) => {
-  //   setFilters((prev) => ({
-  //     ...prev,
-  //     [key]: value,
-  //   }));
-  // };
-  // const navigate = useNavigate();
-  //  const [deleteEvent]=useDeleteEventMutation()
-
-  // const handleDealer = async (eventId) => {
-  //   const { value: input } = await Swal.fire({
-  //     title: "Enter Mobile Number",
-  //     html: '<input id="mobile" class="swal2-select"></input>',
-  //     focusConfirm: false,
-  //     preConfirm: () => {
-  //       return [document.getElementById("mobile").value];
-  //     },
-  //   });
-
-  //   const mobileNumber = input[0];
-
-  //   addParticipants({
-  //     variables: {
-  //       where: { id: eventId },
-  //       data: { participants: { connect: { mobile: mobileNumber } } },
-  //     },
-  //   })
-  //     .then(() => {
-  //       Swal.fire({
-  //         icon: "success",
-  //         title: "Dealer Added Successfully",
-  //       });
-  //       refetch();
-  //     })
-  //     .catch((err) => {
-  //       Swal.fire({
-  //         icon: "error",
-  //         title: "User Does not Exist",
-  //       });
-  //     });
-  // };
   const handleDelete = (id) => {
     // deleteEvent({variables:{where:{id}}})
     // refetch()
@@ -160,14 +117,14 @@ const EventsTableComponent = () => {
 
   const filterConfig = [
     {
-      type: 'date',
-      label: 'Start Date',
-      name: 'startDate',
+      type: "date",
+      label: "Start Date",
+      name: "startDate",
     },
     {
-      type: 'date',
-      label: 'End Date',
-      name: 'endDate',
+      type: "date",
+      label: "End Date",
+      name: "endDate",
     },
     // {
     //   type: "number",
@@ -212,7 +169,6 @@ const EventsTableComponent = () => {
       })),
     },
   ];
-  
 
   const columns = useMemo(
     () => [
@@ -397,86 +353,64 @@ const EventsTableComponent = () => {
 
   const totalPages = data?.events?.length;
 
-  // useEffect(() => {
-  //   // const intervalId = setInterval(() => {
-  //     refetch();
-  //   // }, 2000);
-
-  // }, []);
-
   if (loading) return <AutobseLoading />;
 
   return (
-  <div className="flex flex-col h-full px-5 ">
+    <div className="flex flex-col h-full mx-auto ">
       <h2 className={pageHead.data}>Events</h2>
       <div className="flex flex-wrap place-self-end items-center mr-24 mb-4">
         <CustomButton navigateTo={"/addevent"} buttonText={" Add Event"} />
-        {/* <div>
-        <Report/>
-        </div> */}
       </div>
-   
-      
-  {/* Search Input */}
- 
 
-  {/* Custom Filters */}
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 w-3/4 place-items-end mx-auto">
-  
-    {filterConfig.map((filter) => (
-    
-      <div key={filter.name} className="w-fit pt-1">
-       
-        <CustomFilter
-          filters={[filter]} // Render one filter at a time
-          values={filterValues}
-          onChange={handleFiltersChange}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 w-4/5 place-items-end ml-20 pl-3">
+        {filterConfig.map((filter) => (
+          <div key={filter.name} className="w-fit pt-1">
+            <CustomFilter
+              filters={[filter]}
+              values={filterValues}
+              onChange={handleFiltersChange}
+            />
+          </div>
+        ))}
+
+        {/* Clear Button */}
+        <div className="w-full pt-1">
+          <button
+            className="bg-red-600 text-white h-10 px-6 font-semibold rounded-lg shadow-md transform hover:scale-105 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-400 p-2 text-sm w-full sm:w-fit"
+            onClick={handleClearFilters}
+          >
+            Clear Filters
+          </button>
+        </div>
+      </div>
+
+      {/* <CustomFilter /> */}
+      <div className="w-full sm:w-72  ml-28 pt-4 pl-3 ">
+        <DebounceSearchInput
+          placeholder="Search by location or seller name..."
+          value={searchInput}
+          onChange={setSearchInput} // Update input immediately
+          onSearch={setSearchQuery} // Trigger search after debounce
+          className="px-3 py-2 border rounded-md w-full text-sm"
         />
       </div>
-    ))}
-
-    {/* Clear Button */}
-    <div className="w-full pt-1">
-      <button
-        className="bg-red-600 text-white h-10 px-6 font-semibold rounded-lg shadow-md transform hover:scale-105 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-400 p-2 text-sm w-full sm:w-fit"
-        onClick={handleClearFilters}
-      >
-        Clear Filters
-      </button>
+      <TableComponent
+        data={data?.events.events || []}
+        columns={columns}
+        sortBy="start Date"
+        pagination="false"
+        global={true}
+        limit={false}
+      />
+      {showPagination && (
+        <LimitedDataPaginationComponents
+          totalItems={eventCount}
+          itemsPerPage={pageSize}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
+      )}
     </div>
-  </div>
-
-
-
-       
-        {/* <CustomFilter /> */}
-        <div className="w-full sm:w-72 px-5 mt-4  ml-20  ">
-    <DebounceSearchInput
-      placeholder="Search by location or seller name..."
-      value={searchInput}
-      onChange={setSearchInput} // Update input immediately
-      onSearch={setSearchQuery} // Trigger search after debounce
-      className="px-3 py-2 border rounded-md w-full text-sm"
-    />
-  </div>
-        <TableComponent
-          data={data?.events.events || []}
-          columns={columns}
-          sortBy="start Date"
-          pagination="false"
-          global={true}
-          limit={false}
-        />
-        { showPagination  && (
-          <LimitedDataPaginationComponents
-            totalItems={eventCount}
-            itemsPerPage={pageSize}
-            currentPage={currentPage}
-            onPageChange={handlePageChange}
-          />
-        )}
-      </div>
-    
   );
 };
 

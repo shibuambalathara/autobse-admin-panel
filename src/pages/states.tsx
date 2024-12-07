@@ -8,10 +8,7 @@ const States = () => {
        <div className={pageHead.data}>
             STATES
           </div>
-      <div className='flex justify-end px-5'>
-
-       <AddState />
-      </div>
+    
       <ViewStates/>
     </div>
   )
