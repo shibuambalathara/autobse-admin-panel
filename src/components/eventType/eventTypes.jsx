@@ -66,6 +66,7 @@ const EventTypesTable = () => {
       //   )
       // );
 
+<<<<<<< HEAD
       try {
         console.log(`Updating category: id=${id}, name=${newName}`); // Debugging log
         const response = await updateCat({
@@ -95,6 +96,18 @@ const EventTypesTable = () => {
         });
       }
     }
+=======
+    return (
+      <div className="">
+
+        <div className={pageHead.data}>Vehicle Category </div>
+        <div className=' w-fit place-self-end  mr-16 '>
+          <AddEventType />
+        </div>
+        <TableComponent data={categories} columns={columns} />
+      </div>
+    );
+>>>>>>> d68818da9a281bd3bda4ca566c2948b80ee970d5
   };
 
   const columns = useMemo(
