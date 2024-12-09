@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useCreateVehiclecategoryMutation } from "../../utils/graphql";
 import Swal from "sweetalert2";
-import { modalStyle } from "../utils/style"; // Importing the new modal styles
+
 
 const AddEventType = (load) => {
   const [createState,{loading}] = useCreateVehiclecategoryMutation();

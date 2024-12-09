@@ -1,7 +1,6 @@
-  import { Button } from '@material-tailwind/react';
+
   import React, { useEffect, useMemo, useState } from 'react';
-  import { useNavigate } from 'react-router-dom';
-  import { useTable, usePagination, useGlobalFilter, useSortBy } from 'react-table';
+
   import { useVehicleCategoriesQuery, useUpdateVehicleCategoryMutation } from '../../utils/graphql';
   import Swal from 'sweetalert2';
   import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
