@@ -147,9 +147,17 @@ const UpdatePayment = () => {
           <InputFields
             label="Amount"
             defaultValue={payment?.data?.payment?.amount}
-            type="number"
-            register={register("amount", { required: "Amount is required" })}
-            error={errors.amount}
+            // type="text"
+            component='number'
+            register={register("amount", {
+              required: true,
+              pattern: {
+                value: /^\d+$/,
+                message: "Amount must be an integer number"
+              },
+            })}
+            error={errors.amount} // Display the error message
+            
           />
 
           {/* Payment For */}
