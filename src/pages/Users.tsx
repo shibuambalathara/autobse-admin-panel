@@ -170,16 +170,16 @@ const Users = () => {
 
   return (
     <div className="w-full">
-      <div className="w-full px-24 ">
+      <div className="w-it place-self-center  ">
         <div className={pageHead.data}>Users </div>
 
 
       </div>
-      <div className="pl-28 ml-3 mt-4 flex gap-5 h-fit">
+      <div className=" ml-28 pl-2 mt-4 flex gap-5 h-fit">
         {/* <SearchByNumber inputData={handleInputData} value={inputData} /> */}
         <div className="w-72 pt-5">
           <DebounceSearchInput
-            placeholder="Search by name or mobile..."
+            placeholder="Search by Name or Mobile..."
             value={searchInput}
             onChange={setSearchInput} // Update input immediately
             onSearch={setSearchQuery} // Trigger search after debounce

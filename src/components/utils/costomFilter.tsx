@@ -18,7 +18,7 @@ const CustomFilter: React.FC<CustomFilterProps> = ({ filters, values, onChange }
   return (
     <div className="flex  gap-2  w-full">
       {filters.map((filter) => (
-        <div key={filter.name} className="flex flex-col w-full  min-w-64">
+        <div key={filter.name} className="flex flex-col w-64">
           <label htmlFor={filter.name} className="font-semibold mb-1 text-sm text-start">
             {filter.label}
           </label>
