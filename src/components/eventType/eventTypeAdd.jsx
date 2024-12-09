@@ -3,8 +3,10 @@ import { useForm } from "react-hook-form";
 import { useCreateVehiclecategoryMutation } from "../../utils/graphql";
 import Swal from "sweetalert2";
 import { modalStyle } from "../utils/style"; // Importing the new modal styles
+import { useNavigate } from "react-router-dom";
 
-const AddEventType = (load) => {
+const AddEventType = ({setNewCategory}) => {
+  const navigate = useNavigate()
   const [createState,{loading}] = useCreateVehiclecategoryMutation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const {
@@ -29,9 +31,9 @@ const AddEventType = (load) => {
         timer: 3000,
         showConfirmButton: true,
       });
-     
+      
       setIsModalOpen(false);
-    //  load()
+      setNewCategory(true)
     } catch (err) {
       Swal.fire({
         title: "Error",
