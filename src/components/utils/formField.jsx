@@ -253,7 +253,8 @@ export const InputFields = ({
     {component === "number" && (
       <input
        
-        type='number'
+        type='string'
+        maxLength={10}
         defaultValue={defaultValue}
         {...register}
         className={`${inputStyle.data}`}

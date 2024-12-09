@@ -65,14 +65,14 @@ const CreatePayment: React.FC = () => {
 
     try {
       const result = await addAmount({ variables: submissionData });
-      
-      
+
+
       if (result) {
         const newUserId = result.data?.createPayment?.id;
-      if (newUserId) {
-        await uploadDocuments(dataOnSubmit, newUserId);
-      }
-      navigate('/users')
+        if (newUserId) {
+          await uploadDocuments(dataOnSubmit, newUserId);
+        }
+        navigate('/users')
         ShowPopup("Success!", `Payment created successfully!`, "success", 5000, true);
       }
     } catch (error: any) {
@@ -91,22 +91,29 @@ const CreatePayment: React.FC = () => {
           <div className={`${labelAndInputDiv.data}`}>
             <label>Amount</label>
             <input
-              type="number"
+              type="text"
               className={`${inputStyle.data}`}
-              {...register("amount", { required: true })}
+              {...register("amount", {
+                required: true,
+                pattern: {
+                  value: /^\d+$/,
+                  message: "Amount must be an integer number"
+                },
+                validate: (value) => value < 10000000 || "Amount must be less than 1 crore",
+              })}
             />
-            {errors.amount && <p className="text-red-500">Amount is required</p>}
+            {errors.amount && <p className="text-red-500">{`${errors.amount.message ? errors.amount.message : `Amount is required`}`}</p>}
           </div>
 
           <div className={`${labelAndInputDiv.data}`}>
             <SelectInput
-            
+
               label="Payment For"
               name="paymentFor"
               options={paymentsFor}
               register={register}
               defaultValue="Select Payment For"
-              error={errors.paymentFor }
+              error={errors.paymentFor}
             />
 
           </div>
@@ -133,8 +140,8 @@ const CreatePayment: React.FC = () => {
             {errors.paymentStatus && <p className="text-red-500">Please select payment status</p>}
           </div>
 
-          <FileInput label="Payment Proof Image" accept="image/*" 
-          maxSizeMB={1} register={register("imgForPaymentProof")} fieldName="imgForPaymentProof"  required={false}/>
+          <FileInput label="Payment Proof Image" accept="image/*"
+            maxSizeMB={1} register={register("imgForPaymentProof")} fieldName="imgForPaymentProof" required={false} />
         </div>
 
         <div className="flex justify-center my-5">
