@@ -77,7 +77,7 @@ const EventTypesTable = () => {
         if (response?.data?.updateVehicleCategory) {
           Swal.fire({
             icon: 'success',
-            title: 'Category Name Updated Successfully',
+            title: 'Category name updated successfully.',
           });
           const refetchRes = await refetch()
           if(refetchRes.data?.vehicleCategories){
