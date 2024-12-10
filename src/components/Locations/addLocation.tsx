@@ -27,7 +27,7 @@ const AddLocation: React.FC<addLocationProps> = ({refetch}) => {
 
   const onSubmit: SubmitHandler<FormInputs> = async (dataOnSubmit) => {
     const data = {
-      name: dataOnSubmit?.name,
+      name: dataOnSubmit?.name.trim(),
        // Assuming the state is a relationship field
     };
     try {
