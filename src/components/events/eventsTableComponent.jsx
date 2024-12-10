@@ -31,8 +31,8 @@ const EventsTableComponent = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [eventCount, setEventCount] = useState(0);
-  const [searchInput, setSearchInput] = useState(""); // Immediate input value
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchInput, setSearchInput] = useState("")
+  const [searchQuery, setSearchQuery] = useState("")
   const [filterValues, setFilterValues] = useState({
     startDate: undefined,
     endDate: undefined,
@@ -91,6 +91,8 @@ const EventsTableComponent = () => {
     !searchQuery && !hasFilterValues && data?.events.events;
 
   const handleClearFilters = () => {
+    // setSearchQuery("")
+    setSearchInput("")
     setFilterValues({
       startDate: undefined,
       endDate: undefined,
@@ -99,6 +101,8 @@ const EventsTableComponent = () => {
       locationId: undefined,
       eventCategory: undefined,
       sellerId: undefined,
+      
+
     });
     setCurrentPage(0); // Reset to the first page
     refetch(); // Refetch data with cleared filters
@@ -362,7 +366,7 @@ const EventsTableComponent = () => {
         <CustomButton navigateTo={"/addevent"} buttonText={" Add Event"} />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 w-4/5 place-items-end ml-20 pl-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 w-4/5 place-items-end ml-24 pl-3 ">
         {filterConfig.map((filter) => (
           <div key={filter.name} className="w-fit pt-1">
             <CustomFilter
@@ -374,9 +378,9 @@ const EventsTableComponent = () => {
         ))}
 
         {/* Clear Button */}
-        <div className="w-full pt-1">
+        <div className="w-full pt-1 pl-9">
           <button
-            className="bg-red-600 text-white h-10 px-6 font-semibold rounded-lg shadow-md transform hover:scale-105 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-400 p-2 text-sm w-full sm:w-fit"
+            className="bg-red-600 text-white h-10 px-6 font-semibold rounded-lg shadow-md transform hover:bg-red-700 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-400 p-2 text-sm w-full sm:w-fit"
             onClick={handleClearFilters}
           >
             Clear Filters
@@ -385,7 +389,7 @@ const EventsTableComponent = () => {
       </div>
 
       {/* <CustomFilter /> */}
-      <div className="w-full sm:w-72  ml-28 pt-4 pl-3 ">
+      <div className=" sm:w-64   pt-4 ml-36 ">
         <DebounceSearchInput
           placeholder="Search by location or seller name..."
           value={searchInput}

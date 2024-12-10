@@ -15,13 +15,14 @@ import format from "date-fns/format";
 
 import Swal from "sweetalert2";
 
-import { pup } from "../alerts/popUps";
+
 
 import TableComponent from "../utils/table";
 import {  Tablebutton } from "../utils/style";
 import { FaUserAlt } from "react-icons/fa";
 import AutobseLoading from "../utils/autobseLoading";
 import { ImBin2 } from "react-icons/im";
+
 
 
 
@@ -103,13 +104,26 @@ const BidDetailsPerbidVehicleComponent = () => {
       { Header: "First Name", accessor: "user.firstName" },
       { Header: "Last Name", accessor: "user.lastName" },
       { Header: "Mobile", accessor: "user.mobile" },
-      // {
-      //   Header: "Bid Time ",
-      //   accessor: ({ createdAt }) => {
-      //     return format(new Date(createdAt), `dd/MM/yy, HH:mm:ss`);
-      //   },
-      // },
+      {
+        Header: "Created At",
+        // sortType: "datetime",
+        accessor: ({ createdAt }) => {
+          return format(new Date(createdAt), `dd/MM/yy, HH:mm:ss`);
+        },
+      },
+      {
+        Header: "Updated At",
+        // sortType: "datetime",
+        accessor: ({ updatedAt }) => {
+          return format(new Date(updatedAt), `dd/MM/yy, HH:mm:ss`);
+        },
+      },
       { Header: "Amount", accessor: "amount" },
+      // { Header: "Created At",
+      //    accessor: ({ createdAt }) => new Date(startDate),
+      // sortType: "datetime",
+      // Cell: ({ value }) => FormatDate(value), },
+     
 
       {
         Header: "Bidder",
@@ -176,20 +190,21 @@ const BidDetailsPerbidVehicleComponent = () => {
   return (
     <div className="flex  flex-col w-full justify-around ">
       <div className=" flex flex-col w-full justify-center m-auto ">
-        <div className="mb-2 px-20">
-          <div className="text-center font-extrabold my-5 text-lg min-w-full">
-            {" "}
+        <div className="mb-2 pl-28  ">
+          <div className="
+          justify-center font-extrabold my-5 text-lg min-w-full flex gap-1">
+           
             Bidder  Details of Lot No:
-            <span className="text-red-500">
-              {" "}
+            <span className="text-red-500 ml-1">
+              
               {data?.Bids[0]?.bidVehicle?.lotNumber}
-            </span>{" "}
+            </span>
             & Auction No:
             <span className="text-red-500">
               {data?.Bids[0]?.bidVehicle?.event?.eventNo}
-            </span>{" "}
+            </span>
           </div>
-          <div className="grid grid-cols-3 mx-2">
+          <div className="grid grid-cols-4 mx-2 items-center">
             <div>
               <h1>
                 Reg. No :
@@ -207,20 +222,12 @@ const BidDetailsPerbidVehicleComponent = () => {
               </h1> */}
             </div>
            
-            <div className="flex flex-col ">
+            <div className="flex ">
               <h1>
                 Bid Status :
                 <span className="font-bold"> {data?.Bids[0]?.bidVehicle?.bidStatus}</span>
               </h1>
-              <a
-                className={`${Tablebutton.data }  bg-blue-500 hover:bg-blue-700  font-bold  rounded mt-2 w-fit `}
-                target="_blank"
-                rel="noopener noreferrer"
-                href={`/edit-Vehicle/${data?.Bids[0]?.bidVehicleId}`}
-              >
-                
-                Change Status
-              </a>
+              
               {/* <button
                   className={`${Tablebutton.data }  bg-green-500 hover:bg-green-700  font-bold  rounded ml-4 `}
                 onClick={(e) => handleReport(data?.Bids[0]?.bidVehicle)}
@@ -229,6 +236,16 @@ const BidDetailsPerbidVehicleComponent = () => {
               </button> */}
             </div>
             <div >Seller :<span className="font-bold">{data?.Bids[0]?.bidVehicle?.event?.seller?.name}</span></div>
+
+            <a
+                className={`${Tablebutton.data }  bg-blue-500 hover:bg-blue-700  font-bold  rounded mt-2 w-fit `}
+                target="_blank"
+                rel="noopener noreferrer"
+                href={`/edit-Vehicle/${data?.Bids[0]?.bidVehicleId}`}
+              >
+                
+                Change Status
+              </a>
           </div>
         </div>
         <TableComponent data={data?.Bids||[]} columns={columns} sortBy='amount' />

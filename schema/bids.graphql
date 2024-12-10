@@ -23,6 +23,7 @@ query BidDetails($where: BidWhereUniqueInput!) {
     userVehicleBidsCount
  }
       createdAt
+      updatedAt
       id
       
       amount
