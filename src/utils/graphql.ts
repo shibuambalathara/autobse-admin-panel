@@ -1675,7 +1675,7 @@ export type ActiveBidsPerUserQueryVariables = Exact<{
 }>;
 
 
-export type ActiveBidsPerUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, firstName: string, lastName: string, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null, activeBids?: Array<{ __typename?: 'Vehicle', vehicleIndexNo: number, make?: string | null, bidAmountUpdate?: number | null, startBidAmount?: number | null, currentBidAmount?: number | null, id: string, registrationNumber: string, bidStatus?: string | null, bidTimeExpire: any, totalBids?: number | null, userVehicleBidsCount?: number | null, currentBidUser?: { __typename?: 'User', username: string, firstName: string, lastName: string, pancardNo: string, mobile: string } | null, event?: { __typename?: 'Event', seller?: { __typename?: 'Seller', name: string } | null } | null }> | null } | null };
+export type ActiveBidsPerUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, firstName: string, lastName: string, states?: Array<{ __typename?: 'State', id: string, name: StateNames }> | null, activeBids?: Array<{ __typename?: 'Vehicle', createdAt?: any | null, updatedAt?: any | null, vehicleIndexNo: number, make?: string | null, bidAmountUpdate?: number | null, startBidAmount?: number | null, currentBidAmount?: number | null, id: string, registrationNumber: string, bidStatus?: string | null, bidStartTime: any, bidTimeExpire: any, totalBids?: number | null, userVehicleBidsCount?: number | null, currentBidUser?: { __typename?: 'User', username: string, firstName: string, lastName: string, pancardNo: string, mobile: string } | null, event?: { __typename?: 'Event', seller?: { __typename?: 'Seller', name: string } | null } | null }> | null } | null };
 
 export type CreateSellerMutationVariables = Exact<{
   createSellerInput: CreateSellerInput;
@@ -2237,6 +2237,8 @@ export const ActiveBidsPerUserDocument = gql`
       name
     }
     activeBids {
+      createdAt
+      updatedAt
       vehicleIndexNo
       make
       currentBidUser {
@@ -2257,6 +2259,8 @@ export const ActiveBidsPerUserDocument = gql`
       id
       registrationNumber
       bidStatus
+      bidStartTime
+      bidAmountUpdate
       bidTimeExpire
       vehicleIndexNo
       totalBids

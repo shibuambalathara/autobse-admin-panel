@@ -236,8 +236,8 @@ export const InputFields = ({
 
   
   <div className={`${labelAndInputDiv.data}`}>
-    {console.log(options)
-  }
+    
+ 
     {label && <label className="font-bold">{label}{required&&<span className="text-red-500 text-lg pl-1">*</span>}</label>}
     {component === "input" && (
       <input
@@ -308,7 +308,7 @@ export const InputField = ({ label, type = "text", register, error, defaultValue
   <div className={labelAndInputDiv.data}>
     <label className={`${labelStyle.data}`} >{label}</label>
     {component === "select" ? (
-      <select {...register} defaultValue={defaultValue} className={inputStyle.data}>
+      <select {...register} defaultValue={defaultValue} className={inputStyle.data} disabled={disabled}>
         {options?.map((option, index) => <option key={index} value={option}>{option}</option>)}
       </select>
     ) : (

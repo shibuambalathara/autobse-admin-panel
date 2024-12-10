@@ -360,13 +360,13 @@ const EventsTableComponent = () => {
   if (loading) return <AutobseLoading />;
 
   return (
-    <div className="flex flex-col h-full mx-auto ">
+    <div className="flex flex-col ">
       <h2 className={pageHead.data}>Events</h2>
       <div className="flex flex-wrap place-self-end items-center mr-24 mb-4">
         <CustomButton navigateTo={"/addevent"} buttonText={" Add Event"} />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 w-4/5 place-items-end ml-24 pl-3 ">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 w-4/5 place-self-center place-items-end mr-28 pr-4">
         {filterConfig.map((filter) => (
           <div key={filter.name} className="w-fit pt-1">
             <CustomFilter
@@ -389,7 +389,7 @@ const EventsTableComponent = () => {
       </div>
 
       {/* <CustomFilter /> */}
-      <div className=" sm:w-64   pt-4 ml-36 ">
+      <div className=" sm:w-64   pt-4  flex flex-grow ml-32 ">
         <DebounceSearchInput
           placeholder="Search by location or seller name..."
           value={searchInput}
