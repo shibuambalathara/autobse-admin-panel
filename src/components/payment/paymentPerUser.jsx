@@ -91,9 +91,13 @@ const PaymentPerUser = () => {
       },
       {
         Header: "Emd Details",
-        Cell: ({ row }) => (
-          row.original.emdUpdateCount !== 0 && <a className={`${Tablebutton.data} bg-zinc-500  `} href={`/emdDetails/${row.original.id}`} target="_blank" rel="noopener noreferrer">Emd Details </a>
-        )
+        Cell: ({ row }) => {
+          if (row.original.emdUpdate.length !== 0 && row.original.paymentFor === 'emd' && row.original.status === 'approved') {
+            return (<a className={`${Tablebutton.data} bg-zinc-500  `} href={`/emdDetails/${row.original.id}`} target="_blank" rel="noopener noreferrer">Emd Details </a>)
+          } else {
+            return (<a className={`${Tablebutton.data} bg-gray-400  cursor-not-allowed`}>Emd Details</a>)
+          }
+        }
       },
       {
         Header: "Create Buying Limit",
