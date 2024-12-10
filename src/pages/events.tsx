@@ -4,7 +4,7 @@ import EventsTableComponent from '../components/events/eventsTableComponent'
 
 const AddEvents = () => {
   return (
-    <div className='w-full'>
+    <div className='flex-grow'>
       <EventsTableComponent/>
     </div>
   )

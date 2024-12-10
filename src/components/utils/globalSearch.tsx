@@ -34,7 +34,7 @@ const DebounceSearchInput: React.FC<DebounceSearchInputProps> = ({
   }, [value, onSearch, debounceDelay]);
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 w-full">
       <input
         type="text"
         value={value}
