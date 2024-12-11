@@ -11,8 +11,7 @@ import {
   formStyle,
   h2Style,
   headerStyle,
-  inputStyle,
-  labelAndInputDiv,
+
   pageStyle,
   submit,
 } from "../utils/style";
@@ -20,8 +19,11 @@ import { indianStates } from "../../utils/data";
 import { InputField, InputFields, PANCardInput } from "../utils/formField";
 import imageCompression from "browser-image-compression";
 import Select from "react-select";
-import { FaEdit, FaUpload } from "react-icons/fa";
+
 import AutobseLoading from "../utils/autobseLoading";
+import { ImageUploadField } from "../image/imageUpload";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {  faEdit,  faEyeSlash,} from "@fortawesome/free-solid-svg-icons";
 
 const UserDetailsComponent = () => {
   const navigate = useNavigate();
@@ -47,7 +49,11 @@ const UserDetailsComponent = () => {
     reset,
     control,
   } = useForm();
+
+  console.log(errors, "error");
+
   const [isUpload, setIsUpload] = useState(false);
+  const [isEditable, setIsEditable] = useState(false);
   const [fileData, setFileData] = useState({
     pancard_image: { file: null, preview: null },
     aadharcard_front_image: { file: null, preview: null },
@@ -55,7 +61,28 @@ const UserDetailsComponent = () => {
     driving_license_front_image: { file: null, preview: null },
     driving_license_back_image: { file: null, preview: null },
   });
-
+  const handleEdit = () => {
+    setIsEditable(!isEditable);
+  };
+  useEffect(() => {
+    if (data) {
+      reset({
+        first_Name: data.user.firstName,
+        last_Name: data.user.lastName,
+        email: data.user.email,
+        bussiness: data.user.businessName,
+        pancardNumber: data.user.pancardNo,
+        IdNumber: data.user.idProofNo,
+        state: data.user.state,
+        role: data.user.role,
+        status: data.user.status,
+        states: data.user.states.map((state) => ({
+          label: state.name,
+          value: state.id,
+        })),
+      });
+    }
+  }, [data, reset]);
   useEffect(() => {
     // Initialize the fileData state with existing images
     if (data) {
@@ -129,6 +156,8 @@ const UserDetailsComponent = () => {
   };
 
   const onSubmit = async (dataOnSubmit) => {
+    console.log("submit ", dataOnSubmit);
+
     const states =
       dataOnSubmit?.states?.length > 0
         ? dataOnSubmit.states.map((state) => state?.label)
@@ -139,7 +168,7 @@ const UserDetailsComponent = () => {
       firstName: dataOnSubmit?.first_Name,
       lastName: dataOnSubmit?.last_Name,
       email: dataOnSubmit?.email,
-      mobile: dataOnSubmit?.mobile,
+      // mobile: dataOnSubmit?.mobile,
       businessName: dataOnSubmit?.bussiness,
       pancardNo: dataOnSubmit?.pancardNumber,
       idProofNo: dataOnSubmit?.IdNumber,
@@ -172,14 +201,33 @@ const UserDetailsComponent = () => {
 
   return (
     <div className={pageStyle.data}>
-      <div className={headerStyle.data}>
-        <h2 className={h2Style.data}>
+      <div className={`${headerStyle.data} `} >
+        <h2 className={`${h2Style.data} flex-1 justify-center flex pl-10 `}>
           {data.user.firstName} {data.user.lastName}
         </h2>
+        <div className="   ">
+        {!isEditable ? (
+          <button
+            onClick={handleEdit}
+            className="flex items-center px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 ml-5 transition-colors duration-300 place-content-end "
+          >
+            <FontAwesomeIcon icon={faEdit} className="" /> 
+          </button>
+        ) : (
+          <button
+            onClick={handleEdit}
+            className="flex items-center px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700 ml-5 transition-colors duration-300"
+          >
+           
+            <FontAwesomeIcon icon={faEyeSlash} className="" /> 
+          </button>
+        )}
+        </div>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={formStyle.data}>
           <InputField
+            disabled={!isEditable}
             label="First Name"
             register={register("first_Name", {
               required: "First Name is required",
@@ -188,14 +236,13 @@ const UserDetailsComponent = () => {
             error={errors.first_Name}
           />
           <InputField
+            disabled={!isEditable}
             label="Last Name"
-            register={register("last_Name", {
-              required: "Last Name is required",
-            })}
             defaultValue={data.user.lastName}
             error={errors.last_Name}
           />
           <InputField
+            disabled={!isEditable}
             label="Email"
             type="email"
             register={register("email")}
@@ -204,44 +251,51 @@ const UserDetailsComponent = () => {
           />
           <InputField
             label="Username"
-            register={register("user_Name")}
+            // register={register("user_Name")}
             defaultValue={data.user.username}
             error={errors.user_Name}
             disabled={true}
           />
           <InputField
             label="Mobile"
-            register={register("mobile")}
+            // register={register("mobile")}
             defaultValue={data.user.mobile}
             error={errors.mobile}
             disabled={true}
           />
           {/* <InputField label="Mobile" type="number" register={register("mobile", { required: "Mobile number is required", minLength: { value: 10, message: "Mobile number must be 10 digits" }, maxLength: { value: 10, message: "Mobile number must be 10 digits" } })} defaultValue={data.user.mobile} error={errors.mobile} /> */}
           <InputField
+            disabled={!isEditable}
             label="Business Name"
             register={register("bussiness")}
             defaultValue={data.user.businessName}
             error={errors.bussiness}
           />
           <InputField
+            disabled={!isEditable}
             label="ID Proof Number"
-            register={register("IdNumber", { pattern: {
-              value: /^[0-9]{12}$/, // 10 digit phone number pattern
-              message: "Please enter a valid 16-digit  number"
-            } })}
+            register={register("IdNumber", {
+              pattern: {
+                value: /^[0-9]{12}$/, // 10 digit phone number pattern
+                message: "Please enter a valid 12-digit  number",
+              },
+            })}
             defaultValue={data.user.idProofNo}
             error={errors.IdNumber}
           />
           <InputFields
+            disabled={!isEditable}
+            required={true}
             error={errors.state}
             label="State"
             defaultValue={data?.user?.state}
-            register={register("state",{required:"State is required"})}
+            register={register("state", { required: "State is required" })}
             component="select"
             options={indianStates}
           />
           {/* <InputField label="City" register={register("city")} defaultValue={data.user.city} error={errors.city} /> */}
           <PANCardInput
+            disabled={!isEditable}
             label="Pancard No"
             name="pancardNumber"
             register={register}
@@ -250,11 +304,12 @@ const UserDetailsComponent = () => {
             required
           />
           <InputFields
+            disabled={!isEditable}
             label="Role"
             name="role"
             component="select"
             defaultValue={data.user.role}
-            register={register("role", { required: "Role is required" })}
+            register={register("role")}
             error={errors.role}
             options={[
               { value: "admin", label: "Admin" },
@@ -265,11 +320,12 @@ const UserDetailsComponent = () => {
           />
 
           <InputFields
+            disabled={!isEditable}
             label="Status"
             name="status"
             component="select"
             defaultValue={data.user.status}
-            register={register("status", { required: "Status is required" })}
+            register={register("status")}
             error={errors.status}
             options={[
               { value: "pending", label: "Pending" },
@@ -279,9 +335,12 @@ const UserDetailsComponent = () => {
             ]}
           />
           <div className="flex flex-col  w-full">
-            <label htmlFor="">Auction Allowed states</label>
+            <label className="font-bold" htmlFor="">
+              Auction Allowed states
+            </label>
 
             <Controller
+              // disabled={!isEditable}
               name="states"
               // rules={{ required: "Please select at least one state" }}
               control={control}
@@ -291,7 +350,8 @@ const UserDetailsComponent = () => {
               }))}
               render={({ field }) => (
                 <Select
-                  className={`${inputStyle.data}`}
+                  isDisabled={!isEditable}
+                  className={`border border-black fo rounded-md w-full focus:outline-none focus:ring`}
                   option=""
                   options={allStates?.data?.States?.map((state) => ({
                     label: state.name,
@@ -310,16 +370,21 @@ const UserDetailsComponent = () => {
           <div className="col-span-3  mt-4">
             <div className="col-span-3 gap-10 gap-y-6 grid grid-cols-3 mt-4">
               {Object.keys(imageLabels).map((key, index) => (
-                <div
-                  key={index}
-                  className="flex flex-col items-center  h-72 w-88 relative group"
-                >
-                  <label className="text-gray-700 text-sm font-bold mb-2">
-                    {imageLabels[key]} Image
-                  </label>
+                <div>
+                  <ImageUploadField
+                    disabled={!isEditable}
+                    label={imageLabels[key]}
+                    preview={fileData[key]?.preview}
+                    onEditClick={() =>
+                      document.getElementById(`file-input-${index}`).click()
+                    }
+                    onUploadClick={() =>
+                      document.getElementById(`file-input-${index}`).click()
+                    }
+                  />
 
                   {/* Image Preview or Gray Background */}
-                  {fileData[key]?.preview ? (
+                  {/* {fileData[key]?.preview ? (
                     <div className="relative w-full h-full flex items-center justify-center">
                       <img
                         src={fileData[key].preview}
@@ -348,10 +413,11 @@ const UserDetailsComponent = () => {
                         <FaUpload className="text-2xl" />
                       </button>
                     </div>
-                  )}
+                  )} */}
 
                   {/* Hidden Input */}
                   <input
+                    disabled={!isEditable}
                     type="file"
                     id={`file-input-${index}`}
                     name={key}
@@ -364,9 +430,11 @@ const UserDetailsComponent = () => {
           </div>
         </div>
         <div className="flex justify-center my-5 col-span-3">
-          <button type="submit" className={`${submit.data}`}>
-            UPDATE{" "}
-          </button>
+          {isEditable && (
+            <button type="submit" className={`${submit.data}`}>
+              UPDATE{" "}
+            </button>
+          )}
         </div>
       </form>
     </div>

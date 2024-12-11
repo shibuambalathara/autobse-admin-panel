@@ -47,7 +47,7 @@ const App: React.FC = () => {
       {!isProjectorView  && !isLoginPage &&  <Header />}
       <div className="flex  ">
         {!isProjectorView && !isLoginPage && <Sidebar />}
-       
+        <main className="flex-grow">
         <Routes>
         <Route path="login" element={<LoginPage />} />
           <Route element={<ProtectedRoutes />}>
@@ -83,6 +83,7 @@ const App: React.FC = () => {
                <Route path="ViewUsersByState/:id" element={<ViewUsersByState/>}/>
               </Route>
               </Routes>
+              </main>
         </div>
      
     </div>

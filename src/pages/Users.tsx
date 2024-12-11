@@ -169,13 +169,13 @@ const Users = () => {
   )
 
   return (
-    <div className="w-full">
-      <div className="w-it place-self-center  ">
+    <div className="w-full h-fit">
+      <div className="w-fit place-self-center  ">
         <div className={pageHead.data}>Users </div>
 
 
       </div>
-      <div className=" ml-28 pl-2 mt-4 flex gap-5 h-fit">
+      <div className=" justify-center  mt-4 flex gap-5 h-fit">
         {/* <SearchByNumber inputData={handleInputData} value={inputData} /> */}
         <div className="w-72 pt-5">
           <DebounceSearchInput
@@ -190,7 +190,7 @@ const Users = () => {
         {/* <SearchByDate setDate={handleInputDate} value={startDate} /> */}
         <SeachByRole key={dealerRole} setRole={handleInputRole} value={dealerRole} />
         <button
-          className="bg-red-600 text-white h-10 place-self-end px-6 font-semibold rounded-lg shadow-md transform hover:scale-105 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-400 p-2 border text-sm w-fit"
+          className="bg-red-600 text-white h-10 place-self-end px-6 font-semibold rounded-lg shadow-md transform hover:bg-red-700 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-400 p-2 border text-sm w-fit"
           onClick={handleClearFilters}
         >
           Clear
@@ -207,7 +207,7 @@ const Users = () => {
 
         {users.length > 0 ? (
           <>
-
+<div className="place-self-center">
             <TabbleOfUsersOrUser users={users} refetch={refetchAllData} />
 
             {showPagination && <LimitedDataPaginationComponents
@@ -216,6 +216,7 @@ const Users = () => {
               currentPage={currentPage}
               onPageChange={handlePageChange}
             />}
+            </div>
           </>
         ) : (
           <>

@@ -100,6 +100,18 @@ const BidsTablePerUser = () => {
     { Header: "Start Price", accessor: "startBidAmount" },
     { Header: "Current Bid Amount", accessor: "currentBidAmount" },
     {
+      Header: "Created At",
+      accessor: ({ createdAt }) => new Date(createdAt),
+      sortType: "datetime",
+      Cell: ({ value }) => format(value, "dd/MM/yy, HH:mm"),
+    },
+    {
+      Header: "Updated At",
+      accessor: ({ updatedAt }) => new Date(updatedAt),
+      sortType: "datetime",
+      Cell: ({ value }) => format(value, "dd/MM/yy, HH:mm"),
+    },
+    {
       Header: "Bid End Time",
       accessor: ({ bidTimeExpire }) => new Date(bidTimeExpire),
       sortType: "datetime",
