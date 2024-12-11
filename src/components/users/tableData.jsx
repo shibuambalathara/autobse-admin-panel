@@ -3,7 +3,7 @@ import React, { useMemo } from "react";
 import Swal from "sweetalert2";
 import TableComponent from "../utils/table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {  faUserPen } from "@fortawesome/free-solid-svg-icons";
+import { faUserPen } from "@fortawesome/free-solid-svg-icons";
 import { faCreditCard } from "@fortawesome/free-regular-svg-icons";
 import { Tablebutton } from "../utils/style";
 // import { FormatDate } from "../utils/dateFormat";
@@ -17,10 +17,10 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
   // const currentPageStartWith = location.pathname;
 
   // Function to handle token creation/update using SweetAlert
-const  [deleteUser]= useDeleteUserMutation()
+  const [deleteUser] = useDeleteUserMutation()
 
   // Function to handle user deletion with confirmation
-  const handleDelete = async (id,data) => {
+  const handleDelete = async (id, data) => {
     const response = await Swal.fire({
       title: "Are you sure you want to delete this user?",
       html: `
@@ -38,13 +38,13 @@ const  [deleteUser]= useDeleteUserMutation()
         cancelButton: 'btn btn-secondary'
       }
     });
-    
+
     if (response.isConfirmed) {
-   const res = deleteUser ({variables:{where:{id}}}).then((res) => {
+      const res = deleteUser({ variables: { where: { id } } }).then((res) => {
         console.log(res);
         refetch();
-        
-      });if(res){
+
+      }); if (res) {
         SweetalertSuccess()
       }
 
@@ -54,39 +54,38 @@ const  [deleteUser]= useDeleteUserMutation()
   // Define the table columns with only required fields
   const columns = useMemo(
     () => [
-      { Header: "User No",accessor: "idNo" },
-      
-  // { Header: "Email", accessor: "email", },
- 
-  { Header: "First Name", accessor: "firstName", },
-  { Header: "Last Name", accessor: "lastName" },
-  { Header: "Mobile", accessor: "mobile" },
-  { Header: "Status", accessor: "status", },
-  { Header: "Role", accessor: "role", },
-  { Header: "State", accessor: "state", },
-  
-  
-  // { Header: "Balance (EMD Amount)", accessor: "BalanceEMDAmount", },
-  
-  // { Header: "City", accessor: "city", },
-  // { Header: "User Category", accessor: "userCategory", },
-  
+      { Header: "User No", accessor: "idNo" },
+
+      // { Header: "Email", accessor: "email", },
+
+      { Header: "First Name", accessor: "firstName", },
+      { Header: "Last Name", accessor: "lastName" },
+      { Header: "Mobile", accessor: "mobile" },
+      { Header: "Status", accessor: "status", },
+      { Header: "Role", accessor: "role", },
+      { Header: "State", accessor: "state", },
+
+
+      // { Header: "Balance (EMD Amount)", accessor: "BalanceEMDAmount", },
+
+      // { Header: "City", accessor: "city", },
+      // { Header: "User Category", accessor: "userCategory", },
+
       {
         Header: "Active Bids",
-        Cell: ({ row }) =>
-      {
-        const activeBidsCount = row.original?.activeBids?.length;
-       
-          const isDisabled =activeBidsCount === 0;
+        Cell: ({ row }) => {
+          const activeBidsCount = row.original?.activeBids?.length;
+
+          const isDisabled = activeBidsCount === 0;
           const buttonClass = isDisabled
             ? `${Tablebutton.data} bg-gray-400   `
             : `${Tablebutton.data} bg-green-400`;
-      
+
           return isDisabled ? (
             <button
               className={`${buttonClass} cursor-not-allowed `}
               disabled
-             
+
             >
               {activeBidsCount}
             </button>
@@ -97,25 +96,26 @@ const  [deleteUser]= useDeleteUserMutation()
               target="_blank"
               rel="noopener noreferrer"
             >
-               {activeBidsCount}
+              {activeBidsCount}
             </a>
-          );}
+          );
+        }
       },
       {
         Header: "Current Buying Limit",
         Cell: ({ row }) => {
           const buyingLimit = row.original?.vehicleBuyingLimit;
-         // Determine styles based on the buyingLimit value
+          // Determine styles based on the buyingLimit value
           const isDisabled = buyingLimit === 0;
           const buttonClass = isDisabled
             ? `${Tablebutton.data} bg-gray-400   `
             : `${Tablebutton.data} bg-green-400`;
-      
+
           return isDisabled ? (
             <button
               className={`${buttonClass} cursor-not-allowed `}
               disabled
-             
+
             >
               {buyingLimit}
             </button>
@@ -126,7 +126,7 @@ const  [deleteUser]= useDeleteUserMutation()
               target="_blank"
               rel="noopener noreferrer"
             >
-               {buyingLimit}
+              {buyingLimit}
             </a>
           );
         }
@@ -135,18 +135,18 @@ const  [deleteUser]= useDeleteUserMutation()
         Header: "Payment Details",
         Cell: ({ row }) => {
           const paymentsCount = row.original.paymentsCount;
-      
+
           // Determine styles based on the paymentsCount value
           const isDisabled = paymentsCount === 0;
           const buttonClass = isDisabled
             ? `${Tablebutton.data} bg-gray-400 cursor-not-allowed`
             : `${Tablebutton.data} bg-rose-700`;
-      
+
           return isDisabled ? (
             <button
               className={`${buttonClass} w-10 p-2`}
               disabled
-            
+
             >
               {paymentsCount}
             </button>
@@ -162,7 +162,7 @@ const  [deleteUser]= useDeleteUserMutation()
           );
         }
       },
-      
+
       // {
       //   Header: "View Coupons",
       //   Cell: ({ row }) =>
@@ -203,28 +203,35 @@ const  [deleteUser]= useDeleteUserMutation()
           </a>
         ),
       },
-    
+
       {
 
-        
+
         Header: "User",
         Cell: ({ row }) => (
-          <button  className={`${Tablebutton.data} bg-red-600 text-lg`} onClick={() => handleDelete(row.original.id,row.original)}>
-          <ImBin2/>
-        </button>
+          <button className={`${Tablebutton.data} bg-red-600 text-lg`} onClick={() => handleDelete(row.original.id, row.original)}>
+            <ImBin2 />
+          </button>
         )
       },
     ],
     [users]
   );
 
+  let transformedUsers = null
+
+  if (users) {
+    transformedUsers = users.map((obj) => ({ ...obj, state: obj.state.split('_').join(' ') }))
+  }
+
+
   return (
     <>
       {/* <div className=" h-fit">
         <div className="flex flex-col justify-center w-full"> */}
-          {/* Optional Header or any additional component */}
-          <TableComponent columns={columns} data={users} pagination='false'   global={true} limit={false}/>
-        {/* </div>
+      {/* Optional Header or any additional component */}
+      {transformedUsers && <TableComponent columns={columns} data={transformedUsers} pagination='false' global={true} limit={false} />}
+      {/* </div>
       </div> */}
     </>
   );
