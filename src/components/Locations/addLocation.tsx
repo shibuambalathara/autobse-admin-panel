@@ -84,7 +84,7 @@ const AddLocation: React.FC<addLocationProps> = ({refetch}) => {
           defaultValue={"active"}
             component="select"
             options={allStates?.data?.States?.map((item) => ({
-              label: item.name,
+              label: item.name.split('_').join(' '),
               value: item.id,
             }))}
             error={errors.state}

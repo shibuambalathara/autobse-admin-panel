@@ -26,7 +26,7 @@ const AddState = () => {
       });
       ShowPopup(
         "Success!",
-        `${dataOnSubmit?.name} added successfully!`,
+        `${dataOnSubmit?.name.split('_').join(' ')} added successfully!`,
         "success",
         5000,
         true

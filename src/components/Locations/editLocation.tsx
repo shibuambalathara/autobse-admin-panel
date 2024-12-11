@@ -87,7 +87,7 @@ const EditLocation: React.FC<EditLocationProps> = ({ isModalOpen, setIsModalOpen
    defaultValue={location?.state?.id}
      component="select"
      options={allStates?.data?.States?.map((item) => ({
-       label: item.name,
+      label: item.name.split('_').join(' '),
        value: item.id,
      }))}
      error={errors.state}
