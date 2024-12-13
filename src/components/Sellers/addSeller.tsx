@@ -33,12 +33,12 @@ const navigate =useNavigate()
       await createSeller({
         variables: {
           createSellerInput: {
-            name: data.sellerCompanyName,
-            billingContactPerson: data.billingContactPerson || "",
-            contactPerson: data.ContactPerson || "",
-            GSTNumber: data.gst || "",
-            mobile: data.mobile ? `+91 ${data.mobile}` : "",
-            nationalHead: data.nationalHead || "",
+            name: data.sellerCompanyName.trim(),
+            billingContactPerson: data.billingContactPerson.trim() || "",
+            contactPerson: data.ContactPerson.trim() || "",
+            GSTNumber: data.gst.trim() || "",
+            mobile: data.mobile ? `+91 ${data.mobile.trim()}` : "",
+            nationalHead: data.nationalHead.trim() || "",
             logo:  "",
           },
         },

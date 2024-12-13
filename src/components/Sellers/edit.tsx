@@ -39,13 +39,13 @@ const Editseller = () => {
         variables: {
           where: { id },
           updateSellerInput: {
-            name: dataOnSubmit.sellerCompanyName,
-            billingContactPerson: dataOnSubmit.billingContactPerson,
-            contactPerson: dataOnSubmit.contactPerson,
-            GSTNumber: dataOnSubmit.GSTNumber,
-            mobile: dataOnSubmit.mobile,
-            nationalHead: dataOnSubmit.nationalHead,
-            logo: dataOnSubmit.logo,
+            name: dataOnSubmit.sellerCompanyName.trim(),
+            billingContactPerson: dataOnSubmit.billingContactPerson.trim(),
+            contactPerson: dataOnSubmit.contactPerson?.trim(),
+            GSTNumber: dataOnSubmit.GSTNumber.trim(),
+            mobile: dataOnSubmit.mobile.trim(),
+            nationalHead: dataOnSubmit.nationalHead.trim(),
+            logo: dataOnSubmit.logo.trim(),
           }
         }
       });
