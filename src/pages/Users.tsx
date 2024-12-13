@@ -54,9 +54,10 @@ type User = {
 
 const Users = () => {
 
+  
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(4);
   const [userCount, setUserCount] = useState(0);
   const [inputData, setInputData] = useState<string | number>();
   const [startDate, setStartDate] = useState<string>("");

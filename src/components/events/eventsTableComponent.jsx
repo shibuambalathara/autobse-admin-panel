@@ -5,7 +5,7 @@ import {
   useEventsQuery,
   useLocationsfilterQuery,
   useSellersFilterQuery,
-  useUpdateEventMutation,
+ 
 } from "../../utils/graphql";
 
 import TableComponent from "../utils/table";
@@ -108,10 +108,10 @@ const EventsTableComponent = () => {
     refetch(); // Refetch data with cleared filters
   };
 
-  const handleDelete = (id) => {
-    // deleteEvent({variables:{where:{id}}})
-    // refetch()
-  };
+  // const handleDelete = (id) => {
+  //   // deleteEvent({variables:{where:{id}}})
+  //   // refetch()
+  // };
   const handleFiltersChange = (name, value) => {
     setFilterValues((prev) => ({
       ...prev,
