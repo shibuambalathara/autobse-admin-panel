@@ -24,8 +24,8 @@ import AutobseLoading from "../utils/autobseLoading";
 import { ImageUploadField } from "../image/imageUpload";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {  faEdit,  faEyeSlash,} from "@fortawesome/free-solid-svg-icons";
-import { IoArrowBack } from "react-icons/io5";
-import { FaCross, FaTimes } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
+
 
 const UserDetailsComponent = () => {
   const navigate = useNavigate();
@@ -34,6 +34,9 @@ const UserDetailsComponent = () => {
   const { data, loading, error } = useViewUserQuery({
     variables: { where: { id } },
   });
+
+
+
   const imageLabels = {
     pancard_image: "Pancard",
     aadharcard_front_image: "ID Proof front",
@@ -54,7 +57,6 @@ const UserDetailsComponent = () => {
 
   console.log(errors, "error");
 
-  const [isUpload, setIsUpload] = useState(false);
   const [isEditable, setIsEditable] = useState(false);
   const [fileData, setFileData] = useState({
     pancard_image: { file: null, preview: null },
@@ -63,6 +65,9 @@ const UserDetailsComponent = () => {
     driving_license_front_image: { file: null, preview: null },
     driving_license_back_image: { file: null, preview: null },
   });
+
+  
+   
   const handleEdit = () => {
     setIsEditable(!isEditable);
   };
@@ -122,29 +127,39 @@ const UserDetailsComponent = () => {
     }
   };
 
-  const uploadFile = async () => {
+  const   uploadFile = async () => {
     const formDataPayload = new FormData();
-
-    Object.keys(fileData).forEach((key) => {
-      console.log(fileData[key].file ,"hi");
-      
-      if (fileData[key].file) {
-        formDataPayload.append(key, fileData[key].file);
-      }
-      return  fileData[key].file
-      
-    });
+    const value=Object.keys(fileData).some(key=>{
+   
+      return fileData[key].file
+});
+    
 
     try {
-      const response = await fetch(
-        `https://api-dev.autobse.com/api/v1/fileupload/userprofile/${id}`,
-        {
-          method: "PUT",
-          body: formDataPayload,
-        }
-      );
-      if (!response.ok)
-        throw new Error(`Image upload failed: ${response.status}`);
+      if (value)
+      {
+        Object.keys(fileData).forEach((key) => {
+     
+          
+         
+            formDataPayload.append(key, fileData[key].file);
+          
+          return  fileData[key].file
+          
+        });
+        const response = await fetch(
+          `https://api-dev.autobse.com/api/v1/fileupload/userprofile/${id}`,
+          {
+            method: "PUT",
+            body: formDataPayload,
+          }
+        );
+        if (!response.ok)
+          throw new Error(`Image upload failed: ${response.status}`);
+      }
+     return console.log
+      (`No changes detected, skipping submission.`);
+     
     } catch (error) {
       console.error("Error during document upload:", error);
     }
@@ -154,75 +169,69 @@ const UserDetailsComponent = () => {
     console.log("Submitted Data: ", dataOnSubmit);
   
     // Helper function to compare and find updated fields
-    const getUpdatedFields = (original, updated) =>  {
+    const getUpdatedFields = (original, updated) => {
       const result = {};
   
-      for (const key in updated) {
+      Object.keys(updated).forEach((key) => {
         const originalValue = original[key];
         const updatedValue = updated[key];
   
-        // Handle nested structures like `states`
-        if (Array.isArray(originalValue) && Array.isArray(updatedValue)) {
-          if (JSON.stringify(originalValue) !== JSON.stringify(updatedValue)) {
-            result[key] = updatedValue;
-          }
-        } else if (updatedValue !== originalValue) {
-          result[key] = updatedValue;
-        }
-      }
+        // Skip unchanged fields
+        if (JSON.stringify(originalValue) === JSON.stringify(updatedValue)) return;
+  
+        // Add only changed fields
+        result[key] = updatedValue;
+      });
   
       return result;
     };
   
-    // Transform `states` to labels array if available
-    const transformedStates =
-      dataOnSubmit?.states?.length > 0
-        ? dataOnSubmit.states.map((state) => state.label)
-        : undefined;
+    // Transform `states` into an array of labels if it has values
+    const transformedStates = Array.isArray(dataOnSubmit.states)
+      ? dataOnSubmit.states.map((state) => state.name)
+      : [];
   
     const formData = {
       ...dataOnSubmit,
-      ...(transformedStates && { states: transformedStates }),
+      ...(transformedStates.length > 0 && { states: transformedStates }), // Only add states if it's not empty
     };
   
-    // Original data from API response
+    // Original data fetched from the API
     const originalData = {
       ...data.user,
       states: data.user.states.map((state) => state.name),
     };
-    console.log(originalData);
-    
   
-    // Get the updated fields
+    console.log("Original Data:", originalData);
+  
+    // Get only the fields that have been updated
     const payload = getUpdatedFields(originalData, formData);
   
     // Skip submission if no updates are detected
     if (Object.keys(payload).length === 0) {
       console.log("No changes detected, skipping submission.");
-     await uploadFile()  
+      try {
+        const uploadResponse = await uploadFile();
+        console.log("Upload Response:", uploadResponse);
+      } catch (error) {
+        console.error("Error during file upload:", error);
+        ShowPopup("File Upload Failed!", error.message, "error", 5000, true);
+      }
       return;
     }
   
     console.log("Payload to Send: ", payload);
   
-    // API Call to update user
-  //   try {
-  //     const response = await updateUser({
-  //       variables: { id, data: payload },
-  //     });
-  //     if (response.errors) {
-  //       throw new Error(response.errors);
-  //     }
-  //     console.log("User updated successfully:", response.data);
-  //   } catch (error) {
-  //     console.error("Error updating user:", error);
-  //   }
-  // };
-  
-
+    // API Call to update user and upload file
     try {
-      await updateUser({ variables: { where: { id }, data: payload } });
-      await uploadFile();
+      const [updateResponse, uploadResponse] = await Promise.all([
+        updateUser({ variables: { where: { id }, data: payload } }),
+        uploadFile(),
+      ]);
+  
+      console.log("Update Response:", updateResponse);
+      console.log("Upload Response:", uploadResponse);
+  
       ShowPopup(
         "Success!",
         `${dataOnSubmit.firstName} updated successfully!`,
@@ -230,11 +239,12 @@ const UserDetailsComponent = () => {
         5000,
         true
       );
-      // navigate("/users");
-    } catch (err) {
-      ShowPopup("User Update Failed!", err.message, "error", 5000, true);
+    } catch (error) {
+      console.error("Error during user update or file upload:", error);
+      ShowPopup("Update Failed!", error.message, "error", 5000, true);
     }
   };
+  
 
   if (loading) return <AutobseLoading />;
   if (error) return <p>Error loading user details</p>;
@@ -394,19 +404,23 @@ const UserDetailsComponent = () => {
               name="states"
               // rules={{ required: "Please select at least one state" }}
               control={control}
-              defaultValue={data?.user?.states.map((state) => ({
-                label: state.name,
-                value: state.id,
-              }))}
+              defaultValue={
+                data?.user?.states?.map((state) => ({
+                  label: state.name,
+                  value: state.id,
+                })) || []
+              }
               render={({ field }) => (
                 <Select
                   isDisabled={!isEditable}
                   className={`border border-black fo rounded-md w-full focus:outline-none focus:ring`}
                   option=""
-                  options={allStates?.data?.States?.map((state) => ({
-                    label: state.name,
-                    value: state.id,
-                  }))}
+                  options={
+                    allStates?.data?.States?.map((state) => ({
+                      label: state.name,
+                      value: state.id,
+                    })) || []
+                  }
                   {...field}
                   isMulti
                   getOptionValue={(option) => option.value}
