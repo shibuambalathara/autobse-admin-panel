@@ -17,7 +17,7 @@ const ViewStates = () => {
   const { data, loading, error, refetch } = useStatesQuery();
   console.log("state", data);
 
-  const handleEditState = (id,name) => {
+  const handleEditState = (id, name) => {
     setSelectedStateId(id)
     setName(name)
     setIsModalOpen(true);
@@ -54,18 +54,22 @@ const ViewStates = () => {
     []
   );
 
-  if (loading) return( <AutobseLoading/>)
+  if (loading) return (<AutobseLoading />)
   if (error) return <p>Error: {error.message}</p>;
+  let transformStates = null
+  if (data?.States) {
+    transformStates = data.States.map((obj) => ({ ...obj, name: obj.name.split('_').join(' ') }))
+  }
 
   return (
     <div className="w-full ">
       <div className=" mx-auto h-fit">
-      <div className='w-fit place-self-end  mr-12'>
+        <div className='w-fit place-self-end  mr-12'>
 
-<AddState />
-</div>
+          <AddState />
+        </div>
         <div className="flex flex-col justify-center m-auto w-full">
-       
+
           {isModalOpen && (
             <EditState
               id={selectedStateId}
@@ -75,7 +79,7 @@ const ViewStates = () => {
               name={name}
             />
           )}
-          <TableComponent data={data?.States} columns={columns} />
+          {transformStates && <TableComponent data={transformStates} columns={columns} />}
         </div>
       </div>
     </div>

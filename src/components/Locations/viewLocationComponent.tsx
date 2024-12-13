@@ -15,13 +15,13 @@ const ViewLocationComponent: React.FC = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [searchInput, setSearchInput] = useState(""); // Immediate input value
   const [searchQuery, setSearchQuery] = useState(""); // Stabilized query for search
-// const [locationData, setLocationData]= useState(undefined)
+  // const [locationData, setLocationData]= useState(undefined)
   const { data, loading, error, refetch } = useLocationsQuery({
     variables: { search: searchQuery },
   });
 
   const handleEditLocation = (location: GQLLocation) => {
-   
+
     setSelectedLocation(location);
     setIsEditModalOpen(true);
   };
@@ -46,12 +46,17 @@ const ViewLocationComponent: React.FC = () => {
   if (loading) return <AutobseLoading />;
   if (error) return <p className="text-red-500">Error: {error.message}</p>;
 
+  let transformLocations = null
+  if (data?.locations) {
+    transformLocations = data.locations.map((obj) => ({ ...obj, state: { ...obj.state, name: obj.state?.name.split('_').join(' ') } }))
+  }
+
   return (
     <div className="  ">
-       <div className='flex place-self-end w-fit'>
+      <div className='flex place-self-end w-fit'>
 
-<AddLocation refetch={refetch} />
-  </div>
+        <AddLocation refetch={refetch} />
+      </div>
       {/* Debounce Search Input */}
       <div className="w-72 ml-28 pl-2">
         <DebounceSearchInput
@@ -64,8 +69,10 @@ const ViewLocationComponent: React.FC = () => {
       </div>
 
       {/* Table Component */}
-      <TableComponent data={data?.locations || []} columns={columns} global={true}  />
+      {transformLocations &&
+        <TableComponent data={transformLocations || []} columns={columns} global={true} />
 
+      }
       {/* Edit Modal */}
       {isEditModalOpen && selectedLocation && (
         <EditLocation

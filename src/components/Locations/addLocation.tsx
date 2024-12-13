@@ -27,7 +27,7 @@ const AddLocation: React.FC<addLocationProps> = ({refetch}) => {
 
   const onSubmit: SubmitHandler<FormInputs> = async (dataOnSubmit) => {
     const data = {
-      name: dataOnSubmit?.name,
+      name: dataOnSubmit?.name.trim(),
        // Assuming the state is a relationship field
     };
     try {
@@ -84,7 +84,7 @@ const AddLocation: React.FC<addLocationProps> = ({refetch}) => {
           defaultValue={"active"}
             component="select"
             options={allStates?.data?.States?.map((item) => ({
-              label: item.name,
+              label: item.name.split('_').join(' '),
               value: item.id,
             }))}
             error={errors.state}

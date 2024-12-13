@@ -35,8 +35,10 @@ const EditLocation: React.FC<EditLocationProps> = ({ isModalOpen, setIsModalOpen
   }, [location, setValue]);
 
   const onSubmit: SubmitHandler<FormInputs> = async (dataOnSubmit) => {
+    console.log(dataOnSubmit);
+    
     const data = {
-      name: dataOnSubmit?.name,
+      name: dataOnSubmit?.name.trim(),
       stateId: dataOnSubmit.state, // Include the stateId inside the updateLocationInput
     };
   
@@ -85,7 +87,7 @@ const EditLocation: React.FC<EditLocationProps> = ({ isModalOpen, setIsModalOpen
    defaultValue={location?.state?.id}
      component="select"
      options={allStates?.data?.States?.map((item) => ({
-       label: item.name,
+      label: item.name.split('_').join(' '),
        value: item.id,
      }))}
      error={errors.state}

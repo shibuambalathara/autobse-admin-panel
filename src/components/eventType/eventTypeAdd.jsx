@@ -20,13 +20,13 @@ const AddEventType = ({setNewCategory}) => {
       await createState({
         variables: {
           createVehiclecategoryInput: {
-            name: dataOnSubmit?.name,
+            name: dataOnSubmit?.name.trim(),
           },
         },
       });
       Swal.fire({
         title: "Success!",
-        text: `${dataOnSubmit?.name} added successfully!`,
+        text: `${dataOnSubmit?.name.trim()} added successfully!`,
         icon: "success",
         timer: 3000,
         showConfirmButton: true,
