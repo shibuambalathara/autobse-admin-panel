@@ -5,6 +5,7 @@ import { ShowPopup } from "../alerts/popUps";
 
 
 import { InputFields } from "../utils/formField";
+import Modal from "../../layouts/modal";
 
 
 type FormInputs = {
@@ -56,15 +57,7 @@ const AddLocation: React.FC<addLocationProps> = ({refetch}) => {
 
 
       {isModalOpen && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    <div className="bg-white rounded-md shadow-md p-6 w-full max-w-md mx-4 relative">
-      <button
-        onClick={() => setIsModalOpen(false)}
-        className="absolute top-3 right-3 text-red-500 hover:text-red-700 transition-colors text-xl font-bold"
-      >
-        ✕
-      </button>
-      <h2 className="text-xl font-semibold text-gray-800 mb-6 text-center">Add Location</h2>
+     <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Add Location">
       <form onSubmit={handleSubmit(onSubmit)} className="gap-4 flex flex-col">
       <InputFields
      
@@ -128,8 +121,7 @@ const AddLocation: React.FC<addLocationProps> = ({refetch}) => {
           </button>
         </div>
       </form>
-    </div>
-  </div>
+  </Modal>
 )}
 
       {/* {isModalOpen && (

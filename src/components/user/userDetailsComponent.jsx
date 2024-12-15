@@ -208,7 +208,7 @@ const UserDetailsComponent = () => {
     const originalData = {
       ...data.user,
       states: Array.isArray(data.user.states) 
-        ? data.user.states.map((state) => state.label)
+        ? data.user.states.map((state) => state.name)
         : [],
     };
   
@@ -219,7 +219,13 @@ const UserDetailsComponent = () => {
   
     // Skip submission if no updates are detected
     if (Object.keys(payload).length === 0) {
-      console.log("No changes detected, skipping submission.");
+       ShowPopup(
+        "Success!",
+        `${dataOnSubmit.firstName.capitalise()} No changes detected!`,
+        "question",
+        5000,
+        true
+      );
       try {
         const uploadResponse = await uploadFile();
         console.log("Upload Response:", uploadResponse);
@@ -241,7 +247,7 @@ const UserDetailsComponent = () => {
   
       console.log("Update Response:", updateResponse);
       console.log("Upload Response:", uploadResponse);
-  navigate("/users")
+  // navigate("/users")
       ShowPopup(
         "Success!",
         `${dataOnSubmit.firstName} updated successfully!`,
@@ -382,20 +388,24 @@ const UserDetailsComponent = () => {
             ]}
           />
           <div className="flex flex-col  w-full">
-            <label className="font-bold" htmlFor="">
-              Auction Allowed states
-            </label>
+          <label className="font-bold" htmlFor="">
+  Auction Allowed States <span className="text-red-600">*</span>
+</label>
 
-            <Controller
+<Controller
   name="states"
   control={control}
   defaultValue={data?.user?.states.map((state) => ({
     label: state.name,
     value: state.id,
   }))}
+  rules={{
+    validate: (value) => value && value.length > 0 || "At least one state must be selected",
+  }}
   render={({ field }) => (
     <Select
       {...field}
+      required={true}
       isDisabled={!isEditable}
       className="border border-black rounded-md w-full"
       options={allStates?.data?.States?.map((state) => ({
@@ -409,9 +419,10 @@ const UserDetailsComponent = () => {
   )}
 />
 
-            <p className="text-red-500">
-              {errors.states && <span>{errors.states.message}</span>}
-            </p>
+<p className="text-red-500">
+  {errors.states && <span>{errors.states.message}</span>}
+</p>
+
           </div>
           <div className="col-span-3  mt-4">
             <div className="col-span-3 gap-10 gap-y-6 grid grid-cols-3 mt-4">
