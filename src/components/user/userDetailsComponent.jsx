@@ -74,8 +74,11 @@ const UserDetailsComponent = () => {
   useEffect(() => {
     if (data) {
       reset({
-      ...data.user
-        
+        ...data.user,
+        states: data.user.states.map((state) => ({
+          label: state.name,
+          value: state.id,
+        })),
       });
     }
   }, [data, reset]);
@@ -186,20 +189,26 @@ const UserDetailsComponent = () => {
       return result;
     };
   
-    // Transform `states` into an array of labels if it has values
+    // Transform `states` into an array of IDs if it has values
     const transformedStates = Array.isArray(dataOnSubmit.states)
-      ? dataOnSubmit.states.map((state) => state.name)
+      ? dataOnSubmit.states.map((state) => state.label)
       : [];
+      console.log(transformedStates,"tar");
+      
   
     const formData = {
       ...dataOnSubmit,
-      ...(transformedStates.length > 0 && { states: transformedStates }), // Only add states if it's not empty
+      ...(transformedStates.length > 0 ? { states: transformedStates }:{states:undefined}), // Only add states if it's not empty
     };
+    console.log(formData,"form");
+    
   
     // Original data fetched from the API
     const originalData = {
       ...data.user,
-      states: data.user.states.map((state) => state.name),
+      states: Array.isArray(data.user.states) 
+        ? data.user.states.map((state) => state.label)
+        : [],
     };
   
     console.log("Original Data:", originalData);
@@ -231,7 +240,7 @@ const UserDetailsComponent = () => {
   
       console.log("Update Response:", updateResponse);
       console.log("Upload Response:", uploadResponse);
-  
+  navigate("/users")
       ShowPopup(
         "Success!",
         `${dataOnSubmit.firstName} updated successfully!`,
@@ -400,33 +409,28 @@ const UserDetailsComponent = () => {
             </label>
 
             <Controller
-              // disabled={!isEditable}
-              name="states"
-              // rules={{ required: "Please select at least one state" }}
-              control={control}
-              defaultValue={
-                data?.user?.states?.map((state) => ({
-                  label: state.name,
-                  value: state.id,
-                })) || []
-              }
-              render={({ field }) => (
-                <Select
-                  isDisabled={!isEditable}
-                  className={`border border-black fo rounded-md w-full focus:outline-none focus:ring`}
-                  option=""
-                  options={
-                    allStates?.data?.States?.map((state) => ({
-                      label: state.name,
-                      value: state.id,
-                    })) || []
-                  }
-                  {...field}
-                  isMulti
-                  getOptionValue={(option) => option.value}
-                />
-              )}
-            />
+  name="states"
+  control={control}
+  defaultValue={data?.user?.states.map((state) => ({
+    label: state.name,
+    value: state.id,
+  }))}
+  render={({ field }) => (
+    <Select
+      {...field}
+      isDisabled={!isEditable}
+      className="border border-black rounded-md w-full"
+      options={allStates?.data?.States?.map((state) => ({
+        label: state.name,
+        value: state.id,
+      }))}
+      isMulti
+      getOptionValue={(option) => option.value}
+      getOptionLabel={(option) => option.label}
+    />
+  )}
+/>
+
             <p className="text-red-500">
               {errors.states && <span>{errors.states.message}</span>}
             </p>
