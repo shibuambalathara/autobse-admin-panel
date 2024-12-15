@@ -9,6 +9,7 @@ import { DateConvert } from "../utils/dateFormat";
 import { indianStates } from "../../utils/data";
 import { formStyle, h2Style, headerStyle, pageStyle, submit } from "../utils/style";
 import AutobseLoading from "../utils/autobseLoading";
+import CloseButton from "../buttons/button";
 
 const EditVehicleComponent = ({data,loading,error,handleSubmit,onSubmit,register,errors,images,button}) => {
   
@@ -24,7 +25,9 @@ const EditVehicleComponent = ({data,loading,error,handleSubmit,onSubmit,register
   return (
     <div className={pageStyle.data}>
     <div className={headerStyle.data}>
+   
       <h2 className={h2Style.data}>VEHICLE DETAILS</h2>
+      
     </div>
     <form onSubmit={handleSubmit(onSubmit)} className={formStyle.data}>
         <FormFieldInput defaultValue={data?.vehicle?.registrationNumber} label="Registration" type="text" name="regNo" register={register} error={errors.regNo} required />

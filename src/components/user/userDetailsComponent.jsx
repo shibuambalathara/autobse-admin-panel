@@ -25,6 +25,7 @@ import { ImageUploadField } from "../image/imageUpload";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {  faEdit,  faEyeSlash,} from "@fortawesome/free-solid-svg-icons";
 import { FaTimes } from "react-icons/fa";
+import CloseButton, { EditButton } from "../buttons/button";
 
 
 const UserDetailsComponent = () => {
@@ -261,35 +262,12 @@ const UserDetailsComponent = () => {
   return (
     <div className={pageStyle.data}>
       <div className={`${headerStyle.data} `} >
-      <button
-            onClick={() => window.close()}
-            className="flex items-center gap-2 text-gray-700 hover:text-red-600 bg-gray-200 hover:bg-gray-300 border rounded-full px-3 py-2"
-          >
-            
-            
-            <FaTimes className="text-lg" />
-          </button>
+    
         <h2 className={`${h2Style.data} flex-1 justify-center flex pl-8 `}>
           {data.user.firstName} {data.user.lastName}
         </h2>
-        <div className="   ">
-        {!isEditable ? (
-          <button
-            onClick={handleEdit}
-            className="flex items-center px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 ml-5 transition-colors duration-300 place-content-end "
-          >
-            <FontAwesomeIcon icon={faEdit} className="" /> 
-          </button>
-        ) : (
-          <button
-            onClick={handleEdit}
-            className="flex items-center px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700 ml-5 transition-colors duration-300"
-          >
-           
-            <FontAwesomeIcon icon={faEyeSlash} className="" /> 
-          </button>
-        )}
-        </div>
+        <EditButton isEditable={isEditable} handleEdit={handleEdit}/>
+     
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={formStyle.data}>
