@@ -4,6 +4,7 @@ import { StateNames, useUpdateLocationMutation, useStatesQuery, Location as GQLL
 import { ShowPopup } from "../alerts/popUps";
 import { modalStyle } from "../utils/style";
 import { InputFields } from "../utils/formField";
+import Modal from "../../layouts/modal";
 
 // Define the data structure for the form input
 type FormInputs = {
@@ -61,12 +62,9 @@ const EditLocation: React.FC<EditLocationProps> = ({ isModalOpen, setIsModalOpen
   if (!isModalOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    <div className={`${modalStyle.container} w-96 h-96 p-8 rounded-lg`}>
-      <button onClick={() => setIsModalOpen(false)} className={modalStyle.closeButton}>✕</button>
-  
+    <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Update Location">
       {/* Heading */}
-      <h2 className="text-center font-extrabold my-5 text-lg w-full">Update Location</h2>
+      
   
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <InputFields
@@ -100,8 +98,7 @@ const EditLocation: React.FC<EditLocationProps> = ({ isModalOpen, setIsModalOpen
           </button>
         </div>
       </form>
-    </div>
-  </div>
+  </Modal>
   
   );
 };

@@ -40,7 +40,7 @@ const OtpLogin: React.FC = () => {
   return (
     <>
       {otp ? 
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className='h-36 flex flex-col justify-center'>
           <div className="mb-4">
             <label htmlFor="phone" className="block text-gray-700">
               Phone Number
@@ -64,7 +64,7 @@ const OtpLogin: React.FC = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-black opacity-80 text-white py-2 px-4 rounded-lg hover:bg-black hover:opacity-100"
+            className="w-full bg-blue-700 opacity-80 text-white py-2 px-4 rounded-lg hover:bg-blue-800 hover:opacity-100"
           >
             Send OTP
           </button>

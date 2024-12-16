@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from "react";
-import { Button } from "@material-tailwind/react";
+
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useSellersQuery } from "../../utils/graphql"; // Ensure your GraphQL hook is typed correctly
@@ -10,6 +10,8 @@ import TableComponent from "../utils/table";
 import CustomButton from "../utils/buttons";
 import { pageHead, Tablebutton } from "../utils/style";
 import AutobseLoading from "../utils/autobseLoading";
+import { Button } from "../buttons/radix";
+import { FaPlusCircle } from "react-icons/fa";
 export interface Seller {
   id: string;
   name: string;
@@ -75,7 +77,14 @@ const Table: React.FC = () => {
     <div className="w-full flex flex-col">
       <div className="w-full px-24 ">
       <div className={pageHead.data}>SELLERS</div>
-      <CustomButton navigateTo={"/add-seller"} buttonText={" Add Seller"}/>
+      <div className=" flex items-center place-self-end gap-2">
+            <Button onClick={() =>navigate("/add-seller")} size="sm" className="h-8 gap-1">
+              <FaPlusCircle className="h-3.5 w-3.5" />
+              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                Add Seller
+              </span>
+            </Button>
+          </div>
       </div>
       <div className="w-full  h-fit">
         <div className="flex flex-col justify-center  w-full">

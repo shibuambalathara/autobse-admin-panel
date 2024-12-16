@@ -1,5 +1,5 @@
 import React from 'react'
-import AddState from '../components/state/addState'
+
 import ViewStates from '../components/state/viewStates'
 import { pageHead } from '../components/utils/style'
 const States = () => {

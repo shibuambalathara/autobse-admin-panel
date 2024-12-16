@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {
-  useUsersLazyQuery,
+  
   OrderDirection,
   StateNames,
   UserRoleType,
@@ -11,7 +11,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import LimitedDataPaginationComponents from "../components/utils/limitedDataPagination";
 import TabbleOfUsersOrUser from "../components/users/tableData";
-import SearchByNumber from "../components/utils/searchByNumber";
 import CustomButton from "../components/utils/buttons";
 import SearchByState from "../components/utils/searchByState";
 
@@ -21,6 +20,9 @@ import NotFoundPage from "../components/utils/emptyComponent";
 import { h2Style, pageHead } from "../components/utils/style";
 import AutobseLoading from "../components/utils/autobseLoading";
 import DebounceSearchInput from "../components/utils/globalSearch";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/tabs/tab";
+import { FaPlusCircle } from "react-icons/fa";
+import { Button } from "../components/buttons/radix";
 
 type UserQueryVariables = {
   where?: {
@@ -170,14 +172,33 @@ const Users = () => {
   )
 
   return (
-    <div className="w-full h-fit">
+ 
+    
+    <div className="">
       <div className="w-fit place-self-center  ">
         <div className={pageHead.data}>Users </div>
 
-
+ 
+        
+    
+    
+  
       </div>
-      <div className=" justify-center  mt-4 flex gap-5 h-fit">
-        {/* <SearchByNumber inputData={handleInputData} value={inputData} /> */}
+      <div className="mx-20 flex items-center place-self-end gap-2">
+      <Button onClick={() => navigate("/deleted-users")} size="sm" variant="outline" className="h-8 gap-1">
+        
+        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+          Deleted Users        </span>
+      </Button>
+      <Button onClick={() => navigate("/add-user")} size="sm" className="h-8 gap-1">
+        <FaPlusCircle className="h-3.5 w-3.5" />
+        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+          Add User
+        </span>
+      </Button>
+    </div>
+      <div className=" justify-center  mr-56  mt-4 flex gap-5 h-fit">
+        
         <div className="w-72 pt-5">
           <DebounceSearchInput
             placeholder="Search by Name or Mobile..."
@@ -188,18 +209,15 @@ const Users = () => {
           />
         </div>
         <SearchByState key={state} setState={handleInputState} value={state} />
-        {/* <SearchByDate setDate={handleInputDate} value={startDate} /> */}
         <SeachByRole key={dealerRole} setRole={handleInputRole} value={dealerRole} />
         <button
           className="bg-red-600 text-white h-10 place-self-end px-6 font-semibold rounded-lg shadow-md transform hover:bg-red-700 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-400 p-2 border text-sm w-fit"
           onClick={handleClearFilters}
         >
-          Clear
+          Clear Filters
         </button>
         <div className="place-self-end flex gap-5">
 
-          <CustomButton navigateTo={"/add-user"} buttonText={"Add User"} />
-          <CustomButton navigateTo={"/deleted-users"} buttonText={"Restore Users"} />
 
         </div>
 
@@ -222,16 +240,13 @@ const Users = () => {
         ) : (
           <>
             <NotFoundPage />
-            {/* <LimitedDataPaginationComponents
-              totalItems={userCount}
-              itemsPerPage={pageSize}
-              currentPage={currentPage}
-              onPageChange={handlePageChange}
-            /> */}
+           
           </>
         )}
       </div>
     </div>
+ 
+
   );
 };
 

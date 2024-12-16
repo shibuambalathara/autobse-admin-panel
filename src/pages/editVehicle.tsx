@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 import { useVehicleQuery, useUpdateVehicleMutation, useVehicleCategoriesQuery, UpdateVehicleInput } from "../utils/graphql";
 import { DateConvert } from "../components/utils/dateFormat";
-import EditVehicleComponent from "../components/Vehicle/editVehicleCom ";
+import EditVehicleComponent, { formatTextAreaValue } from "../components/Vehicle/editVehicleCom ";
 import { ShowPopup } from "../components/alerts/popUps";
 import { VehicleInput } from "../components/Vehicle/vehicleInterface";
 
@@ -17,24 +17,81 @@ const EditVehicle: React.FC = () => {
   const { data: categoryData } = useVehicleCategoriesQuery();
   const { data, loading, error } = useVehicleQuery({ variables: { where: { id } } });
   const [editVehicle] = useUpdateVehicleMutation( );
-
+  
+    
+  
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm();
-
+    reset,
+  } = useForm(
+  );
+  const { vehicle } = data || {};
   useEffect(() => {
     if (data?.vehicle) {
       Object.entries(data.vehicle).forEach(([key, value]) => {
         if (key === "image" && typeof value === "string") {
           setImages(value.split(","));
         }
-        setValue(key as keyof VehicleInput, value as any);
+        reset({
+          regNo: data?.vehicle?.registrationNumber || "",
+    loanANum: data?.vehicle?.loanAgreementNo || "",
+    regOwnerName: data?.vehicle?.registeredOwnerName || "",
+    fuel: data?.vehicle?.fuel || "",
+    type: data?.vehicle?.type || "",
+    rcStatus: data?.vehicle?.rcStatus || "",
+    yearOfManuFacture: data?.vehicle?.YOM || "",
+    Ownership: data?.vehicle?.ownership || "",
+    quoteInc: data?.vehicle?.quoteIncreament || "",
+    mileage: data?.vehicle?.mileage || "",
+    kmReading: data?.vehicle?.kmReading || "",
+    insuranceStatus: data?.vehicle?.insuranceStatus || "",
+    yardLocation: data?.vehicle?.yardLocation || "",
+    startPrice: data?.vehicle?.startPrice || "",
+    reservePrice: data?.vehicle?.reservePrice || "",
+    repoDate: data?.vehicle?.repoDt || "",
+    vehicleLocation: data?.vehicle?.veicleLocation || "",
+    vehicleRemarks: data?.vehicle?.vehicleRemarks || "",
+    auctionManager: data?.vehicle?.auctionManager || "",
+    approxParkingCharges: data?.vehicle?.approxParkingCharges || "",
+    insurance: data?.vehicle?.insurance || "",
+    insuranceValidDate: data?.vehicle?.insuranceValidTill || "",
+    tax: data?.vehicle?.tax || "",
+    taxValidityDate: data?.vehicle?.taxValidityDate || "",
+    fitness: data?.vehicle?.fitness || "",
+    permit: data?.vehicle?.permit || "",
+    engineNumber: data?.vehicle?.engineNo|| "",
+    chassisNo: data?.vehicle?.chassisNo || "",
+    inspectionLink: data?.vehicle?.inspectionLink || "",
+    autobseContact: data?.vehicle?.autobseContact || "",
+    vehicleCondition: data?.vehicle?.vehicleCondition || "",
+    shape: data?.vehicle?.shape || "",
+    color: data?.vehicle?.color || "",
+    city: data?.vehicle?.city || "",
+    area: data?.vehicle?.area || "",
+    paymentTerms: data?.vehicle?.paymentTerms || "",
+    dateOfRegistration: data?.vehicle?.dateOfRegistration || "",
+    hypothication: data?.vehicle?.hypothication || "",
+    doorCount: data?.vehicle?.doorCount || "",
+    gearBox: data?.vehicle?.gearBox || "",
+    buyerFees: data?.vehicle?.buyerFees || "",
+    rtoFine: data?.vehicle?.rtoFine || "",
+    clientContactPerson: data?.vehicle?.clientContactPerson || "",
+    clientContactNo: data?.vehicle?.clientContactNo || "",
+    AdditionalRemarks: data?.vehicle?.additionalRemarks || "",
+    lotNumber: data?.vehicle?.lotNumber || "",
+    climateControl: data?.vehicle?.climateControl || "",
+    powerSteering: data?.vehicle?.powerSteering || "",
+  images:formatTextAreaValue(data?.vehicle?.image)}
+        )
       });
     }
   }, [data, setValue]);
+ 
+
+
   const onSubmit = async (formData: any) => {
     const cleanedRightImage = formData?.images?.replace(/,\n/g, ",") || "";
     const vehicleData: any = {
@@ -112,6 +169,7 @@ const EditVehicle: React.FC = () => {
   return (
     <div className="w-full">
       <EditVehicleComponent
+      reset={reset}
         data={data}
         loading={loading}
         error={error}
