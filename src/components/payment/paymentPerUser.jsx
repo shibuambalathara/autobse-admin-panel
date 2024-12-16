@@ -13,6 +13,8 @@ import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import AutobseLoading from '../utils/autobseLoading';
 import ViewEmd from '../emd/ViewEmd';
+import { Button } from '../buttons/radix';
+import { FaPlusCircle } from 'react-icons/fa';
 
 const PaymentPerUser = () => {
   const { id } = useParams()
@@ -191,6 +193,14 @@ setIsModalOpen(true)
           <div className="text-center  font-extrabold my-5 text-lg min-w-full uppercase  ">  PAYMENTS  OF {data?.payments[0]?.user?.firstName} {data?.payments[0]?.user?.lastName} </div>
 
         </div>
+        <div className="mx-20 flex items-center place-self-end gap-2">
+      <Button onClick={() =>navigate(`/create-payment/${id}`)} size="sm" className="h-8 gap-1">
+        <FaPlusCircle className="h-3.5 w-3.5" />
+        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+          Create Payment
+        </span>
+      </Button>
+    </div>
 
 
         <TableComponent data={data?.payments} columns={columns} sortBy='Created At' />

@@ -23,6 +23,7 @@ const EditVehicle: React.FC = () => {
     handleSubmit,
     setValue,
     formState: { errors },
+    reset,
   } = useForm();
 
   useEffect(() => {
@@ -35,6 +36,16 @@ const EditVehicle: React.FC = () => {
       });
     }
   }, [data, setValue]);
+ useEffect(() => {
+    if (data) {
+      reset({
+        ...data.vehicle,
+        
+      });
+    }
+  }, [data, reset]);
+
+
   const onSubmit = async (formData: any) => {
     const cleanedRightImage = formData?.images?.replace(/,\n/g, ",") || "";
     const vehicleData: any = {

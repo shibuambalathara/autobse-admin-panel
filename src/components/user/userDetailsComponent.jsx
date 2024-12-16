@@ -220,8 +220,8 @@ const UserDetailsComponent = () => {
     // Skip submission if no updates are detected
     if (Object.keys(payload).length === 0) {
        ShowPopup(
-        "Success!",
-        `${dataOnSubmit.firstName.capitalise()} No changes detected!`,
+        "No changes were detected!",
+        ``,
         "question",
         5000,
         true
@@ -247,10 +247,10 @@ const UserDetailsComponent = () => {
   
       console.log("Update Response:", updateResponse);
       console.log("Upload Response:", uploadResponse);
-  // navigate("/users")
+  navigate("/users")
       ShowPopup(
         "Success!",
-        `${dataOnSubmit.firstName} updated successfully!`,
+        `The profile of ${dataOnSubmit.firstName} has been successfully updated!`,
         "success",
         5000,
         true
@@ -405,7 +405,7 @@ const UserDetailsComponent = () => {
   render={({ field }) => (
     <Select
       {...field}
-      required={true}
+      // required={true}
       isDisabled={!isEditable}
       className="border border-black rounded-md w-full"
       options={allStates?.data?.States?.map((state) => ({
