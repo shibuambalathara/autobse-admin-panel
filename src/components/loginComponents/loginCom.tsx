@@ -55,7 +55,7 @@ const Login: React.FC = () => {
   return (
     <>
       <Toaster />
-      <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
+      <form onSubmit={handleSubmit(onSubmit)} className='space-y-4 h-58'>
         <div className="mb-4">
           <label htmlFor="userName" className="block text-gray-700">
             Mobile
@@ -97,7 +97,7 @@ const Login: React.FC = () => {
 
         <button
           type="submit"
-          className="w-full bg-black opacity-80 text-white py-2 px-4 rounded-lg hover:bg-black hover:opacity-100 transition"
+          className="w-full bg-blue-800 opacity-80 text-white py-2 px-4 rounded-lg hover:bg-blue-800 hover:opacity-100 transition"
           disabled={loading}
         >
           {loading ? 'Logging in...' : 'Login'}

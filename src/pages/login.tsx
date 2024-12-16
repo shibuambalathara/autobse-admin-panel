@@ -44,11 +44,11 @@ export const LoginPage = () => {
     
 
       {/* Right Pane with Tabs */}
-      <div className="flex flex-col justify-center items-center flex-1 ">
-      <h1 className="text-blue-700 text-5xl font-extrabold my-auto">
+      <div className="flex flex-col justify-center items-center flex-1 space-y-2 ">
+      <h1 className="text-blue-800 text-5xl font-extrabold my-auto">
             Auto<span className="text-orange-500">bse</span>
           </h1>
-        <div className="bg-white shadow-lg rounded-lg p-6 w-fit">
+        <div className="bg-white  shadow-xl border-2 rounded-lg p-6 w-fit">
           {/* Tabs */}
           <div className="flex mb-6">
             <button

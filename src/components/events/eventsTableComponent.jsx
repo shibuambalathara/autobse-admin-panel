@@ -129,11 +129,11 @@ const EventsTableComponent = () => {
       label: "Start Date",
       name: "startDate",
     },
-    {
-      type: "date",
-      label: "End Date",
-      name: "endDate",
-    },
+    // {
+    //   type: "date",
+    //   label: "End Date",
+    //   name: "endDate",
+    // },
     // {
     //   type: "number",
     //   label: "Event No",

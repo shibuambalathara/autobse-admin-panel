@@ -76,7 +76,7 @@ const VerifyLogin: React.FC<VerifyLoginProps> = ({ number }) => {
   return (
     <>
       <Toaster position="top-right" reverseOrder={false} />
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className=''>
             
               <div className="mt-4">
                 <label htmlFor="otp" className="block text-gray-700">
@@ -97,7 +97,7 @@ const VerifyLogin: React.FC<VerifyLoginProps> = ({ number }) => {
               </div>
               <button
                 type="submit"
-               className="w-full bg-black opacity-80 text-white py-2 px-4 rounded-lg hover:bg-black hover:opacity-100 mt-6" 
+               className="w-full bg-blue-700 opacity-80 text-white py-2 px-4 rounded-lg hover:bg-blue-800 hover:opacity-100 mt-6" 
               >
                 Verify OTP
               </button>
