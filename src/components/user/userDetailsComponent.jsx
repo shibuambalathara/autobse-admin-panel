@@ -24,6 +24,9 @@ import AutobseLoading from "../utils/autobseLoading";
 import { ImageUploadField } from "../image/imageUpload";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {  faEdit,  faEyeSlash,} from "@fortawesome/free-solid-svg-icons";
+import { FaTimes } from "react-icons/fa";
+import CloseButton, { EditButton } from "../buttons/button";
+
 
 const UserDetailsComponent = () => {
   const navigate = useNavigate();
@@ -32,6 +35,9 @@ const UserDetailsComponent = () => {
   const { data, loading, error } = useViewUserQuery({
     variables: { where: { id } },
   });
+
+
+
   const imageLabels = {
     pancard_image: "Pancard",
     aadharcard_front_image: "ID Proof front",
@@ -52,7 +58,6 @@ const UserDetailsComponent = () => {
 
   console.log(errors, "error");
 
-  const [isUpload, setIsUpload] = useState(false);
   const [isEditable, setIsEditable] = useState(false);
   const [fileData, setFileData] = useState({
     pancard_image: { file: null, preview: null },
@@ -61,21 +66,16 @@ const UserDetailsComponent = () => {
     driving_license_front_image: { file: null, preview: null },
     driving_license_back_image: { file: null, preview: null },
   });
+
+  
+   
   const handleEdit = () => {
     setIsEditable(!isEditable);
   };
   useEffect(() => {
     if (data) {
       reset({
-        first_Name: data.user.firstName,
-        last_Name: data.user.lastName,
-        email: data.user.email,
-        bussiness: data.user.businessName,
-        pancardNumber: data.user.pancardNo,
-        IdNumber: data.user.idProofNo,
-        state: data.user.state,
-        role: data.user.role,
-        status: data.user.status,
+        ...data.user,
         states: data.user.states.map((state) => ({
           label: state.name,
           value: state.id,
@@ -131,70 +131,130 @@ const UserDetailsComponent = () => {
     }
   };
 
-  const uploadFile = async () => {
+  const   uploadFile = async () => {
     const formDataPayload = new FormData();
-
-    Object.keys(fileData).forEach((key) => {
-      if (fileData[key].file) {
-        formDataPayload.append(key, fileData[key].file);
-      }
-    });
+    const value=Object.keys(fileData).some(key=>{
+   
+      return fileData[key].file
+});
+    
 
     try {
-      const response = await fetch(
-        `https://api-dev.autobse.com/api/v1/fileupload/userprofile/${id}`,
-        {
-          method: "PUT",
-          body: formDataPayload,
-        }
-      );
-      if (!response.ok)
-        throw new Error(`Image upload failed: ${response.status}`);
+      if (value)
+      {
+        Object.keys(fileData).forEach((key) => {
+     
+          
+         
+            formDataPayload.append(key, fileData[key].file);
+          
+          return  fileData[key].file
+          
+        });
+        const response = await fetch(
+          `https://api-dev.autobse.com/api/v1/fileupload/userprofile/${id}`,
+          {
+            method: "PUT",
+            body: formDataPayload,
+          }
+        );
+        if (!response.ok)
+          throw new Error(`Image upload failed: ${response.status}`);
+      }
+     return console.log
+      (`No changes detected, skipping submission.`);
+     
     } catch (error) {
       console.error("Error during document upload:", error);
     }
   };
 
   const onSubmit = async (dataOnSubmit) => {
-    console.log("submit ", dataOnSubmit);
-
-    const states =
-      dataOnSubmit?.states?.length > 0
-        ? dataOnSubmit.states.map((state) => state?.label)
-        : undefined;
-
-    // Creating the user object with conditional states inclusion
-    const user = {
-      firstName: dataOnSubmit?.first_Name,
-      lastName: dataOnSubmit?.last_Name,
-      email: dataOnSubmit?.email,
-      // mobile: dataOnSubmit?.mobile,
-      businessName: dataOnSubmit?.bussiness,
-      pancardNo: dataOnSubmit?.pancardNumber,
-      idProofNo: dataOnSubmit?.IdNumber,
-      country: dataOnSubmit?.country,
-      state: dataOnSubmit?.state,
-      // city: dataOnSubmit?.city,
-      status: dataOnSubmit?.status,
-      role: dataOnSubmit?.role,
-      ...(states && { states }), // Only add `states` if it has valid data
+    console.log("Submitted Data: ", dataOnSubmit);
+  
+    // Helper function to compare and find updated fields
+    const getUpdatedFields = (original, updated) => {
+      const result = {};
+  
+      Object.keys(updated).forEach((key) => {
+        const originalValue = original[key];
+        const updatedValue = updated[key];
+  
+        // Skip unchanged fields
+        if (JSON.stringify(originalValue) === JSON.stringify(updatedValue)) return;
+  
+        // Add only changed fields
+        result[key] = updatedValue;
+      });
+  
+      return result;
     };
-
+  
+    // Transform `states` into an array of IDs if it has values
+    const transformedStates = Array.isArray(dataOnSubmit.states)
+      ? dataOnSubmit.states.map((state) => state.label)
+      : [];
+      console.log(transformedStates,"tar");
+      
+  
+    const formData = {
+      ...dataOnSubmit,
+      ...(transformedStates.length > 0 ? { states: transformedStates }:{states:undefined}), // Only add states if it's not empty
+    };
+    console.log(formData,"form");
+    
+  
+    // Original data fetched from the API
+    const originalData = {
+      ...data.user,
+      states: Array.isArray(data.user.states) 
+        ? data.user.states.map((state) => state.label)
+        : [],
+    };
+  
+    console.log("Original Data:", originalData);
+  
+    // Get only the fields that have been updated
+    const payload = getUpdatedFields(originalData, formData);
+  
+    // Skip submission if no updates are detected
+    if (Object.keys(payload).length === 0) {
+      console.log("No changes detected, skipping submission.");
+      try {
+        const uploadResponse = await uploadFile();
+        console.log("Upload Response:", uploadResponse);
+      } catch (error) {
+        console.error("Error during file upload:", error);
+        ShowPopup("File Upload Failed!", error.message, "error", 5000, true);
+      }
+      return;
+    }
+  
+    console.log("Payload to Send: ", payload);
+  
+    // API Call to update user and upload file
     try {
-      await updateUser({ variables: { where: { id }, data: user } });
-      await uploadFile();
+      const [updateResponse, uploadResponse] = await Promise.all([
+        updateUser({ variables: { where: { id }, data: payload } }),
+        uploadFile(),
+      ]);
+  
+      console.log("Update Response:", updateResponse);
+      console.log("Upload Response:", uploadResponse);
+  navigate("/users")
       ShowPopup(
         "Success!",
-        `${dataOnSubmit.first_Name} updated successfully!`,
+        `${dataOnSubmit.firstName} updated successfully!`,
         "success",
         5000,
         true
       );
-      navigate("/users"); // Reset form after success
-    } catch (err) {
-      ShowPopup("User Update Failed!", err.message, "error", 5000, true);
+    } catch (error) {
+      console.error("Error during user update or file upload:", error);
+      ShowPopup("Update Failed!", error.message, "error", 5000, true);
     }
   };
+  
 
   if (loading) return <AutobseLoading />;
   if (error) return <p>Error loading user details</p>;
@@ -202,40 +262,27 @@ const UserDetailsComponent = () => {
   return (
     <div className={pageStyle.data}>
       <div className={`${headerStyle.data} `} >
-        <h2 className={`${h2Style.data} flex-1 justify-center flex pl-10 `}>
+    
+        <h2 className={`${h2Style.data} flex-1 justify-center flex pl-8 `}>
           {data.user.firstName} {data.user.lastName}
         </h2>
-        <div className="   ">
-        {!isEditable ? (
-          <button
-            onClick={handleEdit}
-            className="flex items-center px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 ml-5 transition-colors duration-300 place-content-end "
-          >
-            <FontAwesomeIcon icon={faEdit} className="" /> 
-          </button>
-        ) : (
-          <button
-            onClick={handleEdit}
-            className="flex items-center px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-700 ml-5 transition-colors duration-300"
-          >
-           
-            <FontAwesomeIcon icon={faEyeSlash} className="" /> 
-          </button>
-        )}
-        </div>
+        <EditButton isEditable={isEditable} handleEdit={handleEdit}/>
+     
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={formStyle.data}>
-          <InputField
+          <InputFields
             disabled={!isEditable}
+            required={true}
             label="First Name"
-            register={register("first_Name", {
+            register={register("firstName", {
               required: "First Name is required",
             })}
             defaultValue={data.user.firstName}
             error={errors.first_Name}
           />
           <InputField
+          register={register("lastName")}
             disabled={!isEditable}
             label="Last Name"
             defaultValue={data.user.lastName}
@@ -258,7 +305,7 @@ const UserDetailsComponent = () => {
           />
           <InputField
             label="Mobile"
-            // register={register("mobile")}
+            register={register("mobile")}
             defaultValue={data.user.mobile}
             error={errors.mobile}
             disabled={true}
@@ -267,21 +314,21 @@ const UserDetailsComponent = () => {
           <InputField
             disabled={!isEditable}
             label="Business Name"
-            register={register("bussiness")}
+            register={register("businessName")}
             defaultValue={data.user.businessName}
             error={errors.bussiness}
           />
           <InputField
             disabled={!isEditable}
             label="ID Proof Number"
-            register={register("IdNumber", {
+            register={register("idProofNo", {
               pattern: {
                 value: /^[0-9]{12}$/, // 10 digit phone number pattern
                 message: "Please enter a valid 12-digit  number",
               },
             })}
             defaultValue={data.user.idProofNo}
-            error={errors.IdNumber}
+            error={errors.idProofNo}
           />
           <InputFields
             disabled={!isEditable}
@@ -297,10 +344,10 @@ const UserDetailsComponent = () => {
           <PANCardInput
             disabled={!isEditable}
             label="Pancard No"
-            name="pancardNumber"
+            name="pancardNo"
             register={register}
             defaultValue={data.user.pancardNo}
-            error={errors.pancardNumber}
+            error={errors.pancardNo}
             required
           />
           <InputFields
@@ -340,29 +387,28 @@ const UserDetailsComponent = () => {
             </label>
 
             <Controller
-              // disabled={!isEditable}
-              name="states"
-              // rules={{ required: "Please select at least one state" }}
-              control={control}
-              defaultValue={data?.user?.states.map((state) => ({
-                label: state.name,
-                value: state.id,
-              }))}
-              render={({ field }) => (
-                <Select
-                  isDisabled={!isEditable}
-                  className={`border border-black fo rounded-md w-full focus:outline-none focus:ring`}
-                  option=""
-                  options={allStates?.data?.States?.map((state) => ({
-                    label: state.name,
-                    value: state.id,
-                  }))}
-                  {...field}
-                  isMulti
-                  getOptionValue={(option) => option.value}
-                />
-              )}
-            />
+  name="states"
+  control={control}
+  defaultValue={data?.user?.states.map((state) => ({
+    label: state.name,
+    value: state.id,
+  }))}
+  render={({ field }) => (
+    <Select
+      {...field}
+      isDisabled={!isEditable}
+      className="border border-black rounded-md w-full"
+      options={allStates?.data?.States?.map((state) => ({
+        label: state.name,
+        value: state.id,
+      }))}
+      isMulti
+      getOptionValue={(option) => option.value}
+      getOptionLabel={(option) => option.label}
+    />
+  )}
+/>
+
             <p className="text-red-500">
               {errors.states && <span>{errors.states.message}</span>}
             </p>
@@ -419,6 +465,7 @@ const UserDetailsComponent = () => {
                   <input
                     disabled={!isEditable}
                     type="file"
+                    accept="image/*" 
                     id={`file-input-${index}`}
                     name={key}
                     onChange={handleFileChange}
