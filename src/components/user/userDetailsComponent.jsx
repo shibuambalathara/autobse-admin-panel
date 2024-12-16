@@ -53,6 +53,7 @@ const UserDetailsComponent = () => {
     handleSubmit,
     formState: { errors },
     reset,
+    clearErrors,
     control,
   } = useForm();
 
@@ -352,6 +353,7 @@ const UserDetailsComponent = () => {
             label="Pancard No"
             name="pancardNo"
             register={register}
+            clearErrors={clearErrors}
             defaultValue={data.user.pancardNo}
             error={errors.pancardNo}
             required
