@@ -6,6 +6,8 @@ import { ShowPopup } from "../alerts/popUps";
 
 import { InputFields } from "../utils/formField";
 import Modal from "../../layouts/modal";
+import { Button } from "../buttons/radix";
+import { FaPlusCircle } from "react-icons/fa";
 
 
 type FormInputs = {
@@ -46,12 +48,15 @@ const AddLocation: React.FC<addLocationProps> = ({refetch}) => {
   return (
     <div className="relative flex justify-center items-center mr-20">
       {/* Add Location Button */}
-      <button
-        onClick={() => setIsModalOpen(true)}
-        className="mt-2 w-fit bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-      >
-        Add Location
-      </button>
+      <div className=" flex items-center place-self-end gap-2">
+      <Button onClick={() =>setIsModalOpen(true)} size="sm" className="h-8 gap-1">
+        <FaPlusCircle className="h-3.5 w-3.5" />
+        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+          Add Location
+        </span>
+      </Button>
+    </div>
+
       {/* Modal */} 
 
 

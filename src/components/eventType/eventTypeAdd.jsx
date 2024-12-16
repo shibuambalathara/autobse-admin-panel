@@ -4,6 +4,8 @@ import { useCreateVehiclecategoryMutation } from "../../utils/graphql";
 import Swal from "sweetalert2";
 
 import { useNavigate } from "react-router-dom";
+import { Button } from "../buttons/radix";
+import { FaPlusCircle } from "react-icons/fa";
 
 const AddEventType = ({setNewCategory}) => {
   const navigate = useNavigate()
@@ -44,14 +46,17 @@ const AddEventType = ({setNewCategory}) => {
   };
 
   return (
-    <div className="w-full max-w-xs  relative">
+    <div className="w-full max-w-xs  relative flex justify-center items-center mr-20">
       {/* Button to trigger modal */}
-      <button
-        className="mt-2 w-fit bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-        onClick={() => setIsModalOpen(true)}
-      >
-        Add Category
-      </button>
+      <div className=" flex items-center place-self-end gap-2">
+      <Button onClick={() =>setIsModalOpen(true)} size="sm" className="h-8 gap-1">
+        <FaPlusCircle className="h-3.5 w-3.5" />
+        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+          Add Category
+        </span>
+      </Button>
+    </div>
+
       {/* Modal */}
 
       {isModalOpen && (

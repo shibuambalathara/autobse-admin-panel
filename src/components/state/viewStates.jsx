@@ -70,7 +70,7 @@ const ViewStates = () => {
         </div>
         <div className="flex flex-col justify-center m-auto w-full">
 
-          {isModalOpen && (
+          {/* {isModalOpen && (
             <EditState
               id={selectedStateId}
               setIsModalOpen={setIsModalOpen}
@@ -78,7 +78,7 @@ const ViewStates = () => {
               refetch={refetch}
               name={name}
             />
-          )}
+          )} */}
           {transformStates && <TableComponent data={transformStates} columns={columns} />}
         </div>
       </div>
