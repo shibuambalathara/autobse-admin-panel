@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useUserPaymentsQuery } from '../../utils/graphql'
 import format from 'date-fns/format'
@@ -12,11 +12,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import AutobseLoading from '../utils/autobseLoading';
+import ViewEmd from '../emd/ViewEmd';
+import { Button } from '../buttons/radix';
+import { FaPlusCircle } from 'react-icons/fa';
 
 const PaymentPerUser = () => {
   const { id } = useParams()
   const { data, loading } = useUserPaymentsQuery({ variables: { where: { userId: id } } })
-
+const [isModalOpen, setIsModalOpen] = useState(false);
+const [emdId, setEmdId] = useState('');
   console.log(data, "payment dta");
 
   const navigate = useNavigate()
@@ -51,6 +55,13 @@ const PaymentPerUser = () => {
     console.log(paymentData, "ata download");
 
     convertToPDF(paymentData)
+  }
+  const handleEmd = (id) => {
+    setEmdId(id)
+setIsModalOpen(true)
+
+
+   
   }
 
 
@@ -93,9 +104,9 @@ const PaymentPerUser = () => {
         Header: "Emd Details",
         Cell: ({ row }) => {
           if (row.original.emdUpdate.length !== 0 && row.original.paymentFor === 'emd' && row.original.status === 'approved') {
-            return (<a className={`${Tablebutton.data} bg-zinc-500  `} href={`/emdDetails/${row.original.id}`} target="_blank" rel="noopener noreferrer">Emd Details </a>)
+            return (<button className={`${Tablebutton.data} bg-zinc-500  `} onClick={()=> handleEmd(row.original.id)} target="_blank" rel="noopener noreferrer">Emd Details </button>)
           } else {
-            return (<a className={`${Tablebutton.data} bg-gray-400  cursor-not-allowed`}>Emd Details</a>)
+            return (<p className={`${Tablebutton.data} bg-gray-400  cursor-not-allowed`}>Emd Details</p>)
           }
         }
       },
@@ -174,13 +185,22 @@ const PaymentPerUser = () => {
 
   return (
     <div className="flex  flex-col w-full justify-around ">
-
+      
+<ViewEmd id={emdId} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
 
       <div className=" flex flex-col w-full justify-center m-auto ">
         <div className="mb-2">
           <div className="text-center  font-extrabold my-5 text-lg min-w-full uppercase  ">  PAYMENTS  OF {data?.payments[0]?.user?.firstName} {data?.payments[0]?.user?.lastName} </div>
 
         </div>
+        <div className="mx-20 flex items-center place-self-end gap-2">
+      <Button onClick={() =>navigate(`/create-payment/${id}`)} size="sm" className="h-8 gap-1">
+        <FaPlusCircle className="h-3.5 w-3.5" />
+        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+          Create Payment
+        </span>
+      </Button>
+    </div>
 
 
         <TableComponent data={data?.payments} columns={columns} sortBy='Created At' />

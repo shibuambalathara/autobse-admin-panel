@@ -25,8 +25,12 @@ import AutobseLoading from "../utils/autobseLoading";
 import { useExcelDownload } from "../utils/excelFormat";
 import DebounceSearchInput from "../utils/globalSearch";
 import CustomFilter from "../utils/costomFilter";
+import { Button } from "../buttons/radix";
+import { FaPlusCircle } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const EventsTableComponent = () => {
+    const navigate = useNavigate();
   const handleExcelDownload = useExcelDownload();
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
@@ -125,11 +129,11 @@ const EventsTableComponent = () => {
       label: "Start Date",
       name: "startDate",
     },
-    {
-      type: "date",
-      label: "End Date",
-      name: "endDate",
-    },
+    // {
+    //   type: "date",
+    //   label: "End Date",
+    //   name: "endDate",
+    // },
     // {
     //   type: "number",
     //   label: "Event No",
@@ -362,9 +366,17 @@ const EventsTableComponent = () => {
   return (
     <div className="flex flex-col ">
       <h2 className={pageHead.data}>Events</h2>
-      <div className="flex flex-wrap place-self-end items-center mr-24 mb-4">
+      <div className="mx-20 flex items-center place-self-end gap-2">
+      <Button onClick={() => navigate("/addevent")} size="sm" className="h-8 gap-1">
+        <FaPlusCircle className="h-3.5 w-3.5" />
+        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+          Add Event
+        </span>
+      </Button>
+    </div>
+      {/* <div className="flex flex-wrap place-self-end items-center mr-24 mb-4">
         <CustomButton navigateTo={"/addevent"} buttonText={" Add Event"} />
-      </div>
+      </div> */}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 w-4/5 place-self-center place-items-end mr-28 pr-4">
         {filterConfig.map((filter) => (
@@ -391,7 +403,7 @@ const EventsTableComponent = () => {
       {/* <CustomFilter /> */}
       <div className=" sm:w-64   pt-4  flex flex-grow ml-32 ">
         <DebounceSearchInput
-          placeholder="Search by location or seller name..."
+          placeholder="Search by Location or Seller Name..."
           value={searchInput}
           onChange={setSearchInput} // Update input immediately
           onSearch={setSearchQuery} // Trigger search after debounce

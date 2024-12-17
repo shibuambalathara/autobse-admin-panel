@@ -60,7 +60,7 @@ const ViewLocationComponent: React.FC = () => {
       {/* Debounce Search Input */}
       <div className="w-72 ml-28 pl-2">
         <DebounceSearchInput
-          placeholder="Search by city or state..."
+          placeholder="Search by City or State..."
           value={searchInput}
           onChange={setSearchInput} // Update input immediately
           onSearch={setSearchQuery} // Trigger search after debounce

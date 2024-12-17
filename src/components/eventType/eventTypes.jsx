@@ -137,10 +137,11 @@ const EventTypesTable = () => {
 
   return (
     <div className="mx-10">
-      <div className='flex justify-end'>
+      
+      <div className={pageHead.data}>Vehicle Category </div>
+      <div className='flex place-self-end w-fit'>
         <AddEventType setNewCategory={setNewCategory} />
       </div>
-      <div className={pageHead.data}>Vehicle Category </div>
       <TableComponent data={categories} columns={columns} />
     </div>
   );

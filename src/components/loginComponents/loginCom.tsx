@@ -55,7 +55,7 @@ const Login: React.FC = () => {
   return (
     <>
       <Toaster />
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className='space-y-4 h-58'>
         <div className="mb-4">
           <label htmlFor="userName" className="block text-gray-700">
             Mobile
@@ -84,10 +84,20 @@ const Login: React.FC = () => {
             <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
           )}
         </div>
+        <a
+              className="group text-blue-400 transition-all duration-100 ease-in-out mb-4"
+              href="/"
+            >
+              <span
+                className="bg-left-bottom bg-gradient-to-r text-sm from-blue-400 to-blue-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out"
+              >
+                Forget your password?
+              </span>
+            </a>
 
         <button
           type="submit"
-          className="w-full bg-black opacity-80 text-white py-2 px-4 rounded-lg hover:bg-black hover:opacity-100 transition"
+          className="w-full bg-blue-800 opacity-80 text-white py-2 px-4 rounded-lg hover:bg-blue-800 hover:opacity-100 transition"
           disabled={loading}
         >
           {loading ? 'Logging in...' : 'Login'}

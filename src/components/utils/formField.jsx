@@ -26,7 +26,7 @@ const CheckboxInput = ({ label, name, register, error }) => {
 export default CheckboxInput;
 
 //  type is input
-export const FormFieldInput = ({ label, type, name, register,defaultValue, error, ...rest }) => {
+export const FormFieldInput = ({ label, type, name, register,defaultValue, error,disabled=false, ...rest }) => {
   const {required,accept}= rest
   return (
     <div className="flex flex-col">
@@ -35,6 +35,7 @@ export const FormFieldInput = ({ label, type, name, register,defaultValue, error
         {label}{required&&<span className="text-red-500 text-lg pl-1">*</span>}
       </label>
       <input
+      disabled={disabled}
       accept={accept}
         type={type}
         defaultValue={defaultValue}
