@@ -50,7 +50,7 @@ const AddEventComponent = () => {
   
     // Prepare the createEventInput object
     const createEventInput = {
-      eventCategory: category, // "online" or "open" selected via state
+      eventCategory: dataOnSubmit?.eventCategory, // "online" or "open" selected via state
       startDate: isoStartDate,
       endDate: isoEndDate,
       noOfBids: noOfBids,
@@ -68,12 +68,6 @@ const AddEventComponent = () => {
      
     };
   
-    // Include the downloadable file if present
-    // if (dataOnSubmit.downloadable?.length) {
-    //   createEventInput["downloadableFile"] = { upload: dataOnSubmit.downloadable[0] };
-    // }
-  
-    // Prepare the variables for the mutation
     const variables = {
       vehicleCategoryId: dataOnSubmit?.eventId || "", // Assuming it's part of form data
       locationId: dataOnSubmit?.location || "", // Assuming it's part of form data

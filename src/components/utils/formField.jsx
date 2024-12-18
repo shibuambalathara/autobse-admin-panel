@@ -77,7 +77,7 @@ export const PANCardInput = ({ label, name, register, error, clearErrors, defaul
         onChange={handleUppercase}
         className={`${inputStyle.data}`}
       />
-      {error && <p className="text-red-500">{error.message || `${label} required`}</p>}
+      {error && <p className="text-red-500">{error.message || `${label} Required`}</p>}
     </div>
   );
 };
@@ -277,9 +277,9 @@ export const InputFields = ({
           className={`${inputStyle.data}`}
           disabled={disabled}
         >
-          <option value="" >
+          {/* <option value="" >
             Select {label}
-          </option>
+          </option> */}
           {options.map((option) => (
   <option key={option.value} value={option.value}>
     {option.label}

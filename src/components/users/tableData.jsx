@@ -207,7 +207,7 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
       {
 
 
-        Header: "User",
+        Header: "Action",
         Cell: ({ row }) => (
           <button className={`${Tablebutton.data} bg-red-600 text-lg`} onClick={() => handleDelete(row.original.id, row.original)}>
             <ImBin2 />
