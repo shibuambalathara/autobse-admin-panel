@@ -55,7 +55,7 @@ const EditState = ({ id, isModalOpen, setIsModalOpen, refetch ,name}) => {
             <InputFields
               label="State Name"
               defaultValue={name}
-              register={register("name", { required: "State is required" })}
+              register={register("name", { required: "State is Required" })}
               component="select"
               options={indianStates}
               className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"

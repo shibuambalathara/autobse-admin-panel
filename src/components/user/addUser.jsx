@@ -101,10 +101,10 @@ const AddUser = () => {
           <PANCardInput label="Pancard Number" type="text" name="pancardNumber" register={register} error={errors.pancardNumber} clearErrors= {clearErrors} required />
           <FileInput label="Pancard Image" accept="image/*" 
           maxSizeMB={1} register={register("pancardImage", {
-            required: "Pancard Image is required",
+            required: "Pancard Image  Required",
             validate: (files) => {
               if (!files?.[0]) {
-                return "Pancard Image is required";
+                return "Pancard Image  Required";
               }
               if (files[0].size > 1 * 1024 * 1024) { // Convert MB to bytes
                 return "File size must not exceed 1 MB";
@@ -127,7 +127,7 @@ const AddUser = () => {
 
           <InputFields
               label="State"
-              register={register("state",{required:"State is required"})}
+              register={register("state",{required:"State is Required"})}
               component="select"
               options={indianStates}
             error={errors.state}

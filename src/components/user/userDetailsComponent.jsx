@@ -283,7 +283,8 @@ const UserDetailsComponent = () => {
             required={true}
             label="First Name"
             register={register("firstName", {
-              required: "First Name is required",
+              required: "First Name is Required",
+              
             })}
             defaultValue={data.user.firstName}
             error={errors.first_Name}
@@ -343,7 +344,7 @@ const UserDetailsComponent = () => {
             error={errors.state}
             label="State"
             defaultValue={data?.user?.state}
-            register={register("state", { required: "State is required" })}
+            register={register("state", { required: "State is Required" })}
             component="select"
             options={indianStates}
           />

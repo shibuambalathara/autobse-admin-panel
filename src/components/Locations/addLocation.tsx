@@ -112,7 +112,7 @@ const AddLocation: React.FC<addLocationProps> = ({refetch}) => {
               ))}
             </select>
             {errors.state && (
-              <p className="text-red-500 text-sm mt-2">State is required</p>
+              <p className="text-red-500 text-sm mt-2">State is Required</p>
             )}
           </div>
         </div> */}
@@ -160,7 +160,7 @@ const AddLocation: React.FC<addLocationProps> = ({refetch}) => {
                     <option key={item.id} value={item?.id}>{item?.name}</option>
                   ))}
                 </select>
-                {errors.state && <p className={modalStyle.errorText}>State is required</p>}
+                {errors.state && <p className={modalStyle.errorText}>State is Required</p>}
               </div>
 
               <div className={modalStyle.buttonContainer}>
