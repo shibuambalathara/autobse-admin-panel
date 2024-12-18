@@ -7,6 +7,7 @@ import { formStyle, h2Style, headerStyle, submit } from "../utils/style";
 import { FormFieldInput, InputFields, PANCardInput, StateInput } from "../utils/formField";
 import { useState } from "react";
 import FileInput from "../utils/fileInputs";
+import { GetErrorMessage } from "../../utils/errorCode";
 
 const AddUser = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const AddUser = () => {
     formState: { errors },
     clearErrors,
   } = useForm();
-  console.log(errors ,"err");
+  // console.log(errors ,"err");
   
   const [createUser, { error }] = useAddUserMutation();
   const onSubmit = async (formData) => {
@@ -48,7 +49,9 @@ const AddUser = () => {
 
       navigate('/users')
     } catch (error) {
-      ShowPopup("Failed!", `${error.message}`, "error", 5000, true);
+      const graphqlError = error.graphQLErrors[0];
+      const message = GetErrorMessage(graphqlError.errorCode)
+      ShowPopup("Failed!", `${message}`, "error", 5000, true);
     }
   };
 
