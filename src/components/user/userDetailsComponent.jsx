@@ -286,12 +286,19 @@ const UserDetailsComponent = () => {
             label="First Name"
             register={register("firstName", {
               required: "First Name is required",
+              onChange: (e) => {
+                e.target.value = e.target.value.replace(/[^A-Za-z]/g, "")
+              },
             })}
             defaultValue={data.user.firstName}
             error={errors.first_Name}
           />
           <InputField
-            register={register("lastName")}
+            register={register("lastName", {
+              onChange: (e) => {
+                e.target.value = e.target.value.replace(/[^A-Za-z]/g, "")
+              },
+            })}
             disabled={!isEditable}
             label="Last Name"
             defaultValue={data.user.lastName}
