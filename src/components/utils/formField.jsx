@@ -28,6 +28,7 @@ export default CheckboxInput;
 //  type is input
 export const FormFieldInput = ({ label, type, name, register, defaultValue, error, disabled = false, ...rest }) => {
   const { required, accept } = rest
+
   return (
     <div className="flex flex-col">
 
@@ -39,7 +40,20 @@ export const FormFieldInput = ({ label, type, name, register, defaultValue, erro
         accept={accept}
         type={type}
         defaultValue={defaultValue}
-        {...register(name, rest)}
+        {...register(name, {
+          ...rest,
+          onChange: (e) => {
+            const value = e.target.value;
+            if(name=='first_Name' || name=='last_Name'){
+              e.target.value = value.replace(/[^A-Za-z]/g, ""); // Allow only alphabets
+            } else if(name =='mobile') {
+              e.target.value = value.replace(/[^0-9]/g,"") //Allow only digits
+              if (value.length > 10) {
+                e.target.value = value.slice(0, 10); // Slice values greater than 10
+              }
+            }
+          },
+        })}
         className={`${inputStyle.data}`}
       />
 
