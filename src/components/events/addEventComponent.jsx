@@ -184,7 +184,7 @@ const AddEventComponent = () => {
           required
             label="Seller"
             register={register("sellerName", { required: "Seller  required"})}
-            defaultValue={data?.event?.sellerId}
+           
             component="select"
             options={sellersItem?.data?.sellers?.map((seller) => ({
               label: seller.name,
@@ -197,7 +197,7 @@ const AddEventComponent = () => {
             label="Vehicle category"
             required
             register={register("eventId", { required: "Vehicle category required" })}
-            defaultValue={data?.event?.vehicleCategoryId}
+           
             component="select"
             options={eventType?.data?.vehicleCategories?.map((event) => ({
               label: event.name,
