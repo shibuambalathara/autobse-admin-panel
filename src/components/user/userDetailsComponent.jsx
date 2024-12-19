@@ -23,9 +23,10 @@ import Select from "react-select";
 import AutobseLoading from "../utils/autobseLoading";
 import { ImageUploadField } from "../image/imageUpload";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {  faEdit,  faEyeSlash,} from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faEyeSlash, } from "@fortawesome/free-solid-svg-icons";
 import { FaTimes } from "react-icons/fa";
 import CloseButton, { EditButton } from "../buttons/button";
+import { GetErrorMessage } from "../../utils/errorCode";
 
 
 const UserDetailsComponent = () => {
@@ -68,8 +69,8 @@ const UserDetailsComponent = () => {
     driving_license_back_image: { file: null, preview: null },
   });
 
-  
-   
+
+
   const handleEdit = () => {
     setIsEditable(!isEditable);
   };
@@ -132,25 +133,24 @@ const UserDetailsComponent = () => {
     }
   };
 
-  const   uploadFile = async () => {
+  const uploadFile = async () => {
     const formDataPayload = new FormData();
-    const value=Object.keys(fileData).some(key=>{
-   
+    const value = Object.keys(fileData).some(key => {
+
       return fileData[key].file
-});
-    
+    });
+
 
     try {
-      if (value)
-      {
+      if (value) {
         Object.keys(fileData).forEach((key) => {
-     
-          
-         
-            formDataPayload.append(key, fileData[key].file);
-          
-          return  fileData[key].file
-          
+
+
+
+          formDataPayload.append(key, fileData[key].file);
+
+          return fileData[key].file
+
         });
         const response = await fetch(
           `https://api-dev.autobse.com/api/v1/fileupload/userprofile/${id}`,
@@ -162,9 +162,9 @@ const UserDetailsComponent = () => {
         if (!response.ok)
           throw new Error(`Image upload failed: ${response.status}`);
       }
-     return console.log
-      (`No changes detected, skipping submission.`);
-     
+      return console.log
+        (`No changes detected, skipping submission.`);
+
     } catch (error) {
       console.error("Error during document upload:", error);
     }
@@ -172,55 +172,55 @@ const UserDetailsComponent = () => {
 
   const onSubmit = async (dataOnSubmit) => {
     console.log("Submitted Data: ", dataOnSubmit);
-  
+
     // Helper function to compare and find updated fields
     const getUpdatedFields = (original, updated) => {
       const result = {};
-  
+
       Object.keys(updated).forEach((key) => {
         const originalValue = original[key];
         const updatedValue = updated[key];
-  
+
         // Skip unchanged fields
         if (JSON.stringify(originalValue) === JSON.stringify(updatedValue)) return;
-  
+
         // Add only changed fields
         result[key] = updatedValue;
       });
-  
+
       return result;
     };
-  
+
     // Transform `states` into an array of IDs if it has values
     const transformedStates = Array.isArray(dataOnSubmit.states)
       ? dataOnSubmit.states.map((state) => state.label)
       : [];
-      console.log(transformedStates,"tar");
-      
-  
+    console.log(transformedStates, "tar");
+
+
     const formData = {
       ...dataOnSubmit,
-      ...(transformedStates.length > 0 ? { states: transformedStates }:{states:undefined}), // Only add states if it's not empty
+      ...(transformedStates.length > 0 ? { states: transformedStates } : { states: undefined }), // Only add states if it's not empty
     };
-    console.log(formData,"form");
-    
-  
+    console.log(formData, "form");
+
+
     // Original data fetched from the API
     const originalData = {
       ...data.user,
-      states: Array.isArray(data.user.states) 
+      states: Array.isArray(data.user.states)
         ? data.user.states.map((state) => state.name)
         : [],
     };
-  
+
     console.log("Original Data:", originalData);
-  
+
     // Get only the fields that have been updated
     const payload = getUpdatedFields(originalData, formData);
-  
+
     // Skip submission if no updates are detected
     if (Object.keys(payload).length === 0) {
-       ShowPopup(
+      ShowPopup(
         "No changes were detected!",
         ``,
         "question",
@@ -236,19 +236,19 @@ const UserDetailsComponent = () => {
       }
       return;
     }
-  
+
     console.log("Payload to Send: ", payload);
-  
+
     // API Call to update user and upload file
     try {
       const [updateResponse, uploadResponse] = await Promise.all([
         updateUser({ variables: { where: { id }, data: payload } }),
         uploadFile(),
       ]);
-  
+
       console.log("Update Response:", updateResponse);
       console.log("Upload Response:", uploadResponse);
-  navigate("/users")
+      navigate("/users")
       ShowPopup(
         "Success!",
         `The profile of ${dataOnSubmit.firstName} has been successfully updated!`,
@@ -258,10 +258,12 @@ const UserDetailsComponent = () => {
       );
     } catch (error) {
       console.error("Error during user update or file upload:", error);
-      ShowPopup("Update Failed!", error.message, "error", 5000, true);
+      const graphqlError = error.graphQLErrors[0];
+      const message = GetErrorMessage(graphqlError.errorCode)
+      ShowPopup("Update Failed!", message, "error", 5000, true);
     }
   };
-  
+
 
   if (loading) return <AutobseLoading />;
   if (error) return <p>Error loading user details</p>;
@@ -269,12 +271,12 @@ const UserDetailsComponent = () => {
   return (
     <div className={pageStyle.data}>
       <div className={`${headerStyle.data} `} >
-    
+
         <h2 className={`${h2Style.data} flex-1 justify-center flex pl-8 `}>
           {data.user.firstName} {data.user.lastName}
         </h2>
-        <EditButton isEditable={isEditable} handleEdit={handleEdit}/>
-     
+        <EditButton isEditable={isEditable} handleEdit={handleEdit} />
+
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={formStyle.data}>
@@ -283,13 +285,20 @@ const UserDetailsComponent = () => {
             required={true}
             label="First Name"
             register={register("firstName", {
-              required: "First Name is required",
+              required: "First Name Required",
+              onChange: (e) => {
+                e.target.value = e.target.value.replace(/[^A-Za-z]/g, "")
+              },
             })}
             defaultValue={data.user.firstName}
             error={errors.first_Name}
           />
           <InputField
-          register={register("lastName")}
+            register={register("lastName", {
+              onChange: (e) => {
+                e.target.value = e.target.value.replace(/[^A-Za-z]/g, "")
+              },
+            })}
             disabled={!isEditable}
             label="Last Name"
             defaultValue={data.user.lastName}
@@ -312,7 +321,14 @@ const UserDetailsComponent = () => {
           />
           <InputField
             label="Mobile"
-            register={register("mobile")}
+            register={register("mobile", {
+              onChange: (e) => {
+                e.target.value = e.target.value.replace(/[^0-9]/g,"")
+                if (e.target.value.length > 10) {
+                  e.target.value = e.target.value.slice(0, 10)
+                }
+              },
+            })}
             defaultValue={data.user.mobile}
             error={errors.mobile}
             disabled={true}
@@ -343,7 +359,7 @@ const UserDetailsComponent = () => {
             error={errors.state}
             label="State"
             defaultValue={data?.user?.state}
-            register={register("state", { required: "State is required" })}
+            register={register("state", { required: "State is Required" })}
             component="select"
             options={indianStates}
           />
@@ -390,9 +406,9 @@ const UserDetailsComponent = () => {
             ]}
           />
           <div className="flex flex-col  w-full">
-          <label className="font-bold" htmlFor="">
-  Auction Allowed States <span className="text-red-600">*</span>
-</label>
+            <label className="font-bold" htmlFor="">
+              Auction Allowed States <span className="text-red-600">*</span>
+            </label>
 
 <Controller
   name="states"
@@ -407,6 +423,7 @@ const UserDetailsComponent = () => {
   render={({ field }) => (
     <Select
       {...field}
+      placeholder={!isEditable?"":"select..."}
       // required={true}
       isDisabled={!isEditable}
       className="border border-black rounded-md w-full"
@@ -421,9 +438,9 @@ const UserDetailsComponent = () => {
   )}
 />
 
-<p className="text-red-500">
-  {errors.states && <span>{errors.states.message}</span>}
-</p>
+            <p className="text-red-500">
+              {errors.states && <span>{errors.states.message}</span>}
+            </p>
 
           </div>
           <div className="col-span-3  mt-4">
@@ -478,7 +495,7 @@ const UserDetailsComponent = () => {
                   <input
                     disabled={!isEditable}
                     type="file"
-                    accept="image/*" 
+                    accept="image/*"
                     id={`file-input-${index}`}
                     name={key}
                     onChange={handleFileChange}

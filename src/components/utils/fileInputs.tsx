@@ -40,14 +40,14 @@ const FileInput: React.FC<FileInputProps> = ({
       <input
         type="file"
         accept={accept}
-        className={`${inputStyle.data}`}
+        className={`border border-black h-10 p-1 rounded-md w-full focus:outline-none focus:ring`}
         onChange={handleFileChange}
         {...register}
       />
       {/* Show validation errors */}
      
       <small className="text-gray-600">Maximum file size: {maxSizeMB} MB</small>
-      {error && <p className="text-red-500">{error.message || `${label} required`}</p>}
+      {error && <p className="text-red-500">{error.message || `${label} Required`}</p>}
     </div>
   );
 };

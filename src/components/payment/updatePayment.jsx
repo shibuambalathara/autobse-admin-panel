@@ -152,7 +152,7 @@ const UpdatePayment = () => {
             register={register("amount", {
               required: true,
               pattern: {
-                value: /^\d+$/,
+                value: /^\d+$/, 
                 message: "Amount must be an integer number"
               },
             })}
@@ -168,6 +168,7 @@ const UpdatePayment = () => {
             options={paymentsFor}
             register={register("paymentFor", { required: "This field cannot be empty" })}
             error={errors.paymentFor}
+            disabled
           />
 
           {/* Description */}

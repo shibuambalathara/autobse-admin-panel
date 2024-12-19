@@ -120,7 +120,7 @@ setIsModalOpen(true)
             // Render increment details
             return (
               <>
-                Increment by: {emdUpdate[0].vehicleBuyingLimitIncrement}
+                Incremented by: {emdUpdate[0].vehicleBuyingLimitIncrement}
               </>
             );
           } else if (paymentFor === 'emd' && status === 'approved') {

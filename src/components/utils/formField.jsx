@@ -26,23 +26,37 @@ const CheckboxInput = ({ label, name, register, error }) => {
 export default CheckboxInput;
 
 //  type is input
-export const FormFieldInput = ({ label, type, name, register,defaultValue, error,disabled=false, ...rest }) => {
-  const {required,accept}= rest
+export const FormFieldInput = ({ label, type, name, register, defaultValue, error, disabled = false, ...rest }) => {
+  const { required, accept } = rest
+
   return (
     <div className="flex flex-col">
-     
-      <label  className={`${labelStyle.data}`} htmlFor={name}> 
-        {label}{required&&<span className="text-red-500 text-lg pl-1">*</span>}
+
+      <label className={`${labelStyle.data}`} htmlFor={name}>
+        {label}{required && <span className="text-red-500 text-lg pl-1">*</span>}
       </label>
       <input
-      disabled={disabled}
-      accept={accept}
+        disabled={disabled}
+        accept={accept}
         type={type}
         defaultValue={defaultValue}
-        {...register(name, rest)}
+        {...register(name, {
+          ...rest,
+          onChange: (e) => {
+            const value = e.target.value;
+            if(name=='first_Name' || name=='last_Name'){
+              e.target.value = value.replace(/[^A-Za-z]/g, ""); // Allow only alphabets
+            } else if(name =='mobile') {
+              e.target.value = value.replace(/[^0-9]/g,"") //Allow only digits
+              if (value.length > 10) {
+                e.target.value = value.slice(0, 10); // Slice values greater than 10
+              }
+            }
+          },
+        })}
         className={`${inputStyle.data}`}
       />
-      
+
       {error && <p className="text-red-500">{`${label} Required`}</p>}
     </div>
   );
@@ -51,7 +65,7 @@ export const FormFieldInput = ({ label, type, name, register,defaultValue, error
 
 export const PANCardInput = ({ label, name, register, error, clearErrors, defaultValue = "", ...rest }) => {
   const panCardRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
-  
+
   const handleUppercase = (e) => {
     e.target.value = e.target.value.toUpperCase(); // Convert value to uppercase
     if (panCardRegex.test(e.target.value) && clearErrors) {
@@ -61,7 +75,7 @@ export const PANCardInput = ({ label, name, register, error, clearErrors, defaul
 
   return (
     <div className="flex flex-col">
-     <label  className={`${labelStyle.data}`} htmlFor={name}>
+      <label className={`${labelStyle.data}`} htmlFor={name}>
         {label} {rest.required && <span className="text-red-500">*</span>}
       </label>
       <input
@@ -77,17 +91,17 @@ export const PANCardInput = ({ label, name, register, error, clearErrors, defaul
         onChange={handleUppercase}
         className={`${inputStyle.data}`}
       />
-      {error && <p className="text-red-500">{error.message || `${label} required`}</p>}
+      {error && <p className="text-red-500">{error.message || `${label} Required`}</p>}
     </div>
   );
 };
 
 
 // input type is textarea
-export const TextAreaInput = ({ label, type, name, register,defaultValue, error, ...rest }) => {
+export const TextAreaInput = ({ label, type, name, register, defaultValue, error, ...rest }) => {
   return (
     <div className="flex flex-col">
-      <label className={`${labelStyle.data}`}  htmlFor={name}>
+      <label className={`${labelStyle.data}`} htmlFor={name}>
         {label}
       </label>
       <textarea
@@ -96,7 +110,7 @@ export const TextAreaInput = ({ label, type, name, register,defaultValue, error,
         {...register(name, rest)}
         className={`${inputStyle.data}`}
       />
-      
+
       {error && <p className="text-red-500">{`${label} Required`}</p>}
     </div>
   );
@@ -111,16 +125,17 @@ export const SelectInput = ({
   defaultValue,
   error,
   register,
+  required=false,
   ...rest
 }) => {
   return (
     <div className="flex flex-col">
-      <label htmlFor={name} className="">
-        {label}
+      <label htmlFor={name} className={`${labelStyle.data}`}>
+        {label}{required&&<span className="text-red-500 text-lg pl-1">*</span>}
       </label>
       <select
         id={name}
-        {...register(name, { required: `${label} is required` })}
+        {...register(name, { required: `${label}  Required` })}
         className={`${inputStyle.data} `}
         defaultValue=""
         {...rest}
@@ -135,8 +150,8 @@ export const SelectInput = ({
         ))}
       </select>
       {error && (
-        <p className="text-red-500 text-sm mt-1">
-          {error.message || `${label} is required`}
+        <p className="text-red-500  mt-1">
+          {error.message || `${label}  required`}
         </p>
       )}
     </div>
@@ -145,13 +160,13 @@ export const SelectInput = ({
 
 
 
-export const CatInput = ({ label, name, options,defaultValue,error, register, ...rest }) => {
-  
+export const CatInput = ({ label, name, options, defaultValue, error, register, ...rest }) => {
+
   return (
     <div className="flex flex-col">
       <label htmlFor={name}>{label}</label>
       <select
-        {...register(name,{required:true})}
+        {...register(name, { required: true })}
         className={`${inputStyle.data}`}
         {...rest}
         defaultValue={defaultValue}
@@ -164,22 +179,22 @@ export const CatInput = ({ label, name, options,defaultValue,error, register, ..
         ))}
       </select>
       {error && <p className="text-red-500">{`${label} Required`}</p>}
-    
+
     </div>
   );
 };
-export const StateInput = ({ label, name, options,defaultValue,error, register, ...rest }) => {
-  const {required}= rest
+export const StateInput = ({ label, name, options, defaultValue, error, register, ...rest }) => {
+  const { required } = rest
   return (
     <div className="flex flex-col">
       <label className={`${labelStyle.data}`} htmlFor={name}> {label}{<span className="text-red-500 text-lg pl-1">*</span>}</label>
       <select
-        {...register(name, {required:true})}
+        {...register(name, { required: true })}
         className={`${inputStyle.data}`}
         {...rest}
         defaultValue={defaultValue}
 
-        
+
       >
         <option value={defaultValue}>{defaultValue}</option>
         {options.map((option) => (
@@ -189,63 +204,63 @@ export const StateInput = ({ label, name, options,defaultValue,error, register, 
         ))}
       </select>
       {error && <p className="text-red-500">{`${label} Required`}</p>}
-    
+
     </div>
   );
 };
 // Input type is select with dynamic value maping
-export const SelectWithDynamic  = ({   options,defaultValue,error, register,mappingValue,mappingLabel,defaultLabel , ...rest }) => {
-    
+export const SelectWithDynamic = ({ options, defaultValue, error, register, mappingValue, mappingLabel, defaultLabel, ...rest }) => {
+
   return (
-    
+
     <div className="flex flex-col">
       <label htmlFor={rest.name}>{rest.label}</label>
       <select
-        {...register(rest.name,{required: true})}
+        {...register(rest.name, { required: true })}
         className={`${inputStyle.data}`}
-          {...rest}
-        
+        {...rest}
+
       >
         <option value={defaultValue}>{defaultLabel}</option>
-         {options?.map((option) => (
+        {options?.map((option) => (
           <>
-          
-          <option key={option[mappingValue]} value={option[mappingValue]}> 
-            {option[mappingLabel]} 
-          </option>
+
+            <option key={option[mappingValue]} value={option[mappingValue]}>
+              {option[mappingLabel]}
+            </option>
           </>
         ))
-        }  
+        }
       </select>
       {error && <p className="text-red-500">{`${rest.label} Required`}</p>}
     </div>
   );
 };
-export const InputFields = ({
+export const  InputFields = ({
   label,
   register,
   error,
   defaultValue,
   component = "input",
-  options=[],
+  options = [],
   type = "text",
   control,
   isMulti = false,
- required=false,
+  required = false,
   name,
   disabled = false,
 }) => (
 
-  
+
   <div className={`${labelAndInputDiv.data}`}>
-    
- 
-    {label && <label className="font-bold">{label}{required&&<span className="text-red-500 text-lg pl-1">*</span>}</label>}
+
+
+    {label && <label className="font-bold">{label}{required && <span className="text-red-500 text-lg pl-1">*</span>}</label>}
     {component === "input" && (
       <input
-      min={0}
+        min={0}
         type={type}
-        
+
         defaultValue={defaultValue}
         {...register}
         className={`${inputStyle.data}`}
@@ -254,7 +269,7 @@ export const InputFields = ({
     )}
     {component === "number" && (
       <input
-       
+
         type='string'
         maxLength={10}
         defaultValue={defaultValue}
@@ -271,22 +286,22 @@ export const InputFields = ({
       />
     )}
     {component === "select" && (
-        <select
-          defaultValue={defaultValue}
-          {...register}
-          className={`${inputStyle.data}`}
-          disabled={disabled}
-        >
-          <option value="" >
-            Select {label}
+      <select
+        defaultValue={defaultValue}
+        {...register}
+        className={`${inputStyle.data}`}
+        disabled={disabled}
+      >
+        <option value=""  disabled>
+          Select {label}
+        </option>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
           </option>
-          {options.map((option) => (
-  <option key={option.value} value={option.value}>
-    {option.label}
-  </option>
-))}
-        </select>
-      )}
+        ))}
+      </select>
+    )}
     {component === "controller" && control && (
       <Controller
         name={name}
@@ -306,7 +321,7 @@ export const InputFields = ({
   </div>
 );
 // imaged maping
-export const InputField = ({ label, type = "text", register, error, defaultValue, component, options ,disabled=false}) => (
+export const InputField = ({ label, type = "text", register, error, defaultValue, component, options, disabled = false }) => (
   <div className={labelAndInputDiv.data}>
     <label className={`${labelStyle.data}`} >{label}</label>
     {component === "select" ? (
@@ -320,54 +335,54 @@ export const InputField = ({ label, type = "text", register, error, defaultValue
   </div>
 );
 
-export  const ImageMaping= ({images}) => {
+export const ImageMaping = ({ images }) => {
   return (
     <div className="grid grid-cols-2 gap-x-10  gap-y-5 m-2 col-span-3">
-    {images?.map((imgs, index) => {
-       return (
-         <div className=" bg-gray-50 rounded-2xl">
-    
-           <div className="text-center">  <p>Image {index+1}</p></div>
-         
-<div className=" flex justify-center">
-<img src={imgs} alt={imgs} key={index} className="h-80  text-center" />
-</div>
-          
-         </div>
-       );
-     })}
-        
-        </div>
+      {images?.map((imgs, index) => {
+        return (
+          <div className=" bg-gray-50 rounded-2xl">
+
+            <div className="text-center">  <p>Image {index + 1}</p></div>
+
+            <div className=" flex justify-center">
+              <img src={imgs} alt={imgs} key={index} className="h-80  text-center" />
+            </div>
+
+          </div>
+        );
+      })}
+
+    </div>
   )
 }
 // ---------------------------
 
 
-export const UploadDocument = ({label,fun,url}) => {
+export const UploadDocument = ({ label, fun, url }) => {
   return (
     <div>
-    <label>{label}</label>
-    <input
-      type="file"
-      className={`${inputStyle.data}`}
-      onChange={fun} 
-      accept="/image/*"
-      multiple
-    />
+      <label>{label}</label>
+      <input
+        type="file"
+        className={`${inputStyle.data}`}
+        onChange={fun}
+        accept="/image/*"
+        multiple
+      />
 
-    <>
- 
- 
+      <>
 
 
-  
-       <img src={url} alt='img'/> 
-    </>
-  </div>
+
+
+
+        <img src={url} alt='img' />
+      </>
+    </div>
   )
 }
 
- 
+
 
 
 

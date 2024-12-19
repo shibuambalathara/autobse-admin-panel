@@ -75,7 +75,7 @@ const AddState = () => {
             {/* <label className="font-medium text-gray-700 mb-2">State Name</label> */}
             <InputFields
               label="State Name"
-              register={register("name", { required: "State is required" })}
+              register={register("name", { required: "State is Required" })}
               component="select"
               options={indianStates}
               className="p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
@@ -107,7 +107,7 @@ const AddState = () => {
             </button>
 
             <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
-            <InputField label="State Name" register={register("name", { required: "State is required" })}  component="select" options={indianStates} />
+            <InputField label="State Name" register={register("name", { required: "State is Required" })}  component="select" options={indianStates} />
              
 
               <div className="flex justify-center mt-6">

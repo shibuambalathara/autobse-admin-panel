@@ -31,11 +31,12 @@ const Sidebar: React.FC = () => {
             <div key={item.path}>
               <button
                 onClick={() => handleClick(item.path)}
-                className={`text-lg text-start font-bold w-full whitespace-nowrap ${
+                className={`text-lg flex items-center justify-start gap-2 font-bold w-full whitespace-nowrap ${
                   item.path === pathNm ? "text-red-700" : "text-white"
                 }`}
               >
-                <FontAwesomeIcon icon={item.iconType} className="mr-2" style={{ fontSize: 20 }} /> {item.name}
+                <div className='w-7'> <FontAwesomeIcon icon={item.iconType} className="" style={{ fontSize: 20 }} /> </div>
+                {item.name}
               </button>
             </div>
           ))}
@@ -51,7 +52,7 @@ const Sidebar: React.FC = () => {
             <div key={item.path} className='my-5 relative group'>
               <button
                 onClick={() => handleClick(item.path)}
-                className={`text-start font-bold w-full ${
+                className={`text-center font-bold w-full ${
                   item.path === pathNm ? "text-red-500" : "text-white"
                 }`}
               >

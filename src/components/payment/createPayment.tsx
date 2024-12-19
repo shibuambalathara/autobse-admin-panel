@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useViewUserQuery, useCreatePaymentMutation, PaymentType, PaymentStatusType } from '../../utils/graphql';
 import { ShowPopup } from '../alerts/popUps';
 import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyle, submit } from '../utils/style';
-import { SelectInput } from '../utils/formField';
+import { InputFields, SelectInput } from '../utils/formField';
 import { paymentsFor } from '../utils/constantValues';
 import FileInput from '../utils/fileInputs';
 
@@ -88,26 +88,27 @@ const CreatePayment: React.FC = () => {
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={`${formStyle.data}`}>
-          <div className={`${labelAndInputDiv.data}`}>
-            <label>Amount</label>
-            <input
-              type="text"
-              className={`${inputStyle.data}`}
-              {...register("amount", {
-                required: true,
+          
+            <InputFields
+                 component='number'
+              label="Amount"
+              error={errors.amount}
+              register={register("amount", {
+                required: "Amount Required",
                 pattern: {
-                  value: /^\d+$/,
+                  value: /^\d+$/, 
                   message: "Amount must be an integer number"
                 },
-                validate: (value) => value < 10000000 || "Amount must be less than 1 crore",
               })}
+              required
+              {...(undefined as any)}
             />
-            {errors.amount && <p className="text-red-500">{`${errors.amount.message ? errors.amount.message : `Amount is required`}`}</p>}
-          </div>
+           
+    
 
           <div className={`${labelAndInputDiv.data}`}>
             <SelectInput
-
+              required
               label="Payment For"
               name="paymentFor"
               options={paymentsFor}
@@ -118,14 +119,16 @@ const CreatePayment: React.FC = () => {
 
           </div>
 
-          <div className={`${labelAndInputDiv.data}`}>
-            <label>Description</label>
-            <input
-              type="text"
-              className={`${inputStyle.data}`}
+
+
+            <InputFields
+          
+              label="Description"
+              error={errors.description}
               {...register("description")}
+              {...(undefined as any)}
             />
-          </div>
+      
 
           <div className={`${labelAndInputDiv.data}`}>
             <label>Payment Status</label>

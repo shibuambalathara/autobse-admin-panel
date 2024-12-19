@@ -1,6 +1,6 @@
-import { faEdit, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { FaTimes } from "react-icons/fa";
+import {  FaTimes } from "react-icons/fa";
 
 export const CloseButton = () => {
     return (
@@ -27,7 +27,7 @@ export const CloseButton = () => {
             isEditable ? 'bg-red-600 hover:bg-red-700' : 'bg-blue-600 hover:bg-blue-700'
           }`}
         >
-          <FontAwesomeIcon icon={isEditable ? faEyeSlash : faEdit} />
+          <FontAwesomeIcon icon={isEditable ? faEye : faEdit} />
         </button>
       </div>
     );

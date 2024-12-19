@@ -351,7 +351,7 @@ const VehicleDetailsPerEventComponent = () => {
       // },
 
       {
-        Header: "Vehicle",
+        Header: "Action",
         Cell: ({ row }) => (
           <button  className={`${Tablebutton.data} bg-red-600`} onClick={() => handleDelete(row.original.id,row.original.totalBids,row.original)}>
             <ImBin2/>

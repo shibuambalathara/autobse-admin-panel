@@ -65,4 +65,6 @@ export type IndianState =
     { value: "Jammu_and_Kashmir", label: "Jammu and Kashmir" },
     { value: "Delhi", label: "Delhi" },
   ];
+
+  indianStates.sort((a, b) => a.label.localeCompare(b.label));
   
