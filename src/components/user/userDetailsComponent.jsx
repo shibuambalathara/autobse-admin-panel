@@ -285,7 +285,7 @@ const UserDetailsComponent = () => {
             required={true}
             label="First Name"
             register={register("firstName", {
-              required: "First Name is required",
+              required: "First Name Required",
               onChange: (e) => {
                 e.target.value = e.target.value.replace(/[^A-Za-z]/g, "")
               },
@@ -359,7 +359,7 @@ const UserDetailsComponent = () => {
             error={errors.state}
             label="State"
             defaultValue={data?.user?.state}
-            register={register("state", { required: "State is required" })}
+            register={register("state", { required: "State is Required" })}
             component="select"
             options={indianStates}
           />

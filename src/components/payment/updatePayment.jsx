@@ -168,6 +168,7 @@ const UpdatePayment = () => {
             options={paymentsFor}
             register={register("paymentFor", { required: "This field cannot be empty" })}
             error={errors.paymentFor}
+            disabled
           />
 
           {/* Description */}
