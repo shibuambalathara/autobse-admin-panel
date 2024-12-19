@@ -35,11 +35,14 @@ export const FormFieldInput = ({ label, type, name, register,defaultValue, error
         {label}{required&&<span className="text-red-500 text-lg pl-1">*</span>}
       </label>
       <input
+    
+        {...register(name, rest)}
+        required={required} 
       disabled={disabled}
       accept={accept}
         type={type}
         defaultValue={defaultValue}
-        {...register(name, rest)}
+      
         className={`${inputStyle.data}`}
       />
       
@@ -222,7 +225,7 @@ export const SelectWithDynamic  = ({   options,defaultValue,error, register,mapp
     </div>
   );
 };
-export const InputFields = ({
+export const  InputFields = ({
   label,
   register,
   error,
@@ -278,8 +281,9 @@ export const InputFields = ({
           className={`${inputStyle.data}`}
           disabled={disabled}
         >
+          
           <option value="" disabled>
-            Select {label}
+            Select 
           </option>
           {options.map((option) => (
   <option key={option.value} value={option.value}>

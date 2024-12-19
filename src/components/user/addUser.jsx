@@ -94,7 +94,9 @@ const AddUser = () => {
       
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={`${formStyle.data}`}>
-          <FormFieldInput label="First Name" type="text" name="first_Name" register={register} error={errors.first_Name} required />
+          <FormFieldInput label="First Name" 
+          type="text" name="first_Name"
+           register={register} error={errors.first_Name} required />
           <FormFieldInput label="Last Name" type="text" name="last_Name" register={register} error={errors.last_Name} />
           <FormFieldInput label="Email" type="email" name="email" register={register} error={errors.email} />
           <FormFieldInput label="Mobile Number" type="number" name="mobile" register={register} error={errors.mobile} required minLength={10} maxLength={10} />
