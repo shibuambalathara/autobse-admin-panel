@@ -111,16 +111,17 @@ export const SelectInput = ({
   defaultValue,
   error,
   register,
+  required=false,
   ...rest
 }) => {
   return (
     <div className="flex flex-col">
-      <label htmlFor={name} className="">
-        {label}
+      <label htmlFor={name} className={`${labelStyle.data}`}>
+        {label}{required&&<span className="text-red-500 text-lg pl-1">*</span>}
       </label>
       <select
         id={name}
-        {...register(name, { required: `${label} is required` })}
+        {...register(name, { required: `${label}  Required` })}
         className={`${inputStyle.data} `}
         defaultValue=""
         {...rest}
@@ -135,8 +136,8 @@ export const SelectInput = ({
         ))}
       </select>
       {error && (
-        <p className="text-red-500 text-sm mt-1">
-          {error.message || `${label} is required`}
+        <p className="text-red-500  mt-1">
+          {error.message || `${label}  required`}
         </p>
       )}
     </div>
@@ -277,9 +278,9 @@ export const InputFields = ({
           className={`${inputStyle.data}`}
           disabled={disabled}
         >
-          {/* <option value="" >
+          <option value="" disabled>
             Select {label}
-          </option> */}
+          </option>
           {options.map((option) => (
   <option key={option.value} value={option.value}>
     {option.label}

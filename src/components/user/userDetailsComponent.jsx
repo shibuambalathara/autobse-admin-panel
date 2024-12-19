@@ -408,6 +408,7 @@ const UserDetailsComponent = () => {
   render={({ field }) => (
     <Select
       {...field}
+      placeholder={!isEditable?"":"select..."}
       // required={true}
       isDisabled={!isEditable}
       className="border border-black rounded-md w-full"

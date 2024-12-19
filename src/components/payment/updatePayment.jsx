@@ -152,7 +152,7 @@ const UpdatePayment = () => {
             register={register("amount", {
               required: true,
               pattern: {
-                value: /^\d+$/,
+                value: /^\d+$/, 
                 message: "Amount must be an integer number"
               },
             })}
