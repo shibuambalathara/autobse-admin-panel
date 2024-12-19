@@ -321,7 +321,14 @@ const UserDetailsComponent = () => {
           />
           <InputField
             label="Mobile"
-            register={register("mobile")}
+            register={register("mobile", {
+              onChange: (e) => {
+                e.target.value = e.target.value.replace(/[^0-9]/g,"")
+                if (e.target.value.length > 10) {
+                  e.target.value = e.target.value.slice(0, 10)
+                }
+              },
+            })}
             defaultValue={data.user.mobile}
             error={errors.mobile}
             disabled={true}
