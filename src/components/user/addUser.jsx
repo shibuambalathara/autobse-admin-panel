@@ -7,6 +7,7 @@ import { formStyle, h2Style, headerStyle, submit } from "../utils/style";
 import { FormFieldInput, InputFields, PANCardInput, StateInput } from "../utils/formField";
 import { useState } from "react";
 import FileInput from "../utils/fileInputs";
+import { GetErrorMessage } from "../../utils/errorCode";
 
 const AddUser = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const AddUser = () => {
     formState: { errors },
     clearErrors,
   } = useForm();
-  console.log(errors ,"err");
+  // console.log(errors ,"err");
   
   const [createUser, { error }] = useAddUserMutation();
   const onSubmit = async (formData) => {
@@ -48,7 +49,9 @@ const AddUser = () => {
 
       navigate('/users')
     } catch (error) {
-      ShowPopup("Failed!", `${error.message}`, "error", 5000, true);
+      const graphqlError = error.graphQLErrors[0];
+      const message = GetErrorMessage(graphqlError.errorCode)
+      ShowPopup("Failed!", `${message}`, "error", 5000, true);
     }
   };
 
@@ -99,7 +102,7 @@ const AddUser = () => {
            register={register} error={errors.first_Name} required />
           <FormFieldInput label="Last Name" type="text" name="last_Name" register={register} error={errors.last_Name} />
           <FormFieldInput label="Email" type="email" name="email" register={register} error={errors.email} />
-          <FormFieldInput label="Mobile Number" type="number" name="mobile" register={register} error={errors.mobile} required minLength={10} maxLength={10} />
+          <FormFieldInput label="Mobile Number" type="text" name="mobile" register={register} error={errors.mobile} required minLength={10} maxLength={10} />
           <PANCardInput label="Pancard Number" type="text" name="pancardNumber" register={register} error={errors.pancardNumber} clearErrors= {clearErrors} required />
           <FileInput label="Pancard Image" accept="image/*" 
           maxSizeMB={1} register={register("pancardImage", {
