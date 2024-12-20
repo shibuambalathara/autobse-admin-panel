@@ -95,11 +95,13 @@ const CreatePayment: React.FC = () => {
               className={`${inputStyle.data}`}
               {...register("amount", {
                 required: true,
-                pattern: {
-                  value: /^\d+$/,
-                  message: "Amount must be an integer number"
+                onChange: (e) => {
+                  const limit = 8
+                  e.target.value = e.target.value.replace(/[^0-9]/g,"")
+                  if (e.target.value.length > limit) {
+                    e.target.value = e.target.value.slice(0, limit)
+                  }
                 },
-                validate: (value) => value < 10000000 || "Amount must be less than 1 crore",
               })}
             />
             {errors.amount && <p className="text-red-500">{`${errors.amount.message ? errors.amount.message : `Amount is required`}`}</p>}
