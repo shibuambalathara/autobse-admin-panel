@@ -221,7 +221,16 @@ const AddEventComponent = () => {
           <InputFields
             label="Number of Bids (per User)"
             type="number"
-            register={register("noOfBids", { required: "Number of Bids (per User) required" })}
+            register={register("noOfBids", {
+              required: "Number of Bids (per User) required",
+              onChange: (e)=>{
+                const limit = 4
+                e.target.value = e.target.value.replace(/[^0-9]/g,"")
+                if (e.target.value.length > limit) {
+                  e.target.value = e.target.value.slice(0, limit)
+                }
+              }
+            })}
             defaultValue={10}
             error={errors.noOfBids}
             required
