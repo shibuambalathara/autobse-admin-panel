@@ -22,9 +22,7 @@ import Select from "react-select";
 
 import AutobseLoading from "../utils/autobseLoading";
 import { ImageUploadField } from "../image/imageUpload";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faEyeSlash, } from "@fortawesome/free-solid-svg-icons";
-import { FaTimes } from "react-icons/fa";
+
 import CloseButton, { EditButton } from "../buttons/button";
 import { GetErrorMessage } from "../../utils/errorCode";
 
@@ -331,7 +329,7 @@ const UserDetailsComponent = () => {
             })}
             defaultValue={data.user.mobile}
             error={errors.mobile}
-            disabled={true}
+            disabled={!isEditable}
           />
           {/* <InputField label="Mobile" type="number" register={register("mobile", { required: "Mobile number is required", minLength: { value: 10, message: "Mobile number must be 10 digits" }, maxLength: { value: 10, message: "Mobile number must be 10 digits" } })} defaultValue={data.user.mobile} error={errors.mobile} /> */}
           <InputField

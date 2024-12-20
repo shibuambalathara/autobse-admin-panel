@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from 'react-router-dom';
 import { useUpdatePaymentMutation, usePaymentQuery } from '../../utils/graphql'
 import { ShowPopup } from '../alerts/popUps';
-import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyle, submit } from '../utils/style';
-import { InputFields, SelectInput } from '../utils/formField';
+import { formStyle, h2Style, headerStyle, inputStyle,  pageStyle, submit } from '../utils/style';
+import { InputFields, } from '../utils/formField';
 import { paymentsFor } from '../utils/constantValues';
 import { getS3ObjectUrl } from '../utils/aws-config';
 import FileInput from '../utils/fileInputs';
@@ -84,7 +84,7 @@ const UpdatePayment = () => {
 
   const onSubmit = async (dataOnSubmit) => {
     const updateInput = {
-      amount: +dataOnSubmit.amount,
+      amount: dataOnSubmit.amount,
       paymentFor: dataOnSubmit?.paymentFor,
       status: dataOnSubmit?.paymentStatus,
       description: dataOnSubmit?.description,
@@ -93,8 +93,7 @@ const UpdatePayment = () => {
       const result = await addAmount({ variables: { updatePaymentInput: updateInput, where: { id: userId } } });
       if (result) {
 
-
-        ShowPopup("Success!", `${dataOnSubmit?.paymentFor} updated successfully!`, "success", 5000, true);
+        ShowPopup("Success!", `${`${dataOnSubmit?.paymentFor}`.charAt(0).toUpperCase()}${dataOnSubmit?.paymentFor.slice(1)} updated successfully!`, "success", 5000, true);
         await uploadFile(dataOnSubmit);
         payment.refetch()
 
@@ -151,9 +150,12 @@ const UpdatePayment = () => {
             component='number'
             register={register("amount", {
               required: true,
-              pattern: {
-                value: /^\d+$/, 
-                message: "Amount must be an integer number"
+              onChange: (e) => {
+                const limit = 8
+                e.target.value = e.target.value.replace(/[^0-9]/g,"")
+                if (e.target.value.length > limit) {
+                  e.target.value = e.target.value.slice(0, limit)
+                }
               },
             })}
             error={errors.amount} // Display the error message
