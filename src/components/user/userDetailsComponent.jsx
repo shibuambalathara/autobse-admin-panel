@@ -410,32 +410,33 @@ const UserDetailsComponent = () => {
               Auction Allowed States <span className="text-red-600">*</span>
             </label>
 
-            <Controller
-              name="states"
-              control={control}
-              defaultValue={data?.user?.states.map((state) => ({
-                label: state.name,
-                value: state.id,
-              }))}
-              rules={{
-                validate: (value) => value && value.length > 0 || "At least one state must be selected",
-              }}
-              render={({ field }) => (
-                <Select
-                  {...field}
-                  // required={true}
-                  isDisabled={!isEditable}
-                  className="border border-black rounded-md w-full"
-                  options={allStates?.data?.States?.map((state) => ({
-                    label: state.name,
-                    value: state.id,
-                  }))}
-                  isMulti
-                  getOptionValue={(option) => option.value}
-                  getOptionLabel={(option) => option.label}
-                />
-              )}
-            />
+<Controller
+  name="states"
+  control={control}
+  defaultValue={data?.user?.states.map((state) => ({
+    label: state.name,
+    value: state.id,
+  }))}
+  rules={{
+    validate: (value) => value && value.length > 0 || "At least one state must be selected",
+  }}
+  render={({ field }) => (
+    <Select
+      {...field}
+      placeholder={!isEditable?"":"select..."}
+      // required={true}
+      isDisabled={!isEditable}
+      className="border border-black rounded-md w-full"
+      options={allStates?.data?.States?.map((state) => ({
+        label: state.name,
+        value: state.id,
+      }))}
+      isMulti
+      getOptionValue={(option) => option.value}
+      getOptionLabel={(option) => option.label}
+    />
+  )}
+/>
 
             <p className="text-red-500">
               {errors.states && <span>{errors.states.message}</span>}
