@@ -27,7 +27,7 @@ const SeachByRole = ({setRole,value}) => {
    
     }}
   >
-    <option value="">Select All </option>
+    <option value="">All </option>
   
   <option value="admin">Admin </option>
   <option value="staff">Staff </option>
