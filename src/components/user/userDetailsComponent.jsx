@@ -39,6 +39,7 @@ const UserDetailsComponent = () => {
 
 
 
+
   const imageLabels = {
     pancard_image: "Pancard",
     aadharcard_front_image: "ID Proof front",
@@ -79,7 +80,8 @@ const UserDetailsComponent = () => {
       reset({
         ...data.user,
         states: data.user.states.map((state) => ({
-          label: state.name,
+          label: state.name.split('_').join(' '),
+          labelValue: state.name,
           value: state.id,
         })),
       });
@@ -193,7 +195,7 @@ const UserDetailsComponent = () => {
 
     // Transform `states` into an array of IDs if it has values
     const transformedStates = Array.isArray(dataOnSubmit.states)
-      ? dataOnSubmit.states.map((state) => state.label)
+      ? dataOnSubmit.states.map((state) => state.labelValue)
       : [];
     console.log(transformedStates, "tar");
 
@@ -414,7 +416,8 @@ const UserDetailsComponent = () => {
               name="states"
               control={control}
               defaultValue={data?.user?.states.map((state) => ({
-                label: state.name,
+                label:  state.name.split('_').join(' '),
+                labelValue: state.name,
                 value: state.id,
               }))}
               rules={{
@@ -423,12 +426,13 @@ const UserDetailsComponent = () => {
               render={({ field }) => (
                 <Select
                   {...field}
-                  placeholder={!isEditable ? "" : "select..."}
+                  placeholder={!isEditable ? "" : "select..."} 
                   // required={true}
                   isDisabled={!isEditable}
                   className="border border-black rounded-md w-full"
                   options={allStates?.data?.States?.map((state) => ({
                     label: state.name.split('_').join(' '),
+                    labelValue: state.name,
                     value: state.id,
                   }))
                   .sort((a, b) => a.label.localeCompare(b.label))
