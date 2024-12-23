@@ -430,7 +430,9 @@ const UserDetailsComponent = () => {
                   options={allStates?.data?.States?.map((state) => ({
                     label: state.name.split('_').join(' '),
                     value: state.id,
-                  }))}
+                  }))
+                  .sort((a, b) => a.label.localeCompare(b.label))
+                }
                   isMulti
                   getOptionValue={(option) => option.value}
                   getOptionLabel={(option) => option.label}
