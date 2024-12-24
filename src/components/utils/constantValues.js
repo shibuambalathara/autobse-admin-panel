@@ -27,7 +27,7 @@ export const bidStatusOptions = [
       { value:"registrations",label:"Registration"},
       { value:"emd",label:"Emd"},
     //   { value:"refund",label:"Refund"},
-      { value:"openBids",label:"Open bids"},
+      // { value:"openBids",label:"Open bids"},
     //   { value:"other",label:"Other"}
     
   ]

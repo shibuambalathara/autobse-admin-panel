@@ -136,7 +136,7 @@ const EventTypesTable = () => {
   if (error) return <p>Error loading data: {error.message}</p>;
 
   return (
-    <div className="mx-10">
+    <div className="">
       
       <div className={pageHead.data}>Vehicle Category </div>
       <div className='flex place-self-end w-fit'>
