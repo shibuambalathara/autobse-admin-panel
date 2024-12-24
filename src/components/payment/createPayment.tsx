@@ -155,6 +155,7 @@ const CreatePayment: React.FC = () => {
             Save
           </button>
         </div>
+        </div>
       </form>
     </div>
   );
