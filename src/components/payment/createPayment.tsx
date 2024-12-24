@@ -88,16 +88,19 @@ const CreatePayment: React.FC = () => {
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={`${formStyle.data}`}>
-          
-            <InputFields
-                 component='number'
-              label="Amount"
-              error={errors.amount}
-              register={register("amount", {
-                required: "Amount Required",
-                pattern: {
-                  value: /^\d+$/, 
-                  message: "Amount must be an integer number"
+          <div className={`${labelAndInputDiv.data}`}>
+            <label>Amount</label>
+            <input
+              type="text"
+              className={`${inputStyle.data}`}
+              {...register("amount", {
+                required: true,
+                onChange: (e) => {
+                  const limit = 8
+                  e.target.value = e.target.value.replace(/[^0-9]/g,"")
+                  if (e.target.value.length > limit) {
+                    e.target.value = e.target.value.slice(0, limit)
+                  }
                 },
               })}
               required
@@ -145,6 +148,7 @@ const CreatePayment: React.FC = () => {
 
           <FileInput label="Payment Proof Image" accept="image/*"
             maxSizeMB={1} register={register("imgForPaymentProof")} fieldName="imgForPaymentProof" required={false} />
+        </div>
         </div>
 
         <div className="flex justify-center my-5">
