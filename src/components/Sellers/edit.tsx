@@ -5,6 +5,7 @@ import { useSellerQuery, useUpdateSellerMutation } from '../../utils/graphql';
 import { ShowPopup } from '../alerts/popUps';
 import { formStyle, h2Style, headerStyle, pageStyle, submit } from '../utils/style';
 import { FormFieldInput } from '../utils/formField';
+import { GetErrorMessage } from '../../utils/errorCode';
 
 interface SellerFormInputs {
   sellerCompanyName: string;
@@ -52,7 +53,9 @@ const Editseller = () => {
       ShowPopup("Success!", `${dataOnSubmit.sellerCompanyName} Updated successfully!`, "success", 5000, true);
       navigate('/sellers');
     } catch (error: any) {
-      ShowPopup("Failed!", `${error?.message || 'Unknown error occurred'}`, "error", 5000, true);
+      const graphqlError = error.graphQLErrors[0];
+      const message = GetErrorMessage(graphqlError.errorCode)
+      ShowPopup("Failed!", `${message}`, "error", 5000, true);
     }
     reset();
   };
@@ -68,75 +71,75 @@ const Editseller = () => {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className={`${formStyle.data}`}>
-       
-          <FormFieldInput
-            label="Seller Name"
-            defaultValue={data?.seller?.name}
-            register={register}
-            name="sellerCompanyName"
-            error={errors.sellerCompanyName}
-            type="text"
-          />
-          <FormFieldInput
-            label="Contact Person Name"
-            defaultValue={data?.seller?.contactPerson}
-            register={register}
-            name="contactPerson"
-            error={errors.contactPerson}
-            type="text"
-          />
-       
 
-       
-          <FormFieldInput
-            label="GST Number"
-            defaultValue={data?.seller?.GSTNumber}
-            register={register}
-            name="GSTNumber"
-            error={errors.GSTNumber}
-            type="text"
-          />
-          <FormFieldInput
-            label="Mobile"
-            defaultValue={data?.seller?.mobile}
-            register={register}
-            name="mobile"
-            error={errors.mobile}
-            type="tel"
-          />
-       
+        <FormFieldInput
+          label="Seller Name"
+          defaultValue={data?.seller?.name}
+          register={register}
+          name="sellerCompanyName"
+          error={errors.sellerCompanyName}
+          type="text"
+        />
+        <FormFieldInput
+          label="Contact Person Name"
+          defaultValue={data?.seller?.contactPerson}
+          register={register}
+          name="contactPerson"
+          error={errors.contactPerson}
+          type="text"
+        />
 
-       
-          <FormFieldInput
-            label="National Head"
-            defaultValue={data?.seller?.nationalHead}
-            register={register}
-            name="nationalHead"
-            error={errors.nationalHead}
-            type="text"
-          />
-          <FormFieldInput
-            label="Billing Contact Person"
-            defaultValue={data?.seller?.billingContactPerson}
-            register={register}
-            name="billingContactPerson"
-            error={errors.billingContactPerson}
-            type="text"
-          />
-          <FormFieldInput
-            label="Logo URL"
-            defaultValue={data?.seller?.logo}
-            register={register}
-            name="logo"
-            error={errors.logo}
-            type="url"
-          />
-      
+
+
+        <FormFieldInput
+          label="GST Number"
+          defaultValue={data?.seller?.GSTNumber}
+          register={register}
+          name="GSTNumber"
+          error={errors.GSTNumber}
+          type="text"
+        />
+        <FormFieldInput
+          label="Mobile"
+          defaultValue={data?.seller?.mobile}
+          register={register}
+          name="mobile"
+          error={errors.mobile}
+          type="tel"
+        />
+
+
+
+        <FormFieldInput
+          label="National Head"
+          defaultValue={data?.seller?.nationalHead}
+          register={register}
+          name="nationalHead"
+          error={errors.nationalHead}
+          type="text"
+        />
+        <FormFieldInput
+          label="Billing Contact Person"
+          defaultValue={data?.seller?.billingContactPerson}
+          register={register}
+          name="billingContactPerson"
+          error={errors.billingContactPerson}
+          type="text"
+        />
+        <FormFieldInput
+          label="Logo URL"
+          defaultValue={data?.seller?.logo}
+          register={register}
+          name="logo"
+          error={errors.logo}
+          type="url"
+        />
+
 
         <div className="flex justify-center col-span-3">
           <button
             type="submit"
-            className={`${submit.data}   `} 
+            className={`${submit.data}   `}
           >
             Save Changes
           </button>

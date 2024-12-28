@@ -6,6 +6,8 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../buttons/radix";
 import { FaPlusCircle } from "react-icons/fa";
+import { GetErrorMessage } from "../../utils/errorCode";
+import { ShowPopup } from "../alerts/popUps";
 
 const AddEventType = ({setNewCategory}) => {
   const navigate = useNavigate()
@@ -36,12 +38,10 @@ const AddEventType = ({setNewCategory}) => {
       
       setIsModalOpen(false);
       setNewCategory(true)
-    } catch (err) {
-      Swal.fire({
-        title: "Error",
-        text: err.message,
-        icon: "error",
-      });
+    } catch (error) {
+      const graphqlError = error.graphQLErrors[0];
+      const message = GetErrorMessage(graphqlError.errorCode)
+      ShowPopup("Failed!", `${message}`, "error", 5000, true);
     }
   };
 
