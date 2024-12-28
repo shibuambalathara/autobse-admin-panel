@@ -11,6 +11,8 @@ import TableComponent from '../utils/table';
 import AddEventType from './eventTypeAdd';
 import { pageHead, Tablebutton } from '../utils/style';
 import AutobseLoading from '../utils/autobseLoading';
+import { GetErrorMessage } from '../../utils/errorCode';
+import { ShowPopup } from '../alerts/popUps';
 
 const EventTypesTable = () => {
   const [updateCat] = useUpdateVehicleCategoryMutation();
@@ -86,14 +88,12 @@ const EventTypesTable = () => {
         } else {
           throw new Error("Update failed");
         }
-      } catch (err) {
-        console.error("Error in updateCat mutation:", err); // Log detailed error
+      } catch (error) {
+        console.error("Error in updateCat mutation:", error); // Log detailed error
         // setCategories(previousCategories); // Revert to previous state if update fails
-        Swal.fire({
-          icon: 'error',
-          title: 'Category Name Not Updated',
-          text: err.message || 'An error occurred',
-        });
+      const graphqlError = error.graphQLErrors[0];
+      const message = GetErrorMessage(graphqlError.errorCode)
+      ShowPopup("Failed!", `${message}`, "error", 5000, true);
       }
     }
     // return (
