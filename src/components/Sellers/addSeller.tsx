@@ -5,6 +5,7 @@ import { ShowPopup } from "../alerts/popUps";
 import { useNavigate } from "react-router-dom";
 import { formStyle, h2Style, headerStyle, pageStyle, submit } from "../utils/style";
 import { FormFieldInput } from "../utils/formField";
+import { GetErrorMessage } from "../../utils/errorCode";
 // import Select from 'react-select';
 
 interface FormValues {
@@ -18,8 +19,8 @@ interface FormValues {
 
 const AddSeller: React.FC = () => {
   const [createSeller] = useCreateSellerMutation();
- 
-const navigate =useNavigate()
+
+  const navigate = useNavigate()
   const {
     register,
     reset,
@@ -39,7 +40,7 @@ const navigate =useNavigate()
             GSTNumber: data.gst.trim() || "",
             mobile: data.mobile ? `+91 ${data.mobile.trim()}` : "",
             nationalHead: data.nationalHead.trim() || "",
-            logo:  "",
+            logo: "",
           },
         },
       });
@@ -53,46 +54,48 @@ const navigate =useNavigate()
       );
       navigate('/sellers');
     } catch (error: any) {
-      ShowPopup("Failed!", `${error?.message}`, "error", 5000, true);
+      const graphqlError = error.graphQLErrors[0];
+      const message = GetErrorMessage(graphqlError.errorCode)
+      ShowPopup("Failed!", `${message}`, "error", 5000, true);
     }
 
-   
+
     reset();
   };
 
   return (
     <div className={`${pageStyle.data}w-full `}>
-      
+
       <div className={`${headerStyle.data}`}>
-      <h2 className={`${h2Style.data}`}>ADD SELLER</h2>
+        <h2 className={`${h2Style.data}`}>ADD SELLER</h2>
       </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className={`${formStyle.data}`} >
-       
-            {/* Seller Company Name */}
-            <FormFieldInput label="Seller Name" type="text" name="sellerCompanyName" register={register} error={errors.sellerCompanyName} required defaultValue={''} />
-             
+      <form onSubmit={handleSubmit(onSubmit)} className={`${formStyle.data}`} >
 
-            {/* GST Number */}
-            <FormFieldInput label="GST Number" type="text" name="gst" register={register} error={errors.gst} defaultValue={''} />
-            
-             
-           
+        {/* Seller Company Name */}
+        <FormFieldInput label="Seller Name" type="text" name="sellerCompanyName" register={register} error={errors.sellerCompanyName} required defaultValue={''} />
 
-            {/* Billing Contact Person */}
-            <FormFieldInput label="Billing Contact Person" type="text" name="billingContactPerson" register={register} error={errors.billingContactPerson}  defaultValue={''} />
-        
-           
-            {/* Contact Person */}
-            <FormFieldInput label="Contact Person" type="text" name="ContactPerson" register={register} error={errors.ContactPerson}  defaultValue={''} />
-             
-           
 
-            {/* Mobile */}
-            <FormFieldInput label=" Mobile" type="text" name="mobile" register={register} error={errors.mobile}  defaultValue={''} />
-            <FormFieldInput label=" National Head" type="text" name="nationalHead" register={register} error={errors.nationalHead}  defaultValue={''} />
-            {/* Event Type (Optional) */}
-            {/* <div>
+        {/* GST Number */}
+        <FormFieldInput label="GST Number" type="text" name="gst" register={register} error={errors.gst} defaultValue={''} />
+
+
+
+
+        {/* Billing Contact Person */}
+        <FormFieldInput label="Billing Contact Person" type="text" name="billingContactPerson" register={register} error={errors.billingContactPerson} defaultValue={''} />
+
+
+        {/* Contact Person */}
+        <FormFieldInput label="Contact Person" type="text" name="ContactPerson" register={register} error={errors.ContactPerson} defaultValue={''} />
+
+
+
+        {/* Mobile */}
+        <FormFieldInput label=" Mobile" type="text" name="mobile" register={register} error={errors.mobile} defaultValue={''} />
+        <FormFieldInput label=" National Head" type="text" name="nationalHead" register={register} error={errors.nationalHead} defaultValue={''} />
+        {/* Event Type (Optional) */}
+        {/* <div>
               <label className="block text-gray-700 font-medium mb-1">
                 Event Type
               </label>
@@ -100,15 +103,15 @@ const navigate =useNavigate()
                
               </div>
             </div> */}
-        
 
-          {/* Submit Button */}
-          <div className="flex justify-center my-5 col-span-3">
-            <input type="submit"  className={`${submit.data}`} />
-          </div>
-        </form>
-      </div>
-    
+
+        {/* Submit Button */}
+        <div className="flex justify-center my-5 col-span-3">
+          <input type="submit" className={`${submit.data}`} />
+        </div>
+      </form>
+    </div>
+
   );
 };
 
