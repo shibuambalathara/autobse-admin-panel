@@ -152,7 +152,7 @@ const AddEventComponent = () => {
             label="Event Category"
             required
             register={register("eventCategory", { required: "Event Category  required"})}
-            defaultValue={"online"}
+            defaultValue={""}
             component="select"
             options={eventCategories}
             error={errors.eventCategory}
@@ -184,7 +184,7 @@ const AddEventComponent = () => {
           required
             label="Seller"
             register={register("sellerName", { required: "Seller  required"})}
-           
+           defaultValue={""}
             component="select"
             options={sellersItem?.data?.sellers?.map((seller) => ({
               label: seller.name,
@@ -197,7 +197,7 @@ const AddEventComponent = () => {
             label="Vehicle category"
             required
             register={register("eventId", { required: "Vehicle category required" })}
-           
+           defaultValue={""}
             component="select"
             options={eventType?.data?.vehicleCategories?.map((event) => ({
               label: event.name,
@@ -210,6 +210,7 @@ const AddEventComponent = () => {
             label="Location"
             register={register("location", { required: "Location required" })}
            required
+           defaultValue={""}
             component="select"
             options={location?.data?.locations?.map((loc) => ({
               label: loc.name,

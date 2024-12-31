@@ -156,6 +156,7 @@ const EventsTableComponent = () => {
       options: [
         { value: "open", label: "Open" },
         { value: "online", label: "Online" },
+        { value: "auctionReport", label: "Auction" }
       ],
     },
     {
