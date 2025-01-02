@@ -1,8 +1,8 @@
 export const bidStatusOptions = [
-  { label: 'Pending', value: 'Pending' },
-  { label: 'Approved', value: 'Approved' },
-  { label: 'Fulfilled', value: 'Fulfilled' },
-  { label: 'Declined', value: 'Declined' },
+  { label: 'Pending', value: 'pending' },
+  { label: 'Approved', value: 'approved' },
+  { label: 'Fulfilled', value: 'fulfilled' },
+  { label: 'Declined', value: 'declined' },
 ];
 export const eventCategories = [
   { value: "online", label: "Online Auction" },

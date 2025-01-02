@@ -74,7 +74,7 @@ export type CreateEventInput = {
   extraTimeTrigerIn?: InputMaybe<Scalars['Float']['input']>;
   firstVehicleEndDate?: InputMaybe<Scalars['DateTime']['input']>;
   gapInBetweenVehicles?: InputMaybe<Scalars['Float']['input']>;
-  noOfBids: Scalars['Float']['input'];
+  noOfBids?: InputMaybe<Scalars['Float']['input']>;
   pauseDate?: InputMaybe<Scalars['DateTime']['input']>;
   pausedTotalTime?: InputMaybe<Scalars['Float']['input']>;
   startDate: Scalars['DateTime']['input'];
@@ -340,14 +340,21 @@ export type EventOrderByInput = {
   gapInBetweenVehicles?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
   isSpecialEvent?: InputMaybe<OrderDirection>;
+  location?: InputMaybe<LocationOrderByInput>;
   noOfBids?: InputMaybe<OrderDirection>;
   pauseDate?: InputMaybe<OrderDirection>;
   pausedTotalTime?: InputMaybe<OrderDirection>;
+  seller?: InputMaybe<SellerOrderByInput>;
   startDate?: InputMaybe<OrderDirection>;
   status?: InputMaybe<OrderDirection>;
   termsAndConditions?: InputMaybe<OrderDirection>;
   updatedAt?: InputMaybe<OrderDirection>;
   vehicleLiveTimeIn?: InputMaybe<OrderDirection>;
+};
+
+export type EventUniqueInput = {
+  /** Event id required */
+  id: Scalars['String']['input'];
 };
 
 export type EventWhereUniqueInput = {
@@ -359,6 +366,7 @@ export type EventWhereUniqueInput = {
   sellerId?: InputMaybe<Scalars['String']['input']>;
   startDate?: InputMaybe<Scalars['DateTime']['input']>;
   status?: InputMaybe<EventStatusType>;
+  vehicleCategoryId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ExcelWhereUniqueInput = {
@@ -395,6 +403,12 @@ export type Location = {
   name: Scalars['String']['output'];
   state?: Maybe<State>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type LocationOrderByInput = {
+  createdAt?: InputMaybe<OrderDirection>;
+  name?: InputMaybe<OrderDirection>;
+  updatedAt?: InputMaybe<OrderDirection>;
 };
 
 export type LocationWhereUniqueInput = {
@@ -471,6 +485,7 @@ export type Mutation = {
   updateUser: User;
   updateVehicle: Vehicle;
   updateVehicleCategory: VehicleCategory;
+  uploadAcrData: Excelupload;
   verifyOtp: VerifyOtpResponse;
 };
 
@@ -577,7 +592,7 @@ export type MutationDeleteEnquiryArgs = {
 
 
 export type MutationDeleteEventArgs = {
-  where: EventWhereUniqueInput;
+  where: EventUniqueInput;
 };
 
 
@@ -703,7 +718,7 @@ export type MutationSendOtpArgs = {
 
 export type MutationUpdateBidArgs = {
   updateBidInput: UpdateBidInput;
-  where: BidWhereUniqueInput;
+  where: UpdateBidWhereUniqueInput;
 };
 
 
@@ -770,6 +785,12 @@ export type MutationUpdateVehicleArgs = {
 export type MutationUpdateVehicleCategoryArgs = {
   updateVehiclecategoryInput: UpdateVehiclecategoryInput;
   where: VehicleCategoryWhereUniqueInput;
+};
+
+
+export type MutationUploadAcrDataArgs = {
+  eventId: Scalars['String']['input'];
+  file: CreateExceluploadInput;
 };
 
 
@@ -1063,6 +1084,7 @@ export type QuerySellerArgs = {
 
 
 export type QuerySellersArgs = {
+  orderBy?: InputMaybe<Array<SellerOrderByInput>>;
   search?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -1152,6 +1174,13 @@ export type Seller = {
   name: Scalars['String']['output'];
   nationalHead: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
+};
+
+export type SellerOrderByInput = {
+  contactPerson?: InputMaybe<OrderDirection>;
+  createdAt?: InputMaybe<OrderDirection>;
+  name?: InputMaybe<OrderDirection>;
+  nationalHead?: InputMaybe<OrderDirection>;
 };
 
 export type SellerWhereUniqueInput = {
@@ -1247,6 +1276,11 @@ export type Subscription = {
 
 export type UpdateBidInput = {
   amount: Scalars['Float']['input'];
+};
+
+export type UpdateBidWhereUniqueInput = {
+  id: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
 };
 
 export type UpdateEnquiryInput = {
@@ -1445,6 +1479,7 @@ export type User = {
   pancard_image?: Maybe<Scalars['String']['output']>;
   payments?: Maybe<Array<Payment>>;
   paymentsCount?: Maybe<Scalars['Int']['output']>;
+  registrationExpiryDate?: Maybe<Scalars['DateTime']['output']>;
   role: Scalars['String']['output'];
   state: Scalars['String']['output'];
   states?: Maybe<Array<State>>;
@@ -1465,8 +1500,14 @@ export enum UserIdProofTypeType {
 
 export type UserOrderByInput = {
   createdAt?: InputMaybe<OrderDirection>;
+  firstName?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
   idNo?: InputMaybe<OrderDirection>;
+  lastName?: InputMaybe<OrderDirection>;
+  mobile?: InputMaybe<OrderDirection>;
+  role?: InputMaybe<OrderDirection>;
+  state?: InputMaybe<OrderDirection>;
+  status?: InputMaybe<OrderDirection>;
 };
 
 export enum UserRoleType {
@@ -1604,16 +1645,26 @@ export type VehicleListResponse = {
 export type VehicleOrderByInput = {
   bidTimeExpire?: InputMaybe<OrderDirection>;
   createdAt?: InputMaybe<OrderDirection>;
+  currentBidAmount?: InputMaybe<OrderDirection>;
   updatedAt?: InputMaybe<OrderDirection>;
 };
 
 export type VehicleWhereUniqueInput = {
+  bidStartTime?: InputMaybe<Scalars['DateTime']['input']>;
   bidStatus?: InputMaybe<VehicleBidStatusType>;
   bidTimeExpire?: InputMaybe<IdFilter>;
+  chassisNo?: InputMaybe<Scalars['String']['input']>;
+  currentBidAmount?: InputMaybe<Scalars['Float']['input']>;
+  engineNo?: InputMaybe<Scalars['String']['input']>;
+  event?: InputMaybe<EventWhereUniqueInput>;
   id?: InputMaybe<Scalars['String']['input']>;
+  kmReading?: InputMaybe<Scalars['Float']['input']>;
   loanAgreementNo?: InputMaybe<Scalars['String']['input']>;
+  make?: InputMaybe<Scalars['String']['input']>;
+  model?: InputMaybe<Scalars['String']['input']>;
   registrationNumber?: InputMaybe<Scalars['String']['input']>;
   userVehicleBids?: InputMaybe<BidWhereUniqueInput>;
+  varient?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type VerfiyOtpDto = {
@@ -1638,6 +1689,7 @@ export enum EventBidLockType {
 }
 
 export enum EventCategory {
+  AuctionReport = 'auctionReport',
   Online = 'online',
   Open = 'open'
 }
@@ -2053,7 +2105,7 @@ export type VehicleQueryVariables = Exact<{
 }>;
 
 
-export type VehicleQuery = { __typename?: 'Query', vehicle: { __typename?: 'Vehicle', id: string, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, fuel?: string | null, type?: string | null, rcStatus?: string | null, YOM?: number | null, ownership?: number | null, mileage?: number | null, kmReading?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation?: string | null, vehicleRemarks?: string | null, auctionManager?: string | null, parkingCharges?: string | null, insurance?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, fitness?: string | null, permit?: string | null, engineNo?: string | null, chassisNo?: string | null, image?: string | null, inspectionLink?: string | null, autobseContact?: string | null, autobse_contact_person?: string | null, vehicleCondition?: string | null, powerSteering?: string | null, shape?: string | null, color?: string | null, state?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, climateControl?: string | null, doorCount?: number | null, gearBox?: string | null, buyerFees?: string | null, rtoFine?: string | null, parkingRate?: string | null, approxParkingCharges?: string | null, clientContactPerson?: string | null, clientContactNo?: string | null, additionalRemarks?: string | null, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null } };
+export type VehicleQuery = { __typename?: 'Query', vehicle: { __typename?: 'Vehicle', id: string, vehicleIndexNo: number, registrationNumber: string, bidTimeExpire: any, bidStartTime: any, bidAmountUpdate?: number | null, currentBidAmount?: number | null, startBidAmount?: number | null, loanAgreementNo: string, registeredOwnerName?: string | null, quoteIncreament?: number | null, make?: string | null, model?: string | null, varient?: string | null, category?: string | null, fuel?: string | null, type?: string | null, rcStatus?: string | null, YOM?: number | null, ownership?: number | null, mileage?: number | null, kmReading?: number | null, insuranceStatus?: string | null, yardLocation?: string | null, startPrice?: number | null, reservePrice?: number | null, repoDt?: string | null, veicleLocation?: string | null, vehicleRemarks?: string | null, auctionManager?: string | null, parkingCharges?: string | null, insurance?: string | null, insuranceValidTill?: string | null, tax?: string | null, taxValidityDate?: string | null, fitness?: string | null, permit?: string | null, engineNo?: string | null, chassisNo?: string | null, image?: string | null, inspectionLink?: string | null, autobseContact?: string | null, autobse_contact_person?: string | null, vehicleCondition?: string | null, powerSteering?: string | null, shape?: string | null, color?: string | null, state?: string | null, city?: string | null, area?: string | null, paymentTerms?: string | null, dateOfRegistration?: string | null, hypothication?: string | null, climateControl?: string | null, doorCount?: number | null, gearBox?: string | null, buyerFees?: string | null, rtoFine?: string | null, parkingRate?: string | null, approxParkingCharges?: string | null, clientContactPerson?: string | null, clientContactNo?: string | null, additionalRemarks?: string | null, lotNumber?: number | null, createdAt?: any | null, updatedAt?: any | null, createdById?: string | null, bidStatus?: string | null } };
 
 export type UpdateVehicleMutationVariables = Exact<{
   where: VehicleWhereUniqueInput;
@@ -4894,6 +4946,7 @@ export const VehicleDocument = gql`
     createdAt
     updatedAt
     createdById
+    bidStatus
   }
 }
     `;

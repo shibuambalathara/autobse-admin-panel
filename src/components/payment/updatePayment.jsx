@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from 'react-router-dom';
 import { useUpdatePaymentMutation, usePaymentQuery } from '../../utils/graphql'
 import { ShowPopup } from '../alerts/popUps';
-import { formStyle, h2Style, headerStyle, inputStyle, labelAndInputDiv, pageStyle, submit } from '../utils/style';
-import { InputFields, SelectInput } from '../utils/formField';
+import { formStyle, h2Style, headerStyle, inputStyle,  pageStyle, submit } from '../utils/style';
+import { InputFields, } from '../utils/formField';
 import { paymentsFor } from '../utils/constantValues';
 import { getS3ObjectUrl } from '../utils/aws-config';
 import FileInput from '../utils/fileInputs';
@@ -84,7 +84,7 @@ const UpdatePayment = () => {
 
   const onSubmit = async (dataOnSubmit) => {
     const updateInput = {
-      amount: +dataOnSubmit.amount,
+      amount: dataOnSubmit.amount,
       paymentFor: dataOnSubmit?.paymentFor,
       status: dataOnSubmit?.paymentStatus,
       description: dataOnSubmit?.description,

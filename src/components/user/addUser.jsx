@@ -51,6 +51,7 @@ const AddUser = () => {
     } catch (error) {
       const graphqlError = error.graphQLErrors[0];
       const message = GetErrorMessage(graphqlError.errorCode)
+      console.log(message ,"mess")
       ShowPopup("Failed!", `${message}`, "error", 5000, true);
     }
   };

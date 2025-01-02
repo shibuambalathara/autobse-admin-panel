@@ -67,6 +67,7 @@ query Vehicle($where: VehicleWhereUniqueInput!) {
     createdAt
     updatedAt
     createdById
+      bidStatus
   }
 }
 
