@@ -1,7 +1,7 @@
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import JSZip from 'jszip';
-import { saveAs } from 'file-saver';
+import { saveAs } from 'file-saver';                
 
 export const DownloadBidSheetsBeforeAuction = async (vehicles) => {
   const zip = new JSZip();

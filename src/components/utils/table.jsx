@@ -66,7 +66,7 @@ function TableComponent(prop) {
         <div className="inline-block py-2 sm:px-6 lg:px-4">
           {!global && <Search filter={globalFilter} className="text-white bg-red-200" setFilter={setGlobalFilter} />}
           <div className="border border-gray-200 dark:border-gray-400 md:rounded-lg overflow-hidden">
-            <div className="overflow-x-auto lg:w-[77rem] md:w-[35rem] sm:w-[20rem] min-h-[10rem] max-h-[27rem]">
+            <div className="overflow-x-auto lg:w-[76.8rem] md:w-[35rem] sm:w-[20rem] min-h-[10rem] max-h-[27rem]">
               <table {...getTableProps()} className="min-w-full text-start text-sm font-light text-black">
                 <thead className="border-b border-neutral-200 font-medium bg-gray-100 sticky top-0 z-20 ">
                   {headerGroups.map((headerGroup) => (

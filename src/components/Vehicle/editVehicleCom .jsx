@@ -6,6 +6,7 @@ import { indianStates } from "../../utils/data";
 import { formStyle, h2Style, headerStyle, pageStyle, submit } from "../utils/style";
 import AutobseLoading from "../utils/autobseLoading";
 import  { EditButton } from "../buttons/button";
+import { bidStatusOptions } from "../utils/constantValues";
 const fields = [
   { label: "Registration", name: "regNo", type: "text", required: true },
   { label: "Loan Agreement Number", name: "loanANum", type: "text", required: true },
@@ -78,6 +79,13 @@ const EditVehicleComponent = ({data,loading,error,handleSubmit,onSubmit,register
        <EditButton isEditable={isEditable} handleEdit={handleEdit}/>
     </div>
     <form onSubmit={handleSubmit(onSubmit)} className={formStyle.data}>
+      
+    <InputFields    error={errors.bidStatus} label="Bid Status"
+             defaultValue={data?.vehicle?.bidStatus}
+              register={register("bidStatus")}
+              component="select"
+              options={bidStatusOptions}
+              disabled={!isEditable} />
     {fields.map((field) => (
       <FormFieldInput
         key={field.name}
@@ -95,7 +103,8 @@ const EditVehicleComponent = ({data,loading,error,handleSubmit,onSubmit,register
              defaultValue={data?.vehicle?.state}
               register={register("state")}
               component="select"
-              options={indianStates} />
+              options={indianStates}
+              disabled={!isEditable} />
           
         
 <ImageMaping images={images}/>
@@ -105,7 +114,7 @@ const EditVehicleComponent = ({data,loading,error,handleSubmit,onSubmit,register
   disabled={!isEditable}
     defaultValue={formatTextAreaValue(data?.vehicle?.image)}
     {...register("images", {})}
-    className="w-3/4 h-44 border border-gray-400 rounded-md p-2 shadow-md text-gray-700 hover:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+     className="w-3/4 h-44 border border-gray-400 rounded-md p-2 shadow-md text-gray-700 hover:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
   />
 </div>
 
@@ -113,7 +122,7 @@ const EditVehicleComponent = ({data,loading,error,handleSubmit,onSubmit,register
 
  <ImageUpload isEditable={isEditable}/>
  </div>
-{!isEditable&&
+{isEditable&&
  <div className="text-center my-5 col-span-3">
               <button className={submit?.data}>{button}</button>
             </div>} 

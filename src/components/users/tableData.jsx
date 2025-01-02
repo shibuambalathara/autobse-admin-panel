@@ -10,6 +10,7 @@ import { Tablebutton } from "../utils/style";
 import { useDeleteUserMutation } from "../../utils/graphql";
 import { SweetalertSuccess } from "../utils/sweetalert";
 import { ImBin2 } from "react-icons/im";
+import SortedTableComponent from "../utils/sortedTable";
 
 const TabbleOfUsersOrUser = ({ users, refetch }) => {
   console.log("users", users);
@@ -230,7 +231,7 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
       {/* <div className=" h-fit">
         <div className="flex flex-col justify-center w-full"> */}
       {/* Optional Header or any additional component */}
-      {transformedUsers && <TableComponent columns={columns} data={transformedUsers} pagination='false' global={true} limit={false} />}
+      {transformedUsers && <SortedTableComponent columns={columns} data={transformedUsers} pagination='false' global={true} limit={false} />}
       {/* </div>
       </div> */}
     </>

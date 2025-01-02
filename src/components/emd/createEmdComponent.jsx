@@ -62,7 +62,7 @@ const CreateEmdComponent = () => {
   };
 
   if (loading) {
-    <di>Loading............</di>
+    // <di>Loading............</di>
 
 
   }
@@ -127,16 +127,17 @@ const CreateEmdComponent = () => {
             ></input>
             <p className="text-red-500"> {errors.buyingLimit && <span>Buying Limit Required</span>}</p>
           </div>
-          {data?.payment?.image && 
+         
           <div className="min-w-[300px] w-1/3">
+          {data?.payment?.image && <>
             <label htmlFor="">Payment proof Image</label>
             <img
               className="w-full h-44 border py-1"
               src={data?.payment?.image}
               alt="No ID proof_Image"
             />
-
-          </div>}
+         </> }
+          </div>
 
 
 
