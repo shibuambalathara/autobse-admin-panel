@@ -114,7 +114,7 @@ const EditVehicleComponent = ({data,loading,error,handleSubmit,onSubmit,register
   disabled={!isEditable}
     defaultValue={formatTextAreaValue(data?.vehicle?.image)}
     {...register("images", {})}
-    className="w-3/4 h-44 border border-gray-400 rounded-md p-2 shadow-md text-gray-700 hover:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+     className="w-3/4 h-44 border border-gray-400 rounded-md p-2 shadow-md text-gray-700 hover:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
   />
 </div>
 

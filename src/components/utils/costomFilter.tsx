@@ -53,7 +53,7 @@ const CustomFilter: React.FC<CustomFilterProps> = ({ filters, values, onChange }
               onChange={(e) => onChange(filter.name, e.target.value||undefined)}
               className="p-2 border border-gray-300  rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
             >
-              <option value="">Select</option>
+              <option value="">All</option>
               {filter.options?.map((option) => (
                 <option className='' key={option.value} value={option.value}>
                   {option.label}
