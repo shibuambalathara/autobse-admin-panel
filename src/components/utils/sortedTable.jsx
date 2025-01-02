@@ -67,9 +67,9 @@ function SortedTableComponent({ columns, data, pagination, global = false, limit
     };
   }, [sortBy]);
 
-  if (!data) {
-    return <div>Loading...</div>;
-  }
+  // if (!data) {
+  //   return <div>Loading...</div>;  
+  // }
 
   if (data.length <= 0) {
     return <NotFoundPage />;
@@ -93,19 +93,21 @@ function SortedTableComponent({ columns, data, pagination, global = false, limit
                   <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.getHeaderGroupProps().key}>
                     {headerGroup.headers.map((column) => (
                       <th
-                        {...column.getHeaderProps(column.getSortByToggleProps())}
-                        onClick={() => handleColumnSort(column.id)}
+                        {...column.getHeaderProps(column.disableSort ? undefined : column.getSortByToggleProps())}
+                        onClick={!column.disableSort ? () => handleColumnSort(column.id) : undefined}
                         className="px-3 py-4 truncate text-start cursor-pointer"
                         key={column.id}
                       >
                         {column.render("Header")}
-                        <span className="ml-1">
-                          {sortingState.find((sort) => sort.id === column.id)?.order === "DESC"
-                            ? "🔽"
-                            : sortingState.find((sort) => sort.id === column.id)
-                            ? "🔼"
-                            : ""}
-                        </span>
+                        {!column.disableSort && (
+    <span className="ml-1">
+      {sortingState.find((sort) => sort.id === column.id)?.order === "DESC"
+        ? "🔽"
+        : sortingState.find((sort) => sort.id === column.id)
+        ? "🔼"
+        : ""}
+    </span>
+  )}
                       </th>
                     ))}
                   </tr>

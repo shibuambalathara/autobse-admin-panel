@@ -37,6 +37,9 @@ const EditVehicle: React.FC = () => {
         }
         reset({
           regNo: data?.vehicle?.registrationNumber || "",
+          make:data?.vehicle?.make || "",
+          model:data?.vehicle?.model ||'',
+          varient:data?.vehicle?.varient||"",
     loanANum: data?.vehicle?.loanAgreementNo || "",
     regOwnerName: data?.vehicle?.registeredOwnerName || "",
     fuel: data?.vehicle?.fuel || "",
@@ -100,7 +103,7 @@ const EditVehicle: React.FC = () => {
       loanAgreementNo: formData?.loanANum?.trim() || null,
       registeredOwnerName: formData?.regOwnerName?.trim() || null,
       quoteIncreament: formData?.quoteInc ? +formData.quoteInc : null,
-      make: formData?.vehicleCompanyName?.trim() || null,
+      make: formData?.make?.trim() || null,
       model: formData?.model?.trim() || null,
       varient: formData?.varient?.trim() || null,
       category: formData?.category || null,
