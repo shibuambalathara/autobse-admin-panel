@@ -74,6 +74,7 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
 
       {
         Header: "Active Bids",
+        disableSort: true,
         Cell: ({ row }) => {
           const activeBidsCount = row.original?.activeBids?.length;
 
@@ -104,6 +105,7 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
       },
       {
         Header: "Current Buying Limit",
+        disableSort: true,
         Cell: ({ row }) => {
           const buyingLimit = row.original?.vehicleBuyingLimit;
           // Determine styles based on the buyingLimit value
@@ -134,6 +136,7 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
       },
       {
         Header: "Payment Details",
+        disableSort: true,
         Cell: ({ row }) => {
           const paymentsCount = row.original.paymentsCount;
 
@@ -180,6 +183,7 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
       // },
       {
         Header: "Create Payment",
+        disableSort: true,
         Cell: ({ row }) => (
           <a
             className={`${Tablebutton.data} bg-red-500 text-lg`}
@@ -193,6 +197,7 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
       },
       {
         Header: "User Details",
+        disableSort: true,
         Cell: ({ row }) => (
           <a
             className={`${Tablebutton.data} bg-blue-500 `}
@@ -209,6 +214,7 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
 
 
         Header: "Action",
+        disableSort: true,
         Cell: ({ row }) => (
           <button className={`${Tablebutton.data} bg-red-600 text-lg`} onClick={() => handleDelete(row.original.id, row.original)}>
             <ImBin2 />
