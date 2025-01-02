@@ -89,24 +89,24 @@ const CreatePayment: React.FC = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={`${formStyle.data}`}>
           <div className={`${labelAndInputDiv.data}`}>
-            <label>Amount</label>
-            <input
-              type="text"
-              className={`${inputStyle.data}`}
-              {...register("amount", {
-                required: true,
-                onChange: (e) => {
-                  const limit = 8
-                  e.target.value = e.target.value.replace(/[^0-9]/g,"")
-                  if (e.target.value.length > limit) {
-                    e.target.value = e.target.value.slice(0, limit)
-                  }
-                },
-              })}
-              required
-              {...(undefined as any)}
-            />
-           </div>
+          <InputFields
+            label="Amount"
+            component='number'
+            error={errors.description}
+            register={register("amount", {
+              required: true,
+              onChange: (e) => {
+                const limit = 8
+                e.target.value = e.target.value.replace(/[^0-9]/g,"")
+                if (e.target.value.length > limit) {
+                  e.target.value = e.target.value.slice(0, limit)
+                }
+              },
+            })}
+            {...(undefined as any)}
+          />
+          </div>
+           
     
 
           <div className={`${labelAndInputDiv.data}`}>
@@ -134,20 +134,25 @@ const CreatePayment: React.FC = () => {
       
 
           <div className={`${labelAndInputDiv.data}`}>
-            <label>Payment Status</label>
-            <select
-              className={`${inputStyle.data}`}
-              {...register("paymentStatus", { required: true })}
-            >
-              <option value="pending">Pending</option>
-              <option value="approved">Approved</option>
-              <option value="rejected">Rejected</option>
-            </select>
-            {errors.paymentStatus && <p className="text-red-500">Please select payment status</p>}
+          <InputFields
+            label="Payment Status"
+            component="select"
+            options={[
+              { value: "pending", label: "Pending" },
+              { value: "approved", label: "Approved" },
+              { value: "rejected", label: "Rejected" },
+            ]}
+            register={register("paymentStatus", {
+              required: "Please select payment status",
+            })}
+            {...(undefined as any)}
+            error={errors.paymentStatus}
+          />
           </div>
 
           <FileInput label="Payment Proof Image" accept="image/*"
             maxSizeMB={1} register={register("imgForPaymentProof")} fieldName="imgForPaymentProof" required={false} />
+        {/* </div> */}
         </div>
 
         <div className="flex justify-center my-5">
