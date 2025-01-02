@@ -256,6 +256,12 @@ const buildQueryVariables = (): UserQueryVariables => {
         ) : (
           <>
             <NotFoundPage />
+            <LimitedDataPaginationComponents
+              totalItems={userCount}
+              itemsPerPage={pageSize}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
+            />
            
           </>
         )}

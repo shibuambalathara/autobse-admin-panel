@@ -101,9 +101,9 @@ function SortedTableComponent({ columns, data, pagination, global = false, limit
                         {column.render("Header")}
                         <span className="ml-1">
                           {sortingState.find((sort) => sort.id === column.id)?.order === "DESC"
-                            ? " 🔽"
+                            ? "🔽"
                             : sortingState.find((sort) => sort.id === column.id)
-                            ? " 🔼"
+                            ? "🔼"
                             : ""}
                         </span>
                       </th>
