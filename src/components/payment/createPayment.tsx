@@ -106,7 +106,7 @@ const CreatePayment: React.FC = () => {
               required
               {...(undefined as any)}
             />
-           
+           </div>
     
 
           <div className={`${labelAndInputDiv.data}`}>
@@ -155,7 +155,7 @@ const CreatePayment: React.FC = () => {
             Save
           </button>
         </div>
-        </div>
+      
       </form>
     </div>
   );
