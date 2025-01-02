@@ -22,7 +22,7 @@ const SearchByState = ({setState,value}) => {
      
       }}
   >
-    <option value="">Select All </option>
+    <option value="">All </option>
     {indianStates.map((item) => (
       <option key={item.value} value={item.value}>
         {item.label}

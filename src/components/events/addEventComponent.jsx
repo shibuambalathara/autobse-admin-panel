@@ -50,7 +50,7 @@ const AddEventComponent = () => {
   
     // Prepare the createEventInput object
     const createEventInput = {
-      eventCategory: category, // "online" or "open" selected via state
+      eventCategory: dataOnSubmit?.eventCategory, // "online" or "open" selected via state
       startDate: isoStartDate,
       endDate: isoEndDate,
       noOfBids: noOfBids,
@@ -68,12 +68,6 @@ const AddEventComponent = () => {
      
     };
   
-    // Include the downloadable file if present
-    // if (dataOnSubmit.downloadable?.length) {
-    //   createEventInput["downloadableFile"] = { upload: dataOnSubmit.downloadable[0] };
-    // }
-  
-    // Prepare the variables for the mutation
     const variables = {
       vehicleCategoryId: dataOnSubmit?.eventId || "", // Assuming it's part of form data
       locationId: dataOnSubmit?.location || "", // Assuming it's part of form data
@@ -158,7 +152,7 @@ const AddEventComponent = () => {
             label="Event Category"
             required
             register={register("eventCategory", { required: "Event Category  required"})}
-            defaultValue={"online"}
+            defaultValue={""}
             component="select"
             options={eventCategories}
             error={errors.eventCategory}
@@ -190,7 +184,7 @@ const AddEventComponent = () => {
           required
             label="Seller"
             register={register("sellerName", { required: "Seller  required"})}
-            defaultValue={data?.event?.sellerId}
+           defaultValue={""}
             component="select"
             options={sellersItem?.data?.sellers?.map((seller) => ({
               label: seller.name,
@@ -203,7 +197,7 @@ const AddEventComponent = () => {
             label="Vehicle category"
             required
             register={register("eventId", { required: "Vehicle category required" })}
-            defaultValue={data?.event?.vehicleCategoryId}
+           defaultValue={""}
             component="select"
             options={eventType?.data?.vehicleCategories?.map((event) => ({
               label: event.name,
@@ -216,6 +210,7 @@ const AddEventComponent = () => {
             label="Location"
             register={register("location", { required: "Location required" })}
            required
+           defaultValue={""}
             component="select"
             options={location?.data?.locations?.map((loc) => ({
               label: loc.name,
@@ -227,7 +222,16 @@ const AddEventComponent = () => {
           <InputFields
             label="Number of Bids (per User)"
             type="number"
-            register={register("noOfBids", { required: "Number of Bids (per User) required" })}
+            register={register("noOfBids", {
+              required: "Number of Bids (per User) required",
+              onChange: (e)=>{
+                const limit = 4
+                e.target.value = e.target.value.replace(/[^0-9]/g,"")
+                if (e.target.value.length > limit) {
+                  e.target.value = e.target.value.slice(0, limit)
+                }
+              }
+            })}
             defaultValue={10}
             error={errors.noOfBids}
             required
