@@ -84,7 +84,8 @@ const EditVehicle: React.FC = () => {
     lotNumber: data?.vehicle?.lotNumber || "",
     climateControl: data?.vehicle?.climateControl || "",
     powerSteering: data?.vehicle?.powerSteering || "",
-  images:formatTextAreaValue(data?.vehicle?.image)}
+  images:formatTextAreaValue(data?.vehicle?.image),
+...data,}
         )
       });
     }
@@ -150,7 +151,9 @@ const EditVehicle: React.FC = () => {
       rtoFine: formData?.rtoFine || null,
       additionalRemarks: formData?.AdditionalRemarks || null,
       lotNumber: formData?.lotNumber ? +formData.lotNumber : null,
+      bidStatus:formData?.bidStatus,
       image: cleanedRightImage,
+      
     };
     Object.keys(vehicleData).forEach(
       (key) => vehicleData[key] === null && delete vehicleData[key]

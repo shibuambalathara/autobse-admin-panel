@@ -131,12 +131,12 @@ const VehicleDetailsPerEventComponent = () => {
       `,
       icon: "question",
       showCancelButton: true,
-      confirmButtonColor: '#DD6B55', // Optional: Set confirm button color to red
-      cancelButtonColor: '#aaa',     // Optional: Set cancel button color to gray
+      confirmButtonColor: '#DD6B55', 
+      cancelButtonColor: '#aaa',     
       confirmButtonText: "Delete Vehicle",
       cancelButtonText: "Cancel",
       customClass: {
-        title: 'text-xl font-semibold',  // Tailwind classes for smaller title size
+        title: 'text-xl font-semibold',  
         confirmButton: 'btn btn-danger',
         cancelButton: 'btn btn-secondary'
       }
@@ -185,16 +185,16 @@ const VehicleDetailsPerEventComponent = () => {
   
         if (res) {
           console.log("Download successful", res);
-          // Additional success actions if needed
+        
         } else {
           console.error("Download failed");
         }
       } catch (error) {
         console.error("Error downloading bid sheets:", error);
       } finally {
-        setDownlod(true); // Reset to default state after download
+        setDownlod(true); 
       }
-    }, 100); // Adjust the delay if needed, e.g., 100ms
+    }, 100);
   };
   
 

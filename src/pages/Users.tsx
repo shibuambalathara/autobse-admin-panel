@@ -23,6 +23,8 @@ import DebounceSearchInput from "../components/utils/globalSearch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/tabs/tab";
 import { FaPlusCircle } from "react-icons/fa";
 import { Button } from "../components/buttons/radix";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 type UserQueryVariables = {
   where?: {
@@ -34,7 +36,7 @@ type UserQueryVariables = {
   } | null;
   take?: number;
   skip?: number;
-  orderBy?: Array<{ createdAt: OrderDirection }>;
+  orderBy?: Array<{ [field: string]: OrderDirection }>;
   search?: string;
 };
 
@@ -73,7 +75,7 @@ const Users = () => {
   const { data, refetch, loading } = useUsersQuery();
   const [searchInput, setSearchInput] = useState(""); // Immediate input value
   const [searchQuery, setSearchQuery] = useState("");
-
+  const  sortedData = useSelector((state: RootState) => state.sorting);
   const clearFilter = () => {
     setSearchQuery("")
     setSearchInput("")
@@ -81,40 +83,52 @@ const Users = () => {
     setDealerRole(undefined)
   }
 
-  const buildQueryVariables = (): UserQueryVariables => {
-    const whereClause: UserQueryVariables["where"] = {};
+  
 
-    if (inputData) whereClause.mobile = String(inputData);
-    if (state) whereClause.state = state;
-    if (dealerRole) whereClause.role = dealerRole;
+  // Make sure to import OrderDirection correctly
 
-    // If a search query is present, only include the search parameter
-    if (searchQuery || dealerRole || state) {
-      return {
-        where: Object.keys(whereClause).length > 0 ? whereClause : null,
-        search: searchQuery, take: undefined, skip: undefined
-      }
+const buildQueryVariables = (): UserQueryVariables => {
+  const whereClause: UserQueryVariables["where"] = {};
 
-    }
-    // Otherwise, include pagination and sorting
+  if (inputData) whereClause.mobile = String(inputData);
+  if (state) whereClause.state = state;
+  if (dealerRole) whereClause.role = dealerRole;
+
+  // Dynamic orderBy logic
+  const orderBy: UserQueryVariables["orderBy"] = sortedData && sortedData.length > 0 
+    ? [{ [sortedData[0]?.id]: sortedData[0]?.order as OrderDirection }] 
+    : [{ createdAt: OrderDirection.Desc }];
+
+  if (searchQuery || dealerRole || state) {
     return {
-      where: undefined,
-      // where: Object.keys(whereClause).length > 0 ? whereClause : null,
-      take: pageSize,
+      where: Object.keys(whereClause).length > 0 ? whereClause : null,
+      search: searchQuery || undefined,
       skip: currentPage * pageSize,
-      orderBy: [{ createdAt: OrderDirection.Desc }],
-      search: undefined
+      orderBy, // Corrected dynamic orderBy
     };
+  }
+
+  return {
+    where: undefined,
+    take: pageSize,
+    skip: currentPage * pageSize,
+    orderBy, // Corrected dynamic orderBy
+    search: undefined,
   };
+};
+
+  
 
   const refetchAllData = () => refetch(buildQueryVariables());
 
   useEffect(() => {
+   console.log(sortedData , "sorted");
+    
     if (countData && countData.usersCount !== undefined) {
       setUserCount(countData.usersCount);
     }
     refetch(buildQueryVariables());
-  }, [currentPage, pageSize, inputData, dealerRole, state, searchQuery, subscribeUser, countData]);
+  }, [currentPage, pageSize, inputData, dealerRole, state, searchQuery, subscribeUser, countData,sortedData]);
   useEffect(() => {
     if (data && data.users) {
       const fetchedUsers = data.users.filter((user): user is User => user !== null);
@@ -122,11 +136,11 @@ const Users = () => {
 
       // Update userCount based on filters
       const isFiltered = inputData || state || dealerRole;
-      setUserCount(isFiltered ? fetchedUsers.length : countData?.usersCount || 0);
+      setUserCount( countData?.usersCount || 0);
     }
   }, [data, countData, inputData, state, dealerRole]);
 
-  const showPagination = !searchQuery && !dealerRole && !state && users.length > 0;
+  const showPagination =  users.length > 0;
   const handleInputData = (data: string) => {
     const parsedData = parseInt(data, 10);
     if (!isNaN(parsedData)) {
@@ -163,6 +177,8 @@ const Users = () => {
     setCurrentPage(newPage);
     refetchAllData();
   };
+
+
 
   if (loading || data === undefined) return (
 

@@ -54,10 +54,12 @@ const EventsTableComponent = () => {
   const variables = useMemo(() => {
     // Check if any filter value is not undefined
 
-    if (searchQuery || hasFilterValues) {
+    if (searchQuery) {
       return {
         search: searchQuery || undefined, // Include searchQuery if it exists
-        where: hasFilterValues ? filterValues : undefined, // Include filters only if they exist
+        where: hasFilterValues ? filterValues : undefined,
+        skip: currentPage * pageSize,
+        take: pageSize,
       };
     } else {
       // Default pagination logic
