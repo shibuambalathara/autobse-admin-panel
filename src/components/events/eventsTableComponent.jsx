@@ -54,12 +54,10 @@ const EventsTableComponent = () => {
   const variables = useMemo(() => {
     // Check if any filter value is not undefined
 
-    if (searchQuery) {
+    if (searchQuery || hasFilterValues) {
       return {
         search: searchQuery || undefined, // Include searchQuery if it exists
-        where: hasFilterValues ? filterValues : undefined,
-        skip: currentPage * pageSize,
-        take: pageSize,
+        where: hasFilterValues ? filterValues : undefined, // Include filters only if they exist
       };
     } else {
       // Default pagination logic
@@ -369,7 +367,7 @@ const EventsTableComponent = () => {
   return (
     <div className="flex flex-col ">
       <h2 className={pageHead.data}>Events</h2>
-      <div className="mx-16 flex items-center place-self-end gap-2">
+      <div className="mx-20 flex items-center place-self-end gap-2">
       <Button onClick={() => navigate("/addevent")} size="sm" className="h-8 gap-1">
         <FaPlusCircle className="h-3.5 w-3.5" />
         <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
@@ -381,7 +379,7 @@ const EventsTableComponent = () => {
         <CustomButton navigateTo={"/addevent"} buttonText={" Add Event"} />
       </div> */}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 place-self-center place-items-end mr-36 pr-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 w-4/5 place-self-center place-items-end mr-28 pr-4">
         {filterConfig.map((filter) => (
           <div key={filter.name} className="w-fit pt-1">
             <CustomFilter
@@ -404,7 +402,7 @@ const EventsTableComponent = () => {
       </div>
 
       {/* <CustomFilter /> */}
-      <div className=" sm:w-64   pt-4  flex flex-grow ml-44 ">
+      <div className=" sm:w-64   pt-4  flex flex-grow ml-32 ">
         <DebounceSearchInput
           placeholder="Search by Location or Seller Name..."
           value={searchInput}
