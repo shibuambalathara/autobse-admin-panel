@@ -141,7 +141,7 @@ const buildQueryVariables = (): UserQueryVariables => {
     }
   }, [data, countData, inputData, state, dealerRole]);
 
-  const showPagination =  users.length > 0;
+  const showPagination = !searchQuery && !dealerRole && !state && users.length > 0;
   const handleInputData = (data: string) => {
     const parsedData = parseInt(data, 10);
     if (!isNaN(parsedData)) {
