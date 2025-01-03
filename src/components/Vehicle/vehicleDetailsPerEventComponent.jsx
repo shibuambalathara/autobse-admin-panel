@@ -319,7 +319,7 @@ const VehicleDetailsPerEventComponent = () => {
       {
         Header: "Have Image",
         Cell: ({ row }) =>
-          row.original.image.includes('https://')   ? (
+          row.original?.image?.includes('https://')   ? (
             "Yes"
           ) : (
             "No "
