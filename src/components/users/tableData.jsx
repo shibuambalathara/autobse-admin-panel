@@ -11,6 +11,7 @@ import { useDeleteUserMutation } from "../../utils/graphql";
 import { SweetalertSuccess } from "../utils/sweetalert";
 import { ImBin2 } from "react-icons/im";
 import SortedTableComponent from "../utils/sortedTable";
+import { FormatDate } from "../utils/dateFormat";
 
 const TabbleOfUsersOrUser = ({ users, refetch }) => {
   console.log("users", users);
@@ -60,8 +61,12 @@ const TabbleOfUsersOrUser = ({ users, refetch }) => {
       // { Header: "Email", accessor: "email", },
 
       { Header: "First Name", accessor: "firstName", },
+
       { Header: "Last Name", accessor: "lastName" },
+    
+
       { Header: "Mobile", accessor: "mobile" },
+      { Header: "Created At",  Cell: ({ value }) => FormatDate(value),accessor: "createdAt" },
       { Header: "Status", accessor: "status", },
       { Header: "Role", accessor: "role", },
       { Header: "State", accessor: "state", },

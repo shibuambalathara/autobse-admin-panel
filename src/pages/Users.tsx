@@ -102,8 +102,9 @@ const buildQueryVariables = (): UserQueryVariables => {
   if (searchQuery || dealerRole || state) {
     return {
       where: Object.keys(whereClause).length > 0 ? whereClause : null,
-      // search: searchQuery || undefined,
+      search: searchQuery || undefined,
       // skip: currentPage * pageSize,
+      take:undefined,
       orderBy, // Corrected dynamic orderBy
     };
   }
@@ -256,12 +257,7 @@ const buildQueryVariables = (): UserQueryVariables => {
         ) : (
           <>
             <NotFoundPage />
-            <LimitedDataPaginationComponents
-              totalItems={userCount}
-              itemsPerPage={pageSize}
-              currentPage={currentPage}
-              onPageChange={handlePageChange}
-            />
+            
            
           </>
         )}
