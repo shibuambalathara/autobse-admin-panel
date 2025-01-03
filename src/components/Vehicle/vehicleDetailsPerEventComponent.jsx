@@ -317,6 +317,15 @@ const VehicleDetailsPerEventComponent = () => {
           ),
       },
       {
+        Header: "Have Image",
+        Cell: ({ row }) =>
+          row.original?.image?.includes('https://')   ? (
+            "Yes"
+          ) : (
+            "No "
+          ),
+      },
+      {
         Header: "About Bid",
         Cell: ({ row }) =>
           row.original.totalBids !== 0 ? (

@@ -61,6 +61,7 @@ query EventVehicles($where: EventWhereUniqueInput!, $orderBy: [VehicleOrderByInp
       createdAt
       updatedAt
       createdById
+      image
     }
   }
 }
