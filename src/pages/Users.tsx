@@ -94,7 +94,7 @@ const buildQueryVariables = (): UserQueryVariables => {
   if (state) whereClause.state = state;
   if (dealerRole) whereClause.role = dealerRole;
 
-  // Dynamic orderBy logic
+  
   const orderBy: UserQueryVariables["orderBy"] = sortedData && sortedData.length > 0 
     ? [{ [sortedData[0]?.id]: sortedData[0]?.order as OrderDirection }] 
     : [{ createdAt: OrderDirection.Desc }];
@@ -103,7 +103,8 @@ const buildQueryVariables = (): UserQueryVariables => {
     return {
       where: Object.keys(whereClause).length > 0 ? whereClause : null,
       search: searchQuery || undefined,
-      skip: currentPage * pageSize,
+      // skip: currentPage * pageSize,
+      take:undefined,
       orderBy, // Corrected dynamic orderBy
     };
   }
@@ -140,7 +141,7 @@ const buildQueryVariables = (): UserQueryVariables => {
     }
   }, [data, countData, inputData, state, dealerRole]);
 
-  const showPagination =  users.length > 0;
+  const showPagination = !searchQuery && !dealerRole && !state && users.length > 0;
   const handleInputData = (data: string) => {
     const parsedData = parseInt(data, 10);
     if (!isNaN(parsedData)) {
@@ -256,12 +257,7 @@ const buildQueryVariables = (): UserQueryVariables => {
         ) : (
           <>
             <NotFoundPage />
-            <LimitedDataPaginationComponents
-              totalItems={userCount}
-              itemsPerPage={pageSize}
-              currentPage={currentPage}
-              onPageChange={handlePageChange}
-            />
+            
            
           </>
         )}
