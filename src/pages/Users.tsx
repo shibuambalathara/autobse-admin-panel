@@ -94,7 +94,7 @@ const buildQueryVariables = (): UserQueryVariables => {
   if (state) whereClause.state = state;
   if (dealerRole) whereClause.role = dealerRole;
 
-  // Dynamic orderBy logic
+  
   const orderBy: UserQueryVariables["orderBy"] = sortedData && sortedData.length > 0 
     ? [{ [sortedData[0]?.id]: sortedData[0]?.order as OrderDirection }] 
     : [{ createdAt: OrderDirection.Desc }];
@@ -102,8 +102,8 @@ const buildQueryVariables = (): UserQueryVariables => {
   if (searchQuery || dealerRole || state) {
     return {
       where: Object.keys(whereClause).length > 0 ? whereClause : null,
-      search: searchQuery || undefined,
-      skip: currentPage * pageSize,
+      // search: searchQuery || undefined,
+      // skip: currentPage * pageSize,
       orderBy, // Corrected dynamic orderBy
     };
   }
