@@ -54,7 +54,7 @@ const CreatePayment: React.FC = () => {
     const createPaymentInput = {
       amount: +dataOnSubmit.amount,
       description: dataOnSubmit.description || "",
-      status: dataOnSubmit.paymentStatus as PaymentStatusType, // Cast to PaymentStatusType
+      // status: dataOnSubmit.paymentStatus as PaymentStatusType, // Cast to PaymentStatusType
       paymentFor: dataOnSubmit.paymentFor,
     };
 
@@ -133,7 +133,7 @@ const CreatePayment: React.FC = () => {
             />
       
 
-          <div className={`${labelAndInputDiv.data}`}>
+          {/* <div className={`${labelAndInputDiv.data}`}>
           <InputFields
             label="Payment Status"
             component="select"
@@ -148,7 +148,7 @@ const CreatePayment: React.FC = () => {
             {...(undefined as any)}
             error={errors.paymentStatus}
           />
-          </div>
+          </div> */}
 
           <FileInput label="Payment Proof Image" accept="image/*"
             maxSizeMB={1} register={register("imgForPaymentProof")} fieldName="imgForPaymentProof" required={false} />
