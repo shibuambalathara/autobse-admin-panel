@@ -9,7 +9,6 @@ export const LoginPage = () => {
   const message = location.state?.message;
   const [activeTab, setActiveTab] = useState<'login' | 'otp'>('login');
 
-  // Show toast if message is available
   useEffect(() => {
     if (message !== undefined) {
       toast.error(message, {

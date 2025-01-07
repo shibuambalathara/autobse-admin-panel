@@ -84,7 +84,7 @@ const UpdatePayment = () => {
 
   const onSubmit = async (dataOnSubmit) => {
     const updateInput = {
-      amount: dataOnSubmit.amount,
+      amount: +dataOnSubmit.amount,
       paymentFor: dataOnSubmit?.paymentFor,
       status: dataOnSubmit?.paymentStatus,
       description: dataOnSubmit?.description,
