@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { RootState } from '../store/store'; // Adjust the path to your store file
+import { RootState } from '../store/store'; 
 
 const ProtectedRoute: React.FC = () => {
   // Access the token and role from the Redux store
@@ -9,7 +9,7 @@ const ProtectedRoute: React.FC = () => {
   
   
   // Check if the user is authenticated and has the required role
-  const isAuthenticated = Boolean(token) && ['admin', 'staff'].includes(user?.role ?? '');
+  const isAuthenticated = Boolean(token) && ['admin', 'staff','accountant'].includes(user?.role ?? '');
 
   
   const redirectState = { 

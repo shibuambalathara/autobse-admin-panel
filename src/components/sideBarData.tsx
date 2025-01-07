@@ -24,11 +24,11 @@ const Sidebar_items: SidebarItem[] = [
     path: "events",
     iconType: faCalendarXmark
   },
-  // {
-  //   name: "Payments",
-  //   path: "payment",
-  //   iconType: faCreditCard
-  // },
+  {
+    name: "Payments",
+    path: "payment",
+    iconType: faCreditCard
+  },
   {
     name: "Sellers",
     path: "sellers",

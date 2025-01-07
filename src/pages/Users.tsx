@@ -123,8 +123,7 @@ const buildQueryVariables = (): UserQueryVariables => {
   const refetchAllData = () => refetch(buildQueryVariables());
 
   useEffect(() => {
-   console.log(sortedData , "sorted");
-    
+ 
     if (countData && countData.usersCount !== undefined) {
       setUserCount(countData.usersCount);
     }
