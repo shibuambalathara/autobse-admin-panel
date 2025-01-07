@@ -72,60 +72,61 @@ console.log('paymnt',data);
 ,  
 
    
-      {
-        Header: "Create Buying Limit",
-        Cell: ({ row }) => {
-          if (
-            // row.original.emdUpdateCount === 0
-            // &&
-            row.original.paymentFor === 'emd'
-             &&
-            row.original.status === 'approved'
-          ) {
-            return (
-              <a
-                className="  text-2xl"
-                href={`/add-emd/${row.original.id}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-               <FontAwesomeIcon icon={faCirclePlus} />
-              </a>
-            );
-          }
-           else {
-            return(
-              <>
-              {/* Increment by:{ row.original?.emdUpdate[0]?.vehicleBuyingLimitIncrement ??'0'}, */}
+      // {
+      //   Header: "Create Buying Limit",
+      //   Cell: ({ row }) => {
+      //     if (
+      //       // row.original.emdUpdateCount === 0
+      //       // &&
+      //       row.original.paymentFor === 'emd'
+      //        &&
+      //       row.original.status === 'approved'
+      //     ) {
+      //       return (
+      //         <a
+      //           className="  text-2xl"
+      //           href={`/add-emd/${row.original.id}`}
+      //           target="_blank"
+      //           rel="noopener noreferrer"
+      //         >
+      //          <FontAwesomeIcon icon={faCirclePlus} />
+      //         </a>
+      //       );
+      //     }
+      //      else {
+      //       return(
+      //         <>
+      //         {/* Increment by:{ row.original?.emdUpdate[0]?.vehicleBuyingLimitIncrement ??'0'}, */}
              
-               {row.original.status}
-              </>
-              );
-          }
-          // <a
-          //       className="  text-2xl"
-          //       href={`/add-emd/${row.original.id}`}
-          //       target="_blank"
-          //       rel="noopener noreferrer"
-          //     >hi
-          //      <FontAwesomeIcon icon={faCirclePlus} />
-          //     </a>  
-        }
-      },
-      {
-        Header: "View Emds",
-        Cell: ({ row }) => (
-      row.original.emdUpdateCount!==0 &&     <a
-            className={`${Tablebutton.data} bg-green-500 hover:bg-green-600 text-lg`}
-            href={`/emd-payment/${row.original.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+      //          {row.original.status}
+      //         </>
+      //         );
+
+      //     }
+      //     // <a
+      //     //       className="  text-2xl"
+      //     //       href={`/add-emd/${row.original.id}`}
+      //     //       target="_blank"
+      //     //       rel="noopener noreferrer"
+      //     //     >hi
+      //     //      <FontAwesomeIcon icon={faCirclePlus} />
+      //     //     </a>  
+      //   }
+      // },
+      // {
+      //   Header: "View Emds",
+      //   Cell: ({ row }) => (
+      // row.original.emdUpdateCount!==0 &&     <a
+      //       className={`${Tablebutton.data} bg-green-500 hover:bg-green-600 text-lg`}
+      //       href={`/emd-payment/${row.original.id}`}
+      //       target="_blank"
+      //       rel="noopener noreferrer"
+      //     >
          
-          <FontAwesomeIcon icon={faE} />
-          </a>
-        ),
-      },
+      //     <FontAwesomeIcon icon={faE} />
+      //     </a>
+      //   ),
+      // },
 
       {
         Header: "Payment details",
